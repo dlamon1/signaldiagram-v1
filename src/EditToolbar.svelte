@@ -51,7 +51,7 @@
   </div>
 
   <button class="dialog" on:click={() => ($isExportDialogOpen = true)}
-    >Export/Import</button
+    >Import / Export</button
   >
 
   <div class="email">
