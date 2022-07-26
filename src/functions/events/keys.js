@@ -20,6 +20,8 @@ export const handleKeyDown = (e) => {
 
   // if ctrl is pressed, set isCtrl to true
   if (e.keyCode === 17 && !get(isCtrl) && !isMac && get(isSelectMode)) {
+    console.log('ctrl on');
+
     setIsCtrl(true);
   }
   // if command on mac is pressed
@@ -47,14 +49,11 @@ export const handleKeyUp = (e) => {
     setIsShifted(false);
     canvas.style.cursor = "default";
   }
-  if (e.keyCode === 17 && !get(isCtrl) && !isMac) {
-    // isCtrl = false;
+  console.log(get(isCtrl));
+  if (e.keyCode === 17 && get(isCtrl) && !isMac) {
     setIsCtrl(false);
   }
   if (e.keyCode === 91 && isMac) {
-    // isCtrl = false;
-    //console.log("command up");
-
     setIsCtrl(false);
   }
 };

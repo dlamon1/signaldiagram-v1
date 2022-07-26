@@ -25,3 +25,4 @@ amplifytools.xcconfig
 #amplify-do-not-edit-end
 
 team-provider-info.json 
+package-lock.json
