@@ -126,7 +126,11 @@
   };
 
   const drawRearViewLabel = () => {
+    let panelWidth = $panels[0].width;
+    let panelHeight = $panels[0].height;
+
     let size = $canvasWidth / 6 + "px";
+    size = (panelWidth * $columns) / 6 + "px";
     $ctxRef.font = "bold " + size + " sans-serif";
     let text = "REAR VIEW";
     $ctxRef.fillStyle = "rgba(0, 0, 0, .1)";
