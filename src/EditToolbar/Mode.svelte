@@ -4,7 +4,7 @@
 
 <div id="container">
   <div>
-    <div>Mode</div>
+    <div>Mode.</div>
     <label>
       <input type="radio" bind:group={$mode} name="mode" value="select" />
       Select (s)
