@@ -15,12 +15,13 @@ const isMac = navigator.platform.toUpperCase().indexOf("MAC") >= 0;
 export const handleKeyDown = (e) => {
   if (e.keyCode === 16 && !get(isShifted) && get(isSelectMode)) {
     setIsShifted(true);
-    canvas.style.cursor = "crosshair";
+    let body = document.getElementById("canvas-wrapper");
+    body.style.cursor = "crosshair";
   }
 
   // if ctrl is pressed, set isCtrl to true
   if (e.keyCode === 17 && !get(isCtrl) && !isMac && get(isSelectMode)) {
-    console.log('ctrl on');
+    // console.log("ctrl on");
 
     setIsCtrl(true);
   }
@@ -47,9 +48,11 @@ export const handleKeyDown = (e) => {
 export const handleKeyUp = (e) => {
   if (e.keyCode === 16) {
     setIsShifted(false);
-    canvas.style.cursor = "default";
+    let body = document.getElementById("canvas-wrapper");
+
+    body.style.cursor = "default";
   }
-  console.log(get(isCtrl));
+  // console.log(get(isCtrl));
   if (e.keyCode === 17 && get(isCtrl) && !isMac) {
     setIsCtrl(false);
   }

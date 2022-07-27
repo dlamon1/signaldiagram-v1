@@ -1,4 +1,6 @@
 <script>
+  import { onMount } from "svelte";
+
   import {
     panels,
     snapPoints,
@@ -24,10 +26,13 @@
     colorState,
     isRearView,
     showDirectionArrows,
+    svgRef,
   } from "./store";
 
   let hoveredColor = "rgba(0, 255, 170, 1)";
   let selectedColor = "rgba(241, 89, 70, 1)";
+
+  let svgns = "http://www.w3.org/2000/svg";
 
   $: {
     let triggers = {
@@ -50,16 +55,20 @@
       $showDirectionArrows,
     };
 
-    $ctxRef && draw();
+    $svgRef && draw();
   }
 
-  const draw = () => {
-    // console.log("draw");
-    $ctxRef.clearRect(0, 0, canvas.width, canvas.height);
+  import {
+    drawPanelGroups,
+    drawPanelCoordinates,
+    drawHoveredPanel,
+    drawPanelSelectedOverlay,
+  } from "./DrawFunctions/Panels";
 
-    $panels.forEach((panel) => {
-      drawPanelRectangle(panel);
-    });
+  const draw = () => {
+    $svgRef.selectAll("*").remove();
+
+    drawPanelGroups($panels);
 
     $isSelectingPanels &&
       !$isShifted &&
@@ -67,333 +76,354 @@
         drawHoveredPanel(hoveredPanel);
       });
 
-    $showCoordinates &&
-      $panels.forEach((panel) => {
-        drawPanelCoordinates(panel);
-      });
+    $showCoordinates && drawPanelCoordinates($panels);
 
-    $hoveredSignalLines.forEach((hoveredSignalLine, i) => {
-      drawHoveredSignalLine(hoveredSignalLine);
-    });
+    // $showCoordinates &&
+    //   $panels.forEach((panel) => {
+    //     drawPanelCoordinates(panel);
+    //   });
 
-    $selectedSignalLines.forEach((selectedSignalLine, i) => {
-      drawSelectedSignalLine(selectedSignalLine);
-    });
+    // $hoveredSignalLines.forEach((hoveredSignalLine, i) => {
+    //   drawHoveredSignalLine(hoveredSignalLine);
+    // });
 
-    $signalLines.array.forEach((signalLine, i) => {
-      drawSignalLineFromArray(signalLine);
-    });
+    // $selectedSignalLines.forEach((selectedSignalLine, i) => {
+    //   drawSelectedSignalLine(selectedSignalLine);
+    // });
 
-    $snapPoints.forEach((snapPoint) => {
-      drawSnapPoint(snapPoint);
-    });
+    // $signalLines.array.forEach((signalLine, i) => {
+    //   drawSignalLineFromArray(signalLine);
+    // });
 
-    !$isShifted &&
-      $hoveredSnapPoints.forEach((snapPoint) => {
-        drawHoveredSnapPoint(snapPoint);
-      });
+    // $snapPoints.forEach((snapPoint) => {
+    //   drawSnapPoint(snapPoint);
+    // });
 
-    $selectedPanels.forEach((selectedPanel, i) => {
-      drawPanelSelectedOverlay(selectedPanel);
-    });
+    // !$isShifted &&
+    //   $hoveredSnapPoints.forEach((snapPoint) => {
+    //     drawHoveredSnapPoint(snapPoint);
+    //   });
 
-    $selectedSnapPoints.forEach((selectedSnapPoint, i) => {
-      drawSelectedSnapPoint(selectedSnapPoint);
-    });
+    // $selectedPanels.forEach((selectedPanel, i) => {
+    //   drawPanelSelectedOverlay(selectedPanel);
+    // });
 
-    $squares.forEach((square) => {
-      if (square.isOn) {
-        drawSquare(square);
-        drawPointLabel(square);
-      }
-    });
+    // $selectedSnapPoints.forEach((selectedSnapPoint, i) => {
+    //   drawSelectedSnapPoint(selectedSnapPoint);
+    // });
 
-    !$isShifted &&
-      $hoveredSquares.forEach((square) => {
-        drawHoveredSquare(square);
-      });
+    // $squares.forEach((square) => {
+    //   if (square.isOn) {
+    //     drawSquare(square);
+    //     drawPointLabel(square);
+    //   }
+    // });
 
-    $selectedSquares.forEach((square) => {
-      drawSelectedSquare(square);
-    });
+    // !$isShifted &&
+    //   $hoveredSquares.forEach((square) => {
+    //     drawHoveredSquare(square);
+    //   });
 
-    $isRearView && drawRearViewLabel();
+    // $selectedSquares.forEach((square) => {
+    //   drawSelectedSquare(square);
+    // });
 
-    $mouseCoordinates.isDrawingSignalLine &&
-      drawSignalLineWhileMouseMovesCoordinates();
+    // $isRearView && drawRearViewLabel();
 
-    $mouseCoordinates.isDragging && drawDragSelection();
+    // $mouseCoordinates.isDrawingSignalLine &&
+    //   drawSignalLineWhileMouseMovesCoordinates();
+
+    // $mouseCoordinates.isDragging && drawDragSelection();
   };
 
-  const drawRearViewLabel = () => {
-    let panelWidth = $panels[0].width;
-    let panelHeight = $panels[0].height;
+  // const drawRearViewLabel = () => {
+  //   let panelWidth = $panels[0].width;
+  //   let panelHeight = $panels[0].height;
 
-    let size = $canvasWidth / 6 + "px";
-    size = (panelWidth * $columns) / 6 + "px";
-    $ctxRef.font = "bold " + size + " sans-serif";
-    let text = "REAR VIEW";
-    $ctxRef.fillStyle = "rgba(0, 0, 0, .1)";
-    $ctxRef.textAlign = "center";
-    $ctxRef.fillText(
-      text,
-      canvas.width / 2,
-      canvas.height / 2 - $canvasWidth / 15
-    );
-  };
+  //   let size = $canvasWidth / 6 + "px";
+  //   size = (panelWidth * $columns) / 6 + "px";
+  //   $ctxRef.font = "bold " + size + " sans-serif";
+  //   let text = "REAR VIEW";
+  //   $ctxRef.fillStyle = "rgba(0, 0, 0, .1)";
+  //   $ctxRef.textAlign = "center";
+  //   $ctxRef.fillText(
+  //     text,
+  //     canvas.width / 2,
+  //     canvas.height / 2 - $canvasWidth / 15
+  //   );
+  // };
 
-  const drawSignalLineWhileMouseMovesCoordinates = () => {
-    let m = $mouseCoordinates;
-    $ctxRef.beginPath();
-    $ctxRef.lineWidth = 3;
-    $ctxRef.moveTo(m.closestSnapPoint.origin.x, m.closestSnapPoint.origin.y);
-    $ctxRef.lineTo(m.end.x, m.end.y);
-    $ctxRef.strokeStyle = $colorState.signalLine.background;
-    $ctxRef.stroke();
-  };
+  // const drawSignalLineWhileMouseMovesCoordinates = () => {
+  //   let m = $mouseCoordinates;
+  //   $ctxRef.beginPath();
+  //   $ctxRef.lineWidth = 3;
+  //   $ctxRef.moveTo(m.closestSnapPoint.origin.x, m.closestSnapPoint.origin.y);
+  //   $ctxRef.lineTo(m.end.x, m.end.y);
+  //   $ctxRef.strokeStyle = $colorState.signalLine.background;
+  //   $ctxRef.stroke();
+  // };
 
-  const drawHoveredSignalLine = (signalLine) => {
-    let origin = $snapPoints[signalLine.origin.i];
-    let end = $snapPoints[signalLine.end.i];
-    $ctxRef.beginPath();
-    $ctxRef.lineWidth = signalLine.lineWidth + 2;
-    $ctxRef.moveTo(origin.x, origin.y);
-    $ctxRef.lineTo(end.x, end.y);
-    $ctxRef.strokeStyle = hoveredColor;
-    $ctxRef.stroke();
-  };
+  // const drawHoveredSignalLine = (signalLine) => {
+  //   let origin = $snapPoints[signalLine.origin.i];
+  //   let end = $snapPoints[signalLine.end.i];
+  //   $ctxRef.beginPath();
+  //   $ctxRef.lineWidth = signalLine.lineWidth + 2;
+  //   $ctxRef.moveTo(origin.x, origin.y);
+  //   $ctxRef.lineTo(end.x, end.y);
+  //   $ctxRef.strokeStyle = hoveredColor;
+  //   $ctxRef.stroke();
+  // };
 
-  const drawSelectedSignalLine = (signalLine) => {
-    let origin = $snapPoints[signalLine.origin.i];
-    let end = $snapPoints[signalLine.end.i];
-    $ctxRef.beginPath();
-    $ctxRef.lineWidth = signalLine.lineWidth + 2;
-    $ctxRef.moveTo(origin.x, origin.y);
-    $ctxRef.lineTo(end.x, end.y);
-    $ctxRef.strokeStyle = selectedColor;
-    $ctxRef.stroke();
-  };
+  // const drawSelectedSignalLine = (signalLine) => {
+  //   let origin = $snapPoints[signalLine.origin.i];
+  //   let end = $snapPoints[signalLine.end.i];
+  //   $ctxRef.beginPath();
+  //   $ctxRef.lineWidth = signalLine.lineWidth + 2;
+  //   $ctxRef.moveTo(origin.x, origin.y);
+  //   $ctxRef.lineTo(end.x, end.y);
+  //   $ctxRef.strokeStyle = selectedColor;
+  //   $ctxRef.stroke();
+  // };
 
-  const drawSelectedSquare = (square) => {
-    $ctxRef.strokeStyle = selectedColor;
-    $ctxRef.lineWidth = 2;
-    $ctxRef.strokeRect(
-      square.x - square.width / 2,
-      square.y - square.width / 2,
-      square.width,
-      square.width
-    );
-  };
+  // const drawSelectedSquare = (square) => {
+  //   $ctxRef.strokeStyle = selectedColor;
+  //   $ctxRef.lineWidth = 2;
+  //   $ctxRef.strokeRect(
+  //     square.x - square.width / 2,
+  //     square.y - square.width / 2,
+  //     square.width,
+  //     square.width
+  //   );
+  // };
 
-  const drawHoveredSquare = (square) => {
-    $ctxRef.strokeStyle = hoveredColor;
-    $ctxRef.lineWidth = 2;
-    $ctxRef.strokeRect(
-      square.x - square.width / 2,
-      square.y - square.width / 2,
-      square.width,
-      square.width
-    );
-  };
+  // const drawHoveredSquare = (square) => {
+  //   $ctxRef.strokeStyle = hoveredColor;
+  //   $ctxRef.lineWidth = 2;
+  //   $ctxRef.strokeRect(
+  //     square.x - square.width / 2,
+  //     square.y - square.width / 2,
+  //     square.width,
+  //     square.width
+  //   );
+  // };
 
-  const drawSelectedSnapPoint = (point) => {
-    if (point.hasSquare) {
-      drawSelectedSquare(point);
-      return;
-    }
-    $ctxRef.beginPath();
-    $ctxRef.arc(point.x, point.y, point.radius * 2, 0, 2 * Math.PI, false);
-    $ctxRef.fillStyle = selectedColor;
-    $ctxRef.fill();
-    $ctxRef.lineWidth = 1;
-    $ctxRef.strokeStyle = "black";
-    $ctxRef.stroke();
-  };
+  // const drawSelectedSnapPoint = (point) => {
+  //   if (point.hasSquare) {
+  //     drawSelectedSquare(point);
+  //     return;
+  //   }
+  //   $ctxRef.beginPath();
+  //   $ctxRef.arc(point.x, point.y, point.radius * 2, 0, 2 * Math.PI, false);
+  //   $ctxRef.fillStyle = selectedColor;
+  //   $ctxRef.fill();
+  //   $ctxRef.lineWidth = 1;
+  //   $ctxRef.strokeStyle = "black";
+  //   $ctxRef.stroke();
+  // };
 
-  const drawHoveredSnapPoint = (point) => {
-    if (point.hasSquare) {
-      drawHoveredSquare(point);
-      return;
-    }
-    $ctxRef.beginPath();
-    $ctxRef.arc(point.x, point.y, point.radius * 2, 0, 2 * Math.PI, false);
-    $ctxRef.fillStyle = hoveredColor;
-    $ctxRef.fill();
-    $ctxRef.lineWidth = 1;
-    $ctxRef.strokeStyle = "black";
-    $ctxRef.stroke();
-  };
+  // const drawHoveredSnapPoint = (point) => {
+  //   if (point.hasSquare) {
+  //     drawHoveredSquare(point);
+  //     return;
+  //   }
+  //   $ctxRef.beginPath();
+  //   $ctxRef.arc(point.x, point.y, point.radius * 2, 0, 2 * Math.PI, false);
+  //   $ctxRef.fillStyle = hoveredColor;
+  //   $ctxRef.fill();
+  //   $ctxRef.lineWidth = 1;
+  //   $ctxRef.strokeStyle = "black";
+  //   $ctxRef.stroke();
+  // };
 
-  const drawPanelSelectedOverlay = (panel) => {
-    $ctxRef.strokeStyle = selectedColor;
-    $ctxRef.lineWidth = 5;
-    $ctxRef.strokeRect(
-      panel.x + 2.5,
-      panel.y + 2.5,
-      panel.width - 5,
-      panel.height - 5
-    );
-  };
+  // const drawPanelSelectedOverlay = (panel) => {
+  //   $ctxRef.strokeStyle = selectedColor;
+  //   $ctxRef.lineWidth = 5;
+  //   $ctxRef.strokeRect(
+  //     panel.x + 2.5,
+  //     panel.y + 2.5,
+  //     panel.width - 5,
+  //     panel.height - 5
+  //   );
+  // };
 
-  const drawHoveredPanel = (panel) => {
-    $ctxRef.fillStyle = hoveredColor;
-    $ctxRef.lineWidth = panel.lineWidth;
-    $ctxRef.fillRect(panel.x, panel.y, panel.width, panel.height);
-    $ctxRef.strokeStyle = panel.borderColor;
-    $ctxRef.lineWidth = 1;
-    $ctxRef.strokeRect(panel.x, panel.y, panel.width, panel.height);
-  };
+  // const drawHoveredPanel = (panel) => {
+  //   $ctxRef.fillStyle = hoveredColor;
+  //   $ctxRef.lineWidth = panel.lineWidth;
+  //   $ctxRef.fillRect(panel.x, panel.y, panel.width, panel.height);
+  //   $ctxRef.strokeStyle = panel.borderColor;
+  //   $ctxRef.lineWidth = 1;
+  //   $ctxRef.strokeRect(panel.x, panel.y, panel.width, panel.height);
+  // };
 
-  const drawPanelRectangle = (panel) => {
-    $ctxRef.fillStyle = panel.backgroundColor;
-    $ctxRef.lineWidth = panel.lineWidth;
-    $ctxRef.fillRect(panel.x, panel.y, panel.width, panel.height);
-    $ctxRef.strokeStyle = panel.borderColor;
-    $ctxRef.lineWidth = 1;
-    $ctxRef.strokeRect(panel.x, panel.y, panel.width, panel.height);
-  };
+  // const drawPanelRectangle = (panel) => {
+  //   $ctxRef.fillStyle = panel.backgroundColor;
+  //   $ctxRef.lineWidth = panel.lineWidth;
+  //   $ctxRef.fillRect(panel.x, panel.y, panel.width, panel.height);
+  //   $ctxRef.strokeStyle = panel.borderColor;
+  //   $ctxRef.lineWidth = 1;
+  //   $ctxRef.strokeRect(panel.x, panel.y, panel.width, panel.height);
+  // };
 
-  const drawPanelCoordinates = (panel) => {
-    $ctxRef.textAlign = "left";
-    $ctxRef.font = panel.width / 7 + "px arial";
-    $ctxRef.textBaseline = "hanging";
-    $ctxRef.fillStyle = "black";
-    panel.isRearView
-      ? $ctxRef.fillText(
-          $columns - panel.column + "/" + (panel.row + 1),
-          panel.x + 8,
-          panel.y + 8
-        )
-      : $ctxRef.fillText(
-          panel.column + 1 + "/" + (panel.row + 1),
-          panel.x + 8,
-          panel.y + 8
-        );
-  };
+  // draw an svg rectangle on the svg with $svgRef as the parent
+  // const drawPanelRectangle = () => {
+  //   let shape = document.createElementNS(svgns, "rect");
+  //   newRect.setAttribute("x");
+  //   newRect.setAttribute("y", "150");
+  //   newRect.setAttribute("width", "100");
+  //   newRect.setAttribute("height", "100");
+  //   newRect.setAttribute("fill", "#5cceee");
+  //   // shape.setAttributeNS(null, "cx", 25);
+  //   // shape.setAttributeNS(null, "cy", 25);
+  //   // shape.setAttributeNS(null, "r", 20);
+  //   // shape.setAttributeNS(null, "fill", "blue");
+  //   // $svgRef.appendChild(shape);
+  // };
 
-  const drawDirectionArrows = (signalLine) => {
-    let angle = Math.atan2(
-      signalLine.end.y - signalLine.origin.y,
-      signalLine.end.x - signalLine.origin.x
-    );
-    angle += Math.PI / 2;
-    angle += Math.PI;
-    let origin = $snapPoints[signalLine.origin.i];
-    let end = $snapPoints[signalLine.end.i];
+  // onMount(() => {
+  //   drawPanelRectangle();
+  // });
 
-    let midpoint = {
-      x: origin.x + (end.x - origin.x) / 3,
-      y: origin.y + (end.y - origin.y) / 3,
-    };
+  // const drawPanelCoordinates = (panel) => {
+  //   $ctxRef.textAlign = "left";
+  //   $ctxRef.font = panel.width / 7 + "px arial";
+  //   $ctxRef.textBaseline = "hanging";
+  //   $ctxRef.fillStyle = "black";
+  //   panel.isRearView
+  //     ? $ctxRef.fillText(
+  //         $columns - panel.column + "/" + (panel.row + 1),
+  //         panel.x + 8,
+  //         panel.y + 8
+  //       )
+  //     : $ctxRef.fillText(
+  //         panel.column + 1 + "/" + (panel.row + 1),
+  //         panel.x + 8,
+  //         panel.y + 8
+  //       );
+  // };
 
-    let midpoint2 = {
-      x: origin.x + ((end.x - origin.x) / 3) * 2,
-      y: origin.y + ((end.y - origin.y) / 3) * 2,
-    };
+  // const drawDirectionArrows = (signalLine) => {
+  //   let angle = Math.atan2(
+  //     signalLine.end.y - signalLine.origin.y,
+  //     signalLine.end.x - signalLine.origin.x
+  //   );
+  //   angle += Math.PI / 2;
+  //   angle += Math.PI;
+  //   let origin = $snapPoints[signalLine.origin.i];
+  //   let end = $snapPoints[signalLine.end.i];
 
-    $ctxRef.save();
-    $ctxRef.translate(midpoint.x, midpoint.y);
-    $ctxRef.rotate(angle);
+  //   let midpoint = {
+  //     x: origin.x + (end.x - origin.x) / 3,
+  //     y: origin.y + (end.y - origin.y) / 3,
+  //   };
 
-    $ctxRef.beginPath();
-    $ctxRef.moveTo(0, 0);
-    $ctxRef.lineTo(6, 0);
-    $ctxRef.lineTo(0, 15);
-    $ctxRef.lineTo(-6, 0);
-    $ctxRef.closePath();
-    $ctxRef.fillStyle = signalLine.backgroundColor;
-    $ctxRef.fill();
+  //   let midpoint2 = {
+  //     x: origin.x + ((end.x - origin.x) / 3) * 2,
+  //     y: origin.y + ((end.y - origin.y) / 3) * 2,
+  //   };
 
-    $ctxRef.rotate(-angle);
-    $ctxRef.restore();
+  //   $ctxRef.save();
+  //   $ctxRef.translate(midpoint.x, midpoint.y);
+  //   $ctxRef.rotate(angle);
 
-    $ctxRef.save();
-    $ctxRef.translate(midpoint2.x, midpoint2.y);
-    $ctxRef.rotate(angle);
+  //   $ctxRef.beginPath();
+  //   $ctxRef.moveTo(0, 0);
+  //   $ctxRef.lineTo(6, 0);
+  //   $ctxRef.lineTo(0, 15);
+  //   $ctxRef.lineTo(-6, 0);
+  //   $ctxRef.closePath();
+  //   $ctxRef.fillStyle = signalLine.backgroundColor;
+  //   $ctxRef.fill();
 
-    $ctxRef.beginPath();
-    $ctxRef.moveTo(0, 0);
-    $ctxRef.lineTo(6, 0);
-    $ctxRef.lineTo(0, 15);
-    $ctxRef.lineTo(-6, 0);
-    $ctxRef.closePath();
-    $ctxRef.fillStyle = signalLine.backgroundColor;
-    $ctxRef.fill();
+  //   $ctxRef.rotate(-angle);
+  //   $ctxRef.restore();
 
-    $ctxRef.rotate(-angle);
-    $ctxRef.restore();
-  };
+  //   $ctxRef.save();
+  //   $ctxRef.translate(midpoint2.x, midpoint2.y);
+  //   $ctxRef.rotate(angle);
 
-  const drawSignalLineFromArray = (signalLine) => {
-    let origin = $snapPoints[signalLine.origin.i];
-    let end = $snapPoints[signalLine.end.i];
-    $ctxRef.beginPath();
-    $ctxRef.lineWidth = signalLine.lineWidth;
-    $ctxRef.moveTo(origin.x, origin.y);
-    $ctxRef.lineTo(end.x, end.y);
-    $ctxRef.strokeStyle = signalLine.backgroundColor;
-    $ctxRef.stroke();
+  //   $ctxRef.beginPath();
+  //   $ctxRef.moveTo(0, 0);
+  //   $ctxRef.lineTo(6, 0);
+  //   $ctxRef.lineTo(0, 15);
+  //   $ctxRef.lineTo(-6, 0);
+  //   $ctxRef.closePath();
+  //   $ctxRef.fillStyle = signalLine.backgroundColor;
+  //   $ctxRef.fill();
 
-    $showDirectionArrows && drawDirectionArrows(signalLine);
-  };
+  //   $ctxRef.rotate(-angle);
+  //   $ctxRef.restore();
+  // };
 
-  const drawSnapPoint = (point) => {
-    if (point.hasSquare) {
-      drawSquare(point);
-      drawPointLabel(point);
-      return;
-    }
-    $ctxRef.beginPath();
-    $ctxRef.arc(point.x, point.y, point.radius, 0, 2 * Math.PI, false);
-    $ctxRef.fillStyle = "darkgrey";
-    $ctxRef.fill();
-    $ctxRef.lineWidth = 1;
-    $ctxRef.strokeStyle = "black";
-    $ctxRef.stroke();
-  };
+  // const drawSignalLineFromArray = (signalLine) => {
+  //   let origin = $snapPoints[signalLine.origin.i];
+  //   let end = $snapPoints[signalLine.end.i];
+  //   $ctxRef.beginPath();
+  //   $ctxRef.lineWidth = signalLine.lineWidth;
+  //   $ctxRef.moveTo(origin.x, origin.y);
+  //   $ctxRef.lineTo(end.x, end.y);
+  //   $ctxRef.strokeStyle = signalLine.backgroundColor;
+  //   $ctxRef.stroke();
 
-  const drawSquare = (square) => {
-    $ctxRef.fillStyle = square.backgroundColor;
-    $ctxRef.fillRect(
-      square.x - square.width / 2,
-      square.y - square.width / 2,
-      square.width,
-      square.width
-    );
-    $ctxRef.lineWidth = 2;
-    $ctxRef.strokeStyle = square.outlineColor;
-    $ctxRef.strokeRect(
-      square.x - square.width / 2,
-      square.y - square.width / 2,
-      square.width,
-      square.width
-    );
-  };
+  //   $showDirectionArrows && drawDirectionArrows(signalLine);
+  // };
 
-  const drawPointLabel = (square) => {
-    $ctxRef.font = square.width / 2.25 + "px arial";
-    $ctxRef.textBaseline = "hanging";
-    $ctxRef.fillStyle = square.fontColor;
+  // const drawSnapPoint = (point) => {
+  //   if (point.hasSquare) {
+  //     drawSquare(point);
+  //     drawPointLabel(point);
+  //     return;
+  //   }
+  //   $ctxRef.beginPath();
+  //   $ctxRef.arc(point.x, point.y, point.radius, 0, 2 * Math.PI, false);
+  //   $ctxRef.fillStyle = "darkgrey";
+  //   $ctxRef.fill();
+  //   $ctxRef.lineWidth = 1;
+  //   $ctxRef.strokeStyle = "black";
+  //   $ctxRef.stroke();
+  // };
 
-    let textWidth = $ctxRef.measureText(square.label).width;
+  // const drawSquare = (square) => {
+  //   $ctxRef.fillStyle = square.backgroundColor;
+  //   $ctxRef.fillRect(
+  //     square.x - square.width / 2,
+  //     square.y - square.width / 2,
+  //     square.width,
+  //     square.width
+  //   );
+  //   $ctxRef.lineWidth = 2;
+  //   $ctxRef.strokeStyle = square.outlineColor;
+  //   $ctxRef.strokeRect(
+  //     square.x - square.width / 2,
+  //     square.y - square.width / 2,
+  //     square.width,
+  //     square.width
+  //   );
+  // };
 
-    $ctxRef.fillText(
-      square.label,
-      square.x - textWidth / 2,
-      square.y - square.width / 4.5
-    );
-  };
+  // const drawPointLabel = (square) => {
+  //   $ctxRef.font = square.width / 2.25 + "px arial";
+  //   $ctxRef.textBaseline = "hanging";
+  //   $ctxRef.fillStyle = square.fontColor;
 
-  const drawDragSelection = (e) => {
-    $ctxRef.beginPath();
-    $ctxRef.rect(
-      $mouseCoordinates.origin.x,
-      $mouseCoordinates.origin.y,
-      $mouseCoordinates.end.x - $mouseCoordinates.origin.x,
-      $mouseCoordinates.end.y - $mouseCoordinates.origin.y
-    );
-    $ctxRef.lineWidth = 1;
-    $ctxRef.strokeStyle = "rgba(255, 0, 0, 1)";
-    $ctxRef.stroke();
-  };
+  //   let textWidth = $ctxRef.measureText(square.label).width;
+
+  //   $ctxRef.fillText(
+  //     square.label,
+  //     square.x - textWidth / 2,
+  //     square.y - square.width / 4.5
+  //   );
+  // };
+
+  // const drawDragSelection = (e) => {
+  //   $ctxRef.beginPath();
+  //   $ctxRef.rect(
+  //     $mouseCoordinates.origin.x,
+  //     $mouseCoordinates.origin.y,
+  //     $mouseCoordinates.end.x - $mouseCoordinates.origin.x,
+  //     $mouseCoordinates.end.y - $mouseCoordinates.origin.y
+  //   );
+  //   $ctxRef.lineWidth = 1;
+  //   $ctxRef.strokeStyle = "rgba(255, 0, 0, 1)";
+  //   $ctxRef.stroke();
+  // };
 </script>

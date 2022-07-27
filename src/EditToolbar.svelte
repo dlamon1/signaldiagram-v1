@@ -85,7 +85,7 @@
   #container {
     position: fixed;
     width: 250px;
-    height: calc(99.5vh - 10px);
+    height: calc(100vh - 10px);
     right: 0;
     background-color: rgb(71, 71, 71);
     color: #f7f7f7;

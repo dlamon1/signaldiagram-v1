@@ -29,12 +29,17 @@
     innerWidth,
     innerHeight,
     scale,
+    svgRef,
+    // canvasWidth,
+    // canvasHeight,
   } from "./store";
 
   import { handleKeyUp, handleKeyDown } from "./functions/events/keys";
   import { handleMouseDown } from "./functions/events/mouseDown";
   import { handleMouseMove } from "./functions/events/mouseMove.js";
   import { handleMouseUp } from "./functions/events/mouseUp";
+
+  import * as d3 from "d3";
 
   let canvas;
   let ctx;
@@ -62,8 +67,6 @@
     let triggers = {
       $squares,
     };
-
-    // focusLabelInput();
   }
 
   $: {
@@ -92,25 +95,6 @@
       setCanvasDimensions($canvasWidth, $canvasHeight);
     }
   }
-
-  let isCancelled = false;
-
-  onMount(() => {
-    canvas = document.getElementById("canvas");
-
-    if (!canvas) return;
-
-    setCanvasDimensions($canvasWidth, $canvasHeight);
-
-    $canvasRef = canvas;
-
-    const dpi = window.devicePixelRatio;
-    ctx = canvas.getContext("2d");
-    ctx.translate(0.5, 0.5);
-    ctx.scale(dpi, dpi);
-
-    $ctxRef = ctx;
-  });
 
   const updateLocalLabelAndColorState = () => {
     if ($selectedSquares.length > 1) return;
@@ -178,6 +162,19 @@
   $: {
     updateSelectedSignalLinesColor($colorState.signalLine.background);
   }
+
+  const sizeCanvas = () => {
+    $svgRef = d3
+      .select("#svgcontainer")
+      .append("svg")
+      .attr("id", "svg")
+      .attr("width", $canvasWidth)
+      .attr("height", $canvasHeight);
+  };
+
+  onMount(() => {
+    sizeCanvas();
+  });
 </script>
 
 <svelte:window
@@ -187,17 +184,15 @@
   bind:innerHeight={$innerHeight}
 />
 
-<div id="canvas-wrapper">
-  <canvas
-    id="canvas"
-    on:mousemove={handleMouseMove}
-    on:mousedown={handleMouseDown}
-    on:mouseup={handleMouseUp}
-  />
-</div>
+<div
+  id="svgcontainer"
+  on:mousemove={handleMouseMove}
+  on:mousedown={handleMouseDown}
+  on:mouseup={handleMouseUp}
+/>
 
 <style>
-  #canvas-wrapper {
+  #svgcontainer {
     height: 0px;
     width: 0px;
     z-index: -1;

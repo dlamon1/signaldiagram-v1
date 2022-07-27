@@ -102,6 +102,8 @@ export const setIsMouseDown = (boolean) => {
 
 export let scale = writable(0.55);
 
+export let svgRef = writable(null);
+
 export let columns = writable(14);
 export let rows = writable(4);
 

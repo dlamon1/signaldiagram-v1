@@ -18,6 +18,8 @@
     "svelte-awesome-color-picker": "^1.1.2"
   },
   "dependencies": {
+    "@svelte-parts/zoom": "^0.0.23",
+    "d3": "^7.6.1",
     "sirv-cli": "^2.0.0"
   }
 }
