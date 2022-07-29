@@ -27,12 +27,13 @@
     isRearView,
     showDirectionArrows,
     svgRef,
+    innerHeight,
+    innerWidth,
+    screenAndPanelDimensions,
   } from "./store";
 
   let hoveredColor = "rgba(0, 255, 170, 1)";
   let selectedColor = "rgba(241, 89, 70, 1)";
-
-  let svgns = "http://www.w3.org/2000/svg";
 
   $: {
     let triggers = {
@@ -49,10 +50,11 @@
       $squares,
       $circles,
       $mouseCoordinates,
-      $canvasWidth,
-      $canvasHeight,
       $columns,
       $showDirectionArrows,
+      $showCoordinates,
+      $screenAndPanelDimensions,
+      $isRearView,
     };
 
     $svgRef && draw();
@@ -62,26 +64,26 @@
     drawPanelGroups,
     drawPanelCoordinates,
     drawHoveredPanel,
-    drawPanelSelectedOverlay,
+    drawSelectedPanel,
   } from "./DrawFunctions/Panels";
 
   const draw = () => {
     $svgRef.selectAll("*").remove();
+
+    // $svgRef.attr("transform", "translate(60 60)");
 
     drawPanelGroups($panels);
 
     $isSelectingPanels &&
       !$isShifted &&
       $hoveredPanels.forEach((hoveredPanel, i) => {
-        drawHoveredPanel(hoveredPanel);
+        // drawHoveredPanel(hoveredPanel);
       });
 
-    $showCoordinates && drawPanelCoordinates($panels);
-
-    // $showCoordinates &&
-    //   $panels.forEach((panel) => {
-    //     drawPanelCoordinates(panel);
-    //   });
+    $showCoordinates &&
+      $panels.forEach((panel) => {
+        drawPanelCoordinates(panel);
+      });
 
     // $hoveredSignalLines.forEach((hoveredSignalLine, i) => {
     //   drawHoveredSignalLine(hoveredSignalLine);
@@ -104,9 +106,9 @@
     //     drawHoveredSnapPoint(snapPoint);
     //   });
 
-    // $selectedPanels.forEach((selectedPanel, i) => {
-    //   drawPanelSelectedOverlay(selectedPanel);
-    // });
+    $selectedPanels.forEach((selectedPanel, i) => {
+      drawSelectedPanel(selectedPanel);
+    });
 
     // $selectedSnapPoints.forEach((selectedSnapPoint, i) => {
     //   drawSelectedSnapPoint(selectedSnapPoint);

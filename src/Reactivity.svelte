@@ -23,6 +23,9 @@
     isPrinting,
     title,
     screenAndPanelDimensions,
+    scale,
+    canvasWrapperWidth,
+    canvasWrapperHeight,
   } from "./store";
 
   import { createArray } from "./functions/createArray";
@@ -39,39 +42,41 @@
   // There is a cascading trigger effect here to get the printing
   // to work
 
+  // $: {
+  //   let t = $screenAndPanelDimensions;
+  //   console.log(
+  //     ($screenAndPanelDimensions.panelDimension * $columns * $width) / $height,
+  //     $canvasWrapperWidth
+  //   );
+  // }
+
   const setCanvasDimensions = async () => {
+    // console.log("here");
     // if printing, resize canvas to be 8.5 x 11
     if ($isPrinting) {
-      dimensions = configurePanelDimensionsForPrinting($title);
       $screenAndPanelDimensions = configurePanelDimensionsForPrinting($title);
-
-      await tick();
-
-      $canvasWidth = dimensions.newCanvasWidth;
-      $canvasHeight = dimensions.newCanvasHeight;
-
       await tick();
     } else {
-      dimensions = configurePanelDimensionsForScreen();
-      $screenAndPanelDimensions = configurePanelDimensionsForPrinting($title);
-      $canvasWidth = dimensions.newCanvasWidth;
-      $canvasHeight = dimensions.newCanvasHeight;
+      // let x = configurePanelDimensionsForScreen();
+      // console.log(x);
+      // console.log("here");
+      $screenAndPanelDimensions = configurePanelDimensionsForScreen();
+      // console.log($screenAndPanelDimensions);
     }
   };
 
   const handleNewPanelArray = async () => {
-    panels.update((p) =>
-      createArray(
-        dimensions,
-        $rows,
-        $columns,
-        $canvasWidth,
-        $canvasHeight,
-        $colors,
-        ratio,
-        $toolbarWidth,
-        $panels
-      )
+    $panels = createArray(
+      // dimensions,
+      $rows,
+      $columns,
+      $canvasWrapperWidth,
+      $canvasWrapperHeight,
+      $colors,
+      ratio,
+      $toolbarWidth,
+      $panels,
+      $scale
     );
   };
 
@@ -106,8 +111,8 @@
     ratio = $width / $height;
 
     let triggers = {
-      $innerWidth,
-      $innerHeight,
+      $canvasWrapperHeight,
+      $canvasWrapperWidth,
       $isPrinting,
       $rows,
       $columns,
@@ -115,16 +120,22 @@
       $toolbarWidth,
       $snapPointsQuantity,
       $snapPointDirection,
+      $scale,
     };
 
+    // let timeout = setTimeout(() => {
+    //   console.log(timeout);
     setCanvasDimensions();
+    // }, 3);
+
+    // timeout();
   }
 
   // This is triggered by calling setCanvasDimensions()
   $: {
     let a = $screenAndPanelDimensions;
     handleNewPanelArray();
-    handleNewSnapPoints();
+    // handleNewSnapPoints();
   }
 
   $: {
@@ -157,16 +168,4 @@
       setCanvasDimensions();
     }
   };
-
-  $: {
-    let _panels = $panels;
-    _panels.forEach((p) => (p.showCoordinates = $showCoordinates));
-    panels.update((p) => _panels);
-  }
-
-  $: {
-    let _panels = $panels;
-    _panels.forEach((p) => (p.isRearView = $isRearView));
-    panels.update((p) => _panels);
-  }
 </script>

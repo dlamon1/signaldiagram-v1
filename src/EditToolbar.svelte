@@ -83,10 +83,10 @@
     margin-top: 0px;
   }
   #container {
-    position: fixed;
-    width: 250px;
+    /* position: fixed; */
+    width: 100%;
     height: calc(100vh - 10px);
-    right: 0;
+    /* right: 0; */
     background-color: rgb(71, 71, 71);
     color: #f7f7f7;
     font-size: 1em;

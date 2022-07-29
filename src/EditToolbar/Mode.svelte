@@ -1,5 +1,16 @@
 <script>
-  import { mode, selection, isSelectMode } from "../store";
+  import { mode, selection, isSelectMode, isDrawMode } from "../store";
+
+  $: {
+    $isDrawMode = false;
+    $isSelectMode = false;
+
+    if ($mode === "draw") {
+      $isDrawMode = true;
+    } else if ($mode === "select") {
+      $isSelectMode = true;
+    }
+  }
 </script>
 
 <div id="container">

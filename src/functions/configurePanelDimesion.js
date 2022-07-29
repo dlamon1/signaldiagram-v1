@@ -10,17 +10,20 @@ import {
   innerWidth,
   innerHeight,
   toolbarWidth,
+  canvasHeight,
+  canvasWrapperWidth,
+  canvasWrapperHeight,
 } from "../store";
 
 export const configurePanelDimensionsForScreen = () => {
+  // console.log("here");
   let panelDimension;
   let leftPadding;
   let topPadding;
-  let newCanvasWidth;
-  let newCanvasHeight;
+  let _canvasWrapperWidth = get(canvasWrapperWidth);
+  let _canvasWrapperHeight = get(canvasWrapperHeight);
+  let newCanvasHeight, newCanvasWidth;
 
-  let _initCanvasWidth = get(innerWidth) - get(toolbarWidth);
-  let _initCanvasHeight = get(innerHeight);
   let _rows = get(rows);
   let _columns = get(columns);
   let _width = get(width);
@@ -28,34 +31,27 @@ export const configurePanelDimensionsForScreen = () => {
 
   let ratio = _width / _height;
 
-  if (
-    (_initCanvasWidth - 100) / _columns / ratio >
-    (_initCanvasHeight - 100) / _rows
-  ) {
+  if (_canvasWrapperWidth / _columns / ratio > _canvasWrapperHeight / _rows) {
     // console.log("if is constraining");
-    panelDimension = (_initCanvasHeight - 50) / _rows;
+    panelDimension = _canvasWrapperHeight / _rows;
 
-    leftPadding = (_initCanvasWidth - panelDimension * ratio * _columns) / 2;
-    topPadding = 25;
+    leftPadding = 0;
+    topPadding = 0;
 
-    newCanvasWidth = panelDimension * _columns * ratio + 50;
-    newCanvasHeight = _initCanvasHeight;
+    newCanvasWidth = panelDimension * _columns * ratio;
+    newCanvasHeight = _canvasWrapperHeight;
   } else {
     // console.log("else is constraining");
-    panelDimension = (_initCanvasWidth - 50) / _columns / ratio;
-    leftPadding = 25;
-    topPadding = (_initCanvasHeight - panelDimension * _rows) / 2;
+    panelDimension = _canvasWrapperWidth / _columns / ratio;
 
-    newCanvasWidth = _initCanvasWidth;
-    newCanvasHeight = panelDimension * _rows + 50;
+    newCanvasWidth = _canvasWrapperWidth;
+    newCanvasHeight = panelDimension * _rows;
   }
-  newCanvasHeight = _initCanvasHeight;
-  newCanvasWidth = _initCanvasWidth;
 
   return {
     panelDimension,
-    leftPadding,
-    topPadding,
+    leftPadding: 0,
+    topPadding: 0,
     newCanvasWidth,
     newCanvasHeight,
   };

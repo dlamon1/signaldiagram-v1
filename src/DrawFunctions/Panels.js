@@ -2,9 +2,8 @@ import { get } from "svelte/store";
 
 import * as d3 from "d3";
 
-import { svgRef, columns, rows } from "../store";
+import { svgRef, columns, rows, isRearView } from "../store";
 
-let svgns = "http://www.w3.org/2000/svg";
 let hoveredColor = "rgba(0, 255, 170, 1)";
 let selectedColor = "rgba(241, 89, 70, 1)";
 
@@ -33,30 +32,30 @@ export const drawPanelGroups = (panels) => {
   });
 };
 
-export const drawPanelCoordinates = (panels) => {
-  panels.forEach((p) => {
-    let rect = d3
-      .select("#p" + p.i)
-      .append("text")
-      .text(p.column + 1 + "," + (p.row + 1))
-      .attr("y", p.height / 12)
-      .attr("x", p.width / 24)
-      .style("font-size", p.width / 6 + "px");
-  });
+export const drawPanelCoordinates = (p) => {
+  let column, row;
+  if (get(isRearView)) {
+    column = get(columns) - p.column;
+    row = get(rows) - p.row;
+  } else {
+    column = p.column + 1;
+    row = p.row + 1;
+  }
+
+  d3.select("#p" + p.i)
+    .append("text")
+    .text(column + "," + row)
+    .attr("y", p.height / 12)
+    .attr("x", p.width / 24)
+    .style("font-size", p.width / 6 + "px");
 };
 
 export const drawHoveredPanel = (panel) => {
   d3.select("#r" + panel.i).attr("fill", hoveredColor);
 };
 
-export const drawPanelSelectedOverlay = (panel) => {
-  d3.select("#r" + panel.i).attr("fill", selectedColor);
-  // let ref = document.getElementById("panel-" + panel.i);
-  // let newRect = document.createElementNS(svgns, "rect");
-  // newRect.setAttribute("width", panel.width);
-  // newRect.setAttribute("height", panel.height);
-  // newRect.setAttribute("fill-opacity", 0);
-  // newRect.setAttribute("stroke", selectedColor);
-  // newRect.setAttribute("stroke-width", 4);
-  // ref.appendChild(newRect);
+export const drawSelectedPanel = (panel) => {
+  d3.select("#r" + panel.i)
+    .attr("stroke", selectedColor)
+    .attr("stroke-width", 8);
 };

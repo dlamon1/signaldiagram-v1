@@ -1,5 +1,8 @@
+import { get } from "svelte/store";
+import { screenAndPanelDimensions } from "../store";
+
 export const createArray = (
-  dimensions,
+  // dimensions,
   rows,
   columns,
   canvasWidth,
@@ -7,9 +10,13 @@ export const createArray = (
   colors,
   ratio,
   toolbarWidth,
-  panels
+  panels,
+  scale
 ) => {
   let array = [];
+
+  let panelDimension = get(screenAndPanelDimensions).panelDimension;
+  console.log("creating array, " + panelDimension);
 
   let count = 0;
 
@@ -26,16 +33,18 @@ export const createArray = (
         backgroundColor = panels[count].backgroundColor;
       }
 
+      // let panelDimension = canvasWidth / columns / ratio;
+
       array.push({
         i: count,
         row: i,
         column: j,
         colorIndex: colorIndex,
         isSelected: false,
-        width: dimensions.panelDimension * ratio,
-        height: dimensions.panelDimension,
-        x: dimensions.panelDimension * j * ratio + dimensions.leftPadding,
-        y: dimensions.panelDimension * i + dimensions.topPadding,
+        width: panelDimension * ratio * scale,
+        height: panelDimension * scale,
+        x: panelDimension * j * ratio * scale,
+        y: panelDimension * i * scale,
         color: colorIndex == 0 ? colors.one : colors.two,
         lineWidth: 1,
         backgroundColor: backgroundColor,

@@ -1,4 +1,4 @@
-import { writable } from "svelte/store";
+import { get, writable } from "svelte/store";
 import { MouseCoordinates } from "./classes/mouseCoordinates";
 import { SignalLines } from "./classes/signalLines";
 
@@ -100,7 +100,7 @@ export const setIsMouseDown = (boolean) => {
   isMouseDown.update(($value) => ($value = boolean));
 };
 
-export let scale = writable(0.55);
+export let scale = writable(1);
 
 export let svgRef = writable(null);
 
@@ -109,6 +109,10 @@ export let rows = writable(4);
 
 export let width = writable(1);
 export let height = writable(2);
+export let ratio = writable(get(width) / get(height));
+
+export let canvasWrapperHeight = writable(1);
+export let canvasWrapperWidth = writable(1);
 
 export let innerWidth = writable(window.innerWidth - 10);
 export let innerHeight = writable(window.innerHeight - 10);
