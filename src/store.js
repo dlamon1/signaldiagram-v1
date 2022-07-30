@@ -26,17 +26,25 @@ export let snapPointDirection = writable("vertical");
 // mode is select or draw
 export const isDrawMode = writable(false);
 export const isSelectMode = writable(true);
+export const isMoveMode = writable(false);
 
 export let mode = writable("select");
 export const setMode = (m) => {
   mode.update(($value) => ($value = m));
   if (m == "draw") {
-    isDrawMode.update(($value) => ($value = true));
     isSelectMode.update(($value) => ($value = false));
+    isMoveMode.update(($v) => ($v = false));
+    isDrawMode.update(($value) => ($value = true));
   }
   if (m == "select") {
     isDrawMode.update(($value) => ($value = false));
+    isMoveMode.update(($v) => ($v = false));
     isSelectMode.update(($value) => ($value = true));
+  }
+  if (m == "move") {
+    isDrawMode.update(($value) => ($value = false));
+    isSelectMode.update(($value) => ($value = true));
+    isMoveMode.update(($v) => ($v = true));
   }
 };
 

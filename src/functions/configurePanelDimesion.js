@@ -35,23 +35,23 @@ export const configurePanelDimensionsForScreen = () => {
     // console.log("if is constraining");
     panelDimension = _canvasWrapperHeight / _rows;
 
-    leftPadding = 0;
-    topPadding = 0;
-
     newCanvasWidth = panelDimension * _columns * ratio;
     newCanvasHeight = _canvasWrapperHeight;
+    leftPadding = (_canvasWrapperWidth - newCanvasWidth) / 2;
+    topPadding = 0;
   } else {
-    // console.log("else is constraining");
     panelDimension = _canvasWrapperWidth / _columns / ratio;
 
     newCanvasWidth = _canvasWrapperWidth;
     newCanvasHeight = panelDimension * _rows;
+    topPadding = (_canvasWrapperHeight - newCanvasHeight) / 2;
+    leftPadding = 0;
   }
 
   return {
     panelDimension,
-    leftPadding: 0,
-    topPadding: 0,
+    leftPadding,
+    topPadding,
     newCanvasWidth,
     newCanvasHeight,
   };

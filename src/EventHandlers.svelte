@@ -9,11 +9,7 @@
     snapPointsQuantity,
     snapPointDirection,
     isDrawMode,
-    canvasRef,
-    ctxRef,
-    textInputRef,
     clearAllSelections,
-    squares,
     signalLines,
     selection,
     selectionTab,
@@ -24,27 +20,14 @@
     colorState,
     snapPointLabel,
     panels,
-    canvasWidth,
-    canvasHeight,
-    innerWidth,
-    innerHeight,
-    scale,
     svgRef,
     canvasWrapperWidth,
     canvasWrapperHeight,
-    // canvasWidth,
-    // canvasHeight,
+    isSelectMode,
+    isMoveMode,
   } from "./store";
 
-  // import { handleKeyUp, handleKeyDown } from "./functions/events/keys";
-  // import { handleMouseDown } from "./functions/events/mouseDown";
-  // import { handleMouseMove } from "./functions/events/mouseMove.js";
-  // import { handleMouseUp } from "./functions/events/mouseUp";
-
   import * as d3 from "d3";
-
-  // let canvas;
-  // let ctx;
 
   $: {
     let triggers = { $columns, $rows };
@@ -65,11 +48,28 @@
     }
   }
 
-  // $: {
-  //   let triggers = {
-  //     $squares,
-  //   };
-  // }
+  let zoom = d3.zoom().on("zoom", handleZoom);
+
+  function handleZoom(e) {
+    d3.select("svg g").attr("transform", e.transform);
+  }
+
+  function initZoom() {
+    d3.select("svg").call(zoom);
+  }
+
+  function removeZoom() {
+    d3.select("svg").on(".zoom", null);
+  }
+
+  $: {
+    if ($isDrawMode || $isSelectMode) {
+      removeZoom();
+    }
+    if ($isMoveMode) {
+      initZoom();
+    }
+  }
 
   $: {
     if ($selection === "panels") {
@@ -80,23 +80,6 @@
       $selectionTab = "squares";
     }
   }
-
-  // const setCanvasDimensions = (width, height) => {
-  //   canvas.width = width;
-  //   canvas.height = height;
-
-  //   let w = width.toString() + "px";
-  //   let h = height.toString() + "px";
-
-  //   canvas.style.width = w;
-  //   canvas.style.height = h;
-  // };
-
-  // $: {
-  //   if (canvas) {
-  //     setCanvasDimensions($canvasWidth, $canvasHeight);
-  //   }
-  // }
 
   const updateLocalLabelAndColorState = () => {
     if ($selectedSquares.length > 1) return;
@@ -164,89 +147,7 @@
   $: {
     updateSelectedSignalLinesColor($colorState.signalLine.background);
   }
-
-  const createSvg = () => {
-    $svgRef = d3
-      .select("#canvas")
-      .append("svg")
-      .attr("id", "svg")
-      .attr("width", $canvasWidth + 10)
-      .attr("height", $canvasHeight + 10);
-    // .attr("width", $canvasWidth)
-    // .attr("height", $canvasHeight);
-  };
-
-  // const resizeSvg = () => {
-  //   d3.select("#svg").attr("width", $innerWidth).attr("height", $innerHeight);
-  // };
-
-  // $: {
-  //   let triggers = { $innerWidth, $innerHeight };
-
-  //   if ($svgRef) {
-  //     resizeSvg;
-  //   }
-  // }
-
-  onMount(() => {
-    createSvg();
-  });
-
-  let count = 1;
-
-  // const translateX = (x, y, scale) => {
-  //   d3.select("#svg")
-  //     // .attr("transform-origin", x * scale, y * scale)
-  //     .attr("transform", "translate(" + $canvasWidth / 2 + " " + $canvasHeight / 2 + ")"
-  // };
-
-  const handleScroll = (e) => {
-    // console.log(e.x, $canvasWidth / 2);
-    // console.log(e.x - ($canvasWidth / 2) * count);
-    requestAnimationFrame(() => {
-      let scaleDelta = e.deltaY / 5000;
-
-      if (count - scaleDelta >= 0.5 && count - scaleDelta <= 2) {
-        count -= scaleDelta;
-
-        d3.select("#svg")
-          .attr("width", $canvasWidth * count)
-          .attr("height", $canvasHeight * count);
-
-        // $canvasWidth = $canvasWidth * count;
-        // $canvasHeight = $canvasHeight * count;
-
-        // console.log("inner: ", $innerWidth - 250);
-        // console.log("canvas: ", $canvasWidth * count);
-
-        // let x = $innerWidth - $canvasWidth;
-        // console.log(x);
-
-        // $scale = count;
-
-        // translateX(e.x, e.y, count);
-      }
-    });
-
-    // console.log($canvasWidth / count);
-  };
 </script>
 
-<!-- $svgRef = d3
-.select("#canvas")
-.append("svg")
-.attr("id", "svg")
-.attr("width", $canvasWidth + 10)
-.attr("height", $canvasHeight + 10);
-// .attr("width", $canvasWidth)
-// .attr("height -->
-
-<!-- <svg
-  id="svg"
-  width="{$canvasWrapperWidth}px"
-  height="{$canvasWrapperHeight}px"
-/> -->
-
-<!-- <svelte:window bind:innerWidth={$innerWidth} bind:innerHeight={$innerHeight} /> -->
 <style>
 </style>

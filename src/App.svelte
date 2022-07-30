@@ -23,10 +23,14 @@
     ratio,
     canvasWrapperHeight,
     canvasWrapperWidth,
+    svgRef,
   } from "./store";
+
   import * as d3 from "d3";
+  import { onMount } from "svelte";
 
   let count = 1;
+
   let ref = null;
   let xOffset = 0;
   let yOffset = 0;
@@ -34,42 +38,77 @@
   let oldX = 0;
   let oldY = 0;
 
+  let transformy;
+  let transformx;
+
   const handleScroll = (e) => {
-    let sw =
-      ($screenAndPanelDimensions.panelDimension * $columns * $scale * $width) /
-      $height;
-    // console.log(e.x - e.x * $scale);
-
-    // console.log(xOffset);
-    // xOffset = e.x - oldX * $scale;
-    // yOffset = e.y - oldY * $scale;
-
     oldX = e.x;
     oldY = e.y;
 
     requestAnimationFrame(() => {
       let scaleDelta = e.deltaY / 3000;
 
-      if (count - scaleDelta >= 0.5 && count - scaleDelta <= 2) {
+      if (count - scaleDelta >= 0.5 && count - scaleDelta <= 5) {
         count -= scaleDelta;
 
-        d3.select("#svg")
-          .attr("width", $canvasWrapperWidth * count)
-          .attr("height", $canvasWrapperHeight * count);
+        // d3.select("#svg")
+        //   .attr("width", $canvasWrapperWidth * count)
+        //   .attr("height", $canvasWrapperHeight * count);
 
+        // console.log(count);
+
+        console.log(e.x);
         $scale = count;
+
+        xOffset = e.x + "px";
+        yOffset = e.y + "px";
+
+        // transformy = (count * e.y) / (count - 1);
+        // transformx = (count * e.x) / (count - 1);
+
+        // xOffset = 0;
+        // yOffset = 0;
+
+        // xOffset = e.x * count;
+        // yOffset = e.y * count;
+
+        // scalechange = newscale - oldscale;
+        // offsetX = -(zoomPointX * scalechange);
+        // offsetY = -(zoomPointY * scalechange);
       }
     });
   };
 
-  // $: console.log($canvasWrapperHeight, $canvasWrapperWidth);
-</script>
+  const createSvg = () => {
+    $svgRef = d3
+      .select("#canvas")
+      .append("svg")
+      .attr("id", "svg")
+      .attr("width", $canvasWrapperWidth)
+      .attr("height", $canvasWrapperHeight)
+      .append("g")
+      .attr("width", $canvasWrapperWidth)
+      .attr("height", $canvasWrapperHeight);
+  };
 
-<!-- <svelte:window bind:innerWidth={$innerWidth} bind:innerHeight={$innerHeight} /> -->
+  onMount(() => {
+    createSvg();
+  });
+</script>
 
 <div id="container">
   <Panels />
   <div
+    class="canvas-wrapper"
+    bind:clientHeight={$canvasWrapperHeight}
+    bind:clientWidth={$canvasWrapperWidth}
+    on:keydown={handleKeyDown}
+    on:keyup={handleKeyUp}
+    on:mousemove={handleMouseMove}
+    on:mousedown={handleMouseDown}
+    on:mouseup={handleMouseUp}
+  >
+    <!-- <div
     class="canvas-wrapper"
     bind:clientHeight={$canvasWrapperHeight}
     bind:clientWidth={$canvasWrapperWidth}
@@ -80,11 +119,11 @@
     on:mousemove={handleMouseMove}
     on:mousedown={handleMouseDown}
     on:mouseup={handleMouseUp}
-  >
+  > -->
     <div
       class="canvas"
       id="canvas"
-      style="left: {xOffset}px; top: {yOffset}px"
+      style="--scale: {$scale}; --xOffset: {xOffset}; --yOffset: {yOffset};"
       bind:this={ref}
     >
       <EventHandlers />
@@ -123,6 +162,8 @@
     /* background-color: rgb(0, 0, 255); */
     z-index: 0;
     position: absolute;
+    /* transform: scale(var(--scale));
+    transform-origin: var(--xOffset) var(--yOffset); */
     /* top: -100px; */
   }
 </style>

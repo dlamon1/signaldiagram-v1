@@ -1,14 +1,25 @@
 <script>
-  import { mode, selection, isSelectMode, isDrawMode } from "../store";
+  import {
+    mode,
+    selection,
+    isSelectMode,
+    isDrawMode,
+    isMoveMode,
+  } from "../store";
 
   $: {
     $isDrawMode = false;
     $isSelectMode = false;
+    $isMoveMode = false;
 
     if ($mode === "draw") {
       $isDrawMode = true;
-    } else if ($mode === "select") {
+    }
+    if ($mode === "select") {
       $isSelectMode = true;
+    }
+    if ($mode === "move") {
+      $isMoveMode = true;
     }
   }
 </script>
@@ -18,11 +29,15 @@
     <div>Mode.</div>
     <label>
       <input type="radio" bind:group={$mode} name="mode" value="select" />
-      Select (s)
+      Select(s)
     </label>
     <label>
       <input type="radio" bind:group={$mode} name="mode" value="draw" />
-      Draw (d)
+      Draw(d)
+    </label>
+    <label>
+      <input type="radio" bind:group={$mode} name="mode" value="move" />
+      Move
     </label>
   </div>
 

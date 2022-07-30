@@ -16,7 +16,9 @@ export const createArray = (
   let array = [];
 
   let panelDimension = get(screenAndPanelDimensions).panelDimension;
-  console.log("creating array, " + panelDimension);
+  let topPadding = get(screenAndPanelDimensions).topPadding;
+  let leftPadding = get(screenAndPanelDimensions).leftPadding;
+  // console.log("creating array, " + panelDimension);
 
   let count = 0;
 
@@ -33,6 +35,7 @@ export const createArray = (
         backgroundColor = panels[count].backgroundColor;
       }
 
+      scale = 1;
       // let panelDimension = canvasWidth / columns / ratio;
 
       array.push({
@@ -43,8 +46,8 @@ export const createArray = (
         isSelected: false,
         width: panelDimension * ratio * scale,
         height: panelDimension * scale,
-        x: panelDimension * j * ratio * scale,
-        y: panelDimension * i * scale,
+        x: panelDimension * j * ratio * scale + leftPadding,
+        y: panelDimension * i * scale + topPadding,
         color: colorIndex == 0 ? colors.one : colors.two,
         lineWidth: 1,
         backgroundColor: backgroundColor,
