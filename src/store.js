@@ -1,6 +1,8 @@
 import { get, writable } from "svelte/store";
 import { MouseCoordinates } from "./classes/mouseCoordinates";
 import { SignalLines } from "./classes/signalLines";
+import { Panels } from "./classes/panels";
+import { SnapPoints } from "./classes/snapPoints";
 
 export let isExportDialogOpen = writable(false);
 
@@ -143,14 +145,13 @@ export let snapPointSelectedOverlayToDraw = writable([]);
 
 export let panels = writable([]);
 export let setPanels = (p) => {
-  console.log(p);
   panels.update(($value) => ($value = p));
 };
 
-export let snapPoints = writable([]);
-export const setSnapPoints = (p) => {
-  snapPoints.update(($value) => ($value = p));
-};
+export let snapPoints = writable(new SnapPoints());
+// export const setSnapPoints = (p) => {
+//   snapPoints.update(($value) => ($value = p));
+// };
 export let signalLines = writable(new SignalLines());
 export const setSignalLines = () => {
   signalLines.update(($value) => ($value = $value));

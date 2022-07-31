@@ -5,7 +5,7 @@ import { scale, screenAndPanelDimensions } from "../store";
 export class Panels {
   array = [];
 
-  addPanel(i, j) {
+  addPanel(i, j, count, thisPanelsSnapPoints) {
     let newPanel = new Panel(i, j);
     this.array = newPanel;
   }

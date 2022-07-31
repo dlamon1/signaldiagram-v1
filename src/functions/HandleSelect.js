@@ -50,7 +50,7 @@ export const handleSnapPointClick = (e) => {
   }
 
   points[i].toggleIsSelected();
-  setSnapPoints(points);
+  // setSnapPoints(points);
   // console.log(i);
 };
 

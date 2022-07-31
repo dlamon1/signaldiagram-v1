@@ -32,13 +32,10 @@ let selectedColor = "rgba(241, 89, 70, 1)";
 export const drawPanelGroups = (p) => {
   let dim = get(screenAndPanelDimensions);
   let _signalLines = get(signalLines);
-  console.log(_signalLines);
   let panelDimension = dim.panelDimension;
   let topPadding = dim.topPadding;
   let leftPadding = dim.leftPadding;
   let ratio = get(width) / get(height);
-
-  // console.log("drawPanelGroups");
 
   get(svgRef)
     .selectAll("svg")

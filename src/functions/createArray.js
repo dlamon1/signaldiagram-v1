@@ -81,7 +81,7 @@ export const createArray = (
   }
 
   // console.log(allSnapPoints);
-  setSnapPoints(allSnapPoints);
+  // setSnapPoints(allSnapPoints);
   return array;
 };
 
