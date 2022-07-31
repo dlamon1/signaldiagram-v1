@@ -10,6 +10,7 @@ import {
 } from "../store";
 
 export const handleHover = (e) => {
+  console.log("hover");
   let _panels = get(panels);
   let _snapPoints = get(snapPoints);
   let _signalLines = get(signalLines);
@@ -138,6 +139,7 @@ export const isSquareHovered = (e, square) => {
 };
 
 export const isPanelHovered = (e, panel) => {
+  console.log("handle panel hover");
   let x = e.offsetX;
   let y = e.offsetY;
   if (

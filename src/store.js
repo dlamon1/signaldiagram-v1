@@ -142,7 +142,15 @@ export let isSelectingSnapPoints = writable([]);
 export let snapPointSelectedOverlayToDraw = writable([]);
 
 export let panels = writable([]);
+export let setPanels = (p) => {
+  console.log(p);
+  panels.update(($value) => ($value = p));
+};
+
 export let snapPoints = writable([]);
+export const setSnapPoints = (p) => {
+  snapPoints.update(($value) => ($value = p));
+};
 export let signalLines = writable(new SignalLines());
 export const setSignalLines = () => {
   signalLines.update(($value) => ($value = $value));

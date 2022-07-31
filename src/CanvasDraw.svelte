@@ -68,17 +68,19 @@
   } from "./DrawFunctions/Panels";
 
   const draw = () => {
+    console.log("drawing");
+
     $svgRef.selectAll("*").remove();
 
     // $svgRef.attr("transform", "translate(60 60)");
 
     drawPanelGroups($panels);
 
-    $isSelectingPanels &&
-      !$isShifted &&
-      $hoveredPanels.forEach((hoveredPanel, i) => {
-        // drawHoveredPanel(hoveredPanel);
-      });
+    // $isSelectingPanels &&
+    //   !$isShifted &&
+    //   $hoveredPanels.forEach((hoveredPanel, i) => {
+    //     // drawHoveredPanel(hoveredPanel);
+    //   });
 
     $showCoordinates &&
       $panels.forEach((panel) => {

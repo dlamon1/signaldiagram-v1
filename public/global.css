@@ -29,7 +29,27 @@ button:hover {
 	color: red;
 }
 
-rect:hover {
-	/* opacity: 1; */
-	color: red;
+.panel {
+	transition-duration: 0s;
+}
+
+.hover:hover {      
+	transition: fill .1s ease;	
+	fill: rgb(0, 255, 183);
+}
+
+.hover:hover > circle {
+	fill: rgb(221, 0, 255);
+}
+
+.asdf:hover {
+	fill: rgb(0, 255, 183);
+}
+
+#point:hover {
+	fill: rgb(255, 0, 234);
+}
+
+text:hover {
+	fill: rgb(255, 0, 234);
 }

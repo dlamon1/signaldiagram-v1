@@ -1,17 +1,24 @@
+import { get } from "svelte/store";
+
+import { screenAndPanelDimensions } from "../store";
+
 export const createSnapPoints = (
-  dimensions,
   innerWidth,
   innerHeight,
   rows,
   columns,
   width,
   height,
-  toolbarWidth,
   snapPointsQuantity,
   snapPointDirection,
-  ratio,
   squares
 ) => {
+  let dim = get(screenAndPanelDimensions);
+  let panelDimension = dim.panelDimension;
+  let topPadding = dim.topPadding;
+  let leftPadding = dim.leftPadding;
+  let ratio = width / height;
+
   let pointArray = [];
   let squareArray = [];
   let circleArray = [];
@@ -29,34 +36,33 @@ export const createSnapPoints = (
         let fontColor = "#000000";
         let outlineColor = "#000000";
 
-        if (squares[index]) {
-          isOn = squares[index].isOn;
-          label = squares[index].label;
-          backgroundColor = squares[index].backgroundColor;
-          fontColor = squares[index].fontColor;
-          outlineColor = squares[index].outlineColor;
-        }
+        // if (squares[index]) {
+        //   isOn = squares[index].isOn;
+        //   label = squares[index].label;
+        //   backgroundColor = squares[index].backgroundColor;
+        //   fontColor = squares[index].fontColor;
+        //   outlineColor = squares[index].outlineColor;
+        // }
 
         let radius =
-          dimensions.panelDimension * ratio < dimensions.panelDimension
-            ? (dimensions.panelDimension * ratio) / 15
-            : dimensions.panelDimension / 15;
+          panelDimension * ratio < panelDimension
+            ? (panelDimension * ratio) / 15
+            : panelDimension / 15;
 
-        let panelx =
-          dimensions.panelDimension * j * ratio + dimensions.leftPadding;
-        let panely = dimensions.panelDimension * i + dimensions.topPadding;
+        let panelx = panelDimension * j * ratio + leftPadding;
+        let panely = panelDimension * i + topPadding;
 
         if (snapPointDirection === "horizontal") {
-          x = panelx + ((dimensions.panelDimension * ratio) / 3) * k;
-          y = panely + dimensions.panelDimension / 2;
+          x = panelx + ((panelDimension * ratio) / 3) * k;
+          y = panely + panelDimension / 2;
         } else {
-          x = panelx + (dimensions.panelDimension * ratio) / 2;
-          y = panely + (dimensions.panelDimension / 3) * k;
+          x = panelx + (panelDimension * ratio) / 2;
+          y = panely + (panelDimension / 3) * k;
         }
 
         if (snapPointsQuantity === 1) {
-          x = panelx + (dimensions.panelDimension * ratio) / 2;
-          y = panely + dimensions.panelDimension / 2;
+          x = panelx + (panelDimension * ratio) / 2;
+          y = panely + panelDimension / 2;
         }
 
         let point = {
@@ -64,8 +70,8 @@ export const createSnapPoints = (
           x: x,
           y: y,
           radius,
-          panelWidth: dimensions.panelDimension * ratio,
-          panelHeight: dimensions.panelDimension,
+          panelWidth: panelDimension * ratio,
+          panelHeight: panelDimension,
           hasSquare: isOn,
           hasCircle: false,
           hasTriangle: false,
@@ -93,8 +99,8 @@ export const createSnapPoints = (
           x: x,
           y: y,
           radius,
-          panelWidth: dimensions.panelDimension * ratio,
-          panelHeight: dimensions.panelDimension,
+          panelWidth: panelDimension * ratio,
+          panelHeight: panelDimension,
           hasSquare: false,
           hasCircle: false,
           hasTriangle: false,

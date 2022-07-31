@@ -43,7 +43,7 @@ export const handleMouseMove = (e) => {
 
     // m.setIsDragging(true);
   } else if (get(isSelectMode)) {
-    // console.log('d');
+    console.log("d");
     requestAnimationFrame(() => {
       let res = handleHover(e);
 

@@ -9,7 +9,6 @@
     snapPointsQuantity,
     snapPointDirection,
     isDrawMode,
-    clearAllSelections,
     signalLines,
     selection,
     selectionTab,
@@ -25,14 +24,17 @@
     canvasWrapperHeight,
     isSelectMode,
     isMoveMode,
+    screenAndPanelDimensions,
   } from "./store";
+
+  import { clearSelectedPanels } from "./functions/HandleSelect";
 
   import * as d3 from "d3";
 
   $: {
     let triggers = { $columns, $rows };
 
-    clearAllSelections();
+    clearSelectedPanels();
   }
 
   $: {
@@ -44,11 +46,21 @@
 
     if ($isDrawMode) {
       $selectionTab = "lines";
-      clearAllSelections();
+      clearSelectedPanels();
     }
   }
 
-  let zoom = d3.zoom().on("zoom", handleZoom);
+  let zoom = d3
+    .zoom()
+    .scaleExtent([
+      0.5,
+      $canvasWrapperHeight / $screenAndPanelDimensions.panelDimension,
+    ])
+    // .translateExtent([
+    //   [0, 0],
+    //   [$canvasWrapperWidth, $canvasWrapperHeight],
+    // ])
+    .on("zoom", handleZoom);
 
   function handleZoom(e) {
     d3.select("svg g").attr("transform", e.transform);
@@ -62,12 +74,22 @@
     d3.select("svg").on(".zoom", null);
   }
 
+  const addOnHoverIdTag = () => {
+    d3.select("svg").selectAll("g").attr("id", "g-onhover");
+  };
+
   $: {
-    if ($isDrawMode || $isSelectMode) {
+    // this svgfRef is required because the ref doesn't exist
+    // when this is initialized
+
+    let t = $svgRef;
+
+    if ($isDrawMode) {
+      addOnHoverIdTag();
       removeZoom();
     }
-    if ($isMoveMode) {
-      initZoom();
+    if ($isSelectMode) {
+      $svgRef && initZoom();
     }
   }
 
@@ -115,8 +137,10 @@
   };
 
   const updatePanelColor = (color) => {
-    $selectedPanels.forEach((p, i) => {
-      $panels[p.i].backgroundColor = color;
+    $panels.forEach((p) => {
+      if (p.isSelected) {
+        $panels[p.i].backgroundColor = color;
+      }
     });
     $panels = $panels;
   };

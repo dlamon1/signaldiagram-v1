@@ -14,6 +14,8 @@ import {
   isCtrl,
   clearAllSelections,
   mouseCoordinates,
+  setPanels,
+  setSnapPoints,
 } from "../store";
 
 import { focusLabelInput } from "./focusInput";
@@ -24,6 +26,51 @@ import {
   isPanelHovered,
   isSignalLineHovered,
 } from "./HandleHover";
+
+export const handlePanelClick = (e) => {
+  let i = e.target.__data__.i;
+  let _panels = get(panels);
+  let current = _panels[i].isSelected;
+
+  if (!get(isCtrl)) {
+    _panels.forEach((p) => (p.isSelected = false));
+    _panels[e].isSelected = !current;
+  }
+  _panels[e].isSelected = !current;
+  setPanels(_panels);
+};
+
+export const handleSnapPointClick = (e) => {
+  let i = e.path[0].__data__.pointIndexFullArray;
+
+  let points = get(snapPoints);
+
+  if (!get(isCtrl)) {
+    points.forEach((p) => (p.isSelected = false));
+  }
+
+  points[i].toggleIsSelected();
+  setSnapPoints(points);
+  // console.log(i);
+};
+
+let originIndex = 0;
+
+export const handleSnapPointStart = (e) => {
+  let snapPointIndex = e.path[0].__data__.pointIndexFullArray;
+  originIndex = snapPointIndex;
+};
+
+export const handleSnapPointEnd = (e) => {
+  let snapPointIndex = e.path[0].__data__.pointIndexFullArray;
+  get(signalLines).addSignalLine(originIndex, snapPointIndex);
+};
+
+export const clearSelectedPanels = (e) => {
+  let _panels = get(panels);
+  _panels.forEach((p) => (p.isSelected = false));
+  setPanels(_panels);
+};
 
 export const handleMouseClickSelect = (e) => {
   let res = {

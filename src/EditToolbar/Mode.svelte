@@ -7,19 +7,19 @@
     isMoveMode,
   } from "../store";
 
+  import { clearSelectedPanels } from "../functions/HandleSelect";
+
   $: {
     $isDrawMode = false;
     $isSelectMode = false;
-    $isMoveMode = false;
 
     if ($mode === "draw") {
       $isDrawMode = true;
+      // clearSelectedPanels(d);
     }
     if ($mode === "select") {
       $isSelectMode = true;
-    }
-    if ($mode === "move") {
-      $isMoveMode = true;
+      // clearSelectedPanels(d);
     }
   }
 </script>
@@ -34,10 +34,6 @@
     <label>
       <input type="radio" bind:group={$mode} name="mode" value="draw" />
       Draw(d)
-    </label>
-    <label>
-      <input type="radio" bind:group={$mode} name="mode" value="move" />
-      Move
     </label>
   </div>
 

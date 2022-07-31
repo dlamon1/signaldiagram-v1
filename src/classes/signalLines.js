@@ -4,13 +4,13 @@ import {
   mouseCoordinates,
   signalLines,
   colorState,
+  setSignalLines,
 } from "../store";
 import { handleHover, isSnapPointHovered } from "../functions/HandleHover";
 
 export class SignalLines {
   constructor() {
     this.array = [];
-    this.hoveredArray = [];
     this.currentlyDrawing = null;
   }
 
@@ -18,8 +18,9 @@ export class SignalLines {
     this.currentlyDrawing = signalLine;
   }
 
-  addSignalLine() {
-    this.array.push(new SignalLine());
+  addSignalLine(originIndex, endIndex) {
+    this.array.push(new SignalLine(originIndex, endIndex));
+    setSignalLines();
   }
 
   removeSignalLine(line) {
@@ -30,13 +31,36 @@ export class SignalLines {
 }
 
 class SignalLine {
-  constructor() {
-    let m = get(mouseCoordinates);
-    this.origin = m.closestSnapPoint.origin;
-    this.end = m.closestSnapPoint.end;
+  origin = {
+    x: 0,
+    y: 0,
+  };
+  end = {
+    x: 0,
+    y: 0,
+  };
+  color = {
+    background: "#000",
+  };
+  lineWidth = 3;
+
+  constructor(originIndex, endIndex) {
+    this.setCoordinates(originIndex, endIndex);
     this.i = get(signalLines).array.length;
     this.backgroundColor = get(colorState).signalLine.background;
     this.lineWidth = 3;
+  }
+
+  setCoordinates(originIndex, endIndex) {
+    let _snapPoints = get(snapPoints);
+    // console.log(_snapPoints);
+    let originSnapPoint = _snapPoints[originIndex];
+    this.origin.x = originSnapPoint.x;
+    this.origin.y = originSnapPoint.y;
+
+    let endSnapPoint = _snapPoints[endIndex];
+    this.end.x = endSnapPoint.x;
+    this.end.y = endSnapPoint.y;
   }
 
   updateColor(color) {
