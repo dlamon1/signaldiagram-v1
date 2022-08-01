@@ -152,9 +152,12 @@ export let updatePanels = () => {
 };
 
 export let snapPoints = writable(new SnapPoints());
-// export const setSnapPoints = (p) => {
-//   snapPoints.update(($value) => ($value = p));
-// };
+export const setSnapPoints = (p) => {
+  snapPoints.update(($value) => ($value = p));
+};
+export const updateSnapPoints = (p) => {
+  snapPoints.update(($value) => ($value = $value));
+};
 export let signalLines = writable(new SignalLines());
 export const setSignalLines = () => {
   signalLines.update(($value) => ($value = $value));

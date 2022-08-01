@@ -1,4 +1,5 @@
 import { get } from "svelte/store";
+import { writable } from "svelte/store";
 
 import {
   scale,
@@ -12,7 +13,9 @@ import {
 export class SnapPoints {
   array = [];
 
-  constructor() {}
+  constructor() {
+    this._store = writable(this);
+  }
 
   addSnapPoint(i, j, k, count, snapPointIndex) {
     let newSnapPoint = new SnapPoint(i, j, k, count, snapPointIndex);
@@ -93,5 +96,9 @@ class SnapPoint {
   toggleIsSelected() {
     console.log("toggling snap point");
     this.isSelected = !this.isSelected;
+  }
+
+  setIsSelected(boolean) {
+    this.isSelected = boolean;
   }
 }

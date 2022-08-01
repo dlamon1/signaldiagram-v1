@@ -17,6 +17,7 @@ import {
   setPanels,
   setSnapPoints,
   updatePanels,
+  updateSnapPoints,
 } from "../store";
 
 import { focusLabelInput } from "./focusInput";
@@ -45,16 +46,18 @@ export const handlePanelClick = (e) => {
 };
 
 export const handleSnapPointClick = (e) => {
-  let i = e.path[0].__data__.pointIndexFullArray;
+  let i = e.path[0].__data__;
 
   let points = get(snapPoints);
 
   if (!get(isCtrl)) {
-    points.forEach((p) => (p.isSelected = false));
+    points.array.forEach((p) => p.setIsSelected(false));
   }
 
-  points[i].toggleIsSelected();
+  console.log(i);
+  points.array[i].toggleIsSelected();
   // setSnapPoints(points);
+  updateSnapPoints();
   // console.log(i);
 };
 

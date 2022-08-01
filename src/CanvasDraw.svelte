@@ -86,10 +86,10 @@
     //     // drawHoveredPanel(hoveredPanel);
     //   });
 
-    // $showCoordinates &&
-    //   $panels.array.forEach((panel) => {
-    //     drawPanelCoordinates(panel);
-    //   });
+    $showCoordinates &&
+      $panels.array.forEach((panel) => {
+        drawPanelCoordinates(panel);
+      });
 
     // $hoveredSignalLines.forEach((hoveredSignalLine, i) => {
     //   drawHoveredSignalLine(hoveredSignalLine);
