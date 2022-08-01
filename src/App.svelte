@@ -15,7 +15,7 @@
 
   import { handleKeyUp, handleKeyDown } from "./functions/events/keys";
 
-  import * as d3 from "d3";
+  // import * as d3 from "d3";
   import { onMount } from "svelte";
   import { get } from "svelte/store";
 
@@ -34,7 +34,8 @@
       // })
       .append("g")
       .attr("width", $canvasWrapperWidth)
-      .attr("height", $canvasWrapperHeight);
+      .attr("height", $canvasWrapperHeight)
+      .attr("id", "g-zoom-wrapper");
     // .on("mousedown", (e) => {
     //   e.stopPropagation();
     // });

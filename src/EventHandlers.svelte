@@ -27,7 +27,7 @@
 
   // import { clearSelectedPanels } from "./functions/HandleSelect";
 
-  import * as d3 from "d3";
+  // import * as d3 from "d3";
 
   $: {
     let triggers = { $columns, $rows };

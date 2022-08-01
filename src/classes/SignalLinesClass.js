@@ -1,4 +1,4 @@
-import { get } from "svelte/store";
+import { get, writable } from "svelte/store";
 import {
   snapPoints,
   signalLines,
@@ -17,6 +17,7 @@ export class SignalLines {
 
   constructor() {
     this.currentlyDrawing = null;
+    this._store = writable(this);
   }
 
   setOrigin(e) {
@@ -50,6 +51,12 @@ export class SignalLines {
   removeSignalLine(line) {
     this.array = this.array.filter((signalLine) => {
       return signalLine.i !== line.i;
+    });
+  }
+
+  deSelectSignalLines() {
+    this.array.forEach((signalLine) => {
+      signalLine.isSelected = false;
     });
   }
 }
