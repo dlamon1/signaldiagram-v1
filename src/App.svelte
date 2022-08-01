@@ -1,4 +1,12 @@
 <script>
+  import {
+    canvasWrapperHeight,
+    canvasWrapperWidth,
+    svgRef,
+    panels,
+    signalLines,
+    snapPoints,
+  } from "./store";
   import Panels from "./Reactivity.svelte";
   import EventHandlers from "./EventHandlers.svelte";
   import EditToolbar from "./EditToolbar.svelte";
@@ -6,8 +14,6 @@
   import Dialogs from "./Dialogs/index.svelte";
 
   import { handleKeyUp, handleKeyDown } from "./functions/events/keys";
-
-  import { canvasWrapperHeight, canvasWrapperWidth, svgRef } from "./store";
 
   import * as d3 from "d3";
   import { onMount } from "svelte";

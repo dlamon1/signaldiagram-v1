@@ -18,6 +18,10 @@ export class SnapPoints {
     let newSnapPoint = new SnapPoint(i, j, k, count, snapPointIndex);
     this.array.push(newSnapPoint);
   }
+
+  resetArray() {
+    this.array = [];
+  }
 }
 
 class SnapPoint {
@@ -31,6 +35,11 @@ class SnapPoint {
     font: "#000000",
     border: "#000000",
   };
+
+  radius;
+  x;
+  y;
+
   constructor(
     row,
     column,

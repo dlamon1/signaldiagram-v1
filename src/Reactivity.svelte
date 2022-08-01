@@ -52,57 +52,29 @@
   };
 
   const handleNewPanelArray = async () => {
+    $panels.resetArray();
+    $snapPoints.resetArray();
+
     let snapPointIndex = 0;
+    let count = 0;
 
     for (let i = 0; i < $rows; i++) {
       for (let j = 0; j < $columns; j++) {
         let thisPanelsSnapPointsIndexes = [];
 
         for (let k = 1; k < $snapPointsQuantity + 1; k++) {
-          $snapPoints.addSnapPoint();
+          $snapPoints.addSnapPoint(i, j, k, count, snapPointIndex);
           thisPanelsSnapPointsIndexes.push(snapPointIndex);
           snapPointIndex += 1;
         }
 
-        //   let colorIndex = 0;
-        //   let backgroundColor = colorIndex == 0 ? colors.one : colors.two;
+        $panels.addPanel(i, j, count, thisPanelsSnapPointsIndexes);
 
-        //   if ((i + j) % 2 === 1) {
-        //     colorIndex = 1;
-        //   }
-
-        //   if (panels[count]) {
-        //     backgroundColor = panels[count].backgroundColor;
-        //   }
-
-        //   scale = 1;
-        //   // let panelDimension = canvasWidth / columns / ratio;
-
-        //   array.push({
-        //     i: count,
-        //     row: i,
-        //     column: j,
-        //     colorIndex: colorIndex,
-        //     isSelected: false,
-        //     width: panelDimension * ratio * scale,
-        //     height: panelDimension * scale,
-        //     x: panelDimension * j * ratio * scale + leftPadding,
-        //     y: panelDimension * i * scale + topPadding,
-        //     color: colorIndex == 0 ? colors.one : colors.two,
-        //     lineWidth: 1,
-        //     backgroundColor: backgroundColor,
-        //     borderColor: "#000000",
-        //     showCoordinates: true,
-        //     isRearView: false,
-        //     thisPanelsSnapPoints,
-        //   });
-
-        //   count++;
-        console.log(thisPanelsSnapPointsIndexes);
+        count++;
       }
     }
 
-    console.log($snapPoints.array);
+    $panels = $panels;
   };
 
   $: {
@@ -127,6 +99,7 @@
 
   // This is triggered by calling setCanvasDimensions()
   $: {
+    // console.log("here");
     let t = {
       $screenAndPanelDimensions,
       $mode,

@@ -16,6 +16,7 @@ import {
   mouseCoordinates,
   setPanels,
   setSnapPoints,
+  updatePanels,
 } from "../store";
 
 import { focusLabelInput } from "./focusInput";
@@ -29,15 +30,18 @@ import {
 
 export const handlePanelClick = (e) => {
   let i = e.target.__data__.i;
-  let _panels = get(panels);
+  let _panels = get(panels).array;
+  // console.log(_panels);
   let current = _panels[i].isSelected;
 
   if (!get(isCtrl)) {
-    _panels.forEach((p) => (p.isSelected = false));
-    _panels[e].isSelected = !current;
+    _panels.forEach((p) => p.setIsSelected(false));
+    _panels[i].setIsSelected(!current);
   }
-  _panels[e].isSelected = !current;
-  setPanels(_panels);
+  _panels[i].setIsSelected(!current);
+  // _panels[i].setIsSelected(!_panels[i].isSelected);
+  // setPanels(_panels);
+  updatePanels();
 };
 
 export const handleSnapPointClick = (e) => {
@@ -68,7 +72,8 @@ export const handleSnapPointEnd = (e) => {
 
 export const clearSelectedPanels = (e) => {
   let _panels = get(panels);
-  _panels.forEach((p) => (p.isSelected = false));
+  // console.log(_panels.array);
+  _panels.array.forEach((p) => (p.isSelected = false));
   setPanels(_panels);
 };
 

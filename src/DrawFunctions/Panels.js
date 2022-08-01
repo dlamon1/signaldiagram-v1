@@ -17,6 +17,7 @@ import {
   isSelectMode,
   signalLines,
   isDrawMode,
+  snapPoints,
 } from "../store";
 
 import {
@@ -37,6 +38,10 @@ export const drawPanelGroups = (p) => {
   let leftPadding = dim.leftPadding;
   let ratio = get(width) / get(height);
 
+  let snapPointClass = get(snapPoints);
+  let sp = snapPointClass.array;
+
+  // console.log(p);
   get(svgRef)
     .selectAll("svg")
     .data(p)
@@ -56,9 +61,11 @@ export const drawPanelGroups = (p) => {
       .attr("class", get(isSelectMode) && "hover")
       .attr("width", p.width)
       .attr("height", p.height)
-      .attr("fill", p.backgroundColor)
-      .attr("stroke", (p) => (p.isSelected ? selectedColor : p.borderColor))
-      .attr("stroke-width", (p) => (p.isSelected ? 4 : p.lineWidth))
+      .attr("fill", p.color.background)
+      .attr("stroke", (p) => (p.isSelected ? selectedColor : p.color.border))
+      .attr("stroke-width", (p) =>
+        p.isSelected ? p.lineWidth * 4 : p.lineWidth
+      )
       .on("click", (e) => get(isSelectMode) && handlePanelClick(e));
 
     d3.select("#p" + p.i)
@@ -66,13 +73,15 @@ export const drawPanelGroups = (p) => {
       .data(p.thisPanelsSnapPoints)
       .enter()
       .append("rect")
-      .attr("width", (d) => d.radius * 2)
-      .attr("height", (d) => d.radius * 2)
-      .attr("x", (d) => d.x - d.radius)
-      .attr("y", (d) => d.y - d.radius)
-      .attr("rx", (d) => d.radius)
-      .attr("fill", (d) => (d.isSelected ? selectedColor : d.color.background))
-      .attr("stroke", (d) => d.color.border)
+      .attr("width", (d) => sp[d].radius * 2)
+      .attr("height", (d) => sp[d].radius * 2)
+      .attr("x", (d) => sp[d].x - sp[d].radius)
+      .attr("y", (d) => sp[d].y - sp[d].radius)
+      .attr("rx", (d) => sp[d].radius)
+      .attr("fill", (d) =>
+        sp[d].isSelected ? selectedColor : sp[d].color.background
+      )
+      .attr("stroke", (d) => sp[d].color.border)
       .attr("class", "hover")
       .on("mousedown", (e) => {
         get(isDrawMode) && handleSnapPointStart(e);

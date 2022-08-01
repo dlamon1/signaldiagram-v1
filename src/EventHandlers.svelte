@@ -1,6 +1,4 @@
 <script>
-  //console.log("canvas render");
-
   import { onMount, tick } from "svelte";
 
   import {
@@ -137,12 +135,12 @@
   };
 
   const updatePanelColor = (color) => {
-    $panels.forEach((p) => {
+    $panels.array.forEach((p) => {
       if (p.isSelected) {
-        $panels[p.i].backgroundColor = color;
+        $panels.array[p.i].setColor("background", color);
       }
     });
-    $panels = $panels;
+    // $panels = $panels;
   };
 
   $: {

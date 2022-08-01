@@ -36,6 +36,8 @@
   let selectedColor = "rgba(241, 89, 70, 1)";
 
   $: {
+    // console.log("CanvasDraw render");
+
     let triggers = {
       $panels,
       $snapPoints,
@@ -68,13 +70,15 @@
   } from "./DrawFunctions/Panels";
 
   const draw = () => {
-    console.log("drawing");
+    // console.log("drawing");
 
     $svgRef.selectAll("*").remove();
 
     // $svgRef.attr("transform", "translate(60 60)");
 
-    drawPanelGroups($panels);
+    // console.log($panels);
+
+    drawPanelGroups($panels.array);
 
     // $isSelectingPanels &&
     //   !$isShifted &&
@@ -82,10 +86,10 @@
     //     // drawHoveredPanel(hoveredPanel);
     //   });
 
-    $showCoordinates &&
-      $panels.forEach((panel) => {
-        drawPanelCoordinates(panel);
-      });
+    // $showCoordinates &&
+    //   $panels.array.forEach((panel) => {
+    //     drawPanelCoordinates(panel);
+    //   });
 
     // $hoveredSignalLines.forEach((hoveredSignalLine, i) => {
     //   drawHoveredSignalLine(hoveredSignalLine);
@@ -108,9 +112,9 @@
     //     drawHoveredSnapPoint(snapPoint);
     //   });
 
-    $selectedPanels.forEach((selectedPanel, i) => {
-      drawSelectedPanel(selectedPanel);
-    });
+    // $selectedPanels.forEach((selectedPanel, i) => {
+    //   drawSelectedPanel(selectedPanel);
+    // });
 
     // $selectedSnapPoints.forEach((selectedSnapPoint, i) => {
     //   drawSelectedSnapPoint(selectedSnapPoint);
