@@ -17,6 +17,7 @@
 
   import * as d3 from "d3";
   import { onMount } from "svelte";
+  import { get } from "svelte/store";
 
   const createSvg = () => {
     $svgRef = d3
@@ -25,9 +26,18 @@
       .attr("id", "svg")
       .attr("width", $canvasWrapperWidth)
       .attr("height", $canvasWrapperHeight)
+      .on("mousedown", (e) => {
+        $panels.deSelectedPanels();
+        $snapPoints.deSelectSnapPoints();
+        $panels = $panels;
+        $snapPoints = $snapPoints;
+      })
       .append("g")
       .attr("width", $canvasWrapperWidth)
-      .attr("height", $canvasWrapperHeight);
+      .attr("height", $canvasWrapperHeight)
+      .on("mousedown", (e) => {
+        e.stopPropagation();
+      });
   };
 
   d3.select("body").on("keydown", handleKeyDown).on("keyup", handleKeyUp);
