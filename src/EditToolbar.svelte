@@ -41,7 +41,7 @@
       <Panels />
     {/if}
 
-    {#if $selectionTab === "squares"}
+    {#if $selectionTab === "snapPoints"}
       <SnapPoints />
     {/if}
 

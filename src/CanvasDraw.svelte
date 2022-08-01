@@ -78,7 +78,7 @@
 
     // console.log($panels);
 
-    drawPanelGroups($panels.array);
+    drawPanelGroups($panels);
 
     // $isSelectingPanels &&
     //   !$isShifted &&

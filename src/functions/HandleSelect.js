@@ -29,38 +29,6 @@ import {
   isSignalLineHovered,
 } from "./HandleHover";
 
-export const handlePanelClick = (e) => {
-  let i = e.target.__data__.i;
-  let _panels = get(panels).array;
-  // console.log(_panels);
-  let current = _panels[i].isSelected;
-
-  if (!get(isCtrl)) {
-    _panels.forEach((p) => p.setIsSelected(false));
-    _panels[i].setIsSelected(!current);
-  }
-  _panels[i].setIsSelected(!current);
-  // _panels[i].setIsSelected(!_panels[i].isSelected);
-  // setPanels(_panels);
-  updatePanels();
-};
-
-export const handleSnapPointClick = (e) => {
-  let i = e.path[0].__data__;
-
-  let points = get(snapPoints);
-
-  if (!get(isCtrl)) {
-    points.array.forEach((p) => p.setIsSelected(false));
-  }
-
-  console.log(i);
-  points.array[i].toggleIsSelected();
-  // setSnapPoints(points);
-  updateSnapPoints();
-  // console.log(i);
-};
-
 let originIndex = 0;
 
 export const handleSnapPointStart = (e) => {
@@ -71,13 +39,6 @@ export const handleSnapPointStart = (e) => {
 export const handleSnapPointEnd = (e) => {
   let snapPointIndex = e.path[0].__data__.pointIndexFullArray;
   get(signalLines).addSignalLine(originIndex, snapPointIndex);
-};
-
-export const clearSelectedPanels = (e) => {
-  let _panels = get(panels);
-  // console.log(_panels.array);
-  _panels.array.forEach((p) => (p.isSelected = false));
-  setPanels(_panels);
 };
 
 export const handleMouseClickSelect = (e) => {

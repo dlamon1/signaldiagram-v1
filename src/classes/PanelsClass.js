@@ -1,8 +1,16 @@
-import { tickStep } from "d3";
-import { get } from "svelte/store";
-import { writable } from "svelte/store";
+import { get, writable } from "svelte/store";
 
-import { scale, screenAndPanelDimensions, width, height } from "../store";
+import {
+  isCtrl,
+  screenAndPanelDimensions,
+  width,
+  height,
+  updatePanels,
+  snapPoints,
+  setMode,
+  setSelectionTab,
+  setSelection,
+} from "../store";
 
 export class Panels {
   array = [];
@@ -27,6 +35,27 @@ export class Panels {
   resetArray() {
     this.array = [];
   }
+
+  deSelectedPanels = () => {
+    this.array.forEach((p) => p.setIsSelected(false));
+  };
+
+  selectPanel = (e) => {
+    let snapPointClass = get(snapPoints);
+    snapPointClass.deSelectSnapPoints();
+
+    let i = e.target.__data__.i;
+    let current = this.array[i].isSelected;
+
+    if (!get(isCtrl)) {
+      this.array.forEach((p) => p.setIsSelected(false));
+      this.array[i].setIsSelected(!current);
+    }
+    this.array[i].setIsSelected(!current);
+    setSelectionTab("panels");
+    setSelection("panels");
+    updatePanels();
+  };
 }
 
 export class Panel {

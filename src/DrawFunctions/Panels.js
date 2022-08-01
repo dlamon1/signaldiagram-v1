@@ -21,7 +21,7 @@ import {
 } from "../store";
 
 import {
-  handlePanelClick,
+  // handlePanelClick,
   handleSnapPointStart,
   handleSnapPointEnd,
   handleSnapPointClick,
@@ -30,7 +30,8 @@ import {
 let hoveredColor = "rgba(0, 255, 170, 1)";
 let selectedColor = "rgba(241, 89, 70, 1)";
 
-export const drawPanelGroups = (p) => {
+export const drawPanelGroups = (panels) => {
+  let p = panels.array;
   let dim = get(screenAndPanelDimensions);
   let _signalLines = get(signalLines);
   let panelDimension = dim.panelDimension;
@@ -66,7 +67,7 @@ export const drawPanelGroups = (p) => {
       .attr("stroke-width", (p) =>
         p.isSelected ? p.lineWidth * 4 : p.lineWidth
       )
-      .on("click", (e) => get(isSelectMode) && handlePanelClick(e));
+      .on("click", (e) => get(isSelectMode) && panels.selectPanel(e));
 
     d3.select("#p" + p.i)
       .selectAll("circle")
@@ -87,7 +88,10 @@ export const drawPanelGroups = (p) => {
         get(isDrawMode) && handleSnapPointStart(e);
       })
       .on("mouseup", (e) => get(isDrawMode) && handleSnapPointEnd(e))
-      .on("click", (e) => !get(isDrawMode) && handleSnapPointClick(e));
+      .on(
+        "click",
+        (e) => !get(isDrawMode) && snapPointClass.selectSnapPoint(e)
+      );
   });
 
   get(svgRef)

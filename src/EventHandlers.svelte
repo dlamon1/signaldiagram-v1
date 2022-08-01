@@ -25,14 +25,14 @@
     screenAndPanelDimensions,
   } from "./store";
 
-  import { clearSelectedPanels } from "./functions/HandleSelect";
+  // import { clearSelectedPanels } from "./functions/HandleSelect";
 
   import * as d3 from "d3";
 
   $: {
     let triggers = { $columns, $rows };
 
-    clearSelectedPanels();
+    // clearSelectedPanels();
   }
 
   $: {
@@ -44,7 +44,7 @@
 
     if ($isDrawMode) {
       $selectionTab = "lines";
-      clearSelectedPanels();
+      // clearSelectedPanels();
     }
   }
 
@@ -96,8 +96,8 @@
       $selectionTab = "panels";
     } else if ($selection === "signallines") {
       $selectionTab = "lines";
-    } else if ($selection === "snappoints") {
-      $selectionTab = "squares";
+    } else if ($selection === "snapPoints") {
+      $selectionTab = "snapPoints";
     }
   }
 

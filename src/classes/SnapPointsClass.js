@@ -8,6 +8,11 @@ import {
   height,
   snapPointDirection,
   snapPointsQuantity,
+  isCtrl,
+  updateSnapPoints,
+  panels,
+  setSelectionTab,
+  setSelection,
 } from "../store";
 
 export class SnapPoints {
@@ -25,6 +30,26 @@ export class SnapPoints {
   resetArray() {
     this.array = [];
   }
+
+  selectSnapPoint = (e) => {
+    let panelsClass = get(panels);
+    panelsClass.deSelectedPanels();
+
+    let i = e.path[0].__data__;
+
+    if (!get(isCtrl)) {
+      this.array.forEach((p) => p.setIsSelected(false));
+    }
+
+    this.array[i].toggleIsSelected();
+    setSelectionTab("snapPoints");
+    setSelection("snapPoints");
+    updateSnapPoints();
+  };
+
+  deSelectSnapPoints = () => {
+    this.array.forEach((p) => p.setIsSelected(false));
+  };
 }
 
 class SnapPoint {

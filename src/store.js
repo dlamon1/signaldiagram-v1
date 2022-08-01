@@ -82,13 +82,13 @@ export const setColorState = (key, value) => {
   });
 };
 
-// panels, snappoints, signallines
+// panels, snapPoints, signallines
 export let selection = writable("panels");
 export const setSelection = (type) => {
   selection.update(($value) => ($value = type));
 };
 
-// panels, squares, lines
+// panels, snapPoints, lines
 export let selectionTab = writable("panels");
 export const setSelectionTab = (tab) => {
   selectionTab.update(($value) => ($value = tab));
