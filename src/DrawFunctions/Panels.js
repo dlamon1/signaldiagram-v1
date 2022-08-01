@@ -1,7 +1,5 @@
 import { get } from "svelte/store";
 
-// import  from "d3";
-
 import {
   svgRef,
   columns,
@@ -18,6 +16,8 @@ import {
   signalLines,
   isDrawMode,
   snapPoints,
+  canvasWrapperWidth,
+  canvasWrapperHeight,
 } from "../store";
 
 import {
@@ -31,6 +31,7 @@ let hoveredColor = "rgba(0, 255, 170, 1)";
 let selectedColor = "rgba(241, 89, 70, 1)";
 
 export const drawPanelGroups = (panels) => {
+  console.log("draw");
   let p = panels.array;
   let dim = get(screenAndPanelDimensions);
   let signalLineClass = get(signalLines);
@@ -70,28 +71,6 @@ export const drawPanelGroups = (panels) => {
     .attr("stroke-width", (p) => (p.isSelected ? p.lineWidth * 4 : p.lineWidth))
     .on("click", (e) => get(isSelectMode) && panels.selectPanel(e));
 
-  // d3.select("#g-zoom-wrapper")
-  //   .selectAll("circle")
-  //   .data((d) => d.thisPanelsSnapPoints)
-  //   .enter()
-  //   .append("rect")
-  //   .attr("id", (d) => "snap-point-circle" + d.i)
-  //   .attr("width", (d) => sp[d].radius * 2)
-  //   .attr("height", (d) => sp[d].radius * 2)
-  //   .attr("x", (d) => sp[d].x - sp[d].radius)
-  //   .attr("y", (d) => sp[d].y - sp[d].radius)
-  //   .attr("rx", (d) => sp[d].radius)
-  //   .attr("fill", (d) =>
-  //     sp[d].isSelected ? selectedColor : sp[d].color.background
-  //   )
-  //   .attr("stroke", (d) => sp[d].color.border)
-  //   .attr("class", "hover")
-  //   .on("mousedown", (e) => {
-  //     get(isDrawMode) && signalLineClass.setOrigin(e);
-  //   })
-  //   .on("mouseup", (e) => get(isDrawMode) && signalLineClass.addSignalLine(e))
-  //   .on("click", (e) => !get(isDrawMode) && snapPointClass.selectSnapPoint(e));
-
   snapPointElements = panelSvgElement
     .selectAll("circle")
     .data((d) => d.thisPanelsSnapPoints)
@@ -108,11 +87,19 @@ export const drawPanelGroups = (panels) => {
     )
     .attr("stroke", (d) => sp[d].color.border)
     .attr("class", "hover")
+    .on("mouseover", (e) => {
+      clearAllPanelHoveredStates();
+    })
     .on("mousedown", (e) => {
       get(isDrawMode) && signalLineClass.setOrigin(e);
     })
     .on("mouseup", (e) => get(isDrawMode) && signalLineClass.addSignalLine(e))
     .on("click", (e) => !get(isDrawMode) && snapPointClass.selectSnapPoint(e));
+
+  const clearAllPanelHoveredStates = () => {
+    // console.log("clearing");
+    // lineOutlineElements.attr("stroke", "none");
+  };
 
   lineGroupElements = get(svgRef)
     .selectAll("g")
@@ -122,16 +109,20 @@ export const drawPanelGroups = (panels) => {
     .attr("id", (d) => "line-group" + d.i);
 
   // Line Outline
-  lineGroupElements
+  let lineOutlineElements = lineGroupElements
     .append("line")
     .attr("id", (d) => "line-outline" + d.i)
-    .attr("x1", (d) => d.origin.x)
-    .attr("y1", (d) => d.origin.y)
-    .attr("x2", (d) => d.end.x)
-    .attr("y2", (d) => d.end.y)
+    .attr(
+      "x1",
+      (d, i) => signalLineClass.getOriginCoordinates(d, i, "origin").x
+    )
+    .attr(
+      "y1",
+      (d, i) => signalLineClass.getOriginCoordinates(d, i, "origin").y
+    )
+    .attr("x2", (d, i) => signalLineClass.getOriginCoordinates(d, i, "end").x)
+    .attr("y2", (d, i) => signalLineClass.getOriginCoordinates(d, i, "end").y)
     .attr("stroke", "none")
-    // .attr("stroke-width", (d) => d.lineWidth)
-    // .attr("stroke", "none")
     .attr("stroke-width", (d) => d.lineWidth * 4)
     .attr("pointer-events", "visible")
     .on("mouseover", (e, d) => {
@@ -143,7 +134,7 @@ export const drawPanelGroups = (panels) => {
       get(isSelectMode) && d3.select(e.path[0]).attr("stroke", "none");
     })
     .on("click", (e) => {
-      let i = e.path[0].__data__.i;
+      // let i = e.path[0].__data__.i;
       // console.log(signalLineClass.array[i]);
       // get(isSelectMode) && signalLineClass.array[i].selectSignalLine(e);
     });
@@ -151,22 +142,24 @@ export const drawPanelGroups = (panels) => {
   // Line
   lineGroupElements
     .append("line")
-    .attr("id", (d) => "l" + d.i)
-    .attr("x1", (d) => d.origin.x)
-    .attr("y1", (d) => d.origin.y)
-    .attr("x2", (d) => d.end.x)
-    .attr("y2", (d) => d.end.y)
+    .attr("id", (d) => "line" + d.i)
     .attr(
-      "stroke",
-      (d) => {
-        if (d.isSelected) {
-          return selectedColor;
-        } else {
-          return d.color.background;
-        }
-      }
-      // d.isSelected ? "#ff0000" : d.color.background;
+      "x1",
+      (d, i) => signalLineClass.getOriginCoordinates(d, i, "origin").x
     )
+    .attr(
+      "y1",
+      (d, i) => signalLineClass.getOriginCoordinates(d, i, "origin").y
+    )
+    .attr("x2", (d, i) => signalLineClass.getOriginCoordinates(d, i, "end").x)
+    .attr("y2", (d, i) => signalLineClass.getOriginCoordinates(d, i, "end").y)
+    .attr("stroke", (d) => {
+      if (d.isSelected) {
+        return selectedColor;
+      } else {
+        return d.color.background;
+      }
+    })
     .attr("stroke-width", (d) => d.lineWidth * 2)
     .attr("point-events", "none")
     .on("mouseover", (e, d) => {
@@ -184,53 +177,46 @@ export const drawPanelGroups = (panels) => {
       get(isSelectMode) && signalLineClass.array[i].selectSignalLine(e);
     });
 
-  // let snapPointElements;
-  // let panelSvgElement;
-  // let panelElements;
-  // let lineGroupElements;
+  let rearViewLabel = get(svgRef)
+    .append("text")
+    .text("REAR VIEW")
+    .attr("id", "rear-view-label")
+    .attr("x", get(canvasWrapperWidth) / 2)
+    .attr("y", get(canvasWrapperHeight) / 2)
+    .attr("fill", "#000")
+    .attr("font-size", () => {
+      let screenWidth =
+        get(columns) * get(screenAndPanelDimensions).panelDimension;
+      let screenHeight =
+        get(rows) * get(screenAndPanelDimensions).panelDimension;
 
-  panelSvgElement.lower();
-  snapPointElements.raise();
+      // if (screenHeight * 4 > screenWidth) {
+      //   console.log("using width");
+      return screenWidth / 10 + "px";
+      // } else {
+      //   console.log("using height");
+      //   return screenHeight / 5 + "px";
+      // }
+    })
+    .style("opacity", 0.1)
+    .attr("text-anchor", "middle")
+    .attr("font-famliy", "'Heebo', sans-serif;")
+    .style("font-weight", "500")
+    .attr("dominant-baseline", "central")
+    .attr("transform-origin", "50% 50%")
+    .attr("transform", () => {
+      let opposite =
+        (get(columns) *
+          get(screenAndPanelDimensions).panelDimension *
+          get(width)) /
+        get(height);
+      let adjacent = get(rows) * get(screenAndPanelDimensions).panelDimension;
+      // given a 90 degree angle between opposite and adjacent, find the angle between the hypotenuse and the adjacent
+      let angle = Math.atan(adjacent / opposite);
+      angle = ((-angle * 180) / Math.PI) * 0.8;
 
-  // d3.select("#line-group" + p.i).lower();
-
-  // p.forEach((p) => {
-  //   d3.select("#panel-group" + p.i).lower();
-  //   d3.select("#snap-point-circle" + p.i).raise();
-  // });
-
-  // lineGroup.lower();
-  // panelElements.lower();
-
-  // lineGroup.append("p");
-
-  // lineGroup
-  //   .selectAll("line")
-  //   .data(signalLineClass.array)
-  //   .enter()
-  // .append("line")
-  // .attr("x1", (d) => d.origin.x)
-  // .attr("y1", (d) => d.origin.y)
-  // .attr("x2", (d) => d.end.x)
-  // .attr("y2", (d) => d.end.y)
-  // .attr("stroke", (d) => (d.isSelected ? "#ff0000" : d.color.background))
-  // .attr("stroke-width", (d) => d.lineWidth * 2)
-  // .attr("point-events", "none");
-
-  // .attr("stroke", "none")
-  // .attr("stroke-width", (d) => d.lineWidth * 4)
-  // .attr("pointer-events", "visible")
-  // .on("mouseover", (e) => {
-  //   d3.select(e.path[0]).attr("stroke", hoveredColor);
-  // })
-  // .on("mouseout", (e) => {
-  //   d3.select(e.path[0]).attr("stroke", e.path[0].__data__.color.background);
-  // })
-  // .on("click", (e) => {
-  //   let i = e.path[0].__data__.i;
-  //   // console.log(signalLineClass.array[i]);
-  //   get(isSelectMode) && signalLineClass.array[i].selectSignalLine(e);
-  // });
+      return "rotate(" + angle + ")";
+    });
 };
 
 export const drawPanelCoordinates = (p) => {
@@ -251,14 +237,4 @@ export const drawPanelCoordinates = (p) => {
     .style("font-size", p.width / 6 + "px")
     .style("pointer-events", "none")
     .style("user-select", "none");
-};
-
-export const drawHoveredPanel = (panel) => {
-  d3.select("#r" + panel.i).attr("fill", hoveredColor);
-};
-
-export const drawSelectedPanel = (panel) => {
-  d3.select("#r" + panel.i)
-    .attr("stroke", selectedColor)
-    .attr("stroke-width", 8);
 };

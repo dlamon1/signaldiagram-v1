@@ -30,6 +30,7 @@
     innerHeight,
     innerWidth,
     screenAndPanelDimensions,
+    mode,
   } from "./store";
 
   let hoveredColor = "rgba(0, 255, 170, 1)";
@@ -57,6 +58,7 @@
       $showCoordinates,
       $screenAndPanelDimensions,
       $isRearView,
+      $mode,
     };
 
     $svgRef && draw();
@@ -65,8 +67,6 @@
   import {
     drawPanelGroups,
     drawPanelCoordinates,
-    drawHoveredPanel,
-    drawSelectedPanel,
   } from "./DrawFunctions/Panels";
 
   const draw = () => {

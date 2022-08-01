@@ -5,6 +5,8 @@ import {
   colorState,
   screenAndPanelDimensions,
   updateSignalLines,
+  width,
+  height,
 } from "../store";
 import { handleHover, isSnapPointHovered } from "../functions/HandleHover";
 
@@ -12,6 +14,8 @@ export class SignalLines {
   origin = {
     x: null,
     y: null,
+    snapPointIndex: null,
+    panelIndex: null,
   };
   array = [];
 
@@ -20,7 +24,37 @@ export class SignalLines {
     this._store = writable(this);
   }
 
+  getOriginCoordinates(d, signalLineIndex, key) {
+    // key is either "origin" or "end"
+    let signalLine = this.array[signalLineIndex];
+    let signalLineClass = get(signalLines);
+    let snapPointsClass = get(snapPoints);
+
+    let snapPointIndex = signalLine[key].snapPointIndex;
+
+    let snapPoint = snapPointsClass.array[snapPointIndex];
+    let snapPointX = snapPoint.x;
+    let snapPointY = snapPoint.y;
+
+    let panelDimension = get(screenAndPanelDimensions).panelDimension;
+    let topPadding = get(screenAndPanelDimensions).topPadding;
+    let leftPadding = get(screenAndPanelDimensions).leftPadding;
+
+    let panelX = (snapPoint.column * panelDimension * get(width)) / get(height);
+    let panelY = snapPoint.row * panelDimension;
+
+    let x = panelX + snapPointX + leftPadding;
+    let y = panelY + snapPointY + topPadding;
+
+    return {
+      x,
+      y,
+    };
+  }
+
   setOrigin(e) {
+    // console.log(e);
+    let panelIndex = e.path[1].__data__.i;
     let panelCoordinates = {
       x: e.path[1].__data__.x,
       y: e.path[1].__data__.y,
@@ -33,6 +67,8 @@ export class SignalLines {
     };
     this.origin.x = panelCoordinates.x + pointsCoordinates.x;
     this.origin.y = panelCoordinates.y + pointsCoordinates.y;
+    this.origin.snapPointIndex = snapPointIndex;
+    this.origin.panelIndex = panelIndex;
   }
 
   setCurrentlyDrawing(signalLine) {
@@ -65,10 +101,12 @@ class SignalLine {
   origin = {
     x: 0,
     y: 0,
+    snapPointIndex: 0,
   };
   end = {
     x: 0,
     y: 0,
+    snapPointIndex: 0,
   };
   color = {
     background: "#000",
@@ -80,18 +118,19 @@ class SignalLine {
     this.origin = origin;
     this.setEndCoordinates(e);
     this.i = get(signalLines).array.length;
-    console.log(get(signalLines).array.length);
     this.color.background = get(colorState).signalLine.background;
     this.lineWidth = 3;
   }
 
   selectSignalLine() {
-    console.log("here");
     this.isSelected = true;
     updateSignalLines();
   }
 
   setEndCoordinates(e) {
+    // console.log(e);
+    let panel = e.path[1].__data__;
+    // console.log(panel);
     let indexOfPoint = e.path[0].__data__;
     let point = get(snapPoints).array[indexOfPoint];
     let coordinatesOfPoint = {
@@ -103,6 +142,8 @@ class SignalLine {
 
     this.end.x = cooordinatesOfPanel.x + coordinatesOfPoint.x;
     this.end.y = cooordinatesOfPanel.y + coordinatesOfPoint.y;
+    this.end.snapPointIndex = indexOfPoint;
+    this.end.panelIndex = panel.i;
   }
 
   updateColor(color) {

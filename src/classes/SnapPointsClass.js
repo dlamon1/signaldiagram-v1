@@ -67,6 +67,8 @@ class SnapPoint {
   radius;
   x;
   y;
+  row;
+  column;
 
   constructor(
     row,
@@ -107,7 +109,7 @@ class SnapPoint {
       y = panelDimension / 2;
     }
 
-    this.radius = panelDimension / 8;
+    this.radius = panelDimension / 10;
 
     if (panelDimension * ratio < panelDimension) {
       this.radius = this.radius * ratio;

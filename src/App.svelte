@@ -15,9 +15,7 @@
 
   import { handleKeyUp, handleKeyDown } from "./functions/events/keys";
 
-  // import * as d3 from "d3";
   import { onMount } from "svelte";
-  import { get } from "svelte/store";
 
   const createSvg = () => {
     $svgRef = d3

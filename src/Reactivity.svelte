@@ -52,6 +52,9 @@
   };
 
   const handleNewPanelArray = async () => {
+    let oldPanels = $panels;
+    let oldSnapPoints = $snapPoints;
+
     $panels.resetArray();
     $snapPoints.resetArray();
 
@@ -61,6 +64,7 @@
     for (let i = 0; i < $rows; i++) {
       for (let j = 0; j < $columns; j++) {
         let thisPanelsSnapPointsIndexes = [];
+        let oldPanel = oldPanels.array[i];
 
         for (let k = 1; k < $snapPointsQuantity + 1; k++) {
           $snapPoints.addSnapPoint(i, j, k, count, snapPointIndex);
@@ -68,7 +72,7 @@
           snapPointIndex += 1;
         }
 
-        $panels.addPanel(i, j, count, thisPanelsSnapPointsIndexes);
+        $panels.addPanel(i, j, count, thisPanelsSnapPointsIndexes, oldPanel);
 
         count++;
       }
@@ -104,6 +108,7 @@
       $screenAndPanelDimensions,
       // $mode,
     };
+
     handleNewPanelArray();
   }
 
