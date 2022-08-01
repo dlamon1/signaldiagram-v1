@@ -94,20 +94,91 @@ export const drawPanelGroups = (panels) => {
       );
   });
 
-  get(svgRef)
-    .selectAll("line")
+  let lineGroup = get(svgRef)
+    .selectAll("g")
     .data(signalLineClass.array)
     .enter()
+    .append("g")
+    .attr("id", (d) => "lgroup" + d.i);
+
+  // Line Outline
+  lineGroup
     .append("line")
+    .attr("id", (d) => "line-outline" + d.i)
     .attr("x1", (d) => d.origin.x)
     .attr("y1", (d) => d.origin.y)
     .attr("x2", (d) => d.end.x)
     .attr("y2", (d) => d.end.y)
-    .attr("stroke", (d) => d.color.background)
-    .attr("stroke-width", (d) => d.lineWidth);
-};
+    // .attr("stroke", (d) => (d.isSelected ? "#ff0000" : "blue"))
+    .attr("stroke-width", (d) => d.lineWidth)
+    // .attr("stroke", "none")
+    .attr("stroke-width", (d) => d.lineWidth * 4)
+    .attr("pointer-events", "visible")
+    .on("mouseover", (e, d) => {
+      // console.log(e);
+      // console.log(d);
+      get(isSelectMode) && d3.select(e.path[0]).attr("stroke", hoveredColor);
+    })
+    .on("mouseout", (e) => {
+      get(isSelectMode) && d3.select(e.path[0]).attr("stroke", "none");
+    });
+  // .on("click", (e) => {
+  //   let i = e.path[0].__data__.i;
+  //   // console.log(signalLineClass.array[i]);
+  //   get(isSelectMode) && signalLineClass.array[i].selectSignalLine(e);
+  // });
 
-/* <line x1="0" y1="80" x2="100" y2="20" stroke="black" /> */
+  // Line
+  lineGroup
+    .append("line")
+    .attr("id", (d) => "l" + d.i)
+    .attr("x1", (d) => d.origin.x)
+    .attr("y1", (d) => d.origin.y)
+    .attr("x2", (d) => d.end.x)
+    .attr("y2", (d) => d.end.y)
+    .attr("stroke", (d) => (d.isSelected ? "#ff0000" : d.color.background))
+    .attr("stroke-width", (d) => d.lineWidth * 2)
+    .attr("point-events", "none")
+    .on("mouseover", (e, d) => {
+      get(isSelectMode) &&
+        d3
+          .select("#line-outline" + e.srcElement.__data__.i)
+          .attr("stroke", hoveredColor);
+    })
+    .on("mouseout", (e) => {
+      get(isSelectMode) && d3.select(e.relatedTarget).attr("stroke", "none");
+    });
+
+  // lineGroup.append("p");
+
+  // lineGroup
+  //   .selectAll("line")
+  //   .data(signalLineClass.array)
+  //   .enter()
+  // .append("line")
+  // .attr("x1", (d) => d.origin.x)
+  // .attr("y1", (d) => d.origin.y)
+  // .attr("x2", (d) => d.end.x)
+  // .attr("y2", (d) => d.end.y)
+  // .attr("stroke", (d) => (d.isSelected ? "#ff0000" : d.color.background))
+  // .attr("stroke-width", (d) => d.lineWidth * 2)
+  // .attr("point-events", "none");
+
+  // .attr("stroke", "none")
+  // .attr("stroke-width", (d) => d.lineWidth * 4)
+  // .attr("pointer-events", "visible")
+  // .on("mouseover", (e) => {
+  //   d3.select(e.path[0]).attr("stroke", hoveredColor);
+  // })
+  // .on("mouseout", (e) => {
+  //   d3.select(e.path[0]).attr("stroke", e.path[0].__data__.color.background);
+  // })
+  // .on("click", (e) => {
+  //   let i = e.path[0].__data__.i;
+  //   // console.log(signalLineClass.array[i]);
+  //   get(isSelectMode) && signalLineClass.array[i].selectSignalLine(e);
+  // });
+};
 
 export const drawPanelCoordinates = (p) => {
   let column, row;

@@ -1,10 +1,10 @@
 import { get } from "svelte/store";
 import {
   snapPoints,
-  mouseCoordinates,
   signalLines,
   colorState,
-  setSignalLines,
+  screenAndPanelDimensions,
+  updateSignalLines,
 } from "../store";
 import { handleHover, isSnapPointHovered } from "../functions/HandleHover";
 
@@ -13,9 +13,9 @@ export class SignalLines {
     x: null,
     y: null,
   };
+  array = [];
 
   constructor() {
-    this.array = [];
     this.currentlyDrawing = null;
   }
 
@@ -42,7 +42,7 @@ export class SignalLines {
     let origin = structuredClone(this.origin);
     let sl = new SignalLine(origin, endIndex);
     this.array.push(sl);
-    setSignalLines();
+    updateSignalLines();
     this.origin.x = null;
     this.origin.y = null;
   }
@@ -66,14 +66,22 @@ class SignalLine {
   color = {
     background: "#000",
   };
-  lineWidth = 3;
+  lineWidth = get(screenAndPanelDimensions).panelDimension / 20;
+  isSelected = false;
 
   constructor(origin, e) {
     this.origin = origin;
     this.setEndCoordinates(e);
     this.i = get(signalLines).array.length;
+    console.log(get(signalLines).array.length);
     this.color.background = get(colorState).signalLine.background;
     this.lineWidth = 3;
+  }
+
+  selectSignalLine() {
+    console.log("here");
+    this.isSelected = true;
+    updateSignalLines();
   }
 
   setEndCoordinates(e) {
