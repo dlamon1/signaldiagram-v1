@@ -74,74 +74,12 @@
 
     $svgRef.selectAll("*").remove();
 
-    // $svgRef.attr("transform", "translate(60 60)");
-
-    // console.log($panels);
-
     drawPanelGroups($panels);
-
-    // $isSelectingPanels &&
-    //   !$isShifted &&
-    //   $hoveredPanels.forEach((hoveredPanel, i) => {
-    //     // drawHoveredPanel(hoveredPanel);
-    //   });
 
     $showCoordinates &&
       $panels.array.forEach((panel) => {
         drawPanelCoordinates(panel);
       });
-
-    // $hoveredSignalLines.forEach((hoveredSignalLine, i) => {
-    //   drawHoveredSignalLine(hoveredSignalLine);
-    // });
-
-    // $selectedSignalLines.forEach((selectedSignalLine, i) => {
-    //   drawSelectedSignalLine(selectedSignalLine);
-    // });
-
-    // $signalLines.array.forEach((signalLine, i) => {
-    //   drawSignalLineFromArray(signalLine);
-    // });
-
-    // $snapPoints.forEach((snapPoint) => {
-    //   drawSnapPoint(snapPoint);
-    // });
-
-    // !$isShifted &&
-    //   $hoveredSnapPoints.forEach((snapPoint) => {
-    //     drawHoveredSnapPoint(snapPoint);
-    //   });
-
-    // $selectedPanels.forEach((selectedPanel, i) => {
-    //   drawSelectedPanel(selectedPanel);
-    // });
-
-    // $selectedSnapPoints.forEach((selectedSnapPoint, i) => {
-    //   drawSelectedSnapPoint(selectedSnapPoint);
-    // });
-
-    // $squares.forEach((square) => {
-    //   if (square.isOn) {
-    //     drawSquare(square);
-    //     drawPointLabel(square);
-    //   }
-    // });
-
-    // !$isShifted &&
-    //   $hoveredSquares.forEach((square) => {
-    //     drawHoveredSquare(square);
-    //   });
-
-    // $selectedSquares.forEach((square) => {
-    //   drawSelectedSquare(square);
-    // });
-
-    // $isRearView && drawRearViewLabel();
-
-    // $mouseCoordinates.isDrawingSignalLine &&
-    //   drawSignalLineWhileMouseMovesCoordinates();
-
-    // $mouseCoordinates.isDragging && drawDragSelection();
   };
 
   // const drawRearViewLabel = () => {

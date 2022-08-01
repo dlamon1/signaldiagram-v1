@@ -33,7 +33,7 @@ let selectedColor = "rgba(241, 89, 70, 1)";
 export const drawPanelGroups = (panels) => {
   let p = panels.array;
   let dim = get(screenAndPanelDimensions);
-  let _signalLines = get(signalLines);
+  let signalLineClass = get(signalLines);
   let panelDimension = dim.panelDimension;
   let topPadding = dim.topPadding;
   let leftPadding = dim.leftPadding;
@@ -85,9 +85,9 @@ export const drawPanelGroups = (panels) => {
       .attr("stroke", (d) => sp[d].color.border)
       .attr("class", "hover")
       .on("mousedown", (e) => {
-        get(isDrawMode) && handleSnapPointStart(e);
+        get(isDrawMode) && signalLineClass.setOrigin(e);
       })
-      .on("mouseup", (e) => get(isDrawMode) && handleSnapPointEnd(e))
+      .on("mouseup", (e) => get(isDrawMode) && signalLineClass.addSignalLine(e))
       .on(
         "click",
         (e) => !get(isDrawMode) && snapPointClass.selectSnapPoint(e)
@@ -96,7 +96,7 @@ export const drawPanelGroups = (panels) => {
 
   get(svgRef)
     .selectAll("line")
-    .data(_signalLines.array)
+    .data(signalLineClass.array)
     .enter()
     .append("line")
     .attr("x1", (d) => d.origin.x)

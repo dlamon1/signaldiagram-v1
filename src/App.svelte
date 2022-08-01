@@ -26,18 +26,18 @@
       .attr("id", "svg")
       .attr("width", $canvasWrapperWidth)
       .attr("height", $canvasWrapperHeight)
-      .on("mousedown", (e) => {
-        $panels.deSelectedPanels();
-        $snapPoints.deSelectSnapPoints();
-        $panels = $panels;
-        $snapPoints = $snapPoints;
-      })
+      // .on("mousedown", (e) => {
+      //   $panels.deSelectedPanels();
+      //   $snapPoints.deSelectSnapPoints();
+      //   $panels = $panels;
+      //   $snapPoints = $snapPoints;
+      // })
       .append("g")
       .attr("width", $canvasWrapperWidth)
-      .attr("height", $canvasWrapperHeight)
-      .on("mousedown", (e) => {
-        e.stopPropagation();
-      });
+      .attr("height", $canvasWrapperHeight);
+    // .on("mousedown", (e) => {
+    //   e.stopPropagation();
+    // });
   };
 
   d3.select("body").on("keydown", handleKeyDown).on("keyup", handleKeyUp);

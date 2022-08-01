@@ -102,7 +102,7 @@
     // console.log("here");
     let t = {
       $screenAndPanelDimensions,
-      $mode,
+      // $mode,
     };
     handleNewPanelArray();
   }
@@ -114,6 +114,12 @@
     };
 
     handlePrint();
+  }
+
+  $: {
+    let t = { $mode };
+
+    // $panels.deSelectedPanels();
   }
 
   const handlePrint = async () => {
