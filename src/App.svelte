@@ -1,14 +1,5 @@
 <script>
-  import {
-    canvasWrapperHeight,
-    canvasWrapperWidth,
-    svgRef,
-    panels,
-    signalLines,
-    snapPoints,
-    mouseCoordinates,
-    isDrawingSignalLine,
-  } from "./store";
+  import { canvasWrapperHeight, canvasWrapperWidth, svgRef } from "./store";
   import Panels from "./Reactivity.svelte";
   import EventHandlers from "./EventHandlers.svelte";
   import EditToolbar from "./EditToolbar.svelte";
@@ -26,19 +17,10 @@
       .attr("id", "svg")
       .attr("width", $canvasWrapperWidth)
       .attr("height", $canvasWrapperHeight)
-      // .on("mousedown", (e) => {
-      //   $panels.deSelectedPanels();
-      //   $snapPoints.deSelectSnapPoints();
-      //   $panels = $panels;
-      //   $snapPoints = $snapPoints;
-      // })
       .append("g")
       .attr("width", $canvasWrapperWidth)
       .attr("height", $canvasWrapperHeight)
       .attr("id", "g-zoom-wrapper");
-    // .on("mousedown", (e) => {
-    //   e.stopPropagation();
-    // });
   };
 
   d3.select("body").on("keydown", handleKeyDown).on("keyup", handleKeyUp);
@@ -46,11 +28,6 @@
   onMount(() => {
     createSvg();
   });
-
-  const handleMouseMove = (e) => {
-    e.stopPropagation();
-    $isDrawingSignalLine && $mouseCoordinates.setMouseEnd(e);
-  };
 </script>
 
 <div id="container">
@@ -60,7 +37,6 @@
     bind:clientHeight={$canvasWrapperHeight}
     bind:clientWidth={$canvasWrapperWidth}
   >
-    >
     <div class="canvas" id="canvas">
       <EventHandlers />
     </div>

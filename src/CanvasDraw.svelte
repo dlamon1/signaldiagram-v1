@@ -70,7 +70,7 @@
   } from "./DrawFunctions/Panels";
 
   const draw = () => {
-    // console.log("drawing");
+    console.log("drawing");
 
     $svgRef.selectAll("*").remove();
 

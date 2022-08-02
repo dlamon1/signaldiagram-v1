@@ -21,6 +21,8 @@ export class SnapPoints {
 
   constructor() {
     this._store = writable(this);
+    // this.s = get(screenAndPanelDimensions);
+    this.ratio = get(width) / get(height);
   }
 
   addSnapPoint(i, j, k, count, snapPointIndex) {
@@ -32,19 +34,72 @@ export class SnapPoints {
     this.array = [];
   }
 
+  // let snpObj = {
+  //   isSquare: false,
+  //   isCircle: false,
+  //   isTriangle: false,
+  //   label: "A1",
+  //   isSelected: false,
+  //   color: {
+  //     background: "#777",
+  //     font: "#000000",
+  //     border: "#000000",
+  //   },
+  //   radius: 8.085714285714285,
+  //   x: 40.42857142857143,
+  //   y: 53.904761904761905,
+  //   row: 3,
+  //   column: 7,
+  //   pointIndexWithinPanel: 1,
+  //   panelIndex: 49,
+  //   pointIndexFullArray: 98,
+  //   strokeWidth: 1.6171428571428572,
+  // };
+
+  getXCoordinate(sp) {
+    let s = get(screenAndPanelDimensions);
+    return s.panelDimension * sp.column * this.ratio + sp.x + s.leftPadding;
+  }
+
+  getYCoordinate(sp) {
+    let s = get(screenAndPanelDimensions);
+    return s.panelDimension * sp.row + sp.y + s.topPadding;
+  }
+
+  hoverSnapPoint(e) {
+    this.deHover();
+    get(panels).deHover();
+    // console.log("hover");
+    let i = e.path[0].__data__.pointIndexFullArray;
+    this.array[i].setIsHovered(true);
+
+    updateSnapPoints();
+  }
+
+  deHover() {
+    // console.log("remove");
+    this.array.forEach((sp) => {
+      sp.setIsHovered(false);
+    });
+    updateSnapPoints();
+  }
+
   selectSnapPoint = (e) => {
+    console.log("select panel");
     let panelsClass = get(panels);
     let signalLinesClass = get(signalLines);
     panelsClass.deSelect();
     signalLinesClass.deSelect();
 
-    let i = e.path[0].__data__;
+    let i = e.path[0].__data__.pointIndexFullArray;
+
+    let current = this.array[i].isSelected;
 
     if (!get(isCtrl)) {
       this.array.forEach((p) => p.setIsSelected(false));
     }
 
-    this.array[i].toggleIsSelected();
+    this.array[i].setIsSelected(!current);
     setSelectionTab("snapPoints");
     setSelection("snapPoints");
     updateSnapPoints();
@@ -61,6 +116,7 @@ class SnapPoint {
   isTriangle = false;
   label = "A1";
   isSelected = false;
+  isHovered = false;
   color = {
     background: "#777",
     font: "#000000",
@@ -130,5 +186,13 @@ class SnapPoint {
 
   setIsSelected(boolean) {
     this.isSelected = boolean;
+  }
+
+  setIsHovered(boolean) {
+    this.isHovered = boolean;
+  }
+
+  subscribe(subscriber) {
+    return this._store.subscribe(subscriber);
   }
 }

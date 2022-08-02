@@ -41,6 +41,19 @@ export class Panels {
     this.array.forEach((p) => p.setIsSelected(false));
   };
 
+  hoverPanel = (e) => {
+    get(snapPoints).deHover();
+    this.deHover();
+    let i = e.target.__data__.i;
+    this.array[i].setIsHovered(true);
+  };
+
+  deHover = () => {
+    this.array.forEach((p) => p.setIsHovered(false));
+    get(snapPoints).deHover();
+    updatePanels();
+  };
+
   selectPanel = (e) => {
     let snapPointsClass = get(snapPoints);
     let signalLinesClass = get(signalLines);
@@ -66,6 +79,7 @@ export class Panel {
   thisPanelsSnapPoints = [];
   colorIndex = 0;
   isSelected = false;
+  isHovered = false;
   color = {
     background: "#fff",
     border: "#000",
@@ -89,6 +103,10 @@ export class Panel {
     this.setLineWidth();
     this.thisPanelsSnapPoints = thisPanelsSnapPoints;
     // oldPanel && this.copyFromOldPanel(oldPanel);
+  }
+
+  setIsHovered(boolean) {
+    this.isHovered = boolean;
   }
 
   x = {
