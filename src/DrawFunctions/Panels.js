@@ -18,6 +18,9 @@ import {
   snapPoints,
   canvasWrapperWidth,
   canvasWrapperHeight,
+  setIsDrawingSignalLine,
+  isDrawingSignalLine,
+  mouseCoordinates,
 } from "../store";
 
 import {
@@ -31,7 +34,6 @@ let hoveredColor = "rgba(0, 255, 170, 1)";
 let selectedColor = "rgba(241, 89, 70, 1)";
 
 export const drawPanelGroups = (panels) => {
-  console.log("draw");
   let p = panels.array;
   let dim = get(screenAndPanelDimensions);
   let signalLineClass = get(signalLines);
@@ -48,6 +50,11 @@ export const drawPanelGroups = (panels) => {
   let panelElements;
   let lineGroupElements;
 
+  const handleMouseMove = (e) => {
+    e.stopPropagation();
+    get(isDrawingSignalLine) && get(mouseCoordinates).setMouseEnd(e);
+  };
+
   // console.log(p);
   panelSvgElement = get(svgRef)
     .selectAll("svg")
@@ -58,7 +65,15 @@ export const drawPanelGroups = (panels) => {
     .attr("x", (d) => d.x)
     .attr("y", (d) => d.y)
     .attr("width", (d) => d.width)
-    .attr("height", (d) => d.height);
+    .attr("height", (d) => d.height)
+    // .style("pointer-events", "none")
+    .on("mouseover", (e) => {
+      e.stopPropagation();
+      if (get(isDrawingSignalLine)) {
+        handleMouseMove(e);
+        // get(mouseCoordinates).setMouseEnd(e);
+      }
+    });
 
   panelSvgElement
     .append("rect")
@@ -76,7 +91,7 @@ export const drawPanelGroups = (panels) => {
     .data((d) => d.thisPanelsSnapPoints)
     .enter()
     .append("rect")
-    .attr("id", (d) => "snap-point-circle" + d.i)
+    .attr("id", (d) => "snap-point-circle" + d)
     .attr("width", (d) => sp[d].radius * 2)
     .attr("height", (d) => sp[d].radius * 2)
     .attr("x", (d) => sp[d].x - sp[d].radius)
@@ -88,13 +103,34 @@ export const drawPanelGroups = (panels) => {
     .attr("stroke", (d) => sp[d].color.border)
     .attr("class", "hover")
     .on("mouseover", (e) => {
+      e.stopPropagation();
       clearAllPanelHoveredStates();
     })
     .on("mousedown", (e) => {
-      get(isDrawMode) && signalLineClass.setOrigin(e);
+      e.stopPropagation();
+
+      if (get(isDrawMode)) {
+        signalLineClass.setOrigin(e);
+        get(mouseCoordinates).setMouseClickOrigin(e);
+        setIsDrawingSignalLine(true);
+      }
     })
-    .on("mouseup", (e) => get(isDrawMode) && signalLineClass.addSignalLine(e))
-    .on("click", (e) => !get(isDrawMode) && snapPointClass.selectSnapPoint(e));
+    .on("mouseup", (e) => {
+      setIsDrawingSignalLine(false);
+      if (get(isDrawMode)) {
+        signalLineClass.addSignalLine(e);
+        setIsDrawingSignalLine(false);
+      }
+    })
+    .on("click", (e) => {
+      if (!get(isDrawMode)) {
+        e.stopPropagation();
+        return snapPointClass.selectSnapPoint(e);
+      }
+      // if (get(isDrawMode)) {
+      //   return console.log("begin drawing");
+      // }
+    });
 
   const clearAllPanelHoveredStates = () => {
     // console.log("clearing");
@@ -107,6 +143,28 @@ export const drawPanelGroups = (panels) => {
     .enter()
     .append("g")
     .attr("id", (d) => "line-group" + d.i);
+
+  // TODO: create a function to get the origin without relying on the
+  // signal line clas  array
+  if (get(isDrawingSignalLine)) {
+    get(svgRef)
+      .append("line")
+      .attr("x1", (d, i) => {
+        console.log(signalLineClass.origin.snapPointIndex);
+        let x = signalLineClass.getOriginCoordinates(
+          null,
+          signalLineClass.origin.snapPointIndex,
+          "origin"
+        );
+        console.log(x);
+        return get(mouseCoordinates).origin.x;
+      })
+      .attr("y1", (d, i) => get(mouseCoordinates).origin.y)
+      .attr("x2", (d, i) => get(mouseCoordinates).end.x)
+      .attr("y2", (d, i) => get(mouseCoordinates).end.y)
+      .attr("stoke-width", 3)
+      .attr("stroke", "#000");
+  }
 
   // Line Outline
   let lineOutlineElements = lineGroupElements
@@ -126,18 +184,14 @@ export const drawPanelGroups = (panels) => {
     .attr("stroke-width", (d) => d.lineWidth * 4)
     .attr("pointer-events", "visible")
     .on("mouseover", (e, d) => {
-      // console.log(e);
-      // console.log(d);
+      e.stopPropagation();
       get(isSelectMode) && d3.select(e.path[0]).attr("stroke", hoveredColor);
     })
     .on("mouseout", (e) => {
+      e.stopPropagation();
       get(isSelectMode) && d3.select(e.path[0]).attr("stroke", "none");
     })
-    .on("click", (e) => {
-      // let i = e.path[0].__data__.i;
-      // console.log(signalLineClass.array[i]);
-      // get(isSelectMode) && signalLineClass.array[i].selectSignalLine(e);
-    });
+    .on("click", (e) => {});
 
   // Line
   lineGroupElements
@@ -163,12 +217,14 @@ export const drawPanelGroups = (panels) => {
     .attr("stroke-width", (d) => d.lineWidth * 2)
     .attr("point-events", "none")
     .on("mouseover", (e, d) => {
+      e.stopPropagation();
       get(isSelectMode) &&
         d3
           .select("#line-outline" + e.srcElement.__data__.i)
           .attr("stroke", hoveredColor);
     })
     .on("mouseout", (e) => {
+      e.stopPropagation();
       get(isSelectMode) && d3.select(e.relatedTarget).attr("stroke", "none");
     })
     .on("click", (e) => {
@@ -179,7 +235,7 @@ export const drawPanelGroups = (panels) => {
 
   let rearViewLabel = get(svgRef)
     .append("text")
-    .text("REAR VIEW")
+    .text(() => (get(isRearView) ? "REAR VIEW" : ""))
     .attr("id", "rear-view-label")
     .attr("x", get(canvasWrapperWidth) / 2)
     .attr("y", get(canvasWrapperHeight) / 2)
@@ -189,18 +245,13 @@ export const drawPanelGroups = (panels) => {
         get(columns) * get(screenAndPanelDimensions).panelDimension;
       let screenHeight =
         get(rows) * get(screenAndPanelDimensions).panelDimension;
-
-      // if (screenHeight * 4 > screenWidth) {
-      //   console.log("using width");
       return screenWidth / 10 + "px";
-      // } else {
-      //   console.log("using height");
-      //   return screenHeight / 5 + "px";
-      // }
     })
-    .style("opacity", 0.1)
+    .style("opacity", 0.125)
     .attr("text-anchor", "middle")
     .attr("font-famliy", "'Heebo', sans-serif;")
+    .style("pointer-events", "none")
+    .style("user-select", "none")
     .style("font-weight", "500")
     .attr("dominant-baseline", "central")
     .attr("transform-origin", "50% 50%")
@@ -209,9 +260,10 @@ export const drawPanelGroups = (panels) => {
         (get(columns) *
           get(screenAndPanelDimensions).panelDimension *
           get(width)) /
-        get(height);
-      let adjacent = get(rows) * get(screenAndPanelDimensions).panelDimension;
-      // given a 90 degree angle between opposite and adjacent, find the angle between the hypotenuse and the adjacent
+          get(height) -
+        150;
+      let adjacent =
+        get(rows) * get(screenAndPanelDimensions).panelDimension - 150;
       let angle = Math.atan(adjacent / opposite);
       angle = ((-angle * 180) / Math.PI) * 0.8;
 

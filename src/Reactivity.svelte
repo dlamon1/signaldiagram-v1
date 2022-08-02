@@ -27,6 +27,8 @@
     canvasWrapperWidth,
     canvasWrapperHeight,
     mode,
+    isDrawingSignalLine,
+    mouseCoordinates,
   } from "./store";
 
   import { createArray } from "./functions/createArray";
@@ -106,7 +108,6 @@
     // console.log("here");
     let t = {
       $screenAndPanelDimensions,
-      // $mode,
     };
 
     handleNewPanelArray();

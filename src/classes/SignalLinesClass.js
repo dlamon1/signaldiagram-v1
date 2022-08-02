@@ -76,6 +76,7 @@ export class SignalLines {
   }
 
   addSignalLine(endIndex) {
+    // console.log(endIndex);
     let origin = structuredClone(this.origin);
     let sl = new SignalLine(origin, endIndex);
     this.array.push(sl);

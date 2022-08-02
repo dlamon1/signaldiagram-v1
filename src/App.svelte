@@ -6,6 +6,8 @@
     panels,
     signalLines,
     snapPoints,
+    mouseCoordinates,
+    isDrawingSignalLine,
   } from "./store";
   import Panels from "./Reactivity.svelte";
   import EventHandlers from "./EventHandlers.svelte";
@@ -44,6 +46,11 @@
   onMount(() => {
     createSvg();
   });
+
+  const handleMouseMove = (e) => {
+    e.stopPropagation();
+    $isDrawingSignalLine && $mouseCoordinates.setMouseEnd(e);
+  };
 </script>
 
 <div id="container">
@@ -52,6 +59,7 @@
     class="canvas-wrapper"
     bind:clientHeight={$canvasWrapperHeight}
     bind:clientWidth={$canvasWrapperWidth}
+    on:mousemove={handleMouseMove}
   >
     <div class="canvas" id="canvas">
       <EventHandlers />

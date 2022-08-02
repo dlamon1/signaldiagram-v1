@@ -1,5 +1,5 @@
 import { get } from "svelte/store";
-import { snapPoints } from "../store";
+import { snapPoints, updateMouseCoordinates } from "../store";
 import { handleHover, isSnapPointHovered } from "../functions/HandleHover";
 
 export class MouseCoordinates {
@@ -47,13 +47,15 @@ export class MouseCoordinates {
   }
 
   setMouseClickOrigin(e) {
-    this.origin.x = e.offsetX;
-    this.origin.y = e.offsetY;
+    console.log(e);
+    this.origin.x = e.screenX;
+    this.origin.y = e.screenY;
   }
 
   setMouseEnd(e) {
-    this.end.x = e.offsetX;
-    this.end.y = e.offsetY;
+    this.end.x = e.screenX;
+    this.end.y = e.screenY;
+    updateMouseCoordinates();
   }
 
   setSnapPointOrigin(e) {

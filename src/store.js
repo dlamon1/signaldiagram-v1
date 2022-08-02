@@ -4,6 +4,11 @@ import { SignalLines } from "./classes/SignalLinesClass";
 import { Panels } from "./classes/PanelsClass";
 import { SnapPoints } from "./classes/SnapPointsClass";
 
+export let isDrawingSignalLine = writable(false);
+export const setIsDrawingSignalLine = (s) => {
+  isDrawingSignalLine.update(($s) => ($s = s));
+};
+
 export let isExportDialogOpen = writable(false);
 
 export let mouseCoordinates = writable(new MouseCoordinates());
