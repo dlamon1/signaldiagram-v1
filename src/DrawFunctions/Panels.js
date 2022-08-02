@@ -140,14 +140,17 @@ export const drawPanelGroups = () => {
       }
       return 2;
     })
-    .on("mouseover", (e) => {
-      e.stopPropagation();
-      // snapPointClass.hoverSnapPoint(e);
+    .on("mouseover", function (d, i) {
+      let obj = d.path[0].__data__;
+      d3.select(this).attr("fill", hoveredColor);
+      // .attr("stroke-width", obj.lineWidth * 4);
     })
-    .on("mouseout", (e) => {
-      e.stopPropagation();
-      // snapPointClass.deHover();
+    .on("mouseout", function (d, i) {
+      let obj = d.path[0].__data__;
+      d3.select(this).attr("fill", obj.color.background);
+      // .attr("stroke-width", obj.lineWidth);
     })
+
     .on("mousedown", (e) => {
       e.stopPropagation();
 
@@ -173,72 +176,6 @@ export const drawPanelGroups = () => {
       //   return console.log("begin drawing");
       // }
     });
-
-  // panelSvgElement = get(svgRef)
-  // .selectAll("svg")
-  // .data(p)
-  // .enter()
-  // .append("svg")
-  // .attr("id", (d) => "panel-group" + d.i)
-  // .attr("x", (d) => d.x)
-  // .attr("y", (d) => d.y)
-  // .attr("width", (d) => d.width)
-  // .attr("height", (d) => d.height)
-  // .style("point-events", get(isDrawingSignalLine) && "none");
-  // Draw Snap Point Elements
-  // Draw Snap Point Elements
-  // Draw Snap Point Elements
-  // snapPointElements = panelSvgElement
-  //   .selectAll("circle")
-  //   .data((d) => d.thisnapPointsanelsSnapPoints)
-  //   .enter()
-  //   .append("rect")
-  //   .attr("id", (d) => "snap-point-circle" + d)
-  //   .attr("width", (d) =>
-  //     get(isDrawMode) ? d.radius * 4 : d.radius * 2
-  //   )
-  //   .attr("height", (d) => d.radius * 2)
-  //   .attr("x", (d) => d.x - d.radius)
-  //   .attr("y", (d) => d.y - d.radius)
-  //   .attr("rx", (d) => (get(isDrawMode) ? d.radius * 2.5 : d.radius))
-  //   .style("point-events", get(isDrawingSignalLine) && "none")
-
-  //   .attr("fill", (d) =>
-  //     d.isSelected && !get(isDrawingSignalLine)
-  //       ? selectedColor
-  //       : d.color.background
-  //   )
-  //   .attr("stroke", (d) => d.color.border)
-  //   .attr("class", "hover")
-  //   .on("mouseover", (e) => {
-  //     e.stopPropagation();
-  //     clearAllPanelHoveredStates();
-  //   })
-  //   .on("mousedown", (e) => {
-  //     e.stopPropagation();
-
-  //     if (get(isDrawMode) && !get(isDrawingSignalLine)) {
-  //       signalLineClass.setOrigin(e);
-  //       get(mouseCoordinates).setMouseClickOrigin(e);
-  //       setIsDrawingSignalLine(true);
-  //     }
-  //   })
-  //   .on("mouseup", (e) => {
-  //     // setIsDrawingSignalLine(false);
-  //     if (get(isDrawMode) && get(isDrawingSignalLine)) {
-  //       signalLineClass.addSignalLine(e);
-  //       setIsDrawingSignalLine(false);
-  //     }
-  //   })
-  //   .on("click", (e) => {
-  //     if (!get(isDrawMode)) {
-  //       e.stopPropagation();
-  //       return snapPointClass.selectSnapPoint(e);
-  //     }
-  //     // if (get(isDrawMode)) {
-  //     //   return console.log("begin drawing");
-  //     // }
-  //   });
 
   lineGroupElements = get(svgRef)
     .selectAll("g")
