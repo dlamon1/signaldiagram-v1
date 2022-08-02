@@ -150,13 +150,13 @@ export const drawPanelGroups = (panels) => {
     get(svgRef)
       .append("line")
       .attr("x1", (d, i) => {
-        console.log(signalLineClass.origin.snapPointIndex);
-        let x = signalLineClass.getOriginCoordinates(
-          null,
-          signalLineClass.origin.snapPointIndex,
-          "origin"
-        );
-        console.log(x);
+        // console.log(signalLineClass.origin.snapPointIndex);
+        // let x = signalLineClass.getOriginCoordinates(
+        //   null,
+        //   signalLineClass.origin.snapPointIndex,
+        //   "origin"
+        // );
+        // console.log(x);
         return get(mouseCoordinates).origin.x;
       })
       .attr("y1", (d, i) => get(mouseCoordinates).origin.y)

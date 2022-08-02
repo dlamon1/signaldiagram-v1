@@ -48,13 +48,13 @@ export class MouseCoordinates {
 
   setMouseClickOrigin(e) {
     console.log(e);
-    this.origin.x = e.screenX;
-    this.origin.y = e.screenY;
+    this.origin.x = e.x;
+    this.origin.y = e.y;
   }
 
   setMouseEnd(e) {
-    this.end.x = e.screenX;
-    this.end.y = e.screenY;
+    this.end.x = e.x;
+    this.end.y = e.y;
     updateMouseCoordinates();
   }
 
