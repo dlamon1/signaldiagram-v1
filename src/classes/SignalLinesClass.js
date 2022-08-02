@@ -7,6 +7,10 @@ import {
   updateSignalLines,
   width,
   height,
+  panels,
+  isCtrl,
+  setSelection,
+  setSelectionTab,
 } from "../store";
 import { handleHover, isSnapPointHovered } from "../functions/HandleHover";
 
@@ -91,7 +95,28 @@ export class SignalLines {
     });
   }
 
-  deSelectSignalLines() {
+  selectSignalLine(i) {
+    let snapPointsClass = get(snapPoints);
+    let panelsClass = get(panels);
+    snapPointsClass.deSelect();
+    panelsClass.deSelect();
+
+    // this.array[i].selectSignalLine(true);
+
+    // let i = e.target.__data__.i;
+    let current = this.array[i].isSelected;
+
+    if (!get(isCtrl)) {
+      this.array.forEach((sl) => sl.setIsSelected(false));
+      this.array[i].setIsSelected(!current);
+    }
+    this.array[i].setIsSelected(!current);
+
+    setSelectionTab("signallines");
+    setSelection("signallines");
+  }
+
+  deSelect() {
     this.array.forEach((signalLine) => {
       signalLine.isSelected = false;
     });
@@ -123,8 +148,8 @@ class SignalLine {
     this.lineWidth = 3;
   }
 
-  selectSignalLine() {
-    this.isSelected = true;
+  setIsSelected(boolean) {
+    this.isSelected = boolean;
     updateSignalLines();
   }
 

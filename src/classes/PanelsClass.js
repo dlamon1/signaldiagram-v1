@@ -10,6 +10,7 @@ import {
   setMode,
   setSelectionTab,
   setSelection,
+  signalLines,
 } from "../store";
 
 export class Panels {
@@ -36,13 +37,15 @@ export class Panels {
     this.array = [];
   }
 
-  deSelectedPanels = () => {
+  deSelect = () => {
     this.array.forEach((p) => p.setIsSelected(false));
   };
 
   selectPanel = (e) => {
-    let snapPointClass = get(snapPoints);
-    snapPointClass.deSelectSnapPoints();
+    let snapPointsClass = get(snapPoints);
+    let signalLinesClass = get(signalLines);
+    snapPointsClass.deSelect();
+    signalLinesClass.deSelect();
 
     let i = e.target.__data__.i;
     let current = this.array[i].isSelected;

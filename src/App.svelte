@@ -59,8 +59,8 @@
     class="canvas-wrapper"
     bind:clientHeight={$canvasWrapperHeight}
     bind:clientWidth={$canvasWrapperWidth}
-    on:mousemove={handleMouseMove}
   >
+    >
     <div class="canvas" id="canvas">
       <EventHandlers />
     </div>

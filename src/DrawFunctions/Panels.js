@@ -84,7 +84,11 @@ export const drawPanelGroups = (panels) => {
     .attr("fill", (d) => d.color.background)
     .attr("stroke", (p) => (p.isSelected ? selectedColor : p.color.border))
     .attr("stroke-width", (p) => (p.isSelected ? p.lineWidth * 4 : p.lineWidth))
-    .on("click", (e) => get(isSelectMode) && panels.selectPanel(e));
+    .on(
+      "click",
+      (e) =>
+        get(isSelectMode) && !get(isDrawingSignalLine) && panels.selectPanel(e)
+    );
 
   snapPointElements = panelSvgElement
     .selectAll("circle")
@@ -98,7 +102,9 @@ export const drawPanelGroups = (panels) => {
     .attr("y", (d) => sp[d].y - sp[d].radius)
     .attr("rx", (d) => sp[d].radius)
     .attr("fill", (d) =>
-      sp[d].isSelected ? selectedColor : sp[d].color.background
+      sp[d].isSelected && !get(isDrawingSignalLine)
+        ? selectedColor
+        : sp[d].color.background
     )
     .attr("stroke", (d) => sp[d].color.border)
     .attr("class", "hover")
@@ -109,15 +115,15 @@ export const drawPanelGroups = (panels) => {
     .on("mousedown", (e) => {
       e.stopPropagation();
 
-      if (get(isDrawMode)) {
+      if (get(isDrawMode) && !get(isDrawingSignalLine)) {
         signalLineClass.setOrigin(e);
         get(mouseCoordinates).setMouseClickOrigin(e);
         setIsDrawingSignalLine(true);
       }
     })
     .on("mouseup", (e) => {
-      setIsDrawingSignalLine(false);
-      if (get(isDrawMode)) {
+      // setIsDrawingSignalLine(false);
+      if (get(isDrawMode) && get(isDrawingSignalLine)) {
         signalLineClass.addSignalLine(e);
         setIsDrawingSignalLine(false);
       }
@@ -185,14 +191,22 @@ export const drawPanelGroups = (panels) => {
     .attr("pointer-events", "visible")
     .on("mouseover", (e, d) => {
       e.stopPropagation();
-      get(isSelectMode) && d3.select(e.path[0]).attr("stroke", hoveredColor);
+      get(isSelectMode) &&
+        !get(isDrawingSignalLine) &&
+        d3.select(e.path[0]).attr("stroke", hoveredColor);
     })
     .on("mouseout", (e) => {
       e.stopPropagation();
-      get(isSelectMode) && d3.select(e.path[0]).attr("stroke", "none");
+      get(isSelectMode) &&
+        !get(isDrawingSignalLine) &&
+        d3.select(e.path[0]).attr("stroke", "none");
     })
-    .on("click", (e) => {});
-
+    .on("click", (e) => {
+      let i = e.path[0].__data__.i;
+      get(isSelectMode) &&
+        !get(isDrawingSignalLine) &&
+        signalLineClass.selectSignalLine(i);
+    });
   // Line
   lineGroupElements
     .append("line")
@@ -219,18 +233,22 @@ export const drawPanelGroups = (panels) => {
     .on("mouseover", (e, d) => {
       e.stopPropagation();
       get(isSelectMode) &&
+        !get(isDrawingSignalLine) &&
         d3
           .select("#line-outline" + e.srcElement.__data__.i)
           .attr("stroke", hoveredColor);
     })
     .on("mouseout", (e) => {
       e.stopPropagation();
-      get(isSelectMode) && d3.select(e.relatedTarget).attr("stroke", "none");
+      get(isSelectMode) &&
+        !get(isDrawingSignalLine) &&
+        d3.select(e.relatedTarget).attr("stroke", "none");
     })
     .on("click", (e) => {
       let i = e.path[0].__data__.i;
-      // console.log(signalLineClass.array[i]);
-      get(isSelectMode) && signalLineClass.array[i].selectSignalLine(e);
+      get(isSelectMode) &&
+        !get(isDrawingSignalLine) &&
+        signalLineClass.selectSignalLine(i);
     });
 
   let rearViewLabel = get(svgRef)
@@ -285,7 +303,7 @@ export const drawPanelCoordinates = (p) => {
     .append("text")
     .text(column + "," + row)
     .attr("y", ((p.height / 12) * get(width)) / get(height))
-    .attr("x", p.width / 24 * get(width)) / get(height))
+    .attr("x", p.width / 32)
     .attr("dominant-baseline", "central")
     .style("font-size", p.width / 6 + "px")
     .style("pointer-events", "none")

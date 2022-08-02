@@ -29,6 +29,7 @@
     mode,
     isDrawingSignalLine,
     mouseCoordinates,
+    signalLines,
   } from "./store";
 
   import { createArray } from "./functions/createArray";
@@ -125,8 +126,13 @@
   $: {
     let t = { $mode };
 
-    // $panels.deSelectedPanels();
+    deSelectAllObjects();
   }
+  const deSelectAllObjects = () => {
+    $panels.deSelect();
+    $signalLines.deSelect();
+    $snapPoints.deSelect();
+  };
 
   const handlePrint = async () => {
     if ($isPrinting) {

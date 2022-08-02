@@ -13,6 +13,7 @@ import {
   panels,
   setSelectionTab,
   setSelection,
+  signalLines,
 } from "../store";
 
 export class SnapPoints {
@@ -33,7 +34,9 @@ export class SnapPoints {
 
   selectSnapPoint = (e) => {
     let panelsClass = get(panels);
-    panelsClass.deSelectedPanels();
+    let signalLinesClass = get(signalLines);
+    panelsClass.deSelect();
+    signalLinesClass.deSelect();
 
     let i = e.path[0].__data__;
 
@@ -47,7 +50,7 @@ export class SnapPoints {
     updateSnapPoints();
   };
 
-  deSelectSnapPoints = () => {
+  deSelect = () => {
     this.array.forEach((p) => p.setIsSelected(false));
   };
 }

@@ -47,7 +47,7 @@ export class MouseCoordinates {
   }
 
   setMouseClickOrigin(e) {
-    console.log(e);
+    // console.log(e);
     this.origin.x = e.x;
     this.origin.y = e.y;
   }

@@ -33,7 +33,7 @@ button:hover {
 	transition-duration: 0s;
 }
 
-.hover:hover {      
+/* .hover:hover {      
 	transition: fill .1s ease;	
 	fill: rgb(0, 255, 183);
 }
@@ -48,4 +48,4 @@ button:hover {
 
 #point:hover {
 	fill: rgb(255, 0, 234);
-}
+} */
