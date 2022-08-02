@@ -85,16 +85,19 @@ export const drawPanelGroups = () => {
     .attr("stroke-width", (d) => (d.isSelected ? d.lineWidth * 4 : d.lineWidth))
     .style("point-events", get(isDrawingSignalLine) && "none")
     .on("mouseover", function (d, i) {
+      if (get(isDrawMode)) return;
       let obj = d.path[0].__data__;
       d3.select(this).attr("fill", hoveredColor);
       // .attr("stroke-width", obj.lineWidth * 4);
     })
     .on("mouseout", function (d, i) {
+      if (get(isDrawMode)) return;
       let obj = d.path[0].__data__;
       d3.select(this).attr("fill", obj.color.background);
       // .attr("stroke-width", obj.lineWidth);
     })
     .on("click", (e) => {
+      if (get(isDrawMode)) return;
       e.stopPropagation();
       get(isSelectMode) &&
         !get(isDrawingSignalLine) &&
@@ -151,15 +154,20 @@ export const drawPanelGroups = () => {
       // .attr("stroke-width", obj.lineWidth);
     })
 
-    .on("mousedown", (e) => {
-      e.stopPropagation();
-
-      if (get(isDrawMode) && !get(isDrawingSignalLine)) {
-        signalLineClass.setOrigin(e);
-        get(mouseCoordinates).setMouseClickOrigin(e);
-        setIsDrawingSignalLine(true);
-      }
+    .on("mousedown", function (d, i) {
+      console.log(this.cx);
     })
+
+    // (e) => {
+    //   // e.stopPropagation();
+    //   console.log(this);
+
+    //   if (get(isDrawMode) && !get(isDrawingSignalLine)) {
+    //     signalLineClass.setOrigin(e);
+    //     get(mouseCoordinates).setMouseClickOrigin(e);
+    //     setIsDrawingSignalLine(true);
+    //   }
+    // })
     .on("mouseup", (e) => {
       // setIsDrawingSignalLine(false);
       if (get(isDrawMode) && get(isDrawingSignalLine)) {

@@ -58,7 +58,8 @@ export class SnapPoints {
 
   getXCoordinate(sp) {
     let s = get(screenAndPanelDimensions);
-    return s.panelDimension * sp.column * this.ratio + sp.x + s.leftPadding;
+    let ratio = get(width) / get(height);
+    return s.panelDimension * sp.column * ratio + sp.x + s.leftPadding;
   }
 
   getYCoordinate(sp) {
