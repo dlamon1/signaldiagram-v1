@@ -284,8 +284,9 @@ export const drawPanelCoordinates = (p) => {
   d3.select("#panel-group" + p.i)
     .append("text")
     .text(column + "," + row)
-    .attr("y", p.height / 12)
-    .attr("x", p.width / 24)
+    .attr("y", ((p.height / 12) * get(width)) / get(height))
+    .attr("x", p.width / 24 * get(width)) / get(height))
+    .attr("dominant-baseline", "central")
     .style("font-size", p.width / 6 + "px")
     .style("pointer-events", "none")
     .style("user-select", "none");
