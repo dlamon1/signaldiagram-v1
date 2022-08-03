@@ -14,6 +14,8 @@ import {
   setSelectionTab,
   setSelection,
   signalLines,
+  snapPoints,
+  updateSignalLines,
 } from "../store";
 
 export class SnapPoints {
@@ -87,6 +89,28 @@ export class SnapPoints {
     });
     updateSnapPoints();
   }
+
+  selectSnapPoints = (arrayOfIndexes) => {
+    let snapPointsClass = get(snapPoints);
+    let signalLinesClass = get(signalLines);
+    snapPointsClass.deSelect();
+    signalLinesClass.deSelect();
+    updateSnapPoints();
+    updateSignalLines();
+
+    if (!get(isCtrl)) {
+      this.array.forEach((panel) => {
+        panel.setIsSelected(false);
+      });
+    }
+
+    console.log(arrayOfIndexes);
+    arrayOfIndexes.forEach((i) => {
+      this.array[i].setIsSelected(true);
+    });
+
+    updateSnapPoints();
+  };
 
   selectSnapPoint = (e) => {
     console.log("select panel");

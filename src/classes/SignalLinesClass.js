@@ -188,7 +188,7 @@ export class SignalLines {
 
   deSelect() {
     this.array.forEach((signalLine) => {
-      signalLine.isSelected = false;
+      signalLine.setIsSelected(false);
     });
   }
 

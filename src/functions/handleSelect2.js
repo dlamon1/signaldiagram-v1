@@ -1,8 +1,8 @@
 import { get } from "svelte/store";
 import {
-  panels,
-  snapPoints,
-  signalLines,
+  panels as panelsClass,
+  snapPoints as snapPointsClass,
+  signalLines as signalLinesClass,
   isSelectingPanels,
   isSelectingSignalLines,
   isSelectingSnapPoints,
@@ -24,7 +24,10 @@ import {
 
 import { focusLabelInput } from "./focusInput";
 
-import { checkForSelectedPanels } from "./HandleSelect";
+import {
+  checkForSelectedPanels,
+  checkForSelectedSnapPoints,
+} from "./HandleSelect";
 
 export const handleDragSelect = (event, xOrigin, yOrigin) => {
   // TODO
@@ -46,17 +49,24 @@ export const handleDragSelect = (event, xOrigin, yOrigin) => {
   // check what objects we are selecting
   if (get(selection) === "panels") {
     let indexesOfPanelsInsideSelection = checkForSelectedPanels(x1, y1, x2, y2);
-    get(panels).selectPanels(indexesOfPanelsInsideSelection);
-    return;
-  }
-
-  if (get(selection) === "signallines") {
-    console.log("signal lines");
+    get(panelsClass).selectPanels(indexesOfPanelsInsideSelection);
     return;
   }
 
   if (get(selection) === "snappoints") {
     console.log("snap points");
+    let indexesOfSnapPointsInsideSelection = checkForSelectedSnapPoints(
+      x1,
+      y1,
+      x2,
+      y2
+    );
+    get(snapPointsClass).selectSnapPoints(indexesOfSnapPointsInsideSelection);
+    console.log(indexesOfSnapPointsInsideSelection);
+    return;
+  }
+
+  if (get(selection) === "signallines") {
     return;
   }
 

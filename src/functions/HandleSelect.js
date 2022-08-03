@@ -1,8 +1,8 @@
 import { get } from "svelte/store";
 import {
   panels as panelsClass,
-  snapPoints,
-  signalLines,
+  snapPoints as snapPointsClass,
+  signalLines as signalLinesClass,
   isSelectingPanels,
   isSelectingSignalLines,
   isSelectingSnapPoints,
@@ -19,91 +19,6 @@ import {
   updatePanels,
   updateSnapPoints,
 } from "../store";
-
-import { focusLabelInput } from "./focusInput";
-
-import {
-  isSnapPointHovered,
-  isSquareHovered,
-  isPanelHovered,
-  isSignalLineHovered,
-} from "./HandleHover";
-
-let originIndex = 0;
-
-export const handleSnapPointStart = (e) => {
-  let snapPointIndex = e.path[0].__data__.pointIndexFullArray;
-  originIndex = snapPointIndex;
-};
-
-export const handleSnapPointEnd = (e) => {
-  let snapPointIndex = e.path[0].__data__.pointIndexFullArray;
-  get(signalLines).addSignalLine(originIndex, snapPointIndex);
-};
-
-export const handleMouseClickSelect = (e) => {
-  let res = {
-    panelsSelected: [],
-    signalLinesSelected: [],
-    snapPointsSelected: [],
-    squaresSelected: [],
-  };
-
-  let _panels = get(panels);
-  let _snapPoints = get(snapPoints);
-  let _signalLines = get(signalLines).array;
-  let _squares = get(squares);
-
-  let _selectedPanels = get(selectedPanels);
-  let _selectedSignalLines = get(selectedSignalLines);
-  let _selectedSnapPoints = get(selectedSnapPoints);
-  let _selectedSquares = get(selectedSquares);
-
-  let _isSelectingPanels = get(isSelectingPanels);
-  let _isSelectingSignalLines = get(isSelectingSignalLines);
-  let _isSelectingSnapPoints = get(isSelectingSnapPoints);
-
-  clearAllSelections();
-
-  if (get(isCtrl)) res.squaresSelected.push(..._selectedSquares);
-
-  _squares.forEach((square) => {
-    if (isSquareHovered(e, square)) res.squaresSelected.push(square);
-  });
-
-  focusLabelInput();
-
-  if (res.squaresSelected.length > 0) return res;
-
-  if (get(isCtrl)) res.snapPointsSelected.push(..._selectedSnapPoints);
-
-  _isSelectingSnapPoints &&
-    _snapPoints.forEach((snapPoint, i) => {
-      if (isSnapPointHovered(e, snapPoint))
-        res.snapPointsSelected.push(snapPoint);
-    });
-
-  if (res.snapPointsSelected.length > 0) return res;
-
-  if (get(isCtrl)) res.signalLinesSelected.push(..._selectedSignalLines);
-
-  _isSelectingSignalLines &&
-    _signalLines.forEach((signalLine, i) => {
-      if (isSignalLineHovered(e, signalLine))
-        res.signalLinesSelected.push(signalLine);
-    });
-
-  if (res.signalLinesSelected.length > 0) return res;
-
-  if (get(isCtrl)) res.panelsSelected.push(..._selectedPanels);
-
-  _isSelectingPanels &&
-    _panels.forEach((panel, i) => {
-      if (isPanelHovered(e, panel)) res.panelsSelected.push(panel);
-    });
-
-  return res;
-};
 
 export const checkForSelectedPanels = (
   xOrigin,
@@ -127,10 +42,6 @@ export const checkForSelectedPanels = (
   let indexesOfPanelsInsideSelection = [];
 
   panels.forEach((panel, i) => {
-    // if (get(isCtrl)) {
-    //   a.push(...get(selectedPanels));
-    // }
-
     if (
       panel.x >= x1 &&
       panel.x + panel.width <= x2 &&
@@ -144,53 +55,54 @@ export const checkForSelectedPanels = (
   return indexesOfPanelsInsideSelection;
 };
 
-export const checkForSelectedSnapPoints = (e) => {
-  let mouse = get(mouseCoordinates);
-
+export const checkForSelectedSnapPoints = (
+  xOrigin,
+  yOrigin,
+  xDestination,
+  yDestination
+) => {
+  console.log("here");
   let x1;
   let y1;
   let x2;
   let y2;
-  e.offsetX < mouse.origin.x ? (x1 = e.offsetX) : (x1 = mouse.origin.x);
-  e.offsetY < mouse.origin.y ? (y1 = e.offsetY) : (y1 = mouse.origin.y);
-  e.offsetX > mouse.origin.x ? (x2 = e.offsetX) : (x2 = mouse.origin.x);
-  e.offsetY > mouse.origin.y ? (y2 = e.offsetY) : (y2 = mouse.origin.y);
 
-  let _snapPoints = [];
-  let _squares = [];
-  let _signalLines = [];
+  xOrigin < xDestination ? (x1 = xOrigin) : (x1 = xDestination);
+  yOrigin < yDestination ? (y1 = yOrigin) : (y1 = yDestination);
+  xOrigin > xDestination ? (x2 = xOrigin) : (x2 = xDestination);
+  yOrigin > yDestination ? (y2 = yOrigin) : (y2 = yDestination);
 
-  get(snapPoints).forEach((snapPoint, i) => {
-    if (get(isCtrl)) {
-      _snapPoints.push(...get(selectedSnapPoints));
-    }
+  let indexesOfSnapPointsInsideSelection = [];
 
+  let sp = get(snapPointsClass);
+  let snapPoints = sp.array;
+  // let _squares = [];
+  // let _signalLines = [];
+
+  snapPoints.forEach((snapPoint, i) => {
     if (
-      snapPoint.x >= x1 &&
-      snapPoint.x <= x2 &&
-      snapPoint.y >= y1 &&
-      snapPoint.y <= y2
+      sp.getXCoordinate(snapPoint) >= x1 &&
+      sp.getXCoordinate(snapPoint) <= x2 &&
+      sp.getYCoordinate(snapPoint) >= y1 &&
+      sp.getYCoordinate(snapPoint) <= y2
     ) {
-      _snapPoints.push(snapPoint);
+      indexesOfSnapPointsInsideSelection.push(i);
     }
   });
 
-  get(squares).forEach((square, i) => {
-    if (get(isCtrl)) {
-      _squares.push(...get(selectedSquares));
-    }
+  // get(squares).forEach((square, i) => {
+  //   if (get(isCtrl)) {
+  //     _squares.push(...get(selectedSquares));
+  //   }
 
-    if (!square.isOn) return;
+  //   if (!square.isOn) return;
 
-    if (square.x >= x1 && square.x <= x2 && square.y >= y1 && square.y <= y2) {
-      _squares.push(square);
-    }
-  });
+  //   if (square.x >= x1 && square.x <= x2 && square.y >= y1 && square.y <= y2) {
+  //     _squares.push(square);
+  //   }
+  // });
 
-  return {
-    snapPoints: _snapPoints,
-    squares: _squares,
-  };
+  return indexesOfSnapPointsInsideSelection;
 };
 
 export const checkForSelectedSignalLines = (e) => {

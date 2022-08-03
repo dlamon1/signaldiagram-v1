@@ -88,7 +88,6 @@
       $selectionTab = "panels";
       $selection === "panels";
       deSelect("panels");
-      console.log("selection is panels");
     } else if (
       $selection === "signallines" ||
       $selectionTab === "signallines"
@@ -96,14 +95,10 @@
       $selectionTab = "signallines";
       $selection === "signallines";
       deSelect("signallines");
-
-      console.log("selection is signal lines");
     } else if ($selection === "snappoints" || $selectionTab === "snappoints") {
       $selectionTab = "snappoints";
       $selection = "snappoints";
       deSelect("snappoints");
-
-      console.log("selection is snap points");
     }
   }
 
