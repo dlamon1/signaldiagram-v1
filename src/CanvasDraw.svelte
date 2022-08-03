@@ -13,6 +13,7 @@
     screenAndPanelDimensions,
     isDrawingSignalLine,
     mode,
+    transform,
   } from "./store";
 
   import {
@@ -63,8 +64,14 @@
     let x1 = $snapPointsClass.getXCoordinate(snapPoint);
     let y1 = $snapPointsClass.getYCoordinate(snapPoint);
 
-    let x2 = $signalLinesClass.mouse.x;
-    let y2 = $signalLinesClass.mouse.y;
+    // [tx + k * xo, ty + k * yo]
+
+    console.log($transform);
+
+    let x2 =
+      $signalLinesClass.mouse.x / $transform.k - $transform.x / $transform.k;
+    let y2 =
+      $signalLinesClass.mouse.y / $transform.k - $transform.y / $transform.k;
 
     if (destinationI) {
       let destinationSanpPoint =

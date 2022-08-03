@@ -23,6 +23,7 @@
     isSelectMode,
     isMoveMode,
     screenAndPanelDimensions,
+    transform as transformStore,
   } from "./store";
 
   $: {
@@ -50,6 +51,7 @@
     .on("zoom", handleZoom);
 
   function handleZoom(e) {
+    $transformStore = e.transform;
     d3.select("svg g").attr("transform", e.transform);
   }
 

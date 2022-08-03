@@ -37,17 +37,8 @@ export const drawPanelGroups = () => {
   let panelElements;
   let lineGroupElements;
 
-  // d3.select("g-onhover").on("mousemove", function (d, i) {
-  //   console.log("mouse over");
-  //   if (get(isDrawMode) && get(isDrawingSignalLine)) {
-  //     console.log("check passed");
-  //     signalLineClass.setEnd(d);
-  //     // temporarySignalLine.attr("x2", d.x).attr("y2", d.y);
-  //     // signalLineClass.setOrigin(d);
-  //   }
-  //   // d.stopPropagation();
-  // });
-
+  // Draw a G for each Panel
+  // Draw a G for each Panel
   // Draw a G for each Panel
   panelSvgElement = get(svgRef)
     .selectAll("svg")
@@ -62,12 +53,13 @@ export const drawPanelGroups = () => {
     .style("point-events", get(isDrawingSignalLine) && "none");
 
   // Draw Panel that Fills the G
+  // Draw Panel that Fills the G
+  // Draw Panel that Fills the G
   panelSvgElement
     .append("rect")
     .attr("id", (d) => "panel-rectangle" + d.i)
     .attr("class", get(isSelectMode) && "hover")
     .attr("width", (d) => {
-      // if (d.i == 1) console.log(d.width);
       return d.width;
     })
     .attr("height", (d) => d.height)
@@ -84,15 +76,11 @@ export const drawPanelGroups = () => {
     .attr("stroke-width", (d) => (d.isSelected ? d.lineWidth * 4 : d.lineWidth))
     .style("point-events", get(isDrawingSignalLine) && "none")
     .on("mouseover", function (d, i) {
-      // d.stopPropagation();
       if (get(isDrawMode)) {
-        // get(signalLineClass).setEnd(d);
         return;
       }
       let obj = d.path[0].__data__;
       d3.select(this).attr("fill", hoveredColor);
-
-      // .attr("stroke-width", obj.lineWidth * 4);
     })
     .on("mouseout", function (d, i) {
       // d.stopPropagation();
@@ -121,10 +109,6 @@ export const drawPanelGroups = () => {
         .attr("y2", null);
 
       setIsDrawingSignalLine(false);
-
-      // d3.select("#temp-signal-line").remove();
-
-      // get(svgRef).append("line").attr("id", "temp-signal-line");
     })
     .on("click", (d) => {
       // d.stopPropagation();
@@ -193,17 +177,9 @@ export const drawPanelGroups = () => {
     .on("mousedown", function (d, i) {
       d.stopPropagation();
       if (!get(isDrawMode)) return;
-      // get(svgRef)
-      //   .append("line")
-      //   .attr("id", "temp-signal-line")
-      //   .attr("stroke", "black")
-      //   .attr("stroke-width", 10)
-      //   .raise();
+
       signalLineClass.setOriginSnapPointIndex(d);
       setIsDrawingSignalLine(true);
-      // temporarySignalLine
-      //   .attr("x1", this.cx.animVal.value)
-      //   .attr("y1", this.cy.animVal.value);
     })
     .on("mouseup", (d) => {
       d.stopPropagation();
@@ -218,11 +194,11 @@ export const drawPanelGroups = () => {
       if (!get(isDrawMode)) {
         snapPointClass.selectSnapPoint(e);
       }
-      // if (get(isDrawMode)) {
-      //   return console.log("begin drawing");
-      // }
     });
 
+  // Draw Signal Line Elements
+  // Draw Signal Line Elements
+  // Draw Signal Line Elements
   lineGroupElements = get(svgRef)
     .selectAll("g")
     .data(signalLineClass.array)
@@ -230,25 +206,8 @@ export const drawPanelGroups = () => {
     .append("g")
     .attr("id", (d) => "line-group" + d.i);
 
-  // Draw Dragging Signal Line
-  // Draw Dragging Signal Line
-  // Draw Dragging Signal Line
-
-  // TODO: create a function to get the origin without relying on the
-  // signal line clas  array
-  // if (get(isDrawingSignalLine)) {
-  //   get(svgRef)
-  //     .append("line")
-  //     .attr("x1", (d, i) => {
-  //       return get(mouseCoordinates).origin.x;
-  //     })
-  //     .attr("y1", (d, i) => get(mouseCoordinates).origin.y)
-  //     .attr("x2", (d, i) => get(mouseCoordinates).end.x)
-  //     .attr("y2", (d, i) => get(mouseCoordinates).end.y)
-  //     .attr("stroke-width", 4)
-  //     .attr("stroke", "#000");
-  // }
-
+  // Line Outline
+  // Line Outline
   // Line Outline
   let lineOutlineElements = lineGroupElements
     .append("line")
@@ -298,6 +257,9 @@ export const drawPanelGroups = () => {
         !get(isDrawingSignalLine) &&
         signalLineClass.selectSignalLine(i);
     });
+
+  // Line
+  // Line
   // Line
   lineGroupElements
     .append("line")
@@ -366,6 +328,8 @@ export const drawPanelGroups = () => {
       return "rotate(" + angle + ")";
     });
 
+  // Draw Temporary Signal Line
+  // Draw Temporary Signal Line
   // Draw Temporary Signal Line
   let temporarySignalLine = get(svgRef)
     .append("line")

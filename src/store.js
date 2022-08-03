@@ -4,6 +4,12 @@ import { SignalLines } from "./classes/SignalLinesClass";
 import { Panels } from "./classes/PanelsClass";
 import { SnapPoints } from "./classes/SnapPointsClass";
 
+export let transform = writable({
+  k: 1,
+  x: 0,
+  y: 0,
+});
+
 export let isDrawingSignalLine = writable(false);
 export const setIsDrawingSignalLine = (s) => {
   isDrawingSignalLine.update(($s) => ($s = s));
