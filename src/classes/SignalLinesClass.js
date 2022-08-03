@@ -182,7 +182,8 @@ export class SignalLines {
     setSelectionTab("signallines");
     setSelection("signallines");
 
-    console.log(this.array);
+    // console.log(this.array
+    updateSignalLines();
   }
 
   deSelect() {
@@ -234,7 +235,7 @@ class SignalLine {
   }
 
   setIsSelected(boolean) {
-    console.log("setIsSelected");
+    // console.log("setIsSelected");
     this.isSelected = boolean;
     updateSignalLines();
   }

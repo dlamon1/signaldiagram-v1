@@ -34,7 +34,7 @@
     };
 
     if ($isDrawMode) {
-      $selectionTab = "lines";
+      $selectionTab = "signallines";
     }
   }
 
@@ -86,9 +86,9 @@
     if ($selection === "panels") {
       $selectionTab = "panels";
     } else if ($selection === "signallines") {
-      $selectionTab = "lines";
-    } else if ($selection === "snapPoints") {
-      $selectionTab = "snapPoints";
+      $selectionTab = "signallines";
+    } else if ($selection === "snappoints") {
+      $selectionTab = "snappoints";
     }
   }
 

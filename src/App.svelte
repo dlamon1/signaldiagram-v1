@@ -33,6 +33,7 @@
 <div id="container">
   <Panels />
   <div
+    id="canvas-wrapper"
     class="canvas-wrapper"
     bind:clientHeight={$canvasWrapperHeight}
     bind:clientWidth={$canvasWrapperWidth}

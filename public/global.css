@@ -17,7 +17,7 @@ body {
 
 button {
 	cursor: pointer;
-	transition: background-color 0.1s, color 0.1s;
+	transition: background-color 0.05s, color 0.05s;
 	font-size: 1em;
 	font-weight: 700;
 }
@@ -25,27 +25,3 @@ button:hover {
 	background-color: rgb(79, 79, 79);
 	color: rgb(255, 255, 255);
 }
-.coordinates {
-	color: red;
-}
-
-.panel {
-	transition-duration: 0s;
-}
-
-/* .hover:hover {      
-	transition: fill .1s ease;	
-	fill: rgb(0, 255, 183);
-}
-
-.hover:hover > circle {
-	fill: rgb(221, 0, 255);
-}
-
-.asdf:hover {
-	fill: rgb(0, 255, 183);
-}
-
-#point:hover {
-	fill: rgb(255, 0, 234);
-} */

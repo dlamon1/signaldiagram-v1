@@ -16,7 +16,7 @@ export const handleKeyDown = (e) => {
   if (e.keyCode === 16 && !get(isShifted) && get(isSelectMode)) {
     setIsShifted(true);
     let body = document.getElementById("canvas-wrapper");
-    // body.style.cursor = "crosshair";
+    body.style.cursor = "crosshair";
   }
 
   // if ctrl is pressed, set isCtrl to true
@@ -54,7 +54,7 @@ export const handleKeyUp = (e) => {
     setIsShifted(false);
     let body = document.getElementById("canvas-wrapper");
 
-    // body.style.cursor = "default";
+    body.style.cursor = "default";
   }
   // console.log(get(isCtrl));
   if (e.keyCode === 17 && get(isCtrl) && !isMac) {

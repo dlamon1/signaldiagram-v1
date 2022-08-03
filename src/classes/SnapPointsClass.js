@@ -104,8 +104,8 @@ export class SnapPoints {
     }
 
     this.array[i].setIsSelected(!current);
-    setSelectionTab("snapPoints");
-    setSelection("snapPoints");
+    setSelectionTab("snappoints");
+    setSelection("snappoints");
     updateSnapPoints();
   };
 

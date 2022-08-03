@@ -55,7 +55,7 @@
       <input
         type="radio"
         bind:group={$selection}
-        value="snapPoints"
+        value="snappoints"
         disabled={!$isSelectMode}
       />
       Snaps

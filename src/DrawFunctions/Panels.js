@@ -231,7 +231,7 @@ export const drawPanelGroups = () => {
         return "none";
       }
     })
-    .attr("stroke-width", (d) => d.lineWidth * 3)
+    .attr("stroke-width", (d) => d.lineWidth * 2)
     .attr("pointer-events", "visible")
     .on("mouseover", (e, d) => {
       e.stopPropagation();
@@ -252,7 +252,7 @@ export const drawPanelGroups = () => {
           }
         });
     })
-    .on("click", (e) => {
+    .on("click", function (e) {
       e.stopPropagation();
       let i = e.path[0].__data__.i;
       get(isSelectMode) &&
@@ -344,7 +344,6 @@ export const drawPanelGroups = () => {
     .attr("stroke", "black")
     .attr("stroke-width", 5)
     .raise();
-  d;
 
   snapPointGroupElement.raise();
 };

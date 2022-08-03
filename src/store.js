@@ -93,15 +93,17 @@ export const setColorState = (key, value) => {
   });
 };
 
-// panels, snapPoints, signallines
+// panels, snappoints, signallines
 export let selection = writable("panels");
 export const setSelection = (type) => {
+  console.log("setSelection", type);
   selection.update(($value) => ($value = type));
 };
 
-// panels, snapPoints, lines
+// panels, snappoints, lines
 export let selectionTab = writable("panels");
 export const setSelectionTab = (tab) => {
+  console.log("setSelectionTab", tab);
   selectionTab.update(($value) => ($value = tab));
 };
 
@@ -132,6 +134,8 @@ export let width = writable(1);
 export let height = writable(2);
 export let ratio = writable(get(width) / get(height));
 
+// This is the size of the browser window minus the toolbar
+// it does not zoom or pan
 export let canvasWrapperHeight = writable(1);
 export let canvasWrapperWidth = writable(1);
 

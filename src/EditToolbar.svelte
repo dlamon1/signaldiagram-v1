@@ -41,11 +41,11 @@
       <Panels />
     {/if}
 
-    {#if $selectionTab === "snapPoints"}
+    {#if $selectionTab === "snappoints"}
       <SnapPoints />
     {/if}
 
-    {#if $selectionTab === "lines"}
+    {#if $selectionTab === "signallines"}
       <SignalLines />
     {/if}
   </div>
