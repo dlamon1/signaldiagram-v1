@@ -37,17 +37,16 @@ export const drawPanelGroups = () => {
   let panelElements;
   let lineGroupElements;
 
-  const handleMouseMove = (e) => {
-    e.stopPropagation();
-    get(isDrawingSignalLine) && get(mouseCoordinates).setMouseEnd(e);
-  };
-
-  get(svgRef).on("mouseover", (e) => {
-    e.stopPropagation();
-    if (get(isDrawingSignalLine)) {
-      handleMouseMove(e);
-    }
-  });
+  // d3.select("g-onhover").on("mousemove", function (d, i) {
+  //   console.log("mouse over");
+  //   if (get(isDrawMode) && get(isDrawingSignalLine)) {
+  //     console.log("check passed");
+  //     signalLineClass.setEnd(d);
+  //     // temporarySignalLine.attr("x2", d.x).attr("y2", d.y);
+  //     // signalLineClass.setOrigin(d);
+  //   }
+  //   // d.stopPropagation();
+  // });
 
   // Draw a G for each Panel
   panelSvgElement = get(svgRef)
@@ -85,23 +84,54 @@ export const drawPanelGroups = () => {
     .attr("stroke-width", (d) => (d.isSelected ? d.lineWidth * 4 : d.lineWidth))
     .style("point-events", get(isDrawingSignalLine) && "none")
     .on("mouseover", function (d, i) {
-      if (get(isDrawMode)) return;
+      // d.stopPropagation();
+      if (get(isDrawMode)) {
+        // get(signalLineClass).setEnd(d);
+        return;
+      }
       let obj = d.path[0].__data__;
       d3.select(this).attr("fill", hoveredColor);
+
       // .attr("stroke-width", obj.lineWidth * 4);
     })
     .on("mouseout", function (d, i) {
+      // d.stopPropagation();
       if (get(isDrawMode)) return;
       let obj = d.path[0].__data__;
       d3.select(this).attr("fill", obj.color.background);
       // .attr("stroke-width", obj.lineWidth);
     })
-    .on("click", (e) => {
+    .on("mousemove", function (d) {
+      if (!get(isDrawMode)) return;
+      // console.log("move");
+      // get(isDrawingSignalLine) && get(mouseCoordinates).setMouseEnd(e);
+      get(signalLineClass).nullDestinationSnapPointIndex();
+      get(signalLineClass).setMousePosition(d);
+    })
+    .on("mouseup", function (d) {
+      console.log("mouseup");
+      get(signalLineClass).nullDestinationSnapPointIndex();
+      get(signalLineClass).nullDestinationSnapPointIndex();
+      get(signalLineClass).setMousePosition({ x: 0, y: 0 });
+
+      d3.select("#temp-signal-line")
+        .attr("x1", null)
+        .attr("y1", null)
+        .attr("x2", null)
+        .attr("y2", null);
+
+      setIsDrawingSignalLine(false);
+
+      // d3.select("#temp-signal-line").remove();
+
+      // get(svgRef).append("line").attr("id", "temp-signal-line");
+    })
+    .on("click", (d) => {
+      // d.stopPropagation();
       if (get(isDrawMode)) return;
-      e.stopPropagation();
       get(isSelectMode) &&
         !get(isDrawingSignalLine) &&
-        panelsClass.selectPanel(e);
+        panelsClass.selectPanel(d);
     });
 
   // Draw Snap Point Elements
@@ -144,18 +174,36 @@ export const drawPanelGroups = () => {
       return 2;
     })
     .on("mouseover", function (d, i) {
+      console.log("mouse over");
+      if (get(isDrawingSignalLine)) {
+        get(signalLineClass).setDestinationSnapPointIndex(d);
+      }
+      d.stopPropagation();
       let obj = d.path[0].__data__;
       d3.select(this).attr("fill", hoveredColor);
       // .attr("stroke-width", obj.lineWidth * 4);
     })
     .on("mouseout", function (d, i) {
+      d.stopPropagation();
       let obj = d.path[0].__data__;
       d3.select(this).attr("fill", obj.color.background);
       // .attr("stroke-width", obj.lineWidth);
     })
 
     .on("mousedown", function (d, i) {
-      console.log(this.cx);
+      d.stopPropagation();
+      if (!get(isDrawMode)) return;
+      // get(svgRef)
+      //   .append("line")
+      //   .attr("id", "temp-signal-line")
+      //   .attr("stroke", "black")
+      //   .attr("stroke-width", 10)
+      //   .raise();
+      signalLineClass.setOriginSnapPointIndex(d);
+      setIsDrawingSignalLine(true);
+      // temporarySignalLine
+      //   .attr("x1", this.cx.animVal.value)
+      //   .attr("y1", this.cy.animVal.value);
     })
 
     // (e) => {
@@ -168,10 +216,11 @@ export const drawPanelGroups = () => {
     //     setIsDrawingSignalLine(true);
     //   }
     // })
-    .on("mouseup", (e) => {
+    .on("mouseup", (d) => {
+      d.stopPropagation();
       // setIsDrawingSignalLine(false);
       if (get(isDrawMode) && get(isDrawingSignalLine)) {
-        signalLineClass.addSignalLine(e);
+        signalLineClass.addSignalLine();
         setIsDrawingSignalLine(false);
       }
     })
@@ -198,18 +247,18 @@ export const drawPanelGroups = () => {
 
   // TODO: create a function to get the origin without relying on the
   // signal line clas  array
-  if (get(isDrawingSignalLine)) {
-    get(svgRef)
-      .append("line")
-      .attr("x1", (d, i) => {
-        return get(mouseCoordinates).origin.x;
-      })
-      .attr("y1", (d, i) => get(mouseCoordinates).origin.y)
-      .attr("x2", (d, i) => get(mouseCoordinates).end.x)
-      .attr("y2", (d, i) => get(mouseCoordinates).end.y)
-      .attr("stroke-width", 4)
-      .attr("stroke", "#000");
-  }
+  // if (get(isDrawingSignalLine)) {
+  //   get(svgRef)
+  //     .append("line")
+  //     .attr("x1", (d, i) => {
+  //       return get(mouseCoordinates).origin.x;
+  //     })
+  //     .attr("y1", (d, i) => get(mouseCoordinates).origin.y)
+  //     .attr("x2", (d, i) => get(mouseCoordinates).end.x)
+  //     .attr("y2", (d, i) => get(mouseCoordinates).end.y)
+  //     .attr("stroke-width", 4)
+  //     .attr("stroke", "#000");
+  // }
 
   // Line Outline
   let lineOutlineElements = lineGroupElements
@@ -223,8 +272,14 @@ export const drawPanelGroups = () => {
       "y1",
       (d, i) => signalLineClass.getOriginCoordinates(d, i, "origin").y
     )
-    .attr("x2", (d, i) => signalLineClass.getOriginCoordinates(d, i, "end").x)
-    .attr("y2", (d, i) => signalLineClass.getOriginCoordinates(d, i, "end").y)
+    .attr(
+      "x2",
+      (d, i) => signalLineClass.getOriginCoordinates(d, i, "destination").x
+    )
+    .attr(
+      "y2",
+      (d, i) => signalLineClass.getOriginCoordinates(d, i, "destination").y
+    )
     .attr("stroke", (d) => {
       if (d.isSelected) {
         console.log("is selected");
@@ -266,8 +321,14 @@ export const drawPanelGroups = () => {
       "y1",
       (d, i) => signalLineClass.getOriginCoordinates(d, i, "origin").y
     )
-    .attr("x2", (d, i) => signalLineClass.getOriginCoordinates(d, i, "end").x)
-    .attr("y2", (d, i) => signalLineClass.getOriginCoordinates(d, i, "end").y)
+    .attr(
+      "x2",
+      (d, i) => signalLineClass.getOriginCoordinates(d, i, "destination").x
+    )
+    .attr(
+      "y2",
+      (d, i) => signalLineClass.getOriginCoordinates(d, i, "destination").y
+    )
     .attr("stroke", (d) => {
       if (d.isSelected) {
         // return selectedColor;
@@ -335,6 +396,14 @@ export const drawPanelGroups = () => {
 
       return "rotate(" + angle + ")";
     });
+
+  // Draw Temporary Signal Line
+  let temporarySignalLine = get(svgRef)
+    .append("line")
+    .attr("id", "temp-signal-line")
+    .attr("stroke", "black")
+    .attr("stroke-width", 10)
+    .raise();
 };
 
 export const drawPanelCoordinates = (p) => {

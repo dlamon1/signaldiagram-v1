@@ -140,7 +140,7 @@
         $panels.array[p.i].setColor("background", color);
       }
     });
-    // $panels = $panels;
+    $panels = $panels;
   };
 
   $: {

@@ -11,6 +11,7 @@ import {
   isCtrl,
   setSelection,
   setSelectionTab,
+  updatePanels,
 } from "../store";
 import { handleHover, isSnapPointHovered } from "../functions/HandleHover";
 
@@ -21,6 +22,13 @@ export class SignalLines {
     snapPointIndex: null,
     panelIndex: null,
   };
+  destination = {
+    snapPointIndex: null,
+  };
+  mouse = {
+    x: null,
+    y: null,
+  };
   array = [];
 
   constructor() {
@@ -29,7 +37,7 @@ export class SignalLines {
   }
 
   getOriginCoordinates(d, signalLineIndex, key) {
-    // key is either "origin" or "end"
+    // key is either "origin" or "destination"
     let signalLine = this.array[signalLineIndex];
     let signalLineClass = get(signalLines);
     let snapPointsClass = get(snapPoints);
@@ -37,6 +45,7 @@ export class SignalLines {
     let snapPointIndex = signalLine[key].snapPointIndex;
 
     let snapPoint = snapPointsClass.array[snapPointIndex];
+    console.log(snapPoint);
     let snapPointX = snapPoint.x;
     let snapPointY = snapPoint.y;
 
@@ -56,37 +65,101 @@ export class SignalLines {
     };
   }
 
-  setOrigin(e) {
+  getPanelIndex(row, column) {
+    let p = get(panels).array;
+    // iterate over array of and return p.i where p.row === row && p.column === column
+    for (let i = 0; i < p.length; i++) {
+      if (p[i].row === row && p[i].column === column) {
+        return i;
+      }
+    }
+  }
+
+  nullDestinationSnapPointIndex() {
+    this.destination.snapPointIndex = null;
+  }
+
+  setOriginSnapPointIndex(e) {
     // console.log(e);
-    let panelIndex = e.path[1].__data__.i;
-    let panelCoordinates = {
-      x: e.path[1].__data__.x,
-      y: e.path[1].__data__.y,
-    };
-    let snapPointIndex = e.path[0].__data__;
+    let obj = e.path[0].__data__;
+
+    let panelIndex = this.getPanelIndex(obj.row, obj.column);
+    // let panelCoordinates = {
+    //   x: e.path[1].__data__.x,
+    //   y: e.path[1].__data__.y,
+    // };
+    let snapPointIndex = obj.pointIndexFullArray;
     let snapPoint = get(snapPoints).array[snapPointIndex];
-    let pointsCoordinates = {
-      x: snapPoint.x,
-      y: snapPoint.y,
-    };
-    this.origin.x = panelCoordinates.x + pointsCoordinates.x;
-    this.origin.y = panelCoordinates.y + pointsCoordinates.y;
+    // console.log(snapPoint);
+    // let pointsCoordinates = {
+    //   x: snapPoint.x,
+    //   y: snapPoint.y,
+    // };
+    // this.origin.x = panelCoordinates.x + pointsCoordinates.x;
+    // this.origin.y = panelCoordinates.y + pointsCoordinates.y;
     this.origin.snapPointIndex = snapPointIndex;
     this.origin.panelIndex = panelIndex;
+    this.notify();
+    updateSignalLines();
+    console.log(this.origin);
+  }
+
+  nullOriginAndDestinationValues() {
+    this.origin.snapPointIndex = null;
+    this.origin.panelIndex = null;
+    this.destination.snapPointIndex = null;
+  }
+
+  setDestinationSnapPointIndex(d3SnapPointObj) {
+    //   let example = {
+    //     "isSquare": false,
+    //     "isCircle": false,
+    //     "isTriangle": false,
+    //     "label": "A1",
+    //     "isSelected": false,
+    //     "isHovered": false,
+    //     "color": {
+    //         "background": "#777",
+    //         "font": "#000000",
+    //         "border": "#000000"
+    //     },
+    //     "radius": 8.085714285714285,
+    //     "x": 40.42857142857143,
+    //     "y": 107.80952380952381,
+    //     "row": 0,
+    //     "column": 12,
+    //     "pointIndexWithinPanel": 2,
+    //     "panelIndex": 12,
+    //     "pointIndexFullArray": 25,
+    //     "strokeWidth": 1.6171428571428572
+    // }
+    let snapPoint = d3SnapPointObj.path[0].__data__;
+    this.destination.snapPointIndex = snapPoint.pointIndexFullArray;
+    updateSignalLines();
+  }
+
+  setMousePosition(e) {
+    // console.log(e);
+    this.mouse.x = e.x;
+    this.mouse.y = e.y;
+    updateSignalLines();
   }
 
   setCurrentlyDrawing(signalLine) {
     this.currentlyDrawing = signalLine;
   }
 
-  addSignalLine(endIndex) {
+  addSignalLine() {
     // console.log(endIndex);
     let origin = structuredClone(this.origin);
-    let sl = new SignalLine(origin, endIndex);
+    let sl = new SignalLine(origin, this.destination.snapPointIndex);
+    console.log(sl);
     this.array.push(sl);
-    updateSignalLines();
     this.origin.x = null;
     this.origin.y = null;
+    this.nullOriginAndDestinationValues();
+    updateSignalLines();
+    updatePanels();
   }
 
   removeSignalLine(line) {
@@ -121,18 +194,31 @@ export class SignalLines {
       signalLine.isSelected = false;
     });
   }
+
+  notify() {
+    this._store.set(this);
+  }
+
+  subscribe(subscriber) {
+    return this._store.subscribe(subscriber);
+  }
 }
 
 class SignalLine {
   origin = {
     x: 0,
     y: 0,
-    snapPointIndex: 0,
+    snapPointIndex: null,
+    panelIndex: null,
   };
   end = {
     x: 0,
     y: 0,
-    snapPointIndex: 0,
+    snapPointIndex: null,
+    panelIndex: null,
+  };
+  destination = {
+    snapPointIndex: null,
   };
   color = {
     background: "#000",
@@ -140,9 +226,10 @@ class SignalLine {
   lineWidth = get(screenAndPanelDimensions).panelDimension / 20;
   isSelected = false;
 
-  constructor(origin, e) {
-    this.origin = origin;
-    this.setEndCoordinates(e);
+  constructor(origin, destinationSnapPointIndex) {
+    this.origin.snapPointIndex = origin.snapPointIndex;
+    this.origin.panelIndex = origin.panelIndex;
+    this.destination.snapPointIndex = destinationSnapPointIndex; // this.origin = origin;
     this.i = get(signalLines).array.length;
     this.color.background = get(colorState).signalLine.background;
     this.lineWidth = 3;
@@ -166,10 +253,10 @@ class SignalLine {
     };
     let cooordinatesOfPanel = e.path[1].__data__;
 
-    this.end.x = cooordinatesOfPanel.x + coordinatesOfPoint.x;
-    this.end.y = cooordinatesOfPanel.y + coordinatesOfPoint.y;
-    this.end.snapPointIndex = indexOfPoint;
-    this.end.panelIndex = panel.i;
+    // this.end.x = cooordinatesOfPanel.x + coordinatesOfPoint.x;
+    // this.end.y = cooordinatesOfPanel.y + coordinatesOfPoint.y;
+    this.destination.snapPointIndex = indexOfPoint;
+    this.destination.panelIndex = panel.i;
   }
 
   updateColor(color) {

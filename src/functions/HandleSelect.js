@@ -214,7 +214,7 @@ export const checkForSelectedSignalLines = (e) => {
 
     if (
       checkIfPointIsWithinBounds(line.origin) &&
-      checkIfPointIsWithinBounds(line.end)
+      checkIfPointIsWithinBounds(line.destination)
     ) {
       _signalLines.push(line);
     }

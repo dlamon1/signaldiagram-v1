@@ -56,10 +56,13 @@ export class SnapPoints {
   //   strokeWidth: 1.6171428571428572,
   // };
 
-  getXCoordinate(sp) {
+  getXCoordinate(snapPoint) {
+    // console.log(snapPoint);
     let s = get(screenAndPanelDimensions);
     let ratio = get(width) / get(height);
-    return s.panelDimension * sp.column * ratio + sp.x + s.leftPadding;
+    return (
+      s.panelDimension * snapPoint.column * ratio + snapPoint.x + s.leftPadding
+    );
   }
 
   getYCoordinate(sp) {
