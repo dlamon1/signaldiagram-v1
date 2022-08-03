@@ -80,7 +80,7 @@
       .attr("y1", y1)
       .attr("x2", x2)
       .attr("y2", y2)
-      .attr("stroke", "red")
+      .attr("stroke", "black")
       .attr("stroke-width", 5);
   };
 

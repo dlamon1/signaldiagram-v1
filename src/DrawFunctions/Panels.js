@@ -146,7 +146,7 @@ export const drawPanelGroups = () => {
     // .attr("fake", (d) => console.log(snapPointClass.getXCoordinate(d)))
     .attr("cx", (d) => snapPointClass.getXCoordinate(d))
     .attr("cy", (d) => snapPointClass.getYCoordinate(d))
-    .attr("r", (d) => (get(isDrawMode) ? d.radius * 1.25 : d.radius))
+    .attr("r", (d) => (get(isDrawMode) ? d.radius * 2 : d.radius))
     .style("point-events", get(isDrawingSignalLine) && "none")
     .attr("fill", (d) =>
       d.isSelected && !get(isDrawingSignalLine)
@@ -205,17 +205,6 @@ export const drawPanelGroups = () => {
       //   .attr("x1", this.cx.animVal.value)
       //   .attr("y1", this.cy.animVal.value);
     })
-
-    // (e) => {
-    //   // e.stopPropagation();
-    //   console.log(this);
-
-    //   if (get(isDrawMode) && !get(isDrawingSignalLine)) {
-    //     signalLineClass.setOrigin(e);
-    //     get(mouseCoordinates).setMouseClickOrigin(e);
-    //     setIsDrawingSignalLine(true);
-    //   }
-    // })
     .on("mouseup", (d) => {
       d.stopPropagation();
       // setIsDrawingSignalLine(false);
@@ -339,26 +328,6 @@ export const drawPanelGroups = () => {
     })
     .attr("stroke-width", (d) => d.lineWidth * 2)
     .attr("pointer-events", "none");
-  // .on("mouseover", (e, d) => {
-  //   e.stopPropagation();
-  //   get(isSelectMode) &&
-  //     !get(isDrawingSignalLine) &&
-  //     d3
-  //       .select("#line-outline" + e.srcElement.__data__.i)
-  //       .attr("stroke", hoveredColor);
-  // })
-  // .on("mouseout", (e) => {
-  //   e.stopPropagation();
-  //   get(isSelectMode) &&
-  //     !get(isDrawingSignalLine) &&
-  //     d3.select(e.relatedTarget).attr("stroke", "none");
-  // })
-  // .on("click", (e) => {
-  //   let i = e.path[0].__data__.i;
-  //   get(isSelectMode) &&
-  //     !get(isDrawingSignalLine) &&
-  //     signalLineClass.selectSignalLine(i);
-  // });
 
   let rearViewLabel = get(svgRef)
     .append("text")
@@ -372,14 +341,14 @@ export const drawPanelGroups = () => {
         get(columns) * get(screenAndPanelDimensions).panelDimension;
       let screenHeight =
         get(rows) * get(screenAndPanelDimensions).panelDimension;
-      return screenWidth / 10 + "px";
+      return screenWidth / 11 + "px";
     })
-    .style("opacity", 0.125)
+    .style("opacity", 0.25)
     .attr("text-anchor", "middle")
     .attr("font-famliy", "'Heebo', sans-serif;")
     .style("pointer-events", "none")
     .style("user-select", "none")
-    .style("font-weight", "500")
+    .style("font-weight", "800")
     .attr("dominant-baseline", "central")
     .attr("transform-origin", "50% 50%")
     .attr("transform", () => {
@@ -404,6 +373,8 @@ export const drawPanelGroups = () => {
     .attr("stroke", "black")
     .attr("stroke-width", 10)
     .raise();
+
+  snapPointGroupElement.raise();
 };
 
 export const drawPanelCoordinates = (p) => {
