@@ -84,19 +84,10 @@ export class SignalLines {
     let obj = e.path[0].__data__;
 
     let panelIndex = this.getPanelIndex(obj.row, obj.column);
-    // let panelCoordinates = {
-    //   x: e.path[1].__data__.x,
-    //   y: e.path[1].__data__.y,
-    // };
+
     let snapPointIndex = obj.pointIndexFullArray;
     let snapPoint = get(snapPoints).array[snapPointIndex];
-    // console.log(snapPoint);
-    // let pointsCoordinates = {
-    //   x: snapPoint.x,
-    //   y: snapPoint.y,
-    // };
-    // this.origin.x = panelCoordinates.x + pointsCoordinates.x;
-    // this.origin.y = panelCoordinates.y + pointsCoordinates.y;
+
     this.origin.snapPointIndex = snapPointIndex;
     this.origin.panelIndex = panelIndex;
     this.notify();
@@ -169,10 +160,13 @@ export class SignalLines {
   }
 
   selectSignalLine(i) {
+    console.log(i);
     let snapPointsClass = get(snapPoints);
     let panelsClass = get(panels);
+
     snapPointsClass.deSelect();
     panelsClass.deSelect();
+    updatePanels();
 
     // this.array[i].selectSignalLine(true);
 
@@ -187,6 +181,8 @@ export class SignalLines {
 
     setSelectionTab("signallines");
     setSelection("signallines");
+
+    console.log(this.array);
   }
 
   deSelect() {
@@ -226,7 +222,7 @@ class SignalLine {
   };
   // lineWidth = get(screenAndPanelDimensions).panelDimension / 10;
   lineWidth = 3;
-  isSelected = false;
+  isSelected = true;
 
   constructor(origin, destinationSnapPointIndex) {
     this.origin.snapPointIndex = origin.snapPointIndex;
@@ -238,6 +234,7 @@ class SignalLine {
   }
 
   setIsSelected(boolean) {
+    console.log("setIsSelected");
     this.isSelected = boolean;
     updateSignalLines();
   }

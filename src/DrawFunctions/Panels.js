@@ -231,12 +231,12 @@ export const drawPanelGroups = () => {
     )
     .attr("stroke", (d) => {
       if (d.isSelected) {
-        return "red";
+        return selectedColor;
       } else {
         return "none";
       }
     })
-    .attr("stroke-width", (d) => d.lineWidth * 4)
+    .attr("stroke-width", (d) => d.lineWidth * 3)
     .attr("pointer-events", "visible")
     .on("mouseover", (e, d) => {
       e.stopPropagation();
@@ -248,15 +248,23 @@ export const drawPanelGroups = () => {
       e.stopPropagation();
       get(isSelectMode) &&
         !get(isDrawingSignalLine) &&
-        d3.select(e.path[0]).attr("stroke", "none");
+        d3.select(e.path[0]).attr("stroke", (d) => {
+          console.log(d);
+          if (d.isSelected) {
+            return selectedColor;
+          } else {
+            return "none";
+          }
+        });
     })
     .on("click", (e) => {
+      e.stopPropagation();
       let i = e.path[0].__data__.i;
       get(isSelectMode) &&
         !get(isDrawingSignalLine) &&
         signalLineClass.selectSignalLine(i);
+      d3.select(this).attr("stroke", selectedColor);
     });
-
   // Line
   // Line
   // Line
