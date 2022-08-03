@@ -25,16 +25,6 @@
     screenAndPanelDimensions,
   } from "./store";
 
-  // import { clearSelectedPanels } from "./functions/HandleSelect";
-
-  // import * as d3 from "d3";
-
-  $: {
-    let triggers = { $columns, $rows };
-
-    // clearSelectedPanels();
-  }
-
   $: {
     let triggers = {
       $snapPointsQuantity,
@@ -44,7 +34,6 @@
 
     if ($isDrawMode) {
       $selectionTab = "lines";
-      // clearSelectedPanels();
     }
   }
 
