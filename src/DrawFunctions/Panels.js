@@ -84,16 +84,12 @@ export const drawPanelGroups = () => {
       d3.select(this).attr("fill", hoveredColor);
     })
     .on("mouseout", function (d, i) {
-      // d.stopPropagation();
       if (get(isDrawMode)) return;
       let obj = d.path[0].__data__;
       d3.select(this).attr("fill", obj.color.background);
-      // .attr("stroke-width", obj.lineWidth);
     })
     .on("mousemove", function (d) {
       if (!get(isDrawMode)) return;
-      // console.log("move");
-      // get(isDrawingSignalLine) && get(mouseCoordinates).setMouseEnd(e);
       get(signalLineClass).nullDestinationSnapPointIndex();
       get(signalLineClass).setMousePosition(d);
     })
@@ -128,7 +124,6 @@ export const drawPanelGroups = () => {
     .enter()
     .append("circle")
     .attr("id", (d) => "snap-point-circle" + d)
-    // .attr("fake", (d) => console.log(snapPointClass.getXCoordinate(d)))
     .attr("cx", (d) => snapPointClass.getXCoordinate(d))
     .attr("cy", (d) => snapPointClass.getYCoordinate(d))
     .attr("r", (d) => (get(isDrawMode) ? d.radius * 2 : d.radius))
@@ -296,7 +291,8 @@ export const drawPanelGroups = () => {
       }
     })
     // .attr("stroke-width", (d) => 4 / get(transform).k)
-    .attr("stroke-width", (d) => d.lineWidth / get(transform).k)
+    // .attr("stroke-width", (d) => d.lineWidth / get(transform).k)
+    .attr("stroke-width", (d) => d.lineWidth)
     .attr("pointer-events", "none");
 
   // Draw Rear View Label
@@ -346,8 +342,9 @@ export const drawPanelGroups = () => {
     .append("line")
     .attr("id", "temp-signal-line")
     .attr("stroke", "black")
-    .attr("stroke-width", 3)
+    .attr("stroke-width", 5)
     .raise();
+  d;
 
   snapPointGroupElement.raise();
 };

@@ -221,7 +221,7 @@ class SignalLine {
     // background: "#000",
   };
   // lineWidth = get(screenAndPanelDimensions).panelDimension / 10;
-  lineWidth = 3;
+  lineWidth = 8;
   isSelected = false;
 
   constructor(origin, destinationSnapPointIndex) {
@@ -230,7 +230,7 @@ class SignalLine {
     this.destination.snapPointIndex = destinationSnapPointIndex; // this.origin = origin;
     this.i = get(signalLines).array.length;
     this.color.background = get(colorState).signalLine.background;
-    this.lineWidth = 3;
+    this.lineWidth = 5;
   }
 
   setIsSelected(boolean) {
