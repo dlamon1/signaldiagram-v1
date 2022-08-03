@@ -94,7 +94,6 @@ export const drawPanelGroups = () => {
       get(signalLineClass).setMousePosition(d);
     })
     .on("mouseup", function (d) {
-      console.log("mouseup");
       get(signalLineClass).nullDestinationSnapPointIndex();
       get(signalLineClass).nullDestinationSnapPointIndex();
       get(signalLineClass).setMousePosition({ x: 0, y: 0 });
@@ -290,8 +289,6 @@ export const drawPanelGroups = () => {
         return d.color.background;
       }
     })
-    // .attr("stroke-width", (d) => 4 / get(transform).k)
-    // .attr("stroke-width", (d) => d.lineWidth / get(transform).k)
     .attr("stroke-width", (d) => d.lineWidth)
     .attr("pointer-events", "none");
 

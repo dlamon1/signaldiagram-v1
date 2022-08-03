@@ -1,6 +1,6 @@
 import { get } from "svelte/store";
 import {
-  panels,
+  panels as panelsClass,
   snapPoints,
   signalLines,
   isSelectingPanels,
@@ -105,24 +105,31 @@ export const handleMouseClickSelect = (e) => {
   return res;
 };
 
-export const checkForSelectedPanels = (e) => {
-  let mouse = get(mouseCoordinates);
+export const checkForSelectedPanels = (
+  xOrigin,
+  yOrigin,
+  xDestination,
+  yDestination
+) => {
+  let p = get(panelsClass);
+  let panels = p.array;
 
   let x1;
   let y1;
   let x2;
   let y2;
-  e.offsetX < mouse.origin.x ? (x1 = e.offsetX) : (x1 = mouse.origin.x);
-  e.offsetY < mouse.origin.y ? (y1 = e.offsetY) : (y1 = mouse.origin.y);
-  e.offsetX > mouse.origin.x ? (x2 = e.offsetX) : (x2 = mouse.origin.x);
-  e.offsetY > mouse.origin.y ? (y2 = e.offsetY) : (y2 = mouse.origin.y);
 
-  let a = [];
+  xOrigin < xDestination ? (x1 = xOrigin) : (x1 = xDestination);
+  yOrigin < yDestination ? (y1 = yOrigin) : (y1 = yDestination);
+  xOrigin > xDestination ? (x2 = xOrigin) : (x2 = xDestination);
+  yOrigin > yDestination ? (y2 = yOrigin) : (y2 = yDestination);
 
-  get(panels).forEach((panel, i) => {
-    if (get(isCtrl)) {
-      a.push(...get(selectedPanels));
-    }
+  let indexesOfPanelsInsideSelection = [];
+
+  panels.forEach((panel, i) => {
+    // if (get(isCtrl)) {
+    //   a.push(...get(selectedPanels));
+    // }
 
     if (
       panel.x >= x1 &&
@@ -130,11 +137,11 @@ export const checkForSelectedPanels = (e) => {
       panel.y >= y1 &&
       panel.y + panel.height <= y2
     ) {
-      a.push(panel);
+      indexesOfPanelsInsideSelection.push(panel.i);
     }
   });
 
-  return a;
+  return indexesOfPanelsInsideSelection;
 };
 
 export const checkForSelectedSnapPoints = (e) => {

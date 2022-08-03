@@ -72,6 +72,25 @@ export class Panels {
     setSelection("panels");
     updatePanels();
   };
+
+  selectPanels = (arrayOfIndexes) => {
+    let snapPointsClass = get(snapPoints);
+    let signalLinesClass = get(signalLines);
+    snapPointsClass.deSelect();
+    signalLinesClass.deSelect();
+
+    if (!get(isCtrl)) {
+      this.array.forEach((panel) => {
+        panel.setIsSelected(false);
+      });
+    }
+
+    arrayOfIndexes.forEach((i) => {
+      this.array[i].setIsSelected(true);
+    });
+
+    updatePanels();
+  };
 }
 
 export class Panel {
