@@ -22,7 +22,7 @@
   } from "./DrawFunctions/Panels";
 
   $: {
-    console.log("CanvasDraw tigger");
+    // console.log("CanvasDraw tigger");
 
     let triggers = [
       $panels,
@@ -66,8 +66,6 @@
 
     // [tx + k * xo, ty + k * yo]
 
-    console.log($transform);
-
     let x2 =
       $signalLinesClass.mouse.x / $transform.k - $transform.x / $transform.k;
     let y2 =
@@ -87,8 +85,8 @@
       .attr("y1", y1)
       .attr("x2", x2)
       .attr("y2", y2)
-      .attr("stroke", "black")
-      .attr("stroke-width", 5);
+      .attr("stroke", "black");
+    // .attr("stroke-width", 5);
   };
 
   const draw = () => {

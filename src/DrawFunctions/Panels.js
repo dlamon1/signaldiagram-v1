@@ -18,6 +18,7 @@ import {
   setIsDrawingSignalLine,
   isDrawingSignalLine,
   mouseCoordinates,
+  transform,
 } from "../store";
 
 let hoveredColor = "rgba(0, 255, 170, 1)";
@@ -158,7 +159,7 @@ export const drawPanelGroups = () => {
       return 2;
     })
     .on("mouseover", function (d, i) {
-      console.log("mouse over");
+      // console.log("mouse over");
       if (get(isDrawingSignalLine)) {
         get(signalLineClass).setDestinationSnapPointIndex(d);
       }
@@ -196,9 +197,9 @@ export const drawPanelGroups = () => {
       }
     });
 
-  // Draw Signal Line Elements
-  // Draw Signal Line Elements
-  // Draw Signal Line Elements
+  // Draw Signal Line Group
+  // Draw Signal Line Group
+  // Draw Signal Line Group
   lineGroupElements = get(svgRef)
     .selectAll("g")
     .data(signalLineClass.array)
@@ -230,10 +231,8 @@ export const drawPanelGroups = () => {
     )
     .attr("stroke", (d) => {
       if (d.isSelected) {
-        console.log("is selected");
         return "red";
       } else {
-        console.log("is not selected");
         return "none";
       }
     })
@@ -288,9 +287,13 @@ export const drawPanelGroups = () => {
         return d.color.background;
       }
     })
-    .attr("stroke-width", (d) => d.lineWidth * 2)
+    // .attr("stroke-width", (d) => 4 / get(transform).k)
+    .attr("stroke-width", (d) => d.lineWidth / get(transform).k)
     .attr("pointer-events", "none");
 
+  // Draw Rear View Label
+  // Draw Rear View Label
+  // Draw Rear View Label
   let rearViewLabel = get(svgRef)
     .append("text")
     .text(() => (get(isRearView) ? "REAR VIEW" : ""))
@@ -335,7 +338,7 @@ export const drawPanelGroups = () => {
     .append("line")
     .attr("id", "temp-signal-line")
     .attr("stroke", "black")
-    .attr("stroke-width", 10)
+    .attr("stroke-width", 3)
     .raise();
 
   snapPointGroupElement.raise();

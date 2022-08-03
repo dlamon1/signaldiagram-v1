@@ -45,7 +45,7 @@ export class SignalLines {
     let snapPointIndex = signalLine[key].snapPointIndex;
 
     let snapPoint = snapPointsClass.array[snapPointIndex];
-    console.log(snapPoint);
+    // console.log(snapPoint);
     let snapPointX = snapPoint.x;
     let snapPointY = snapPoint.y;
 
@@ -101,7 +101,7 @@ export class SignalLines {
     this.origin.panelIndex = panelIndex;
     this.notify();
     updateSignalLines();
-    console.log(this.origin);
+    // console.log(this.origin);
   }
 
   nullOriginAndDestinationValues() {
@@ -221,9 +221,11 @@ class SignalLine {
     snapPointIndex: null,
   };
   color = {
-    background: "#000",
+    background: "#0f0",
+    // background: "#000",
   };
-  lineWidth = get(screenAndPanelDimensions).panelDimension / 20;
+  // lineWidth = get(screenAndPanelDimensions).panelDimension / 10;
+  lineWidth = 3;
   isSelected = false;
 
   constructor(origin, destinationSnapPointIndex) {
