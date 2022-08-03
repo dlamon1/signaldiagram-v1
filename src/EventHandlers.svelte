@@ -22,6 +22,7 @@
     canvasWrapperHeight,
     isSelectMode,
     isMoveMode,
+    snapPoints,
     screenAndPanelDimensions,
     transform as transformStore,
   } from "./store";
@@ -83,14 +84,40 @@
   }
 
   $: {
-    if ($selection === "panels") {
+    if ($selection === "panels" || $selectionTab === "panels") {
       $selectionTab = "panels";
-    } else if ($selection === "signallines") {
+      $selection === "panels";
+      deSelect("panels");
+      console.log("selection is panels");
+    } else if (
+      $selection === "signallines" ||
+      $selectionTab === "signallines"
+    ) {
       $selectionTab = "signallines";
-    } else if ($selection === "snappoints") {
+      $selection === "signallines";
+      deSelect("signallines");
+
+      console.log("selection is signal lines");
+    } else if ($selection === "snappoints" || $selectionTab === "snappoints") {
       $selectionTab = "snappoints";
+      $selection = "snappoints";
+      deSelect("snappoints");
+
+      console.log("selection is snap points");
     }
   }
+
+  const deSelect = (type) => {
+    if (type != "panels") {
+      $panels.deSelect();
+    }
+    if (type != "signallines") {
+      $signalLines.deSelect();
+    }
+    if (type != "snappoints") {
+      $snapPoints.deSelect();
+    }
+  };
 
   const updateLocalLabelAndColorState = () => {
     if ($selectedSquares.length > 1) return;

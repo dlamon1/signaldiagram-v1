@@ -18,6 +18,7 @@ import {
   setSnapPoints,
   updatePanels,
   updateSnapPoints,
+  selection,
   transform,
 } from "../store";
 
@@ -43,22 +44,21 @@ export const handleDragSelect = (event, xOrigin, yOrigin) => {
   y2 = yOrigin / t.k - t.y / t.k;
 
   // check what objects we are selecting
-  if (isSelectingPanels) {
+  if (get(selection) === "panels") {
     let indexesOfPanelsInsideSelection = checkForSelectedPanels(x1, y1, x2, y2);
     get(panels).selectPanels(indexesOfPanelsInsideSelection);
     return;
   }
 
-  if (isSelectingSignalLines) {
+  if (get(selection) === "signallines") {
     console.log("signal lines");
     return;
   }
 
-  if (isSelectingSnapPoints) {
+  if (get(selection) === "snappoints") {
     console.log("snap points");
     return;
   }
 
-  // compary coordinated to objects
   // set is selected for each object within the selection
 };
