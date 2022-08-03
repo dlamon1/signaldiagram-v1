@@ -37,7 +37,7 @@
   }
   #custom-color-button {
     width: 100%;
-    height: 40px;
+    height: 30px;
     margin-top: 10px;
   }
   #color-button {

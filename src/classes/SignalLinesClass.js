@@ -222,7 +222,7 @@ class SignalLine {
   };
   // lineWidth = get(screenAndPanelDimensions).panelDimension / 10;
   lineWidth = 3;
-  isSelected = true;
+  isSelected = false;
 
   constructor(origin, destinationSnapPointIndex) {
     this.origin.snapPointIndex = origin.snapPointIndex;

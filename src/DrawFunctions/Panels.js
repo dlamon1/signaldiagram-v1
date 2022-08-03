@@ -316,7 +316,7 @@ export const drawPanelGroups = () => {
         get(rows) * get(screenAndPanelDimensions).panelDimension;
       return screenWidth / 11 + "px";
     })
-    .style("opacity", 0.25)
+    .style("opacity", 0.2)
     .attr("text-anchor", "middle")
     .attr("font-famliy", "'Heebo', sans-serif;")
     .style("pointer-events", "none")

@@ -84,7 +84,7 @@
   }
   #container {
     /* position: fixed; */
-    width: 100%;
+    width: calc(100% - 10px);
     height: calc(100vh - 10px);
     /* right: 0; */
     background-color: rgb(71, 71, 71);
@@ -94,7 +94,7 @@
     display: flex;
     flex-direction: column;
     user-select: none;
-    padding: 5px;
+    margin: 5px;
   }
 
   #selectors {

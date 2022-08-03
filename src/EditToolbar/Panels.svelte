@@ -1,11 +1,14 @@
 <script>
   import { fly } from "svelte/transition";
 
-  import { panels, updatePanels } from "../store";
+  import { panels, updatePanels, colorState } from "../store";
 
   import ColorPicker from "./components/ColorPicker.svelte";
 
   let isBackgroundOpen = true;
+
+  $: flex = isBackgroundOpen ? 1 : 0.15;
+  $: background = $colorState.panel.background;
 
   const selectCriss = () => {
     $panels.array.forEach((p) => {
@@ -40,7 +43,11 @@
   </div>
 
   <div class="subtitle" on:click={() => (isBackgroundOpen = !isBackgroundOpen)}>
-    Background {isBackgroundOpen ? "▼" : "▲"}
+    Background
+    <!-- Background {isBackgroundOpen ? "▼" : "▲"} -->
+    <!-- {#if isBackgroundOpen} -->
+    <div class="color-id-box" style:flex style:background />
+    <!-- {/if} -->
   </div>
   {#if isBackgroundOpen}
     <ColorPicker key={"panel"} layer={"background"} />
@@ -48,6 +55,20 @@
 </div>
 
 <style>
+  .color-id-box {
+    flex: 0.2;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    margin-left: 5px;
+    transition: flex 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .subtitle {
+    margin-top: 10px;
+    display: flex;
+    /* background-color: green; */
+    align-items: center;
+  }
   .crisscross {
     display: flex;
     justify-content: space-around;
@@ -57,9 +78,6 @@
   .title {
     font-size: 1.2em;
     font-weight: bold;
-  }
-  .subtitle {
-    margin-top: 10px;
   }
   #panels {
     position: absolute;

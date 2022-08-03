@@ -62,7 +62,7 @@
     /* margin: 10px; */
   }
   .toolbar {
-    background-color: rgb(255, 0, 0);
+    background-color: rgb(71, 71, 71);
     width: 250px;
     right: 0;
     z-index: 1;
