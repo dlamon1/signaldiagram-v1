@@ -3,21 +3,8 @@ import {
   panels as panelsClass,
   snapPoints as snapPointsClass,
   signalLines as signalLinesClass,
-  isSelectingPanels,
-  isSelectingSignalLines,
-  isSelectingSnapPoints,
-  selectedPanels,
-  selectedSnapPoints,
   selectedSignalLines,
-  selectedSquares,
-  squares,
   isCtrl,
-  clearAllSelections,
-  mouseCoordinates,
-  setPanels,
-  setSnapPoints,
-  updatePanels,
-  updateSnapPoints,
 } from "../store";
 
 export const checkForSelectedPanels = (
@@ -61,7 +48,6 @@ export const checkForSelectedSnapPoints = (
   xDestination,
   yDestination
 ) => {
-  console.log("here");
   let x1;
   let y1;
   let x2;

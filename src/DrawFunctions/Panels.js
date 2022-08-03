@@ -17,14 +17,14 @@ import {
   canvasWrapperHeight,
   setIsDrawingSignalLine,
   isDrawingSignalLine,
-  mouseCoordinates,
-  transform,
+  opacity,
 } from "../store";
 
 let hoveredColor = "rgba(0, 255, 170, 1)";
 let selectedColor = "rgba(241, 89, 70, 1)";
 
 export const drawPanelGroups = () => {
+  console.log("Panel draw");
   let panelsClass = get(panelsStore);
   let snapPointClass = get(snapPointsStore);
   let signalLineClass = get(signalLineStore);
@@ -122,7 +122,7 @@ export const drawPanelGroups = () => {
     .data(snapPoints)
     .enter()
     .append("circle")
-    .attr("id", (d) => "snap-point-circle" + d)
+    .attr("id", (d, i) => "snap-point-circle" + i)
     .attr("cx", (d) => snapPointClass.getXCoordinate(d))
     .attr("cy", (d) => snapPointClass.getYCoordinate(d))
     .attr("r", (d) => (get(isDrawMode) ? d.radius * 2 : d.radius))
@@ -191,6 +191,21 @@ export const drawPanelGroups = () => {
       }
     });
 
+  let snapPointGroupElementThatAreSquare = snapPointGroupElement.filter(
+    (d) => d.isSquare
+  );
+
+  snapPointGroupElementThatAreSquare.remove();
+
+  snapPointGroupElementThatAreSquare
+    .append("rect")
+    .attr("width", (d) => {
+      console.log(d);
+      return 100;
+    })
+    .attr("height", 50)
+    .attr("fill", "red");
+
   // Draw Signal Line Group
   // Draw Signal Line Group
   // Draw Signal Line Group
@@ -243,7 +258,6 @@ export const drawPanelGroups = () => {
       get(isSelectMode) &&
         !get(isDrawingSignalLine) &&
         d3.select(e.path[0]).attr("stroke", (d) => {
-          console.log(d);
           if (d.isSelected) {
             return selectedColor;
           } else {
@@ -309,7 +323,7 @@ export const drawPanelGroups = () => {
         get(rows) * get(screenAndPanelDimensions).panelDimension;
       return screenWidth / 11 + "px";
     })
-    .style("opacity", 0.2)
+    .style("opacity", get(opacity))
     .attr("text-anchor", "middle")
     .attr("font-famliy", "'Heebo', sans-serif;")
     .style("pointer-events", "none")

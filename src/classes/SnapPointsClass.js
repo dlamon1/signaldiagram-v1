@@ -104,7 +104,6 @@ export class SnapPoints {
       });
     }
 
-    console.log(arrayOfIndexes);
     arrayOfIndexes.forEach((i) => {
       this.array[i].setIsSelected(true);
     });
@@ -113,7 +112,6 @@ export class SnapPoints {
   };
 
   selectSnapPoint = (e) => {
-    console.log("select panel");
     let panelsClass = get(panels);
     let signalLinesClass = get(signalLines);
     panelsClass.deSelect();
@@ -136,7 +134,27 @@ export class SnapPoints {
   deSelect = () => {
     this.array.forEach((p) => p.setIsSelected(false));
   };
+
+  setIsSquares = (boolean) => {
+    this.array.forEach((sp) => {
+      if (sp.isSelected) {
+        sp.setIsSquare(boolean);
+      }
+    });
+    updateSnapPoints();
+  };
 }
+
+// let snapPointGroupElementThatAreSquare = snapPointGroupElement
+// .filter((d) => d.isSquare)
+// .select(("#snap-point-circle")
+// .append("rect")
+// // append a rect with centered on the snap point
+// .attr("width", (d) => d.width)
+// .attr("height", (d) => d.height)
+// .attr("fill", (d) => d.color.background)
+// .attr("stroke", (d) => d.color.border)
+// .attr("stroke-width", (d) => d.lineWidth);
 
 class SnapPoint {
   isSquare = false;
@@ -170,6 +188,11 @@ class SnapPoint {
     this.panelIndex = panelIndex;
     this.pointIndexFullArray = pointIndexFullArray;
     this.createDimensions(row, column, pointIndexWithinPanel);
+  }
+
+  setIsSquare(boolean) {
+    this.isSquare = boolean;
+    console.log(this);
   }
 
   setPanelDimension() {

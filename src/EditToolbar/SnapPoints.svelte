@@ -11,6 +11,7 @@
     selectedSignalLines,
     snapPointLabel,
     colorState,
+    snapPoints as snapPointsClass,
   } from "../store";
   import { fade } from "svelte/transition";
   import { focusLabelInput } from "../functions/focusInput";
@@ -27,15 +28,15 @@
     }
   }
 
-  let toggleSquarex = () => {
-    let a = [];
-    $selectedSnapPoints.forEach((point, i) => {
-      $squares[point.i].isOn = true;
-      a.push($squares[point.i]);
-    });
-    $squares = [...$squares];
-    $selectedSquares = [...a];
-    focusLabelInput();
+  let toggleSquares = () => {
+    // let a = [];
+    // $selectedSnapPoints.forEach((point, i) => {
+    //   $squares[point.i].isOn = true;
+    //   a.push($squares[point.i]);
+    // });
+    // $squares = [...$squares];
+    // $selectedSquares = [...a];
+    // focusLabelInput();
   };
 
   const deleteSelectedSquares = () => {
@@ -78,7 +79,9 @@
   <div class="title">Snap Points</div>
 
   <div class="shape-button-container">
-    <button id="shape-button" on:click={toggleSquarex}>Add Square</button>
+    <button id="shape-button" on:click={$snapPointsClass.setIsSquares(true)}
+      >Add Square</button
+    >
   </div>
   {#if isSnapPointsSelected}
     <div id="label-input">
@@ -110,7 +113,7 @@
       <ColorPicker key={"snapPoint"} layer={"font"} />
     {/if}
 
-    <div id="delete-button" transition:fly={{ y: -10, duration: 300 }}>
+    <div id="delete-button" transition:fade={{ y: -10, duration: 300 }}>
       <button on:click={deleteSelectedSquares}>Remove Square</button>
     </div>
   {/if}

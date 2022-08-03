@@ -3,21 +3,6 @@ import {
   panels as panelsClass,
   snapPoints as snapPointsClass,
   signalLines as signalLinesClass,
-  isSelectingPanels,
-  isSelectingSignalLines,
-  isSelectingSnapPoints,
-  selectedPanels,
-  selectedSnapPoints,
-  selectedSignalLines,
-  selectedSquares,
-  squares,
-  isCtrl,
-  clearAllSelections,
-  mouseCoordinates,
-  setPanels,
-  setSnapPoints,
-  updatePanels,
-  updateSnapPoints,
   selection,
   transform,
 } from "../store";
@@ -54,7 +39,6 @@ export const handleDragSelect = (event, xOrigin, yOrigin) => {
   }
 
   if (get(selection) === "snappoints") {
-    console.log("snap points");
     let indexesOfSnapPointsInsideSelection = checkForSelectedSnapPoints(
       x1,
       y1,
@@ -62,7 +46,6 @@ export const handleDragSelect = (event, xOrigin, yOrigin) => {
       y2
     );
     get(snapPointsClass).selectSnapPoints(indexesOfSnapPointsInsideSelection);
-    console.log(indexesOfSnapPointsInsideSelection);
     return;
   }
 

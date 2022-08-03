@@ -1,8 +1,9 @@
 import { get, writable } from "svelte/store";
-import { MouseCoordinates } from "./classes/mouseCoordinates";
 import { SignalLines } from "./classes/SignalLinesClass";
 import { Panels } from "./classes/PanelsClass";
 import { SnapPoints } from "./classes/SnapPointsClass";
+
+export const opacity = writable(0.2);
 
 export let transform = writable({
   k: 1,
@@ -16,11 +17,6 @@ export const setIsDrawingSignalLine = (s) => {
 };
 
 export let isExportDialogOpen = writable(false);
-
-export let mouseCoordinates = writable(new MouseCoordinates());
-export const updateMouseCoordinates = () => {
-  mouseCoordinates.update(($m) => ($m = $m));
-};
 
 export let canvasRef = writable();
 export let ctxRef = writable();
@@ -96,14 +92,12 @@ export const setColorState = (key, value) => {
 // panels, snappoints, signallines
 export let selection = writable("panels");
 export const setSelection = (type) => {
-  console.log("setSelection", type);
   selection.update(($value) => ($value = type));
 };
 
 // panels, snappoints, lines
 export let selectionTab = writable("panels");
 export const setSelectionTab = (tab) => {
-  console.log("setSelectionTab", tab);
   selectionTab.update(($value) => ($value = tab));
 };
 

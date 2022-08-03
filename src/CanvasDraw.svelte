@@ -17,6 +17,7 @@
     canvasWrapperWidth,
     canvasWrapperHeight,
     isShifted,
+    opacity,
   } from "./store";
 
   import {
@@ -38,6 +39,7 @@
       $screenAndPanelDimensions,
       $isRearView,
       $mode,
+      $opacity,
     ];
 
     $svgRef && draw();
@@ -95,8 +97,6 @@
   };
 
   const draw = () => {
-    console.log("drawing");
-
     $svgRef.selectAll("*").remove();
 
     drawPanelGroups($panels);
@@ -179,7 +179,6 @@
   };
 
   const handleSelectMouseDown = (e) => {
-    console.log(e);
     xOrigin = e.x;
     yOrigin = e.y;
     isDrawingSelectLine = true;

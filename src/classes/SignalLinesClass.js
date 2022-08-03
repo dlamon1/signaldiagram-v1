@@ -13,7 +13,6 @@ import {
   setSelectionTab,
   updatePanels,
 } from "../store";
-import { handleHover, isSnapPointHovered } from "../functions/HandleHover";
 
 export class SignalLines {
   origin = {
@@ -141,10 +140,8 @@ export class SignalLines {
   }
 
   addSignalLine() {
-    // console.log(endIndex);
     let origin = structuredClone(this.origin);
     let sl = new SignalLine(origin, this.destination.snapPointIndex);
-    console.log(sl);
     this.array.push(sl);
     this.origin.x = null;
     this.origin.y = null;
@@ -160,7 +157,6 @@ export class SignalLines {
   }
 
   selectSignalLine(i) {
-    console.log(i);
     let snapPointsClass = get(snapPoints);
     let panelsClass = get(panels);
 
@@ -168,9 +164,6 @@ export class SignalLines {
     panelsClass.deSelect();
     updatePanels();
 
-    // this.array[i].selectSignalLine(true);
-
-    // let i = e.target.__data__.i;
     let current = this.array[i].isSelected;
 
     if (!get(isCtrl)) {
