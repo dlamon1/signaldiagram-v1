@@ -12,7 +12,7 @@
     snapPointLabel,
     colorState,
   } from "../store";
-  import { fly } from "svelte/transition";
+  import { fade } from "svelte/transition";
   import { focusLabelInput } from "../functions/focusInput";
 
   import ColorPicker from "./components/ColorPicker.svelte";
@@ -72,8 +72,8 @@
 
 <div
   id="snappoints"
-  in:fly={{ x: 100, duration: 120 }}
-  out:fly={{ x: 0, duration: 120 }}
+  in:fade={{ x: 100, duration: 150 }}
+  out:fade={{ x: 0, duration: 40 }}
 >
   <div class="title">Snap Points</div>
 

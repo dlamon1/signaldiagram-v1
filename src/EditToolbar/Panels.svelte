@@ -1,5 +1,5 @@
 <script>
-  import { fly } from "svelte/transition";
+  import { fade, fly } from "svelte/transition";
 
   import { panels, updatePanels, colorState } from "../store";
 
@@ -33,21 +33,18 @@
 
 <div
   id="panels"
-  in:fly={{ x: 100, duration: 120 }}
-  out:fly={{ x: 0, duration: 120 }}
+  in:fade={{ x: 100, duration: 150 }}
+  out:fade={{ x: 0, duration: 40 }}
 >
   <div class="title">Panels</div>
   <div class="crisscross">
-    <button on:click={selectCriss}>Select [0]</button>
-    <button on:click={selectCross}>select [1]</button>
+    <button class="criss-cross" on:click={selectCriss}>Select [0]</button>
+    <button class="criss-cross" on:click={selectCross}>select [1]</button>
   </div>
 
   <div class="subtitle" on:click={() => (isBackgroundOpen = !isBackgroundOpen)}>
     Background
-    <!-- Background {isBackgroundOpen ? "▼" : "▲"} -->
-    <!-- {#if isBackgroundOpen} -->
     <div class="color-id-box" style:flex style:background />
-    <!-- {/if} -->
   </div>
   {#if isBackgroundOpen}
     <ColorPicker key={"panel"} layer={"background"} />
@@ -55,13 +52,18 @@
 </div>
 
 <style>
+  .criss-cross {
+    padding: 5px;
+    padding-inline: 15px;
+  }
   .color-id-box {
-    flex: 0.2;
+    flex: 0.1;
     width: 10px;
     height: 10px;
     background-color: red;
     margin-left: 5px;
     transition: flex 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 1.5px;
   }
   .subtitle {
     margin-top: 10px;

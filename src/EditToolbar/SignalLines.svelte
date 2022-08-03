@@ -1,5 +1,5 @@
 <script>
-  import { fly } from "svelte/transition";
+  import { fly, fade } from "svelte/transition";
   import {
     selectedSignalLines,
     signalLines,
@@ -38,8 +38,8 @@
 
 <div
   id="signallines"
-  in:fly={{ x: 100, duration: 150 }}
-  out:fly={{ x: 0, duration: 150 }}
+  in:fade={{ x: 100, duration: 150 }}
+  out:fade={{ x: 0, duration: 40 }}
 >
   <div class="title">Signal Lines</div>
 
