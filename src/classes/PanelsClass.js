@@ -161,7 +161,9 @@ export class Panel {
   }
 
   setIsSelected(boolean) {
+    console.log("oh my lord");
     this.isSelected = boolean;
+    updatePanels();
   }
 
   setLineWidth() {

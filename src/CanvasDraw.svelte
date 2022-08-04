@@ -45,6 +45,17 @@
     $svgRef && draw();
   }
 
+  const draw = () => {
+    $svgRef.selectAll("*").remove();
+
+    drawPanelGroups($panels);
+
+    $showCoordinates &&
+      $panels.array.forEach((panel) => {
+        drawPanelCoordinates(panel);
+      });
+  };
+
   $: {
     let t = $signalLinesClass;
     drawTemporarySignalLine();
@@ -96,17 +107,6 @@
     // .attr("stroke-width", 5);
   };
 
-  const draw = () => {
-    $svgRef.selectAll("*").remove();
-
-    drawPanelGroups($panels);
-
-    $showCoordinates &&
-      $panels.array.forEach((panel) => {
-        drawPanelCoordinates(panel);
-      });
-  };
-
   $: {
     let t = { $canvasWrapperWidth, $canvasWrapperHeight };
     selectBoxOutline && updateDrawOutline();
@@ -126,6 +126,7 @@
 
   const drawOutline = () => {
     if (!$svgRef) return;
+
     // Draw Select Box Outline
     // Draw Select Box Outline
     // Draw Select Box Outline

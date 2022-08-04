@@ -5,29 +5,8 @@
   import EditToolbar from "./EditToolbar.svelte";
   import CanvasDraw from "./CanvasDraw.svelte";
   import Dialogs from "./Dialogs/index.svelte";
-
-  import { handleKeyUp, handleKeyDown } from "./functions/events/keys";
-
-  import { onMount } from "svelte";
-
-  const createSvg = () => {
-    $svgRef = d3
-      .select("#canvas")
-      .append("svg")
-      .attr("id", "svg")
-      .attr("width", $canvasWrapperWidth)
-      .attr("height", $canvasWrapperHeight)
-      .append("g")
-      .attr("width", $canvasWrapperWidth)
-      .attr("height", $canvasWrapperHeight)
-      .attr("id", "g-zoom-wrapper");
-  };
-
-  d3.select("body").on("keydown", handleKeyDown).on("keyup", handleKeyUp);
-
-  onMount(() => {
-    createSvg();
-  });
+  import DrawPanels from "./DrawComponents/DrawPanels.svelte";
+  import DrawWrappers from "./DrawComponents/DrawWrappers.svelte";
 </script>
 
 <div id="container">
@@ -45,7 +24,9 @@
   <div class="toolbar">
     <EditToolbar />
   </div>
-  <CanvasDraw />
+  <DrawWrappers />
+  <DrawPanels />
+  <!-- <CanvasDraw /> -->
   <Dialogs />
 </div>
 
