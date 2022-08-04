@@ -3,6 +3,12 @@ import { SignalLines } from "./classes/SignalLinesClass";
 import { Panels } from "./classes/PanelsClass";
 import { SnapPoints } from "./classes/SnapPointsClass";
 
+export let svgRef = writable({
+  topLevelSvg: null,
+  gZoomWrapper: null,
+  panelWrapper: null,
+});
+
 export const opacity = writable(0.2);
 
 export let transform = writable({
@@ -119,7 +125,7 @@ export const setIsMouseDown = (boolean) => {
 
 export let scale = writable(1);
 
-export let svgRef = writable(null);
+// export let svgRef = writable(null);
 
 export let columns = writable(14);
 export let rows = writable(4);
