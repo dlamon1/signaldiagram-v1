@@ -50,8 +50,8 @@ export const configurePanelDimensionsForScreen = () => {
 
   return {
     panelDimension,
-    leftPadding,
-    topPadding,
+    leftPadding: 0,
+    topPadding: 0,
     newCanvasWidth,
     newCanvasHeight,
   };

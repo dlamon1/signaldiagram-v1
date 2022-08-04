@@ -16,6 +16,7 @@ import {
   signalLines,
   snapPoints,
   updateSignalLines,
+  updatePanels,
 } from "../store";
 
 export class SnapPoints {
@@ -122,13 +123,16 @@ export class SnapPoints {
     let current = this.array[i].isSelected;
 
     if (!get(isCtrl)) {
+      console.log("not control");
       this.array.forEach((p) => p.setIsSelected(false));
     }
 
     this.array[i].setIsSelected(!current);
     setSelectionTab("snappoints");
     setSelection("snappoints");
+
     updateSnapPoints();
+    updatePanels();
   };
 
   deSelect = () => {
@@ -231,7 +235,6 @@ class SnapPoint {
   }
 
   toggleIsSelected() {
-    console.log("toggling snap point");
     this.isSelected = !this.isSelected;
   }
 

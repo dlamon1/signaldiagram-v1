@@ -1,5 +1,7 @@
 import { get } from "svelte/store";
 
+import * as d3 from "d3";
+
 import {
   svgRef,
   columns,

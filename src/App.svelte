@@ -1,16 +1,20 @@
 <script>
   import { canvasWrapperHeight, canvasWrapperWidth, svgRef } from "./store";
-  import Panels from "./Reactivity.svelte";
   import EventHandlers from "./EventHandlers.svelte";
   import EditToolbar from "./EditToolbar.svelte";
   import CanvasDraw from "./CanvasDraw.svelte";
   import Dialogs from "./Dialogs/index.svelte";
-  import DrawPanels from "./DrawComponents/DrawPanels.svelte";
-  import DrawWrappers from "./DrawComponents/DrawWrappers.svelte";
+  import DrawPanelRects from "./DrawComponents/DrawPanelsRects.svelte";
+  import DrawCanvasWrapper from "./DrawComponents/DrawCanvasWrappers.svelte";
+  import DrawPanelWrappers from "./DrawComponents/DrawPanelWrappers.svelte";
+  import Reactivity from "./Reactivity.svelte";
+  import DrawSnapPointWrappers from "./DrawComponents/DrawSnapPointWrappers.svelte";
+  import DrawSnapPointObjects from "./DrawComponents/DrawSnapPointObjects.svelte";
+  import DrawCoordinates from "./DrawComponents/DrawCoordinates.svelte";
 </script>
 
 <div id="container">
-  <Panels />
+  <Reactivity />
   <div
     id="canvas-wrapper"
     class="canvas-wrapper"
@@ -24,8 +28,12 @@
   <div class="toolbar">
     <EditToolbar />
   </div>
-  <DrawWrappers />
-  <DrawPanels />
+  <DrawCanvasWrapper />
+  <DrawPanelWrappers />
+  <DrawPanelRects />
+  <DrawSnapPointWrappers />
+  <DrawSnapPointObjects />
+  <DrawCoordinates />
   <!-- <CanvasDraw /> -->
   <Dialogs />
 </div>

@@ -6,11 +6,14 @@ import {
   width,
   height,
   updatePanels,
-  snapPoints,
+  snapPoints as snapPointsStore,
   setMode,
   setSelectionTab,
   setSelection,
   signalLines,
+  rows,
+  columns,
+  snapPointsQuantity,
 } from "../store";
 
 export class Panels {
@@ -19,6 +22,36 @@ export class Panels {
   constructor() {
     this._store = writable(this);
   }
+
+  updatePanelArray = () => {
+    let oldPanels = this.array;
+    let snapPoints = get(snapPointsStore);
+
+    this.resetArray();
+    snapPoints.resetArray();
+
+    let snapPointIndex = 0;
+    let count = 0;
+
+    for (let i = 0; i < get(rows); i++) {
+      for (let j = 0; j < get(columns); j++) {
+        let thisPanelsSnapPointsIndexes = [];
+        let oldPanel = oldPanels[i];
+
+        for (let k = 1; k < get(snapPointsQuantity) + 1; k++) {
+          snapPoints.addSnapPoint(i, j, k, count, snapPointIndex);
+          thisPanelsSnapPointsIndexes.push(snapPointIndex);
+          snapPointIndex += 1;
+        }
+
+        this.addPanel(i, j, count, thisPanelsSnapPointsIndexes, oldPanel);
+
+        count++;
+      }
+    }
+
+    updatePanels();
+  };
 
   subscribe(subscriber) {
     return this._store.subscribe(subscriber);
@@ -55,7 +88,7 @@ export class Panels {
   };
 
   selectPanel = (e) => {
-    let snapPointsClass = get(snapPoints);
+    let snapPointsClass = get(snapPointsStore);
     let signalLinesClass = get(signalLines);
     snapPointsClass.deSelect();
     signalLinesClass.deSelect();
@@ -161,9 +194,11 @@ export class Panel {
   }
 
   setIsSelected(boolean) {
-    console.log("oh my lord");
     this.isSelected = boolean;
-    updatePanels();
+  }
+
+  toggleIsSelected() {
+    this.isSelected = !this.isSelected;
   }
 
   setLineWidth() {

@@ -14,6 +14,8 @@ import {
   updatePanels,
 } from "../store";
 
+import * as d3 from "d3";
+
 export class SignalLines {
   origin = {
     x: null,

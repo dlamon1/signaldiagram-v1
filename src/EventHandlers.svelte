@@ -1,6 +1,8 @@
 <script>
   import { onMount, tick } from "svelte";
 
+  import * as d3 from "d3";
+
   import {
     columns,
     rows,
@@ -17,7 +19,7 @@
     colorState,
     snapPointLabel,
     panels,
-    svgRef,
+    topLevelSvgRef,
     canvasWrapperWidth,
     canvasWrapperHeight,
     isSelectMode,
@@ -72,14 +74,14 @@
     // this svgfRef is required because the ref doesn't exist
     // when this is initialized
 
-    let t = $svgRef;
+    let t = $topLevelSvgRef;
 
     if ($isDrawMode) {
       addOnHoverIdTag();
       removeZoom();
     }
     if ($isSelectMode) {
-      $svgRef && initZoom();
+      $topLevelSvgRef && initZoom();
     }
   }
 

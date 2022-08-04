@@ -6,7 +6,7 @@
     colors,
     width,
     height,
-    panels,
+    panels as panelsClass,
     toolbarWidth,
     snapPointsQuantity,
     snapPointDirection,
@@ -24,8 +24,6 @@
     signalLines,
   } from "./store";
 
-  import { createArray } from "./functions/createArray";
-  import { createSnapPoints } from "./functions/createSnapPoints";
   import {
     configurePanelDimensionsForScreen,
     configurePanelDimensionsForPrinting,
@@ -44,36 +42,6 @@
     } else {
       $screenAndPanelDimensions = configurePanelDimensionsForScreen();
     }
-  };
-
-  const handleNewPanelArray = async () => {
-    let oldPanels = $panels;
-    let oldSnapPoints = $snapPoints;
-
-    $panels.resetArray();
-    $snapPoints.resetArray();
-
-    let snapPointIndex = 0;
-    let count = 0;
-
-    for (let i = 0; i < $rows; i++) {
-      for (let j = 0; j < $columns; j++) {
-        let thisPanelsSnapPointsIndexes = [];
-        let oldPanel = oldPanels.array[i];
-
-        for (let k = 1; k < $snapPointsQuantity + 1; k++) {
-          $snapPoints.addSnapPoint(i, j, k, count, snapPointIndex);
-          thisPanelsSnapPointsIndexes.push(snapPointIndex);
-          snapPointIndex += 1;
-        }
-
-        $panels.addPanel(i, j, count, thisPanelsSnapPointsIndexes, oldPanel);
-
-        count++;
-      }
-    }
-
-    $panels = $panels;
   };
 
   $: {
@@ -98,22 +66,27 @@
 
   // This is triggered by calling setCanvasDimensions()
   $: {
-    // console.log("here");
+    console.log("triggered");
+
     let t = {
       $screenAndPanelDimensions,
     };
 
-    handleNewPanelArray();
+    updatePanelArray();
+    // console.log($panelsClass.array.length);
+    // handleNewPanelArray();
   }
 
-  $: {
-    let triggers = {
-      $canvasWidth,
-      $canvasHeight,
-    };
+  let updatePanelArray = () => $panelsClass.updatePanelArray();
 
-    handlePrint();
-  }
+  // $: {
+  //   let triggers = {
+  //     $canvasWidth,
+  //     $canvasHeight,
+  //   };
+
+  //   handlePrint();
+  // }
 
   $: {
     let t = { $mode };
@@ -121,27 +94,27 @@
     deSelectAllObjects();
   }
   const deSelectAllObjects = () => {
-    $panels.deSelect();
+    $panelsClass.deSelect();
     $signalLines.deSelect();
     $snapPoints.deSelect();
   };
 
-  const handlePrint = async () => {
-    if ($isPrinting) {
-      await tick();
+  // const handlePrint = async () => {
+  //   if ($isPrinting) {
+  //     await tick();
 
-      let link = document.createElement("a");
-      document.body.appendChild(link);
-      link.download = $title + ".png";
-      link.href = canvas.toDataURL("image/png");
-      link.target = "_blank";
-      link.click();
+  //     let link = document.createElement("a");
+  //     document.body.appendChild(link);
+  //     link.download = $title + ".png";
+  //     link.href = canvas.toDataURL("image/png");
+  //     link.target = "_blank";
+  //     link.click();
 
-      $isPrinting = false;
+  //     $isPrinting = false;
 
-      await tick();
+  //     await tick();
 
-      setCanvasDimensions();
-    }
-  };
+  //     setCanvasDimensions();
+  //   }
+  // };
 </script>

@@ -3,11 +3,14 @@ import { SignalLines } from "./classes/SignalLinesClass";
 import { Panels } from "./classes/PanelsClass";
 import { SnapPoints } from "./classes/SnapPointsClass";
 
-export let svgRef = writable({
-  topLevelSvg: null,
-  gZoomWrapper: null,
-  panelWrapper: null,
-});
+export let topLevelSvgRef = writable(null);
+export let gZoomWrapperRef = writable(null);
+export let panelWrappersRef = writable(null);
+export let selectedPanelRectsRef = writable(null);
+export let snapPointsWrapper = writable(null);
+export let snapPointBaseCircles = writable(null);
+export let selectedSnapPointCirclesRef = writable(null);
+export let coordinatesRef = writable(null);
 
 export const opacity = writable(0.2);
 
@@ -16,6 +19,8 @@ export let transform = writable({
   x: 0,
   y: 0,
 });
+
+export let svgRef;
 
 export let isDrawingSignalLine = writable(false);
 export const setIsDrawingSignalLine = (s) => {
@@ -127,8 +132,8 @@ export let scale = writable(1);
 
 // export let svgRef = writable(null);
 
-export let columns = writable(14);
-export let rows = writable(4);
+export let columns = writable(15);
+export let rows = writable(5);
 
 export let width = writable(1);
 export let height = writable(2);
