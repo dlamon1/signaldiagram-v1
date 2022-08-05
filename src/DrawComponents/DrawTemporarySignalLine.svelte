@@ -18,24 +18,38 @@
     canvasWrapperHeight,
     isShifted,
     opacity,
-  } from "./store";
+    topLevelSvgRef,
+    gZoomWrapperRef,
+    temporarySignalLine,
+    snapPointBaseCircles,
+  } from "../store";
 
-  import {
-    drawPanelGroups,
-    drawPanelCoordinates,
-  } from "./DrawFunctions/Panels";
-
-  import { handleDragSelect } from "./functions/handleSelect2";
+  import { handleDragSelect } from "../functions/handleSelect2";
+  import { attr } from "svelte/internal";
 
   $: {
+    $gZoomWrapperRef && initTemporarySignalLine();
+  }
+
+  const initTemporarySignalLine = () => {
+    console.log("here");
+    $temporarySignalLine = $topLevelSvgRef
+      .append("line")
+      .attr("id", "temp-signal-line")
+      .attr("stroke", "black")
+      .attr("stroke-width", 5);
+  };
+
+  $: {
+    console.log("tiggered");
     let t = $signalLinesClass;
     drawTemporarySignalLine();
   }
 
   const drawTemporarySignalLine = () => {
-    if (!$svgRef) return;
+    if (!$topLevelSvgRef) return;
     if (!$isDrawingSignalLine) return;
-    // console.log("temp ABOUT TO CHECKS");
+    console.log("temp ABOUT TO CHECKS");
     let origin = $signalLinesClass.origin;
     let mouse = $signalLinesClass.mouse;
     if (origin.snapPointIndex && mouse.x && mouse.y) {
@@ -45,6 +59,7 @@
   };
 
   const theAcutualDrawing = () => {
+    console.log("the actual drawing");
     let destinationI = $signalLinesClass.destination.snapPointIndex;
 
     let snapPoint =
@@ -68,7 +83,7 @@
       y2 = $snapPointsClass.getYCoordinate(destinationSanpPoint);
     }
 
-    d3.select("#temp-signal-line")
+    $temporarySignalLine
       .attr("pointer-events", "none")
       .attr("x1", x1)
       .attr("y1", y1)

@@ -9,13 +9,14 @@
     isDrawingSignalLine,
     gZoomWrapperRef,
     panelWrappersRef,
+    mode,
   } from "../store";
 
   let hoveredColor = "rgba(0, 255, 170, 1)";
   let selectedColor = "rgba(241, 89, 70, 1)";
 
   $: {
-    let t = [$panelsClass];
+    let t = [$panelsClass, $mode];
 
     console.log("CanvasDraw tigger");
     // console.log($panelsClass.array);

@@ -29,6 +29,7 @@
 
   const asdf = () => {
     let snapPoints = $snapPointsClass.array;
+
     $selectedSnapPointCirclesRef?.remove();
 
     $snapPointBaseCircles = $snapPointsWrapper
