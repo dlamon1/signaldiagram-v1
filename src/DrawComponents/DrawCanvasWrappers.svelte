@@ -4,6 +4,9 @@
     canvasWrapperWidth,
     gZoomWrapperRef,
     topLevelSvgRef,
+    panels,
+    signalLines,
+    snapPoints,
   } from "../store";
 
   import * as d3 from "d3";
@@ -12,13 +15,22 @@
 
   import { onMount } from "svelte";
 
+  const deSelectAll = () => {
+    console.log("hello");
+    $panels.deSelect();
+    $signalLines.deSelect();
+    $snapPoints.deSelect();
+    $panels = $panels;
+  };
+
   const createSvg = () => {
     $topLevelSvgRef = d3
       .select("#canvas")
       .append("svg")
       .attr("id", "svg")
       .attr("width", $canvasWrapperWidth)
-      .attr("height", $canvasWrapperHeight);
+      .attr("height", $canvasWrapperHeight)
+      .on("click", deSelectAll);
 
     $gZoomWrapperRef = $topLevelSvgRef
       .append("g")
