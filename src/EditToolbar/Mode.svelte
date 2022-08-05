@@ -75,9 +75,6 @@
 </div>
 
 <style>
-  #container {
-    /* height: 80px; */
-  }
   .isSelecting {
     opacity: 1;
   }
