@@ -51,7 +51,7 @@
       })
       .enter()
       .append("text")
-      .text((d) => d.column + "," + d.row)
+      .text((d) => d.column + 1 + "," + (d.row + 1))
       .attr("y", h / 16)
       .attr("x", w / 32)
       .attr("dominant-baseline", "central")

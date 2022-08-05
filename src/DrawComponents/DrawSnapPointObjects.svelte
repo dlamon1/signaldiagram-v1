@@ -24,7 +24,6 @@
   $: {
     console.log("triggered");
 
-    // $snapPointsWrapper && drawSnapPointObjects();
     $snapPointsWrapper && asdf();
   }
 
@@ -80,6 +79,7 @@
         d.stopPropagation();
         if (!$isDrawMode) return;
 
+        console.log("drawing from mousedown");
         $signalLinesClass.setOriginSnapPointIndex(d);
         setIsDrawingSignalLine(true);
       })

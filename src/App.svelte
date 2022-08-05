@@ -11,6 +11,8 @@
   import DrawSnapPointWrappers from "./DrawComponents/DrawSnapPointWrappers.svelte";
   import DrawSnapPointObjects from "./DrawComponents/DrawSnapPointObjects.svelte";
   import DrawCoordinates from "./DrawComponents/DrawCoordinates.svelte";
+  import DrawTemporarySignalLine from "./DrawComponents/DrawTemporarySignalLine.svelte";
+  import Zoom from "./DrawComponents/Zoom.svelte";
 </script>
 
 <div id="container">
@@ -29,11 +31,13 @@
     <EditToolbar />
   </div>
   <DrawCanvasWrapper />
+  <Zoom />
   <DrawPanelWrappers />
   <DrawPanelRects />
   <DrawSnapPointWrappers />
   <DrawSnapPointObjects />
   <DrawCoordinates />
+  <DrawTemporarySignalLine />
   <!-- <CanvasDraw /> -->
   <Dialogs />
 </div>
