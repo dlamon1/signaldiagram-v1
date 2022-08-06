@@ -24,6 +24,7 @@ export class Panels {
   }
 
   updatePanelArray = () => {
+    // console.log("update panel array");
     let oldPanels = this.array;
     let snapPoints = get(snapPointsStore);
 

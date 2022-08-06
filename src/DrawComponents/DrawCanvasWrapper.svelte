@@ -16,7 +16,6 @@
   import { onMount } from "svelte";
 
   const deSelectAll = () => {
-    console.log("hello");
     $panels.deSelect();
     $signalLines.deSelect();
     $snapPoints.deSelect();

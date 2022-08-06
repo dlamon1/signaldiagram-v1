@@ -19,12 +19,13 @@
   let selectedColor = "rgba(241, 89, 70, 1)";
 
   $: {
-    console.log("triggered");
+    // console.log($panelWrappersRef);
 
     $panelWrappersRef && initPanelGroups();
   }
 
   export const initPanelGroups = () => {
+    // console.log("init panel groups");
     let panels = $panelsClass.array;
 
     // $selectedPanelRectsRef?.remove();
@@ -90,6 +91,7 @@
         return d.isSelected;
       })
       .transition()
+      .duration(50)
       .attr("stroke", selectedColor)
       .attr("stroke-width", (d) => d.lineWidth * 4);
 

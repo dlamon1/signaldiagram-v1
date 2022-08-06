@@ -12,7 +12,7 @@
   $: {
     // $isDrawMode = false;
     // $isSelectMode = false;
-    console.log("mode changed");
+    // console.log("mode changed");
 
     if ($mode === "draw") {
       $isSelectMode = false;

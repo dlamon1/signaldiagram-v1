@@ -11,8 +11,8 @@
     snapPointsQuantity,
     snapPointDirection,
     snapPoints,
-    canvasWidth,
-    canvasHeight,
+    // canvasWidth,
+    // canvasHeight,
     clearAllSelections,
     isPrinting,
     title,
@@ -40,6 +40,7 @@
       $screenAndPanelDimensions = configurePanelDimensionsForPrinting($title);
       await tick();
     } else {
+      // console.log("config screen and panel dimensions");
       $screenAndPanelDimensions = configurePanelDimensionsForScreen();
     }
   };
@@ -54,30 +55,34 @@
       $isPrinting,
       $rows,
       $columns,
-      $colors,
-      $toolbarWidth,
-      $snapPointsQuantity,
-      $snapPointDirection,
-      $scale,
+      // $colors,
+      // $toolbarWidth,
+      // $snapPointsQuantity,
+      // $snapPointDirection,
     };
 
     setCanvasDimensions();
   }
 
+  // $: console.log($canvasWrapperWidth, ", " + $canvasWrapperHeight);
   // This is triggered by calling setCanvasDimensions()
   $: {
-    console.log("triggered");
+    // console.log("triggered");
 
     let t = {
       $screenAndPanelDimensions,
     };
 
-    updatePanelArray();
+    $screenAndPanelDimensions && updatePanelArray();
     // console.log($panelsClass.array.length);
     // handleNewPanelArray();
   }
 
   let updatePanelArray = () => $panelsClass.updatePanelArray();
+
+  let l = $panelsClass.array;
+
+  $: console.log(l);
 
   // $: {
   //   let triggers = {

@@ -5,7 +5,7 @@
   import CanvasDraw from "./CanvasDraw.svelte";
   import Dialogs from "./Dialogs/index.svelte";
   import DrawPanelRects from "./DrawComponents/DrawPanelsRects.svelte";
-  import DrawCanvasWrapper from "./DrawComponents/DrawCanvasWrappers.svelte";
+  import DrawCanvasWrapper from "./DrawComponents/DrawCanvasWrapper.svelte";
   import DrawPanelWrappers from "./DrawComponents/DrawPanelWrappers.svelte";
   import Reactivity from "./Reactivity.svelte";
   import DrawSnapPointWrappers from "./DrawComponents/DrawSnapPointWrappers.svelte";
@@ -13,6 +13,22 @@
   import DrawCoordinates from "./DrawComponents/DrawCoordinates.svelte";
   import DrawTemporarySignalLine from "./DrawComponents/DrawTemporarySignalLine.svelte";
   import Zoom from "./DrawComponents/Zoom.svelte";
+
+  import {
+    topLevelSvgRef,
+    gZoomWrapperRef,
+    panelWrappersRef,
+    selectedPanelRectsRef,
+    snapPointsWrapper,
+    snapPointBaseCircles,
+    selectedSnapPointCirclesRef,
+    coordinatesRef,
+    temporarySignalLine,
+  } from "./store";
+
+  // $: console.log($gZoomWrapperRef);
+
+  $gZoomWrapperRef = null;
 </script>
 
 <div id="container">
@@ -30,14 +46,27 @@
   <div class="toolbar">
     <EditToolbar />
   </div>
-  <DrawCanvasWrapper />
-  <Zoom />
-  <DrawPanelWrappers />
-  <DrawPanelRects />
-  <DrawSnapPointWrappers />
+  {#if $canvasWrapperWidth && $canvasWrapperHeight}
+    <DrawCanvasWrapper />
+  {/if}
+
+  {#if $topLevelSvgRef}
+    <Zoom />
+  {/if}
+
+  {#if $gZoomWrapperRef}
+    <DrawPanelWrappers />
+  {/if}
+
+  {#if $panelWrappersRef}
+    <DrawPanelRects />
+  {/if}
+
+  <!-- {#if $selectedPanelRectsRef} -->
+  <!-- <DrawSnapPointWrappers />
   <DrawSnapPointObjects />
   <DrawCoordinates />
-  <DrawTemporarySignalLine />
+  <DrawTemporarySignalLine /> -->
   <!-- <CanvasDraw /> -->
   <Dialogs />
 </div>

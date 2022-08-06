@@ -142,17 +142,17 @@ export let ratio = writable(get(width) / get(height));
 
 // This is the size of the browser window minus the toolbar
 // it does not zoom or pan
-export let canvasWrapperHeight = writable(1);
-export let canvasWrapperWidth = writable(1);
+export let canvasWrapperHeight = writable(null);
+export let canvasWrapperWidth = writable(null);
 
-export let innerWidth = writable(window.innerWidth - 10);
-export let innerHeight = writable(window.innerHeight - 10);
+// export let innerWidth = writable(window.innerWidth - 10);
+// export let innerHeight = writable(window.innerHeight - 10);
 
-export let initCanvasWidth = writable(2200);
-export let initCanvasHeight = writable(1700);
+// export let initCanvasWidth = writable(2200);
+// export let initCanvasHeight = writable(1700);
 
-export let canvasWidth = writable(1100 * 2);
-export let canvasHeight = writable(850 * 2);
+// export let canvasWidth = writable(1100 * 2);
+// export let canvasHeight = writable(850 * 2);
 
 export let textInputRef = writable(null);
 

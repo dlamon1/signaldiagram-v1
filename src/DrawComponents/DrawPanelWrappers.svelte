@@ -1,6 +1,4 @@
 <script>
-  import { onMount } from "svelte";
-
   import {
     signalLines as signalLinesClass,
     snapPoints as snapPointsClass,
@@ -10,33 +8,66 @@
     gZoomWrapperRef,
     panelWrappersRef,
     mode,
+    topLevelSvgRef,
   } from "../store";
 
-  let hoveredColor = "rgba(0, 255, 170, 1)";
-  let selectedColor = "rgba(241, 89, 70, 1)";
+  let oldPanelLength = 0;
+  let panelWrappersData = null;
+
+  // console.log($topLevelSvgRef);
 
   $: {
-    let t = [$panelsClass, $mode];
+    let t = [$panelsClass];
 
-    console.log("CanvasDraw tigger");
-    // console.log($panelsClass.array);
-
-    $gZoomWrapperRef && initPanelGroups();
+    handlePanelClassUpdate();
   }
 
-  export const initPanelGroups = () => {
-    console.log("triggered");
+  const handlePanelClassUpdate = () => {
+    if (!$gZoomWrapperRef) return;
 
-    let panels = $panelsClass.array;
+    // First render
+    if (!$panelWrappersRef) {
+      console.log("init");
+      oldPanelLength = $panelsClass.array.length;
+      initPanelWrappers();
+      return;
+    }
 
-    $gZoomWrapperRef.selectAll("*").remove();
+    // Length did not change, update
+    if ($panelsClass.array.length === oldPanelLength) {
+      console.log("update");
+      oldPanelLength = $panelsClass.array.length;
 
-    // Draw a G for each Panel
-    // Draw a G for each Panel
-    // Draw a G for each Panel
-    $panelWrappersRef = $gZoomWrapperRef
+      updatePanelWrappers();
+      return;
+    }
+
+    // Panels added
+    if ($panelsClass.array.length > oldPanelLength) {
+      console.log("add");
+      oldPanelLength = $panelsClass.array.length;
+
+      updatePanelWrappers();
+      // addPanelWrappers();
+      return;
+    }
+
+    // Panels removed
+    if ($panelsClass.array.length < oldPanelLength) {
+      console.log("remove");
+      oldPanelLength = $panelsClass.array.length;
+
+      removePanelWrappers();
+      return;
+    }
+  };
+
+  const initPanelWrappers = () => {
+    panelWrappersData = $gZoomWrapperRef
       .selectAll("svg")
-      .data(panels)
+      .data($panelsClass.array);
+
+    $panelWrappersRef = panelWrappersData
       .enter()
       .append("svg")
       .attr("id", (d) => "panel-group" + d.i)
@@ -45,5 +76,32 @@
       .attr("width", (d) => d.width)
       .attr("height", (d) => d.height)
       .style("point-events", $isDrawingSignalLine && "none");
+  };
+
+  const updatePanelWrappers = () => {
+    $panelWrappersRef = panelWrappersData
+      .data($panelsClass.array)
+      // .transition()
+      .attr("id", (d) => "panel-group" + d.i)
+      .attr("x", (d) => d.x)
+      .attr("y", (d) => d.y)
+      .attr("width", (d) => d.width)
+      .attr("height", (d) => d.height)
+      .style("point-events", $isDrawingSignalLine && "none");
+    console.log($panelWrappersRef);
+  };
+
+  const addPanelWrappers = () => {
+    $panelWrappersRef = panelWrappersData.data($panelsClass.array).enter();
+    // .attr("id", (d) => "panel-group" + d.i)
+    // .attr("x", (d) => d.x)
+    // .attr("y", (d) => d.y)
+    // .attr("width", (d) => d.width)
+    // .attr("height", (d) => d.height)
+    // .style("point-events", $isDrawingSignalLine && "none");
+  };
+
+  const removePanelWrappers = () => {
+    $panelWrappersRef;
   };
 </script>

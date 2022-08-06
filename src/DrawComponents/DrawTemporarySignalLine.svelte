@@ -25,26 +25,29 @@
   } from "../store";
 
   import { handleDragSelect } from "../functions/handleSelect2";
-  import { attr } from "svelte/internal";
+
+  // {@debug gZoomWrapperRef}
 
   $: {
+    console.log("tiggered");
     $gZoomWrapperRef && initTemporarySignalLine();
   }
 
   const initTemporarySignalLine = () => {
     console.log("here");
-    $temporarySignalLine = $topLevelSvgRef
+    $temporarySignalLine = $gZoomWrapperRef
       .append("line")
       .attr("id", "temp-signal-line")
       .attr("stroke", "black")
-      .attr("stroke-width", 5);
+      .attr("stroke-width", 5)
+      .raise();
   };
 
-  $: {
-    console.log("tiggered");
-    let t = $signalLinesClass;
-    drawTemporarySignalLine();
-  }
+  // $: {
+  //   console.log("tiggered");
+  //   let t = $signalLinesClass;
+  //   drawTemporarySignalLine();
+  // }
 
   const drawTemporarySignalLine = () => {
     if (!$topLevelSvgRef) return;
@@ -93,17 +96,17 @@
     // .attr("stroke-width", 5);
   };
 
-  $: {
-    let t = { $canvasWrapperWidth, $canvasWrapperHeight };
-    selectBoxOutline && updateDrawOutline();
-  }
+  // $: {
+  //   let t = { $canvasWrapperWidth, $canvasWrapperHeight };
+  //   selectBoxOutline && updateDrawOutline();
+  // }
 
   let selectBoxOutline;
 
-  $: {
-    $isShifted && drawOutline();
-    !$isShifted && removeOutline();
-  }
+  // $: {
+  //   $isShifted && drawOutline();
+  //   !$isShifted && removeOutline();
+  // }
 
   const removeOutline = () => {
     if (!selectBoxOutline) return;
