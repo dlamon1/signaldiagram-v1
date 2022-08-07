@@ -20,8 +20,7 @@
 
   $: {
     // console.log($panelWrappersRef);
-
-    $panelWrappersRef && initPanelGroups();
+    // $panelWrappersRef && initPanelGroups();
   }
 
   export const initPanelGroups = () => {
