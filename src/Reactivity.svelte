@@ -82,7 +82,7 @@
 
   let l = $panelsClass.array;
 
-  $: console.log(l);
+  // $: console.log(l);
 
   // $: {
   //   let triggers = {

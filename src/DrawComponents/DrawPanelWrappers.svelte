@@ -11,6 +11,8 @@
     topLevelSvgRef,
     isDrawMode,
     isSelectMode,
+    groups,
+    groupsEnter,
   } from "../store";
 
   let oldPanelLength;
@@ -29,131 +31,35 @@
     drawPanelWrappers();
   }
 
-  const handlePanelClassUpdate = () => {
-    if (!$gZoomWrapperRef) return;
-
-    console.log(wrappers);
-
-    // First render
-    if (oldPanelLength === $panelsClass.array.length) {
-      console.log("same length");
-      updatePanelWrappers();
-      oldPanelLength = $panelsClass.array.length;
-      return;
-    }
-    console.log("init");
-
-    initPanelWrappers();
-
-    // // Length did not change, update
-    // if ($panelsClass.array.length === oldPanelLength) {
-    //   console.log("update");
-    //   oldPanelLength = $panelsClass.array.length;
-
-    //   updatePanelWrappers();
-    //   return;
-    // }
-
-    // // Panels added
-    // if ($panelsClass.array.length > oldPanelLength) {
-    //   console.log("add");
-    //   oldPanelLength = $panelsClass.array.length;
-
-    //   // updatePanelWrappers();
-    //   addPanelWrappers();
-    //   return;
-    // }
-
-    // // Panels removed
-    // if ($panelsClass.array.length < oldPanelLength) {
-    //   console.log("remove");
-    //   oldPanelLength = $panelsClass.array.length;
-
-    //   removePanelWrappers();
-    //   return;
-    // }
-  };
-
-  let wrappers;
-
   const drawPanelWrappers = () => {
     let panels = $panelsClass.array;
-    console.log("draw");
+    // console.log("draw");
     init = true;
-    wrappers = $gZoomWrapperRef.selectAll("rect").data(panels, (d) => d.i);
 
-    console.log(wrappers);
+    console.log($gZoomWrapperRef);
 
-    let asdf = wrappers
-      .attr("x", (d) => d.x)
-      .attr("y", (d) => d.y)
-      .attr("width", (d) => {
-        return d.width;
+    $groups = $gZoomWrapperRef.selectAll("g").data(panels, (d) => d.i);
+
+    $groupsEnter = $groups.enter().append("g");
+
+    $groupsEnter.merge($groups).attr("transform", (d) => {
+      return "translate(" + d.x + "," + d.y + ")";
+    });
+
+    $groups.exit().remove();
+
+    let rects = $groupsEnter
+      .append("rect")
+      .merge($groups.select("rect"))
+      .attr("class", "panel-wrapper")
+      .attr("id", (d) => {
+        "panel-rectangle" + d.i;
       })
+      .attr("x", 0)
+      .attr("y", 0)
+      .attr("width", (d) => d.width)
       .attr("height", (d) => d.height)
       .attr("fill", (d) => d.color.background)
-      .attr("stroke", (d) => d.color.border)
-      .attr("stroke-width", (d) => d.lineWidth);
-    // .attr("stroke-width", function (d) {
-    //   if (d.isSelected) {
-    //     return d.lineWidth * 4;
-    //   } else {
-    //     return d.lineWidth;
-    //   }
-    // });
-
-    let sele = wrappers
-      .filter(function (d) {
-        return d.isSelected;
-      })
-      .attr("x", (d) => d.x + d.lineWidth)
-      .attr("y", (d) => d.y + d.lineWidth)
-      .attr("width", (d) => {
-        return d.width - d.lineWidth * 2;
-      })
-      .attr("height", (d) => d.height - d.lineWidth * 2)
-      .attr("stroke", selectedColor)
-      .attr("stroke-width", (d) => d.lineWidth * 2);
-
-    console.log(sele);
-
-    wrappers
-      .exit()
-      // .selectAll("rect")
-      // .transition()
-      // .duration(50)
-      .attr("height", (d) => {
-        console.log("exit ", d.x, d.y, d.width, d.height);
-        return 0;
-      })
-      .attr("height", 0)
-      .attr("fill", "transparent")
-      .remove();
-
-    wrappers
-      .enter()
-      // add a debug rectange
-      // .append("svg")
-      .append("rect")
-      .attr("x", (d) => d.x)
-      .attr("y", (d) => d.y)
-      // .attr("width", (d) => d.width)
-      // .attr("height", (d) => d.height)
-      .attr("id", (d) => {
-        console.log("enter ", d.x, d.y, d.width, d.height);
-        return "panel-rectangle" + d.i;
-      })
-      // .attr("x", (d) => d.x)
-      // .attr("y", (d) => d.y)
-
-      .attr("width", (d) => {
-        return d.width;
-      })
-      .attr("height", (d) => d.height)
-      .attr("fill", (d) => {
-        console.log(d.color.background);
-        return d.color.background;
-      })
       .attr("stroke", (d) => d.color.border)
       .attr("stroke-width", (d) => d.lineWidth)
       .style("point-events", $isDrawingSignalLine && "none")
@@ -194,70 +100,17 @@
         $isSelectMode && !$isDrawingSignalLine && $panelsClass.selectPanel(d);
       });
 
-    // .filter(function (d) {
-    //   // console.log(d);
-    //   // if (d.i === 0) console.log(d);
-    //   if (d.isSelected) console.log(d);
-    //   return d.isSelected;
-    // })
-    // .attr("stroke", selectedColor)
-    // .attr("stroke-width", (d) => d.lineWidth * 4);
-
-    // wrappers
-    //   .selectAll("rect")
-
-    // .transition()
-    // .duration(1000)
-    // .delay(10)
-    // .attr("x", (d) => d.x)
-    // .attr("y", (d) => d.y)
-    // .attr("width", (d) => d.width)
-    // .attr("height", (d) => d.height);
-  };
-
-  const updatePanelWrappers = () => {
-    panelWrappersData
-      .data($panelsClass.array)
-      .transition()
-      .attr("fill", (d) => d.color.background)
-      .attr("stroke", (d) => d.color.border);
-
-    // .attr("id", (d) => "panel-group" + d.i)
-    // .attr("x", (d) => d.x)
-    // .attr("y", (d) => d.y)
-    // .attr("width", (d) => d.width)
-    // .attr("height", (d) => d.height)
-    // .style("point-events", $isDrawingSignalLine && "none");
-    // console.log($panelWrappersRef);
-  };
-
-  const addPanelWrappers = () => {
-    wrappers = $gZoomWrapperRef.selectAll("svg").data($panelsClass.array);
-
-    wrappers
-      .exit()
-      .transition()
-      // .duration(0)
-      .attr("width", (d) => {
-        console.log(d);
-        return 0;
+    rects
+      .filter(function (d) {
+        return d.isSelected;
       })
-      .attr("height", 0)
-      .remove();
-  };
-
-  const removePanelWrappers = () => {
-    wrappers = $gZoomWrapperRef.selectAll("svg").data($panelsClass.array);
-
-    wrappers
-      .exit()
-      .transition()
-      // .duration(0)
+      .attr("x", (d) => d.lineWidth)
+      .attr("y", (d) => d.lineWidth)
       .attr("width", (d) => {
-        console.log(d);
-        return 0;
+        return d.width - d.lineWidth * 2;
       })
-      .attr("height", 0)
-      .remove();
+      .attr("height", (d) => d.height - d.lineWidth * 2)
+      .attr("stroke", selectedColor)
+      .attr("stroke-width", (d) => d.lineWidth * 2);
   };
 </script>

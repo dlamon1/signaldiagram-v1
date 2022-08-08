@@ -12,6 +12,8 @@ export let snapPointBaseCircles = writable(null);
 export let selectedSnapPointCirclesRef = writable(null);
 export let coordinatesRef = writable(null);
 export let temporarySignalLine = writable(null);
+export let groups = writable(null);
+export let groupsEnter = writable(null);
 
 export const opacity = writable(0.2);
 
