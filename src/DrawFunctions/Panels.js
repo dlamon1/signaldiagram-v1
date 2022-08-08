@@ -26,7 +26,7 @@ let hoveredColor = "rgba(0, 255, 170, 1)";
 let selectedColor = "rgba(241, 89, 70, 1)";
 
 export const drawPanelGroups = () => {
-  console.log("Panel draw");
+  // console.log("Panel draw");
   let panelsClass = get(panelsStore);
   let snapPointClass = get(snapPointsStore);
   let signalLineClass = get(signalLineStore);

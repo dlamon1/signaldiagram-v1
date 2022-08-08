@@ -13,38 +13,36 @@
     isSelectMode,
     groups,
     groupsEnter,
+    isRearView,
+    columns,
+    rows,
   } from "../store";
-
-  let oldPanelLength;
-  let panelWrappersData = null;
-  let init = false;
 
   let hoveredColor = "rgba(0, 255, 170, 1)";
   let selectedColor = "rgba(241, 89, 70, 1)";
-  // console.log($topLevelSvgRef);
 
   import * as d3 from "d3";
 
   $: {
-    let t = [$panelsClass];
+    let t = [$panelsClass, $isRearView];
 
     drawPanelWrappers();
   }
 
   const drawPanelWrappers = () => {
     let panels = $panelsClass.array;
-    // console.log("draw");
-    init = true;
-
-    console.log($gZoomWrapperRef);
 
     $groups = $gZoomWrapperRef.selectAll("g").data(panels, (d) => d.i);
 
     $groupsEnter = $groups.enter().append("g");
 
-    $groupsEnter.merge($groups).attr("transform", (d) => {
-      return "translate(" + d.x + "," + d.y + ")";
-    });
+    $groupsEnter
+      .merge($groups)
+      .transition()
+      .attr("id", (d) => "panelgroup" + d.i)
+      .attr("transform", (d) => {
+        return "translate(" + d.x + "," + d.y + ")";
+      });
 
     $groups.exit().remove();
 
@@ -93,13 +91,55 @@
         // setIsDrawingSignalLine(false);
       })
       .on("click", function (d, i, n) {
-        // console.log(d.srcElement.__data__);
         if ($isDrawMode) return;
-        // d.srcElement.__data__.toggleIsSelected();
         d.stopPropagation();
         $isSelectMode && !$isDrawingSignalLine && $panelsClass.selectPanel(d);
       });
 
+    // Draw Coordinates
+    // Draw Coordinates
+    // Draw Coordinates
+    $groupsEnter
+      .append("text")
+      .merge($groups.select("text"))
+      .text((d) => {
+        if ($isRearView) {
+          return $columns - d.column + "," + (d.row + 1);
+        } else {
+          return d.column + 1 + "," + (d.row + 1);
+        }
+      })
+      .attr("x", (d) => d.width / 32)
+      .attr("y", (d) => d.height / 32)
+      .attr("dominant-baseline", "hanging")
+      .style("font-size", (d) => d.width / 6 + "px")
+      .style("pointer-events", "none")
+      .style("user-select", "none");
+
+    // Draw Snap Points Groups
+    // Draw Snap Points Groups
+    // Draw Snap Points Groups
+
+    // $groupsEnter
+    //   .append("text")
+    //   .merge($groups.select("text"))
+    //   .text((d) => {
+    //     if ($isRearView) {
+    //       return $columns - d.column + "," + (d.row + 1);
+    //     } else {
+    //       return d.column + 1 + "," + (d.row + 1);
+    //     }
+    //   })
+    //   .attr("x", (d) => d.width / 32)
+    //   .attr("y", (d) => d.height / 32)
+    //   .attr("dominant-baseline", "hanging")
+    //   .style("font-size", (d) => d.width / 6 + "px")
+    //   .style("pointer-events", "none")
+    //   .style("user-select", "none");
+
+    // Draw Selected Panels
+    // Draw Selected Panels
+    // Draw Selected Panelss
     rects
       .filter(function (d) {
         return d.isSelected;

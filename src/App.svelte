@@ -24,6 +24,7 @@
     selectedSnapPointCirclesRef,
     coordinatesRef,
     temporarySignalLine,
+    groupsEnter,
   } from "./store";
 
   // $: console.log($gZoomWrapperRef);
@@ -58,13 +59,16 @@
     <DrawPanelWrappers />
   {/if}
 
-  {#if $panelWrappersRef}
+  <!-- {#if $panelWrappersRef}
     <DrawPanelRects />
+  {/if} -->
+  {#if $groupsEnter}
+    <!-- <DrawSnapPointObjects /> -->
+    <DrawSnapPointWrappers />
   {/if}
 
   <!-- {#if $selectedPanelRectsRef} -->
-  <!-- <DrawSnapPointWrappers />
-  <DrawSnapPointObjects />
+  <!-- <DrawSnapPointObjects />
   <DrawCoordinates />
   <DrawTemporarySignalLine /> -->
   <!-- <CanvasDraw /> -->

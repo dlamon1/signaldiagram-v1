@@ -236,3 +236,26 @@ export class Panel {
     }
   }
 }
+
+// selection is the svg
+
+// const groups = svg.selectAll('g')
+// .data(fruits);
+// s groups.enter().append('g');
+// groupsEnter
+// .merge(groups)
+//   .attr('transform', (d, i) =>
+//     `translate(${i * 180 + 100},${height / 2})`
+//   );
+// groups.exit().remove();
+
+// groupsEnter.append('circle')
+// .merge(groups.select('circle'))
+//   .attr('r', d => radiusScale(d.type))
+//   .attr('fill', d => colorScale(d.type));
+
+// groupsEnter.append('text')
+// .merge(groups.select('text'))
+//   .text(d => d.type)
+//   .attr('y', 120);
+// }
