@@ -27,7 +27,7 @@
   import * as d3 from "d3";
 
   $: {
-    let t = [$panelsClass, $isRearView, $isDrawMode];
+    let t = [$panelsClass, $isRearView, $isDrawMode, $snapPointsClass];
 
     // console.log($panelsClass);
 
@@ -153,7 +153,7 @@
       .selectAll("g.panel-wrapper")
       .selectAll("g")
       .data((d, i) => {
-        console.log(d.snapPointObjects);
+        // console.log(d.snapPointObjects);
         return d.snapPointObjects;
       });
 
@@ -161,7 +161,7 @@
     let snapPointsGroupsEnter = snapPointGroups
       .enter()
       .append("g")
-      .attr("id", (d) => "snap-point")
+      .attr("id", (d, i) => "snap-point" + i)
       .attr("class", "snap-point");
 
     // 3
@@ -186,6 +186,8 @@
           ? selectedColor
           : d.color.background
       )
+      .attr("stroke-width", 3)
+      .attr("stroke", (d) => d.color.border)
       .style("paint-order", "stroke")
       .attr("stroke-alignment", "inner")
       .on("mouseover", function (d, i) {
@@ -226,5 +228,41 @@
           $snapPointsClass.selectSnapPoint(e);
         }
       });
+
+    circs
+      .filter((d, i) => {
+        return $snapPointsClass.array[d.pointIndexFullArray].isSelected;
+      })
+      .attr("stroke", selectedColor)
+      .attr("stroke-width", (d) => d.radius)
+      .attr("r", (d) => d.radius * 1.5);
+
+    let x = snapPointsGroupsEnter.merge(snapPointGroups).filter((d, i) => {
+      // let y = $snapPointsClass.array[d.pointIndexFullArray].isSquare;
+      // console.log(y);
+      return $snapPointsClass.array[d.pointIndexFullArray].isSelected;
+    });
+
+    // snapPointsGroupsEnter.merge(snapPointGroups).attr("transform", (d) => {
+    //   return "translate(" + d.x + "," + d.y + ")";
+    // });
+
+    // .transition()
+    // .select(this.parentNode);
+
+    // .attr("r", 0)
+    // .remove();
+    // .append("rect")
+    // .attr("width", 30)
+    // .attr("height", 30);
+
+    // snapPointsGroupsEnter;
+    // .filter((d, i) => {
+    //   console.log($snapPointsClass.array[d.pointIndexFullArray].isSquare);
+    //   return $snapPointsClass.array[d.pointIndexFullArray].isSquare;
+    // })
+    // .append("rect");
+
+    // console.log(circs);
   };
 </script>

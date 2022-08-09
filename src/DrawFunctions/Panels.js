@@ -390,3 +390,39 @@ export const drawPanelCoordinates = (p) => {
     .style("pointer-events", "none")
     .style("user-select", "none");
 };
+
+// circs
+// .filter((d, i) => {
+//   console.log("filtering");
+//   return $snapPointsClass.array[d.pointIndexFullArray].isSelected;
+// })
+// // .call((d) => console.log(d))
+// .attr("stroke", selectedColor)
+// .attr("stroke-width", (d) => d.radius)
+// .attr("d", function (d) {
+//   console.log(d);
+//   let r = d.radius * 2;
+//   let circlePath =
+//     "M " +
+//     0 +
+//     "," +
+//     0 +
+//     " m " +
+//     -r +
+//     ",0" +
+//     " a " +
+//     r +
+//     "," +
+//     r +
+//     " 0 1,0 " +
+//     r * 2 +
+//     ",0" +
+//     " a " +
+//     r +
+//     "," +
+//     r +
+//     " 0 1,0 " +
+//     -r * 2 +
+//     ",0";
+//   return circlePath;
+// });
