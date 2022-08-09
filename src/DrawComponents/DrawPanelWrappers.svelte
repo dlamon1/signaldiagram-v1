@@ -174,12 +174,9 @@
 
     // 5
     let circs = snapPointsGroupsEnter
-      .append("circle")
-      .merge(snapPointGroups.select("circle"))
-      .attr("r", (d) => {
-        // console.log(d);
-        return d.radius;
-      })
+      .append("path")
+      .merge(snapPointGroups.select("path"))
+      .attr("d", (d) => drawPathCircle(d.radius))
       .style("point-events", $isDrawingSignalLine && "none")
       .attr("fill", (d) =>
         d.isSelected && !$isDrawingSignalLine
@@ -235,34 +232,66 @@
       })
       .attr("stroke", selectedColor)
       .attr("stroke-width", (d) => d.radius)
-      .attr("r", (d) => d.radius * 1.5);
+      .attr("d", "")
+      .attr("d", (d) => drawPathCircle(d.radius));
 
-    let x = snapPointsGroupsEnter.merge(snapPointGroups).filter((d, i) => {
-      // let y = $snapPointsClass.array[d.pointIndexFullArray].isSquare;
-      // console.log(y);
-      return $snapPointsClass.array[d.pointIndexFullArray].isSelected;
-    });
+    circs
+      .filter((d, i) => {
+        return $snapPointsClass.array[d.pointIndexFullArray].isSquare;
+      })
+      .attr("fill", (d) => d.color.background)
+      .attr("stroke", (d) => d.color.border)
+      .attr("stroke-width", (d) => d.radius)
+      .attr("d", "")
+      .transition()
+      .duration(500)
+      .attr("d", (d) => drawPathSquare(d.radius));
+  };
 
-    // snapPointsGroupsEnter.merge(snapPointGroups).attr("transform", (d) => {
-    //   return "translate(" + d.x + "," + d.y + ")";
-    // });
+  const drawPathSquare = (r) => {
+    r = 2 * r;
+    let l = 2 * r;
+    let rectPath =
+      "M " +
+      r +
+      " " +
+      r +
+      " v " +
+      -l +
+      " h " +
+      -l +
+      " v " +
+      l +
+      " h " +
+      l +
+      " Z";
+    return rectPath;
+  };
 
-    // .transition()
-    // .select(this.parentNode);
-
-    // .attr("r", 0)
-    // .remove();
-    // .append("rect")
-    // .attr("width", 30)
-    // .attr("height", 30);
-
-    // snapPointsGroupsEnter;
-    // .filter((d, i) => {
-    //   console.log($snapPointsClass.array[d.pointIndexFullArray].isSquare);
-    //   return $snapPointsClass.array[d.pointIndexFullArray].isSquare;
-    // })
-    // .append("rect");
-
-    // console.log(circs);
+  const drawPathCircle = (r) => {
+    // let r = d.radius * 1.5;
+    let circlePath =
+      "M " +
+      0 +
+      "," +
+      0 +
+      " m " +
+      -r +
+      ",0" +
+      " a " +
+      r +
+      "," +
+      r +
+      " 0 1,0 " +
+      r * 2 +
+      ",0" +
+      " a " +
+      r +
+      "," +
+      r +
+      " 0 1,0 " +
+      -r * 2 +
+      ",0";
+    return circlePath;
   };
 </script>
