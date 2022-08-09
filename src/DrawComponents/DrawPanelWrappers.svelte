@@ -226,14 +226,8 @@
         }
       });
 
-    circs
-      .filter((d, i) => {
-        return $snapPointsClass.array[d.pointIndexFullArray].isSelected;
-      })
-      .attr("stroke", selectedColor)
-      .attr("stroke-width", (d) => d.radius)
-      .attr("d", "")
-      .attr("d", (d) => drawPathCircle(d.radius));
+    // .attr("d", "")
+    // .attr("d", (d) => drawPathCircle(d.radius));
 
     circs
       .filter((d, i) => {
@@ -243,9 +237,16 @@
       .attr("stroke", (d) => d.color.border)
       .attr("stroke-width", (d) => d.radius)
       .attr("d", "")
-      .transition()
-      .duration(500)
       .attr("d", (d) => drawPathSquare(d.radius));
+    // .transition()
+    // .duration(120)
+
+    circs
+      .filter((d, i) => {
+        return $snapPointsClass.array[d.pointIndexFullArray].isSelected;
+      })
+      .attr("stroke", selectedColor)
+      .attr("stroke-width", (d) => d.radius);
   };
 
   const drawPathSquare = (r) => {
