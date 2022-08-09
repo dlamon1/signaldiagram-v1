@@ -160,7 +160,7 @@ export class SnapPoints {
 // .attr("stroke", (d) => d.color.border)
 // .attr("stroke-width", (d) => d.lineWidth);
 
-class SnapPoint {
+export class SnapPoint {
   isSquare = false;
   isCircle = false;
   isTriangle = false;

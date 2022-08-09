@@ -16,6 +16,7 @@
     isRearView,
     columns,
     rows,
+    snapPointsQuantity,
   } from "../store";
 
   let hoveredColor = "rgba(0, 255, 170, 1)";
@@ -29,6 +30,154 @@
 
     $groups && drawSnapPointWrappers();
   }
+
+  let snapGroups;
+  let snapGroupsEnter;
+
+  const drawSnapPointWrappers = () => {
+    // $groupsEnter
+    //   .append("g")
+    //   .merge($groups.select("g"))
+    //   .attr("id", (d) => {
+    //     console.log(d);
+    //     return "snap-point-group" + d.i;
+    //   })
+    //   .attr("transform", (d) => {
+    //     return (
+    //       "translate(" +
+    //       d.snapPointObjects[0].x +
+    //       "," +
+    //       d.snapPointObjects[0].y +
+    //       ")"
+    //     );
+    //   })
+    //   .append("circle")
+    //   .attr("r", function (d) {
+    //     // console.log(d);
+    //     return d.snapPointObjects[0].radius;
+    //   });
+
+    // if ($snapPointsQuantity === 1) return;
+
+    // $groupsEnter
+    //   .append("g")
+    //   .merge($groups.select("g"))
+    //   .attr("id", (d) => {
+    //     console.log(d);
+    //     return "snap-point-group" + d.i;
+    //   })
+    //   .attr("transform", (d) => {
+    //     return (
+    //       "translate(" +
+    //       d.snapPointObjects[1].x +
+    //       "," +
+    //       d.snapPointObjects[1].y +
+    //       ")"
+    //     );
+    //   })
+    //   .append("circle")
+    //   .attr("r", function (d) {
+    //     // console.log(d);
+    //     return d.snapPointObjects[0].radius;
+    //   });
+
+    // console.log(snapGroups);
+    // .attr("width", (d) => d.width)
+    // .attr("height", (d) => d.height)
+    // .attr("fill", (d) => d.color.background)
+    // .attr("stroke", (d) => d.color.border)
+    // .attr("stroke-width", (d) => d.lineWidth)
+    // .style("point-events", $isDrawingSignalLine && "none")
+
+    // if ($snapPointsQuantity === 1) {
+    // svgContainer.selectAll('.table')
+    //           .each(function (d, i) {
+    //               tableRows = d3.select(this).selectAll('.row')
+    //                   .data(d.values)
+    //                   .enter()
+    //                   .append(g) (etc.)
+    // $groupsEnter.each(function (d, i) {
+    //   snapGroups = d3
+    //     .select(this)
+    //     .selectAll("g")
+    //     .data((d) => d.snapPointObjects);
+
+    //   snapGroupsEnter = snapGroups.enter().append("g");
+
+    //   snapGroupsEnter
+    //     .merge(snapGroups)
+    //     .attr("id", "snap-point-group")
+    //     .attr("transform", (d) => {
+    //       return "translate(" + d.x + "," + d.y + ")";
+    //     });
+
+    //   snapGroups.exit().remove();
+
+    //   let circles = snapGroupsEnter
+    //     .append("circle")
+    //     .merge(snapGroups.select("circle"))
+    //     .attr("r", 10);
+    // });
+
+    // .enter()
+    // .append("g")
+    // .merge($groupsEnter.select("g"))
+    // .attr("id", "snap-point-group")
+    // .attr("transform", (d) => {
+    //   return "translate(" + d.x + "," + d.y + ")";
+    // })
+    // .append("circle")
+    // .attr("r", function (d) {
+    //   console.log(d);
+    //   return d.radius * 1;
+    // });
+
+    console.log(snapGroupsEnter);
+    // .append("g")
+    // .call((d) => console.log(d))
+    // .attr("id", (d) => {
+    //   "snap-group" + d.i;
+    // })
+    // .attr("transform", (d) => {
+    //   // console.log(d);
+    //   return (
+    //     "translate(" +
+    //     d.snapPointObjects[0].x +
+    //     "," +
+    //     d.snapPointObjects[0].y +
+    //     ")"
+    //   );
+    // });
+    // } else {
+    //   snapGroups = $groupsEnter
+    //     .append("g")
+    //     .attr("id", (d) => {
+    //       "snap-group" + d.i;
+    //     })
+    //     .attr("transform", (d) => {
+    //       return (
+    //         "translate(" +
+    //         d.snapPointObjects[0].x +
+    //         "," +
+    //         d.snapPointObjects[0].y +
+    //         ")"
+    //       );
+    //     })
+    //     .append("g")
+    //     .attr("id", (d) => {
+    //       "snap-group" + d.i;
+    //     })
+    //     .attr("transform", (d) => {
+    //       return (
+    //         "translate(" +
+    //         d.snapPointObjects[1].x +
+    //         "," +
+    //         d.snapPointObjects[1].y +
+    //         ")"
+    //       );
+    //     });
+    // }
+  };
 
   let panel = {
     i: 59,
@@ -55,28 +204,32 @@
     ratio: 0.5,
   };
 
-  const drawSnapPointWrappers = () => {
-    let snapPoints = $snapPointsClass.array;
+  // let snaps
 
-    snapPoints.forEach((sp, i) => {
-      // console.log(sp);
-      $groupsEnter
-        .filter((d) => {
-          // console.log(d);
-          return d.i === sp.panelIndex;
-        })
-        .append("g")
-        .merge($groups.select("g"))
-        .attr("id", (d) => {
-          return "snap-point-group" + i;
-        })
-        .attr("transform", (d) => {
-          return "translate(" + sp.x + "," + sp.y + ")";
-        })
-        .append("circle")
-        .attr("r", 5);
-    });
-  };
+  // const drawSnapPointWrappers = () => {
+  //   let snapPoints = $snapPointsClass.array;
+
+  //   snapPoints.forEach((sp, i) => {
+  //     // console.log(sp);
+  //     let snaps = $groupsEnter
+  //       .filter((d) => {
+  //         d.i === i && console.log(d.i);
+  //         return d.i === sp.panelIndex;
+  //       })
+  //       .append("g")
+  //       .merge($groups.select("g"))
+  //       .attr("id", (d) => {
+  //         return "snap-point-group" + i;
+  //       })
+  //       .attr("transform", (d) => {
+  //         return "translate(" + sp.x + "," + sp.y + ")";
+  //       })
+  //       .append("circle")
+  //       .attr("r", 5);
+
+  //     console.log(snaps);
+  //   });
+  // };
 
   //   $groups = $gZoomWrapperRef.selectAll("g").data(panels, (d) => d.i);
 

@@ -1,4 +1,5 @@
 import { get, writable } from "svelte/store";
+import { SnapPoints, SnapPoint } from "./SnapPointsClass";
 
 import {
   isCtrl,
@@ -18,6 +19,7 @@ import {
 
 export class Panels {
   array = [];
+  snapPoints = new SnapPoints();
 
   constructor() {
     this._store = writable(this);
@@ -30,6 +32,7 @@ export class Panels {
 
     this.resetArray();
     snapPoints.resetArray();
+    this.snapPoints.resetArray();
 
     let snapPointIndex = 0;
     let count = 0;
@@ -37,15 +40,29 @@ export class Panels {
     for (let i = 0; i < get(rows); i++) {
       for (let j = 0; j < get(columns); j++) {
         let thisPanelsSnapPointsIndexes = [];
+        let snapPointObjects = [];
         let oldPanel = oldPanels[i];
 
         for (let k = 1; k < get(snapPointsQuantity) + 1; k++) {
           snapPoints.addSnapPoint(i, j, k, count, snapPointIndex);
+          this.snapPoints.addSnapPoint(i, j, k, count, snapPointIndex);
+
+          let newSnapPoint = new SnapPoint(i, j, k, count, snapPointIndex);
+          snapPointObjects.push(newSnapPoint);
+
           thisPanelsSnapPointsIndexes.push(snapPointIndex);
+
           snapPointIndex += 1;
         }
 
-        this.addPanel(i, j, count, thisPanelsSnapPointsIndexes, oldPanel);
+        this.addPanel(
+          i,
+          j,
+          count,
+          thisPanelsSnapPointsIndexes,
+          oldPanel,
+          snapPointObjects
+        );
 
         count++;
       }
@@ -58,8 +75,15 @@ export class Panels {
     return this._store.subscribe(subscriber);
   }
 
-  addPanel(i, j, count, thisPanelsSnapPoints, oldPanel) {
-    let newPanel = new Panel(i, j, count, thisPanelsSnapPoints, oldPanel);
+  addPanel(i, j, count, thisPanelsSnapPoints, oldPanel, snapPointObjects) {
+    let newPanel = new Panel(
+      i,
+      j,
+      count,
+      thisPanelsSnapPoints,
+      oldPanel,
+      snapPointObjects
+    );
     this.array.push(newPanel);
   }
 
@@ -85,6 +109,7 @@ export class Panels {
   deHover = () => {
     this.array.forEach((p) => p.setIsHovered(false));
     get(snapPoints).deHover();
+    this.snapPoints.deHover();
     updatePanels();
   };
 
@@ -92,6 +117,7 @@ export class Panels {
     let snapPointsClass = get(snapPointsStore);
     let signalLinesClass = get(signalLines);
     snapPointsClass.deSelect();
+    this.snapPoints.deSelect();
     signalLinesClass.deSelect();
 
     let i = e.target.__data__.i;
@@ -111,6 +137,7 @@ export class Panels {
     let snapPointsClass = get(snapPoints);
     let signalLinesClass = get(signalLines);
     snapPointsClass.deSelect();
+    this.snapPoitns.deSelect();
     signalLinesClass.deSelect();
 
     if (!get(isCtrl)) {
@@ -145,7 +172,7 @@ export class Panel {
   width;
   height;
 
-  constructor(i, j, count, thisPanelsSnapPoints, oldPanel) {
+  constructor(i, j, count, thisPanelsSnapPoints, oldPanel, snapPointObjects) {
     this.row = i;
     this.column = j;
     this.i = count;
@@ -155,6 +182,7 @@ export class Panel {
     this.setDimensions();
     this.setLineWidth();
     this.thisPanelsSnapPoints = thisPanelsSnapPoints;
+    this.snapPointObjects = snapPointObjects;
     // oldPanel && this.copyFromOldPanel(oldPanel);
   }
 

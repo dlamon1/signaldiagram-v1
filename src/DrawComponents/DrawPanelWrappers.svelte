@@ -16,6 +16,9 @@
     isRearView,
     columns,
     rows,
+    snapPointsQuantity,
+    setIsDrawingSignalLine,
+    transform,
   } from "../store";
 
   let hoveredColor = "rgba(0, 255, 170, 1)";
@@ -24,32 +27,42 @@
   import * as d3 from "d3";
 
   $: {
-    let t = [$panelsClass, $isRearView];
+    let t = [$panelsClass, $isRearView, $isDrawMode];
 
-    drawPanelWrappers();
+    // console.log($panelsClass);
+
+    setTimeout(() => drawPanelWrappers(), 20);
   }
 
   const drawPanelWrappers = () => {
     let panels = $panelsClass.array;
 
-    $groups = $gZoomWrapperRef.selectAll("g").data(panels, (d) => d.i);
+    // 1
+    $groups = $gZoomWrapperRef
+      .selectAll("g.panel-wrapper")
+      .data(panels, (d) => d.i);
 
-    $groupsEnter = $groups.enter().append("g");
+    // 2
+    $groupsEnter = $groups.enter().append("g").classed("panel-wrapper", true);
 
+    // 3
     $groupsEnter
       .merge($groups)
       .transition()
+      // .call((d) => console.log(d))
       .attr("id", (d) => "panelgroup" + d.i)
       .attr("transform", (d) => {
         return "translate(" + d.x + "," + d.y + ")";
       });
 
+    // 4
     $groups.exit().remove();
 
+    //5
     let rects = $groupsEnter
       .append("rect")
       .merge($groups.select("rect"))
-      .attr("class", "panel-wrapper")
+      // .attr("class", "panel-wrapper")
       .attr("id", (d) => {
         "panel-rectangle" + d.i;
       })
@@ -116,27 +129,6 @@
       .style("pointer-events", "none")
       .style("user-select", "none");
 
-    // Draw Snap Points Groups
-    // Draw Snap Points Groups
-    // Draw Snap Points Groups
-
-    // $groupsEnter
-    //   .append("text")
-    //   .merge($groups.select("text"))
-    //   .text((d) => {
-    //     if ($isRearView) {
-    //       return $columns - d.column + "," + (d.row + 1);
-    //     } else {
-    //       return d.column + 1 + "," + (d.row + 1);
-    //     }
-    //   })
-    //   .attr("x", (d) => d.width / 32)
-    //   .attr("y", (d) => d.height / 32)
-    //   .attr("dominant-baseline", "hanging")
-    //   .style("font-size", (d) => d.width / 6 + "px")
-    //   .style("pointer-events", "none")
-    //   .style("user-select", "none");
-
     // Draw Selected Panels
     // Draw Selected Panels
     // Draw Selected Panelss
@@ -152,5 +144,87 @@
       .attr("height", (d) => d.height - d.lineWidth * 2)
       .attr("stroke", selectedColor)
       .attr("stroke-width", (d) => d.lineWidth * 2);
+
+    // Draw Snap Points
+    // Draw Snap Points
+    // Draw Snap Points
+    // 1
+    let snapPointGroups = d3
+      .selectAll("g.panel-wrapper")
+      .selectAll("g")
+      .data((d, i) => {
+        console.log(d.snapPointObjects);
+        return d.snapPointObjects;
+      });
+
+    // 2
+    let snapPointsGroupsEnter = snapPointGroups
+      .enter()
+      .append("g")
+      .attr("id", (d) => "snap-point")
+      .attr("class", "snap-point");
+
+    // 3
+    snapPointsGroupsEnter.merge(snapPointGroups).attr("transform", (d) => {
+      return "translate(" + d.x + "," + d.y + ")";
+    });
+
+    // 4
+    snapPointGroups.exit().remove();
+
+    // 5
+    let circs = snapPointsGroupsEnter
+      .append("circle")
+      .merge(snapPointGroups.select("circle"))
+      .attr("r", (d) => {
+        // console.log(d);
+        return d.radius;
+      })
+      .style("point-events", $isDrawingSignalLine && "none")
+      .attr("fill", (d) =>
+        d.isSelected && !$isDrawingSignalLine
+          ? selectedColor
+          : d.color.background
+      )
+      .style("paint-order", "stroke")
+      .attr("stroke-alignment", "inner")
+      .on("mouseover", function (d, i) {
+        // console.log("mouse over");
+        if ($isDrawingSignalLine) {
+          $signalLinesClass.setDestinationSnapPointIndex(d);
+        }
+        d.stopPropagation();
+        let obj = d.path[0].__data__;
+        d3.select(this).attr("fill", hoveredColor);
+        // .attr("stroke-width", obj.lineWidth * 4);
+      })
+      .on("mouseout", function (d, i) {
+        d.stopPropagation();
+        let obj = d.path[0].__data__;
+        d3.select(this).attr("fill", obj.color.background);
+        // .attr("stroke-width", obj.lineWidth);
+      })
+
+      .on("mousedown", function (d, i) {
+        d.stopPropagation();
+        if (!$isDrawMode) return;
+
+        $signalLinesClass.setOriginSnapPointIndex(d);
+        setIsDrawingSignalLine(true);
+      })
+      .on("mouseup", (d) => {
+        d.stopPropagation();
+        // setIsDrawingSignalLine(false);
+        if ($isDrawMode && $isDrawingSignalLine) {
+          $signalLinesClass.addSignalLine();
+          setIsDrawingSignalLine(false);
+        }
+      })
+      .on("click", (e) => {
+        e.stopPropagation();
+        if (!$isDrawMode) {
+          $snapPointsClass.selectSnapPoint(e);
+        }
+      });
   };
 </script>

@@ -64,7 +64,7 @@
   {/if} -->
   {#if $groupsEnter}
     <!-- <DrawSnapPointObjects /> -->
-    <DrawSnapPointWrappers />
+    <!-- <DrawSnapPointWrappers /> -->
   {/if}
 
   <!-- {#if $selectedPanelRectsRef} -->
