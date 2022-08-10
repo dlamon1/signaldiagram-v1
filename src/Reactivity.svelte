@@ -71,6 +71,8 @@
 
     let t = {
       $screenAndPanelDimensions,
+      $snapPointsQuantity,
+      $snapPointDirection,
     };
 
     $screenAndPanelDimensions && updatePanelArray();

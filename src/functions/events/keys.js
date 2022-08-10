@@ -37,13 +37,14 @@ export const handleKeyDown = (e) => {
 
   if (e.keyCode === 77) {
     setMode("move");
+    d;
   }
 
-  if (e.keyCode === 68) {
+  if (e.keyCode === 68 && get(isShifted)) {
     // mode = "draw";
     setMode("draw");
   }
-  if (e.keyCode === 83) {
+  if (e.keyCode === 83 && get(isShifted)) {
     // mode = "select";
     setMode("select");
   }

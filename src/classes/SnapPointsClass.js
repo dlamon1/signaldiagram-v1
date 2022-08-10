@@ -169,7 +169,7 @@ export class SnapPoint {
   isHovered = false;
   color = {
     background: "#777",
-    font: "#000000",
+    font: "#FFF",
     border: "#000000",
   };
 

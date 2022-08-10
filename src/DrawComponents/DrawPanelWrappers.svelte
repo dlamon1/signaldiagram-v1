@@ -20,15 +20,31 @@
     setIsDrawingSignalLine,
     transform,
     colorState,
+    showCoordinates,
+    canvasWrapperWidth,
+    canvasWrapperHeight,
+    screenAndPanelDimensions,
+    width,
+    height,
+    opacity,
   } from "../store";
 
   let hoveredColor = "rgba(0, 255, 170, 1)";
   let selectedColor = "rgba(241, 89, 70, 1)";
 
+  let rearViewLabel = null;
+
   import * as d3 from "d3";
 
   $: {
-    let t = [$panelsClass, $isRearView, $isDrawMode, $snapPointsClass];
+    let t = [
+      $panelsClass,
+      $isRearView,
+      $isDrawMode,
+      $snapPointsClass,
+      $showCoordinates,
+      $opacity,
+    ];
 
     // console.log($panelsClass);
 
@@ -118,6 +134,9 @@
       .append("text")
       .merge($groups.select("text"))
       .text((d) => {
+        if (!$showCoordinates) {
+          return "";
+        }
         if ($isRearView) {
           return $columns - d.column + "," + (d.row + 1);
         } else {
@@ -302,6 +321,59 @@
       .attr("stroke-width", (d) => d.radius)
       .attr("fill", (d, i) => {
         return $snapPointsClass.array[d.pointIndexFullArray].color.background;
+      });
+
+    // const bowl = selection
+    //   .selectAll("rect")
+    //   .data([null])
+    //   .enter()
+    //   .append("rect")
+    //   .attr("y", 110)
+    //   .attr("width", 920)
+    //   .attr("height", 300)
+    //   .attr("rx", 300 / 2);
+
+    // Draw Rear View Label
+    // Draw Rear View Label
+    // Draw Rear View Label
+
+    if (rearViewLabel) {
+      d3.select("#rear-view-label").text("").remove();
+    }
+
+    rearViewLabel = $gZoomWrapperRef
+      .append("text")
+      .attr("id", "rear-view-label")
+      .text(() => ($isRearView ? "REAR VIEW" : ""))
+      .attr(
+        "x",
+        (($columns + 3) * $screenAndPanelDimensions.panelDimension * $width) /
+          $height /
+          2
+      )
+      .attr("y", ($rows * $screenAndPanelDimensions.panelDimension) / 2)
+      .attr("fill", "#000")
+      .attr("font-size", () => {
+        let screenWidth = $columns * $screenAndPanelDimensions.panelDimension;
+        return screenWidth / 11 + "px";
+      })
+      .style("opacity", $opacity)
+      .attr("text-anchor", "middle")
+      .attr("font-famliy", "'Heebo', sans-serif;")
+      .style("pointer-events", "none")
+      .style("user-select", "none")
+      .style("font-weight", "800")
+      .attr("dominant-baseline", "middle")
+      .attr("transform-origin", "50% 50%")
+      .attr("transform", () => {
+        let opposite =
+          ($columns * $screenAndPanelDimensions.panelDimension * $width) /
+            $height -
+          150;
+        let adjacent = $rows * $screenAndPanelDimensions.panelDimension - 150;
+        let angle = Math.atan(adjacent / opposite);
+        angle = ((-angle * 180) / Math.PI) * 0.8;
+        return "rotate(" + angle + ")";
       });
   };
 

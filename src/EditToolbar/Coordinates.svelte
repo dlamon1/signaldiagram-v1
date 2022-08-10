@@ -29,7 +29,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* margin-bottom: 10px; */
   }
   .range {
     margin-top: 5px;
