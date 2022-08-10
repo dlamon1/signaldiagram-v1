@@ -6,47 +6,37 @@
     textInputRef,
     selectedSquares,
     squares,
-    selectedSnapPoints,
-    selectedPanels,
+    selectedPanels as selectedPanelsClass,
     selectedSignalLines,
     snapPointLabel,
     colorState,
     snapPoints as snapPointsClass,
   } from "../store";
-  import { fade } from "svelte/transition";
+  import { fade, fly } from "svelte/transition";
   import { focusLabelInput } from "../functions/focusInput";
 
   import ColorPicker from "./components/ColorPicker.svelte";
 
-  let isSnapPointsSelected = false;
+  let sd = [];
 
   $: {
-    if ($selectedSquares.length > 0) {
-      isSnapPointsSelected = true;
-    } else {
-      isSnapPointsSelected = false;
-    }
+    sd = [];
+
+    $snapPointsClass.array?.forEach((p) => {
+      if ((p.isSquare && p.isSelected) || (p.isTriangle && p.isSelected)) {
+        sd.push(p);
+      }
+    });
   }
 
-  let toggleSquares = () => {
-    // let a = [];
-    // $selectedSnapPoints.forEach((point, i) => {
-    //   $squares[point.i].isOn = true;
-    //   a.push($squares[point.i]);
-    // });
-    // $squares = [...$squares];
-    // $selectedSquares = [...a];
-    // focusLabelInput();
-  };
-
-  const deleteSelectedSquares = () => {
-    $selectedSquares.forEach((s) => {
-      $squares[s.i].isOn = false;
-    });
-    $selectedSquares = [];
-    $selectedSquares = $selectedSquares;
-    $squares = $squares;
-  };
+  // const deleteSelectedSquares = () => {
+  //   $selectedSquares.forEach((s) => {
+  //     $squares[s.i].isOn = false;
+  //   });
+  //   $selectedSquares = [];
+  //   $selectedSquares = $selectedSquares;
+  //   $squares = $squares;
+  // };
 
   const updateLocalLabelAndColorState = () => {
     if ($selectedSquares.length > 1) return;
@@ -58,32 +48,41 @@
     });
   };
 
-  $: {
-    let triggers = {
-      $selectedPanels,
-      $selectedSnapPoints,
-      $selectedSignalLines,
-    };
-    updateLocalLabelAndColorState();
-  }
-
-  let isBackgroundOpen = true;
-  let isFontOpen = false;
+  // $: {
+  //   let triggers = {
+  //     $selectedPanelsClass,
+  //     $selectedSignalLines,
+  //   };
+  //   updateLocalLabelAndColorState();
+  // }
 </script>
+
+<div
+  class="title"
+  in:fly={{ x: -100, duration: 120 }}
+  out:fade={{ x: 100, duration: 0 }}
+>
+  Snap Points
+</div>
 
 <div
   id="snappoints"
   in:fade={{ x: 100, duration: 150 }}
   out:fade={{ x: 0, duration: 40 }}
 >
-  <div class="title">Snap Points</div>
-
   <div class="shape-button-container">
     <button id="shape-button" on:click={$snapPointsClass.setIsSquares(true)}
-      >Add Square</button
+      >Square</button
     >
   </div>
-  {#if isSnapPointsSelected}
+
+  <div class="shape-button-container">
+    <button id="shape-button" on:click={$snapPointsClass.setIsTriangles(true)}
+      >Triangle</button
+    >
+  </div>
+
+  {#if sd.length}
     <div id="label-input">
       Label:{" "}
 
@@ -95,26 +94,22 @@
       />
     </div>
 
-    <div
-      class="subtitle"
-      on:click={() => (isBackgroundOpen = !isBackgroundOpen)}
-    >
-      Background {isBackgroundOpen ? "▼" : "▲"}
-    </div>
-    {#if isBackgroundOpen}
-      <ColorPicker key={"snapPoint"} layer={"background"} />
-    {/if}
+    <ColorPicker
+      key={"snapPoint"}
+      layer={"background"}
+      element={"Background"}
+      isOpen={true}
+    />
 
-    <div class="subtitle" on:click={() => (isFontOpen = !isFontOpen)}>
-      Font {isFontOpen ? "▼" : "▲"}
-    </div>
-
-    {#if isFontOpen}
-      <ColorPicker key={"snapPoint"} layer={"font"} />
-    {/if}
+    <ColorPicker
+      key={"snapPoint"}
+      layer={"font"}
+      element={"Font"}
+      isOpen={false}
+    />
 
     <div id="delete-button" transition:fade={{ y: -10, duration: 300 }}>
-      <button on:click={deleteSelectedSquares}>Remove Square</button>
+      <!-- <button on:click={deleteSelectedSquares}>Remove Square</button> -->
     </div>
   {/if}
 </div>
@@ -125,12 +120,10 @@
     display: flex;
     justify-content: center;
   }
+
   .title {
     font-size: 1.2em;
     font-weight: bold;
-  }
-  .subtitle {
-    margin-top: 10px;
   }
 
   #delete-button {

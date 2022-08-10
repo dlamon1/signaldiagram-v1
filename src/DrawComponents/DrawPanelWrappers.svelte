@@ -19,6 +19,7 @@
     snapPointsQuantity,
     setIsDrawingSignalLine,
     transform,
+    colorState,
   } from "../store";
 
   let hoveredColor = "rgba(0, 255, 170, 1)";
@@ -35,6 +36,8 @@
   }
 
   const drawPanelWrappers = () => {
+    console.log("draw");
+    // console.log($colorState);
     let panels = $panelsClass.array;
 
     // 1
@@ -62,7 +65,6 @@
     let rects = $groupsEnter
       .append("rect")
       .merge($groups.select("rect"))
-      // .attr("class", "panel-wrapper")
       .attr("id", (d) => {
         "panel-rectangle" + d.i;
       })
@@ -173,7 +175,7 @@
     snapPointGroups.exit().remove();
 
     // 5
-    let circs = snapPointsGroupsEnter
+    let snapPointPath = snapPointsGroupsEnter
       .append("path")
       .merge(snapPointGroups.select("path"))
       .attr("d", (d) => drawPathCircle(d.radius))
@@ -200,9 +202,12 @@
       .on("mouseout", function (d, i) {
         d.stopPropagation();
         let obj = d.path[0].__data__;
-        d3.select(this).attr("fill", obj.color.background);
-        // .attr("stroke-width", obj.lineWidth);
+        d3.select(this).attr(
+          "fill",
+          $snapPointsClass.array[obj.pointIndexFullArray].color.background
+        );
       })
+      // .attr("stroke-width", obj.lineWidth);
 
       .on("mousedown", function (d, i) {
         d.stopPropagation();
@@ -226,27 +231,87 @@
         }
       });
 
-    // .attr("d", "")
-    // .attr("d", (d) => drawPathCircle(d.radius));
-
-    circs
+    // Draw as Square is Square
+    // Draw as Square is Square
+    // Draw as Square is Square
+    snapPointPath
       .filter((d, i) => {
         return $snapPointsClass.array[d.pointIndexFullArray].isSquare;
       })
-      .attr("fill", (d) => d.color.background)
+      .attr("fill", (d) => {
+        // console.log(d);
+        return d.color.background;
+      })
       .attr("stroke", (d) => d.color.border)
       .attr("stroke-width", (d) => d.radius)
       .attr("d", "")
-      .attr("d", (d) => drawPathSquare(d.radius));
-    // .transition()
-    // .duration(120)
+      .attr("d", (d) => drawPathSquare(d.radius))
+      .attr("fill", (d, i) => {
+        return $snapPointsClass.array[d.pointIndexFullArray].color.background;
+      });
 
-    circs
+    // Draw as Triangle
+    // Draw as Triangle
+    // Draw as Triangle
+    snapPointPath
+      .filter((d, i) => {
+        return $snapPointsClass.array[d.pointIndexFullArray].isTriangle;
+      })
+      .attr("fill", (d) => {
+        // console.log(d);
+        return d.color.background;
+      })
+      .attr("stroke", (d) => d.color.border)
+      .attr("stroke-width", (d) => d.radius)
+      .attr("d", "")
+      .attr("d", (d) => drawPathTriangle(d.radius))
+      .attr("fill", (d, i) => {
+        return $snapPointsClass.array[d.pointIndexFullArray].color.background;
+      });
+
+    snapPointGroups
+      .filter((d, i) => {
+        let obj = $snapPointsClass.array[d.pointIndexFullArray];
+        return obj.isSquare || obj.isTriangle;
+      })
+      .append("text")
+      .text((d) => {
+        // console.log(d);
+        return $snapPointsClass.array[d.pointIndexFullArray].label;
+      })
+      .attr("dominant-baseline", "middle")
+      .style("font-size", (d) => d.width / 6 + "px")
+      .style("pointer-events", "none")
+      .style("user-select", "none")
+      .attr("text-anchor", "middle")
+      .attr("stroke", (d) => {
+        return $snapPointsClass.array[d.pointIndexFullArray].color.font;
+      })
+      .attr("fill", (d) => {
+        return $snapPointsClass.array[d.pointIndexFullArray].color.font;
+      });
+
+    // Draw as Selected if Selected
+    // Draw as Selected if Selected
+    // Draw as Selected if Selected
+    snapPointPath
       .filter((d, i) => {
         return $snapPointsClass.array[d.pointIndexFullArray].isSelected;
       })
       .attr("stroke", selectedColor)
-      .attr("stroke-width", (d) => d.radius);
+      .attr("stroke-width", (d) => d.radius)
+      .attr("fill", (d, i) => {
+        return $snapPointsClass.array[d.pointIndexFullArray].color.background;
+      });
+  };
+
+  const drawPathTriangle = (r) => {
+    r = 2.5 * r;
+    let l = 2 * r;
+    let trianglePath =
+      // "M " + r + " " + r + " h " + -l + " l " + -l + " " + r + " Z";
+      "M " + r + " " + r / 1.5 + " h " + -l + " l " + r + " " + -l + " Z";
+    return trianglePath;
   };
 
   const drawPathSquare = (r) => {

@@ -24,7 +24,7 @@
     canvasWrapperHeight,
     isSelectMode,
     isMoveMode,
-    snapPoints,
+    snapPoints as snapPointsClass,
     screenAndPanelDimensions,
     transform as transformStore,
   } from "./store";
@@ -68,7 +68,7 @@
       $signalLines.deSelect();
     }
     if (type != "snappoints") {
-      $snapPoints.deSelect();
+      $snapPointsClass.deSelect();
     }
   };
 
@@ -89,13 +89,13 @@
     $selectedSquares = $selectedSquares;
   };
 
-  const updateSelectedSnapPointsColor = (color) => {
-    $selectedSquares.forEach((point, i) => {
-      $selectedSquares[i].backgroundColor = color.background;
-      $selectedSquares[i].outlineColor = color.outline;
-      $selectedSquares[i].fontColor = color.font;
+  const updateSelectedSnapPointsColor = (colorObj) => {
+    $snapPointsClass.array.forEach((sp, i) => {
+      if (!sp.isSelected) return;
+      sp.setBackgroundColor(colorObj.background);
+      sp.setFontColor(colorObj.font);
     });
-    $selectedSquares = $selectedSquares;
+    $snapPointsClass = $snapPointsClass;
   };
 
   const updateSelectedSignalLinesColor = (color) => {
@@ -125,12 +125,11 @@
 
   $: {
     updateSelectedSnapPointsLabel($snapPointLabel);
-    // $textInputRef && $textInputRef.focus();
   }
 
   $: {
     updateSelectedSnapPointsColor($colorState.snapPoint);
-    // $textInputRef && $textInputRef.focus();
+    // console.log($colorState);
   }
 
   $: {

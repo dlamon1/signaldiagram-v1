@@ -142,23 +142,23 @@ export class SnapPoints {
   setIsSquares = (boolean) => {
     this.array.forEach((sp) => {
       if (sp.isSelected) {
+        sp.setIsTriangle(false);
         sp.setIsSquare(boolean);
       }
     });
     updateSnapPoints();
   };
-}
 
-// let snapPointGroupElementThatAreSquare = snapPointGroupElement
-// .filter((d) => d.isSquare)
-// .select(("#snap-point-circle")
-// .append("rect")
-// // append a rect with centered on the snap point
-// .attr("width", (d) => d.width)
-// .attr("height", (d) => d.height)
-// .attr("fill", (d) => d.color.background)
-// .attr("stroke", (d) => d.color.border)
-// .attr("stroke-width", (d) => d.lineWidth);
+  setIsTriangles = (boolean) => {
+    this.array.forEach((sp) => {
+      if (sp.isSelected) {
+        sp.setIsSquare(false);
+        sp.setIsTriangle(boolean);
+      }
+    });
+    updateSnapPoints();
+  };
+}
 
 export class SnapPoint {
   isSquare = false;
@@ -194,9 +194,26 @@ export class SnapPoint {
     this.createDimensions(row, column, pointIndexWithinPanel);
   }
 
+  setBackgroundColor(color) {
+    this.color.background = color;
+  }
+
+  setBorderColor(color) {
+    this.color.border = color;
+  }
+
+  setFontColor(color) {
+    this.color.font = color;
+  }
+
   setIsSquare(boolean) {
+    this.isTriangle = false;
     this.isSquare = boolean;
-    console.log(this);
+  }
+
+  setIsTriangle(boolean) {
+    this.isSquare = false;
+    this.isTriangle = boolean;
   }
 
   setPanelDimension() {
