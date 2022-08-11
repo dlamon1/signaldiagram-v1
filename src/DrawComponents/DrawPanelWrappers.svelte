@@ -277,7 +277,6 @@
         return $snapPointsClass.array[d.pointIndexFullArray].isTriangle;
       })
       .attr("fill", (d) => {
-        // console.log(d);
         return d.color.background;
       })
       .attr("stroke", (d) => d.color.border)
@@ -288,19 +287,32 @@
         return $snapPointsClass.array[d.pointIndexFullArray].color.background;
       });
 
-    snapPointGroups
+    // Draw Snap Point Label
+    // Draw Snap Point Label
+    // Draw Snap Point Label
+    let labels = snapPointsGroupsEnter
+      .append("text")
+      .merge(snapPointGroups.select("text"));
+
+    labels
       .filter((d, i) => {
         let obj = $snapPointsClass.array[d.pointIndexFullArray];
         return obj.isSquare || obj.isTriangle;
       })
-      .append("text")
+      .text("")
       .text((d) => {
-        // console.log(d);
         return $snapPointsClass.array[d.pointIndexFullArray].label;
       })
       .attr("dominant-baseline", "middle")
       .style("font-size", (d) => d.width / 6 + "px")
       .style("pointer-events", "none")
+      .attr("y", (d) => {
+        let obj = $snapPointsClass.array[d.pointIndexFullArray];
+        if (obj.isTriangle) {
+          return obj.radius;
+        }
+        return 0;
+      })
       .style("user-select", "none")
       .attr("text-anchor", "middle")
       .attr("stroke", (d) => {
@@ -323,20 +335,9 @@
         return $snapPointsClass.array[d.pointIndexFullArray].color.background;
       });
 
-    // const bowl = selection
-    //   .selectAll("rect")
-    //   .data([null])
-    //   .enter()
-    //   .append("rect")
-    //   .attr("y", 110)
-    //   .attr("width", 920)
-    //   .attr("height", 300)
-    //   .attr("rx", 300 / 2);
-
     // Draw Rear View Label
     // Draw Rear View Label
     // Draw Rear View Label
-
     if (rearViewLabel) {
       d3.select("#rear-view-label").text("").remove();
     }
@@ -375,14 +376,34 @@
         angle = ((-angle * 180) / Math.PI) * 0.8;
         return "rotate(" + angle + ")";
       });
+
+    // Draw Temporary Signal Line
+    // Draw Temporary Signal Line
+    // Draw Temporary Signal Line
+    let temporarySignalLine = $gZoomWrapperRef
+      .append("line")
+      .attr("id", "temp-signal-line")
+      .attr("stroke", "black")
+      .attr("stroke-width", 5)
+      .raise();
   };
 
   const drawPathTriangle = (r) => {
-    r = 2.5 * r;
-    let l = 2 * r;
+    let length = 2 * r;
+
     let trianglePath =
-      // "M " + r + " " + r + " h " + -l + " l " + -l + " " + r + " Z";
-      "M " + r + " " + r / 1.5 + " h " + -l + " l " + r + " " + -l + " Z";
+      "M " +
+      " 0 " +
+      -length +
+      " L " +
+      length +
+      " " +
+      length +
+      " L " +
+      -length +
+      " " +
+      length +
+      " Z";
     return trianglePath;
   };
 
