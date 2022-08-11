@@ -216,7 +216,6 @@
         d.stopPropagation();
         let obj = d.path[0].__data__;
         d3.select(this).attr("fill", hoveredColor);
-        // .attr("stroke-width", obj.lineWidth * 4);
       })
       .on("mouseout", function (d, i) {
         d.stopPropagation();
@@ -226,7 +225,6 @@
           $snapPointsClass.array[obj.pointIndexFullArray].color.background
         );
       })
-      // .attr("stroke-width", obj.lineWidth);
 
       .on("mousedown", function (d, i) {
         d.stopPropagation();
@@ -237,11 +235,11 @@
       })
       .on("mouseup", (d) => {
         d.stopPropagation();
-        // setIsDrawingSignalLine(false);
         if ($isDrawMode && $isDrawingSignalLine) {
           $signalLinesClass.addSignalLine();
           setIsDrawingSignalLine(false);
         }
+        setIsDrawingSignalLine(false);
       })
       .on("click", (e) => {
         e.stopPropagation();

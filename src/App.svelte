@@ -69,8 +69,9 @@
 
   <!-- {#if $selectedPanelRectsRef} -->
   <!-- <DrawSnapPointObjects />
-  <DrawCoordinates />
-  <DrawTemporarySignalLine /> -->
+  <DrawCoordinates />-->
+
+  <DrawTemporarySignalLine />
   <!-- <CanvasDraw /> -->
   <Dialogs />
 </div>

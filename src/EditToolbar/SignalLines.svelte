@@ -53,7 +53,12 @@
   </div>
 
   {#if isLineOpen}
-    <ColorPicker key={"signalLine"} layer={"background"} />
+    <ColorPicker
+      key={"signalLine"}
+      layer={"background"}
+      element={"Signal Lines"}
+      isOpen={true}
+    />
   {/if}
   <div class="remove-lines-container">
     <button on:click={removeLine}>Remove Lines</button>
