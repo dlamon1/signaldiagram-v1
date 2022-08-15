@@ -1,13 +1,10 @@
 <script>
-  import { line } from "d3";
-
   import {
     snapPointsQuantity,
     snapPointDirection,
     isDrawMode,
     selectionTab,
     selectedPanels,
-    selectedSquares,
     selectedSnapPoints,
     selectedSignalLines,
     colorState,
@@ -15,7 +12,7 @@
     panels,
     snapPoints as snapPointsClass,
     signalLines as signalLinesClass,
-    transform as transformStore,
+    selection,
   } from "./store";
 
   $: {
@@ -27,17 +24,12 @@
 
     if ($isDrawMode) {
       $selectionTab = "signallines";
+      $selection = "lines";
     }
   }
 
   const updateLocalLabelAndColorState = () => {
-    if ($selectedSquares.length > 1) return;
-    $selectedSquares.forEach((squares, i) => {
-      $snapPointLabel = squares.label;
-      $colorState.snapPoint.background = squares.backgroundColor;
-      $colorState.snapPoint.outline = squares.outlineColor;
-      $colorState.snapPoint.font = squares.fontColor;
-    });
+    console.log("updateLocalLabelAndColorState");
   };
 
   const updateSelectedSnapPointsLabel = (label) => {
@@ -60,9 +52,7 @@
 
   const updateSelectedSignalLinesColor = (color) => {
     $signalLinesClass.array.forEach((line, i) => {
-      // console.log(line);
       if (line.isSelected) {
-        console.log(line);
         line.updateColor(color);
       }
     });
@@ -94,7 +84,6 @@
 
   $: {
     updateSelectedSnapPointsColor($colorState.snapPoint);
-    // console.log($colorState);
   }
 
   $: {
@@ -105,6 +94,3 @@
     updateSelectedSignalLinesColor($colorState.signalLine.background);
   }
 </script>
-
-<style>
-</style>

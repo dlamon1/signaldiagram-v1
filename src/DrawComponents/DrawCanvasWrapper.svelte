@@ -15,12 +15,13 @@
 
   import { onMount } from "svelte";
 
-  const deSelectAll = () => {
-    // console.log("DESELECT");
-    // $panels.deSelect();
-    // $signalLines.deSelect();
-    // $snapPoints.deSelect();
-    // $panels = $panels;
+  const deSelectAll = (e) => {
+    console.log("DESELECT");
+    console.log(e);
+    $panels.deSelect();
+    $signalLines.deSelect();
+    $snapPoints.deSelect();
+    $panels = $panels;
   };
 
   const createSvg = () => {
@@ -29,14 +30,15 @@
       .append("svg")
       .attr("id", "svg")
       .attr("width", $canvasWrapperWidth)
-      .attr("height", $canvasWrapperHeight)
-      .on("click", deSelectAll);
+      .attr("height", $canvasWrapperHeight);
+    // .on("click", deSelectAll);
 
     $gZoomWrapperRef = $topLevelSvgRef
       .append("g")
       .attr("width", $canvasWrapperWidth)
       .attr("height", $canvasWrapperHeight)
       .attr("id", "g-zoom-wrapper");
+    // .on("click", (d) => d.stopPropagation());
   };
 
   d3.select("body").on("keydown", handleKeyDown).on("keyup", handleKeyUp);

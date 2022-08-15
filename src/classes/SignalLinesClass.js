@@ -103,28 +103,6 @@ export class SignalLines {
   }
 
   setDestinationSnapPointIndex(d3SnapPointObj) {
-    //   let example = {
-    //     "isSquare": false,
-    //     "isCircle": false,
-    //     "isTriangle": false,
-    //     "label": "A1",
-    //     "isSelected": false,
-    //     "isHovered": false,
-    //     "color": {
-    //         "background": "#777",
-    //         "font": "#000000",
-    //         "border": "#000000"
-    //     },
-    //     "radius": 8.085714285714285,
-    //     "x": 40.42857142857143,
-    //     "y": 107.80952380952381,
-    //     "row": 0,
-    //     "column": 12,
-    //     "pointIndexWithinPanel": 2,
-    //     "panelIndex": 12,
-    //     "pointIndexFullArray": 25,
-    //     "strokeWidth": 1.6171428571428572
-    // }
     let snapPoint = d3SnapPointObj.path[0].__data__;
     this.destination.snapPointIndex = snapPoint.pointIndexFullArray;
     updateSignalLines();

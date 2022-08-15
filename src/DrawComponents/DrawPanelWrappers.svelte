@@ -35,17 +35,14 @@
       $isDrawMode,
       $snapPointsClass,
       $showCoordinates,
-      $signalLinesClass,
       $opacity,
     ];
 
     drawPanelWrappers();
   }
 
-  let lineGroupElements;
-
   const drawPanelWrappers = () => {
-    // console.log("draw");
+    console.count("draw");
     // console.log($colorState);
     let panels = $panelsClass.array;
 
@@ -119,7 +116,7 @@
           .attr("x2", null)
           .attr("y2", null);
 
-        // setIsDrawingSignalLine(false);
+        setIsDrawingSignalLine(false);
       })
       .on("click", function (d, i, n) {
         if ($isDrawMode) return;
@@ -199,7 +196,13 @@
     let snapPointPath = snapPointsGroupsEnter
       .append("path")
       .merge(snapPointGroups.select("path"))
-      .attr("d", (d) => drawPathCircle(d.radius))
+      .attr("d", (d) => {
+        let r = d.radius;
+        if ($isDrawMode) {
+          r = d.radius * 2;
+        }
+        return drawPathCircle(r);
+      })
       .style("point-events", $isDrawingSignalLine && "none")
       .attr("fill", (d) =>
         d.isSelected && !$isDrawingSignalLine
