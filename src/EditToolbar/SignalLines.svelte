@@ -41,7 +41,7 @@
   in:fade={{ x: 100, duration: 150 }}
   out:fade={{ x: 0, duration: 40 }}
 >
-  <div class="title">Signal Lines</div>
+  <!-- <div class="title">Signal Lines</div> -->
 
   <div class="input-wrapper">
     <input type="checkbox" bind:checked={$showDirectionArrows} />

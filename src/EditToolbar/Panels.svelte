@@ -31,18 +31,18 @@
   };
 </script>
 
-<div
+<!-- <div
   class="title"
   in:fly={{ x: -100, duration: 120 }}
   out:fade={{ x: 100, duration: 0 }}
 >
   Panels
-</div>
+</div> -->
 
 <div
   id="panels"
   in:fade={{ x: 100, duration: 150 }}
-  out:fade={{ x: 0, duration: 40 }}
+  out:fade={{ x: 0, duration: 0 }}
 >
   <div class="crisscross">
     <button class="criss-cross" on:click={selectCriss}>Select [0]</button>

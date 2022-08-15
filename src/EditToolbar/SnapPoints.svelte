@@ -58,17 +58,9 @@
 </script>
 
 <div
-  class="title"
-  in:fly={{ x: -100, duration: 120 }}
-  out:fade={{ x: 100, duration: 0 }}
->
-  Snap Points
-</div>
-
-<div
   id="snappoints"
   in:fade={{ x: 100, duration: 150 }}
-  out:fade={{ x: 0, duration: 40 }}
+  out:fade={{ x: 0, duration: 0 }}
 >
   <div class="shape-button-container">
     <button id="shape-button" on:click={$snapPointsClass.setIsSquares(true)}

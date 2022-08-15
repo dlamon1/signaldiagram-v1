@@ -28,7 +28,7 @@
   import * as d3 from "d3";
 
   $: {
-    console.log("triggered");
+    // console.log("triggered");
     let t = [
       $panelsClass,
       $isRearView,
@@ -479,7 +479,6 @@
         (d, i) => $signalLinesClass.getOriginCoordinates(d, i, "destination").y
       )
       .attr("stroke", (d) => {
-        console.log(d.color);
         return d.color.background;
       })
       // .attr("stroke", "blue")

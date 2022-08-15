@@ -36,6 +36,20 @@
 
   <div class="divider" />
 
+  <div>
+    {#if $selectionTab === "panels"}
+      <div class="title">Panels</div>
+    {/if}
+
+    {#if $selectionTab === "snappoints"}
+      <div class="title">Snap Points</div>
+    {/if}
+
+    {#if $selectionTab === "signallines"}
+      <div class="title">Signal Lines</div>
+    {/if}
+  </div>
+
   <div id="selectors">
     {#if $selectionTab === "panels"}
       <Panels />
@@ -60,6 +74,10 @@
 </div>
 
 <style>
+  .title {
+    font-size: 1.2em;
+    font-weight: bold;
+  }
   .dialog {
     height: 40px;
   }
