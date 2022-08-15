@@ -27,6 +27,7 @@
     temporarySignalLine,
     groupsEnter,
   } from "./store";
+  import HandleSelectionTab from "./HandleSelectionTab.svelte";
 
   // $: console.log($gZoomWrapperRef);
 
@@ -35,6 +36,7 @@
 
 <div id="container">
   <Reactivity />
+  <HandleSelectionTab />
   <div
     id="canvas-wrapper"
     class="canvas-wrapper"

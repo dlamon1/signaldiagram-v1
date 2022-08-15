@@ -32,17 +32,19 @@
     <div>Mode.</div>
     <label>
       <input type="radio" bind:group={$mode} name="mode" value="select" />
-      Select(s)
+      Select(SHF+S)
     </label>
-    <label>
-      <input type="radio" bind:group={$mode} name="mode" value="draw" />
-      Draw(d)
-    </label>
+    <div>
+      <label>
+        <input type="radio" bind:group={$mode} name="mode" value="draw" />
+        Draw(SHF+D)
+      </label>
+    </div>
   </div>
 
   <!-- {#if $isSelectMode} -->
   <div id="selecting" class={$isSelectMode ? "isSelecting" : "isNotSelecting"}>
-    <div>Selecting (SHIFT + Drag)</div>
+    <div>Selecting (SHFT + Drag)</div>
     <label>
       <input
         type="radio"

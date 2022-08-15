@@ -1,8 +1,4 @@
 <script>
-  import { onMount, tick } from "svelte";
-
-  import * as d3 from "d3";
-
   import {
     columns,
     rows,
@@ -40,37 +36,6 @@
       $selectionTab = "signallines";
     }
   }
-
-  $: {
-    if ($selection === "panels" || $selectionTab === "panels") {
-      $selectionTab = "panels";
-      $selection === "panels";
-      deSelect("panels");
-    } else if (
-      $selection === "signallines" ||
-      $selectionTab === "signallines"
-    ) {
-      $selectionTab = "signallines";
-      $selection === "signallines";
-      deSelect("signallines");
-    } else if ($selection === "snappoints" || $selectionTab === "snappoints") {
-      $selectionTab = "snappoints";
-      $selection = "snappoints";
-      deSelect("snappoints");
-    }
-  }
-
-  const deSelect = (type) => {
-    if (type != "panels") {
-      $panels.deSelect();
-    }
-    if (type != "signallines") {
-      $signalLines.deSelect();
-    }
-    if (type != "snappoints") {
-      $snapPointsClass.deSelect();
-    }
-  };
 
   const updateLocalLabelAndColorState = () => {
     if ($selectedSquares.length > 1) return;

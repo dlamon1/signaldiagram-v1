@@ -134,6 +134,7 @@ export class Panels {
       this.array[i].setIsSelected(!this.array[i].isSelected);
     });
 
+    setSelection("panels");
     updatePanels();
     // console.log("after update panels");
   };

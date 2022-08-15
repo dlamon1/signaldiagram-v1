@@ -13,6 +13,7 @@
     snapPoints,
     // canvasWidth,
     // canvasHeight,
+    isDrawMode,
     clearAllSelections,
     isPrinting,
     title,
@@ -100,6 +101,7 @@
 
     deSelectAllObjects();
   }
+
   const deSelectAllObjects = () => {
     $panelsClass.deSelect();
     $signalLines.deSelect();
