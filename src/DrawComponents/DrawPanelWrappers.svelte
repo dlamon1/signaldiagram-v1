@@ -28,7 +28,7 @@
   import * as d3 from "d3";
 
   $: {
-    console.log("triggered");
+    // console.log("triggered");
     let t = [
       $panelsClass,
       $isRearView,
@@ -44,7 +44,7 @@
   let lineGroupElements;
 
   const drawPanelWrappers = () => {
-    console.log("draw");
+    // console.log("draw");
     // console.log($colorState);
     let panels = $panelsClass.array;
 
@@ -123,9 +123,9 @@
       .on("click", function (d, i, n) {
         if ($isDrawMode) return;
         d.stopPropagation();
-        $isSelectMode &&
-          !$isDrawingSignalLine &&
+        if ($isSelectMode && !$isDrawingSignalLine) {
           $panelsClass.selectPanels([d.target.__data__.i]);
+        }
       });
 
     // Draw Coordinates

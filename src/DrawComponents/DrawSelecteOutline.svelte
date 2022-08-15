@@ -39,7 +39,7 @@
   };
 
   const drawOutline = () => {
-    console.log("draw box outline");
+    // console.log("draw box outline");
     if (!$topLevelSvgRef) return;
 
     // Draw Select Box Outline

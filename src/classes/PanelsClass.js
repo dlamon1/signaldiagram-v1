@@ -97,7 +97,7 @@ export class Panels {
   }
 
   deSelect = () => {
-    console.log("deselect");
+    // console.log("deselect");
     this.array.forEach((p) => p.setIsSelected(false));
   };
 
@@ -116,7 +116,7 @@ export class Panels {
   };
 
   selectPanels = (arrayOfIndexes) => {
-    console.log(typeof arrayOfIndexes);
+    // console.log(typeof arrayOfIndexes);
 
     let snapPointsClass = get(snapPointsStore);
     let signalLinesClass = get(signalLines);
@@ -131,11 +131,11 @@ export class Panels {
     }
 
     arrayOfIndexes.forEach((i) => {
-      this.array[i].setIsSelected(true);
+      this.array[i].setIsSelected(!this.array[i].isSelected);
     });
 
     updatePanels();
-    console.log("after update panels");
+    // console.log("after update panels");
   };
 }
 
@@ -210,11 +210,11 @@ export class Panel {
 
   setIsSelected(boolean) {
     this.isSelected = boolean;
-    console.log("set is selected ", boolean);
+    // console.log("set is selected ", boolean);
   }
 
   toggleIsSelected() {
-    console.log("here");
+    // console.log("here");
 
     this.isSelected = !this.isSelected;
   }
