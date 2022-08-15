@@ -2,7 +2,7 @@
   import { fly, fade } from "svelte/transition";
   import {
     selectedSignalLines,
-    signalLines,
+    signalLines as signalLinesClass,
     showDirectionArrows,
     colorState,
     colorButtons,
@@ -10,13 +10,13 @@
   import ColorPicker from "./components/ColorPicker.svelte";
 
   const removeLine = () => {
-    $selectedSignalLines.forEach((line) => {
-      $signalLines.removeSignalLine(line);
+    $signalLinesClass.array.forEach((line, i) => {
+      if (line.isSelected) {
+        $signalLinesClass.removeSignalLine(line);
+      }
     });
 
-    $selectedSignalLines = [];
-    $selectedSignalLines = $selectedSignalLines;
-    $signalLines = $signalLines;
+    $signalLinesClass = $signalLinesClass;
   };
 
   const updateLocalLabelAndColorState = () => {

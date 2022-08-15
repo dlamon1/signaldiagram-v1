@@ -1,8 +1,7 @@
 <script>
   import { canvasWrapperHeight, canvasWrapperWidth, svgRef } from "./store";
   import HandleColorLabelUpdates from "./HandleColorLabelUpdates.svelte";
-  import EditToolbar from "./EditToolbar.svelte";
-  import CanvasDraw from "./CanvasDraw.svelte";
+  import Toolbar from "./Toolbar.svelte";
   import Dialogs from "./Dialogs/index.svelte";
   import DrawPanelRects from "./DrawComponents/DrawPanelsRects.svelte";
   import DrawCanvasWrapper from "./DrawComponents/DrawCanvasWrapper.svelte";
@@ -27,9 +26,8 @@
     temporarySignalLine,
     groupsEnter,
   } from "./store";
-  import HandleSelectionTab from "./HandleSelectionTab.svelte";
 
-  // $: console.log($gZoomWrapperRef);
+  import HandleSelectionTab from "./HandleSelectionTab.svelte";
 
   $gZoomWrapperRef = null;
 </script>
@@ -48,7 +46,7 @@
     </div>
   </div>
   <div class="toolbar">
-    <EditToolbar />
+    <Toolbar />
   </div>
   {#if $canvasWrapperWidth && $canvasWrapperHeight}
     <DrawCanvasWrapper />

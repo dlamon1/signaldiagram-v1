@@ -2,13 +2,9 @@
   import { line } from "d3";
 
   import {
-    columns,
-    rows,
     snapPointsQuantity,
     snapPointDirection,
     isDrawMode,
-    signalLines,
-    selection,
     selectionTab,
     selectedPanels,
     selectedSquares,
@@ -17,14 +13,8 @@
     colorState,
     snapPointLabel,
     panels,
-    topLevelSvgRef,
-    canvasWrapperWidth,
-    canvasWrapperHeight,
-    isSelectMode,
-    isMoveMode,
     snapPoints as snapPointsClass,
     signalLines as signalLinesClass,
-    screenAndPanelDimensions,
     transform as transformStore,
   } from "./store";
 
@@ -67,10 +57,10 @@
   };
 
   const updateSelectedSignalLinesColor = (color) => {
-    console.log("signal line color ");
+    // console.log("signal line color ");
 
     $signalLinesClass.array.forEach((line, i) => {
-      console.log(line);
+      // console.log(line);
       if (line.isSelected) {
         console.log(line);
         line.updateColor(color);
