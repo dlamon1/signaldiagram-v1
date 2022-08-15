@@ -134,10 +134,11 @@ export class Panels {
   };
 
   selectPanels = (arrayOfIndexes) => {
-    let snapPointsClass = get(snapPoints);
+    console.log(arrayOfIndexes);
+    let snapPointsClass = get(snapPointsStore);
     let signalLinesClass = get(signalLines);
     snapPointsClass.deSelect();
-    this.snapPoitns.deSelect();
+    this.snapPoints.deSelect();
     signalLinesClass.deSelect();
 
     if (!get(isCtrl)) {
@@ -151,6 +152,7 @@ export class Panels {
     });
 
     updatePanels();
+    console.log("after update panels");
   };
 }
 
@@ -224,6 +226,7 @@ export class Panel {
 
   setIsSelected(boolean) {
     this.isSelected = boolean;
+    // console.log(boolean);
   }
 
   toggleIsSelected() {

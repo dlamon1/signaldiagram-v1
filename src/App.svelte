@@ -13,6 +13,7 @@
   import DrawCoordinates from "./DrawComponents/DrawCoordinates.svelte";
   import DrawTemporarySignalLine from "./DrawComponents/DrawTemporarySignalLine.svelte";
   import Zoom from "./DrawComponents/Zoom.svelte";
+  import DrawSelecteOutline from "./DrawComponents/DrawSelecteOutline.svelte";
 
   import {
     topLevelSvgRef,
@@ -51,28 +52,13 @@
     <DrawCanvasWrapper />
   {/if}
 
-  {#if $topLevelSvgRef}
-    <Zoom />
-  {/if}
-
   {#if $gZoomWrapperRef}
+    <Zoom />
     <DrawPanelWrappers />
+    <DrawTemporarySignalLine />
+    <DrawSelecteOutline />
   {/if}
 
-  <!-- {#if $panelWrappersRef}
-    <DrawPanelRects />
-  {/if} -->
-  {#if $groupsEnter}
-    <!-- <DrawSnapPointObjects /> -->
-    <!-- <DrawSnapPointWrappers /> -->
-  {/if}
-
-  <!-- {#if $selectedPanelRectsRef} -->
-  <!-- <DrawSnapPointObjects />
-  <DrawCoordinates />-->
-
-  <DrawTemporarySignalLine />
-  <!-- <CanvasDraw /> -->
   <Dialogs />
 </div>
 

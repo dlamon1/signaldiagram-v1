@@ -29,12 +29,10 @@
   // {@debug gZoomWrapperRef}
 
   $: {
-    console.log("tiggered");
     $gZoomWrapperRef && initTemporarySignalLine();
   }
 
   const initTemporarySignalLine = () => {
-    console.log("here");
     $temporarySignalLine = $gZoomWrapperRef
       .append("line")
       .attr("id", "temp-signal-line")
@@ -103,10 +101,10 @@
 
   let selectBoxOutline;
 
-  // $: {
-  //   $isShifted && drawOutline();
-  //   !$isShifted && removeOutline();
-  // }
+  $: {
+    $isShifted && drawOutline();
+    !$isShifted && removeOutline();
+  }
 
   const removeOutline = () => {
     if (!selectBoxOutline) return;
@@ -114,7 +112,7 @@
   };
 
   const drawOutline = () => {
-    if (!$svgRef) return;
+    if (!$topLevelSvgRef) return;
 
     // Draw Select Box Outline
     // Draw Select Box Outline

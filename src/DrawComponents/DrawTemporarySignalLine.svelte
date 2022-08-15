@@ -19,40 +19,19 @@
     isShifted,
     opacity,
     topLevelSvgRef,
-    gZoomWrapperRef,
-    temporarySignalLine,
-    snapPointBaseCircles,
   } from "../store";
 
   import { handleDragSelect } from "../functions/handleSelect2";
 
-  // {@debug gZoomWrapperRef}
-
   $: {
-    console.log("tiggered");
-    $gZoomWrapperRef && initTemporarySignalLine();
+    let t = $signalLinesClass;
+    drawTemporarySignalLine();
   }
-
-  const initTemporarySignalLine = () => {
-    console.log("here");
-    $temporarySignalLine = $gZoomWrapperRef
-      .append("line")
-      .attr("id", "temp-signal-line")
-      .attr("stroke", "black")
-      .attr("stroke-width", 5)
-      .raise();
-  };
-
-  // $: {
-  //   console.log("tiggered");
-  //   let t = $signalLinesClass;
-  //   drawTemporarySignalLine();
-  // }
 
   const drawTemporarySignalLine = () => {
     if (!$topLevelSvgRef) return;
     if (!$isDrawingSignalLine) return;
-    console.log("temp ABOUT TO CHECKS");
+    // console.log("temp ABOUT TO CHECKS");
     let origin = $signalLinesClass.origin;
     let mouse = $signalLinesClass.mouse;
     if (origin.snapPointIndex && mouse.x && mouse.y) {
@@ -62,7 +41,6 @@
   };
 
   const theAcutualDrawing = () => {
-    console.log("the actual drawing");
     let destinationI = $signalLinesClass.destination.snapPointIndex;
 
     let snapPoint =
@@ -86,7 +64,7 @@
       y2 = $snapPointsClass.getYCoordinate(destinationSanpPoint);
     }
 
-    $temporarySignalLine
+    d3.select("#temp-signal-line")
       .attr("pointer-events", "none")
       .attr("x1", x1)
       .attr("y1", y1)
@@ -96,17 +74,17 @@
     // .attr("stroke-width", 5);
   };
 
-  // $: {
-  //   let t = { $canvasWrapperWidth, $canvasWrapperHeight };
-  //   selectBoxOutline && updateDrawOutline();
-  // }
+  $: {
+    let t = { $canvasWrapperWidth, $canvasWrapperHeight };
+    selectBoxOutline && updateDrawOutline();
+  }
 
   let selectBoxOutline;
 
-  // $: {
-  //   $isShifted && drawOutline();
-  //   !$isShifted && removeOutline();
-  // }
+  $: {
+    $isShifted && drawOutline();
+    !$isShifted && removeOutline();
+  }
 
   const removeOutline = () => {
     if (!selectBoxOutline) return;

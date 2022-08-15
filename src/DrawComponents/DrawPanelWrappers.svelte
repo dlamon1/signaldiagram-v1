@@ -3,12 +3,8 @@
     signalLines as signalLinesClass,
     snapPoints as snapPointsClass,
     panels as panelsClass,
-    svgRef,
     isDrawingSignalLine,
     gZoomWrapperRef,
-    panelWrappersRef,
-    mode,
-    topLevelSvgRef,
     isDrawMode,
     isSelectMode,
     groups,
@@ -16,13 +12,8 @@
     isRearView,
     columns,
     rows,
-    snapPointsQuantity,
     setIsDrawingSignalLine,
-    transform,
-    colorState,
     showCoordinates,
-    canvasWrapperWidth,
-    canvasWrapperHeight,
     screenAndPanelDimensions,
     width,
     height,
@@ -46,13 +37,13 @@
       $opacity,
     ];
 
-    // console.log($panelsClass);
-
-    setTimeout(() => drawPanelWrappers(), 20);
+    drawPanelWrappers();
   }
 
+  let lineGroupElements;
+
   const drawPanelWrappers = () => {
-    console.log("draw");
+    // console.log("draw");
     // console.log($colorState);
     let panels = $panelsClass.array;
 
@@ -375,9 +366,125 @@
         return "rotate(" + angle + ")";
       });
 
-    // Draw Temporary Signal Line
-    // Draw Temporary Signal Line
-    // Draw Temporary Signal Line
+    // Signal Line Wrapper
+    // Signal Line Wrapper
+    // Signal Line Wrapper
+    let lineGroups = $gZoomWrapperRef
+      .selectAll("g.signal-line")
+      .data($signalLinesClass.array, (d) => d.i);
+
+    console.log(lineGroups);
+
+    let lineGroupsEnter = lineGroups
+      .enter()
+      .append("g")
+      .attr("id", (d) => "line-group" + d.i)
+      .classed("signal-line", true);
+
+    lineGroupsEnter.merge(lineGroups).transition();
+
+    lineGroups.exit().remove();
+
+    // Line Outline
+    // Line Outline
+    // Line Outline
+    let signalLineOutline = lineGroupsEnter
+      .append("line")
+      .merge(lineGroups.select("line.line-outline"))
+      .attr("id", (d) => "line-outline" + d.i)
+      .classed("line-outline", true)
+      .attr(
+        "x1",
+        (d, i) => $signalLinesClass.getOriginCoordinates(d, i, "origin").x
+      )
+      .attr(
+        "y1",
+        (d, i) => $signalLinesClass.getOriginCoordinates(d, i, "origin").y
+      )
+      .attr(
+        "x2",
+        (d, i) => $signalLinesClass.getOriginCoordinates(d, i, "destination").x
+      )
+      .attr(
+        "y2",
+        (d, i) => $signalLinesClass.getOriginCoordinates(d, i, "destination").y
+      )
+      .attr("stroke", (d) => {
+        if (d.isSelected) {
+          return selectedColor;
+        } else {
+          return "none";
+        }
+      })
+      .attr("stroke-width", (d) => d.lineWidth * 2)
+      .attr("pointer-events", "visible")
+      .on("mouseover", (e, d) => {
+        e.stopPropagation();
+        $isSelectMode &&
+          !$isDrawingSignalLine &&
+          d3.select(e.path[0]).attr("stroke", hoveredColor);
+      })
+      .on("mouseout", (e) => {
+        e.stopPropagation();
+        $isSelectMode &&
+          !$isDrawingSignalLine &&
+          d3.select(e.path[0]).attr("stroke", (d) => {
+            if (d.isSelected) {
+              return selectedColor;
+            } else {
+              return "none";
+            }
+          });
+      })
+      .on("click", function (e) {
+        e.stopPropagation();
+        let i = e.path[0].__data__.i;
+        $isSelectMode &&
+          !$isDrawingSignalLine &&
+          $signalLinesClass.selectSignalLine(i);
+        d3.select(this).attr("stroke", selectedColor);
+      });
+
+    // Line
+    // Line
+    // Line
+    let signalLineBase = lineGroupsEnter
+      .append("line")
+      .merge(lineGroups.select("line.line-base"))
+      .attr("id", (d) => "line-base" + d.i)
+      .classed("line-base", true)
+      .attr(
+        "x1",
+        (d, i) => $signalLinesClass.getOriginCoordinates(d, i, "origin").x
+      )
+      .attr(
+        "y1",
+        (d, i) => $signalLinesClass.getOriginCoordinates(d, i, "origin").y
+      )
+      .attr(
+        "x2",
+        (d, i) => $signalLinesClass.getOriginCoordinates(d, i, "destination").x
+      )
+      .attr(
+        "y2",
+        (d, i) => $signalLinesClass.getOriginCoordinates(d, i, "destination").y
+      )
+      .attr("stroke", (d) => {
+        if (d.isSelected) {
+          // return selectedColor;
+          return d.color.background;
+        } else {
+          return d.color.background;
+        }
+      })
+      .attr("stroke-width", (d) => d.lineWidth)
+      .attr("pointer-events", "none");
+
+    snapPointPath.raise();
+
+    // Init Temporary Signal Line
+    // Init Temporary Signal Line
+    // Init Temporary Signal Line
     let temporarySignalLine = $gZoomWrapperRef
       .append("line")
       .attr("id", "temp-signal-line")
