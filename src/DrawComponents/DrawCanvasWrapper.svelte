@@ -16,10 +16,11 @@
   import { onMount } from "svelte";
 
   const deSelectAll = () => {
-    $panels.deSelect();
-    $signalLines.deSelect();
-    $snapPoints.deSelect();
-    $panels = $panels;
+    console.log("DESELECT");
+    // $panels.deSelect();
+    // $signalLines.deSelect();
+    // $snapPoints.deSelect();
+    // $panels = $panels;
   };
 
   const createSvg = () => {

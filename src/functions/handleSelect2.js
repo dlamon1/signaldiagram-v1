@@ -15,6 +15,7 @@ import {
 } from "./HandleSelect";
 
 export const handleDragSelect = (event, xOrigin, yOrigin) => {
+  console.log("handel drag select");
   // TODO
   // convert coordinates from zoom transform
   // set the selection coordinates

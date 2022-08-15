@@ -15,6 +15,7 @@ import {
   rows,
   columns,
   snapPointsQuantity,
+  isShifted,
 } from "../store";
 
 export class Panels {
@@ -96,6 +97,7 @@ export class Panels {
   }
 
   deSelect = () => {
+    console.log("deselect");
     this.array.forEach((p) => p.setIsSelected(false));
   };
 
@@ -113,35 +115,16 @@ export class Panels {
     updatePanels();
   };
 
-  selectPanel = (e) => {
-    let snapPointsClass = get(snapPointsStore);
-    let signalLinesClass = get(signalLines);
-    snapPointsClass.deSelect();
-    this.snapPoints.deSelect();
-    signalLinesClass.deSelect();
-
-    let i = e.target.__data__.i;
-    let current = this.array[i].isSelected;
-
-    if (!get(isCtrl)) {
-      this.array.forEach((p) => p.setIsSelected(false));
-      this.array[i].setIsSelected(!current);
-    }
-    this.array[i].setIsSelected(!current);
-    setSelectionTab("panels");
-    setSelection("panels");
-    updatePanels();
-  };
-
   selectPanels = (arrayOfIndexes) => {
-    console.log(arrayOfIndexes);
+    console.log(typeof arrayOfIndexes);
+
     let snapPointsClass = get(snapPointsStore);
     let signalLinesClass = get(signalLines);
     snapPointsClass.deSelect();
     this.snapPoints.deSelect();
     signalLinesClass.deSelect();
 
-    if (!get(isCtrl)) {
+    if (!get(isCtrl || !get(isShifted))) {
       this.array.forEach((panel) => {
         panel.setIsSelected(false);
       });
@@ -186,6 +169,7 @@ export class Panel {
     this.thisPanelsSnapPoints = thisPanelsSnapPoints;
     this.snapPointObjects = snapPointObjects;
     // oldPanel && this.copyFromOldPanel(oldPanel);
+    // console.log("constructor");
   }
 
   setIsHovered(boolean) {
@@ -226,10 +210,12 @@ export class Panel {
 
   setIsSelected(boolean) {
     this.isSelected = boolean;
-    // console.log(boolean);
+    console.log("set is selected ", boolean);
   }
 
   toggleIsSelected() {
+    console.log("here");
+
     this.isSelected = !this.isSelected;
   }
 
@@ -267,26 +253,3 @@ export class Panel {
     }
   }
 }
-
-// selection is the svg
-
-// const groups = svg.selectAll('g')
-// .data(fruits);
-// s groups.enter().append('g');
-// groupsEnter
-// .merge(groups)
-//   .attr('transform', (d, i) =>
-//     `translate(${i * 180 + 100},${height / 2})`
-//   );
-// groups.exit().remove();
-
-// groupsEnter.append('circle')
-// .merge(groups.select('circle'))
-//   .attr('r', d => radiusScale(d.type))
-//   .attr('fill', d => colorScale(d.type));
-
-// groupsEnter.append('text')
-// .merge(groups.select('text'))
-//   .text(d => d.type)
-//   .attr('y', 120);
-// }

@@ -26,79 +26,6 @@
 
   import { handleDragSelect } from "../functions/handleSelect2";
 
-  // {@debug gZoomWrapperRef}
-
-  $: {
-    $gZoomWrapperRef && initTemporarySignalLine();
-  }
-
-  const initTemporarySignalLine = () => {
-    $temporarySignalLine = $gZoomWrapperRef
-      .append("line")
-      .attr("id", "temp-signal-line")
-      .attr("stroke", "black")
-      .attr("stroke-width", 5)
-      .raise();
-  };
-
-  // $: {
-  //   console.log("tiggered");
-  //   let t = $signalLinesClass;
-  //   drawTemporarySignalLine();
-  // }
-
-  const drawTemporarySignalLine = () => {
-    if (!$topLevelSvgRef) return;
-    if (!$isDrawingSignalLine) return;
-    console.log("temp ABOUT TO CHECKS");
-    let origin = $signalLinesClass.origin;
-    let mouse = $signalLinesClass.mouse;
-    if (origin.snapPointIndex && mouse.x && mouse.y) {
-      theAcutualDrawing();
-      return;
-    }
-  };
-
-  const theAcutualDrawing = () => {
-    console.log("the actual drawing");
-    let destinationI = $signalLinesClass.destination.snapPointIndex;
-
-    let snapPoint =
-      $snapPointsClass.array[$signalLinesClass.origin.snapPointIndex];
-
-    let x1 = $snapPointsClass.getXCoordinate(snapPoint);
-    let y1 = $snapPointsClass.getYCoordinate(snapPoint);
-
-    // [tx + k * xo, ty + k * yo]
-
-    let x2 =
-      $signalLinesClass.mouse.x / $transform.k - $transform.x / $transform.k;
-    let y2 =
-      $signalLinesClass.mouse.y / $transform.k - $transform.y / $transform.k;
-
-    if (destinationI) {
-      let destinationSanpPoint =
-        $snapPointsClass.array[$signalLinesClass.destination.snapPointIndex];
-
-      x2 = $snapPointsClass.getXCoordinate(destinationSanpPoint);
-      y2 = $snapPointsClass.getYCoordinate(destinationSanpPoint);
-    }
-
-    $temporarySignalLine
-      .attr("pointer-events", "none")
-      .attr("x1", x1)
-      .attr("y1", y1)
-      .attr("x2", x2)
-      .attr("y2", y2)
-      .attr("stroke", "black");
-    // .attr("stroke-width", 5);
-  };
-
-  // $: {
-  //   let t = { $canvasWrapperWidth, $canvasWrapperHeight };
-  //   selectBoxOutline && updateDrawOutline();
-  // }
-
   let selectBoxOutline;
 
   $: {
@@ -112,6 +39,7 @@
   };
 
   const drawOutline = () => {
+    console.log("draw box outline");
     if (!$topLevelSvgRef) return;
 
     // Draw Select Box Outline
@@ -179,20 +107,11 @@
       .attr("stroke-width", 2)
       .attr("stroke-dasharray", "5,5");
   };
+
   const handleSelectMouseUp = (e) => {
     selectBox.remove();
-    selectObjects(e, xOrigin, yOrigin);
     isDrawingSelectLine = false;
     selectBox = null;
-  };
-
-  const updateDrawOutline = () => {
-    selectBoxOutline
-      .attr("width", $canvasWrapperWidth)
-      .attr("height", $canvasWrapperHeight);
-  };
-
-  const selectObjects = (event, xOrigin, yOrigin) => {
-    handleDragSelect(event, xOrigin, yOrigin);
+    handleDragSelect(e, xOrigin, yOrigin);
   };
 </script>

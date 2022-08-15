@@ -28,6 +28,7 @@
   import * as d3 from "d3";
 
   $: {
+    console.log("triggered");
     let t = [
       $panelsClass,
       $isRearView,
@@ -43,7 +44,7 @@
   let lineGroupElements;
 
   const drawPanelWrappers = () => {
-    // console.log("draw");
+    console.log("draw");
     // console.log($colorState);
     let panels = $panelsClass.array;
 
@@ -79,7 +80,12 @@
       })
       .attr("x", 0)
       .attr("y", 0)
-      .attr("width", (d) => d.width)
+      .attr("width", (d) => {
+        if (d.isSelected) {
+          // console.log(d);
+        }
+        return d.width;
+      })
       .attr("height", (d) => d.height)
       .attr("fill", (d) => d.color.background)
       .attr("stroke", (d) => d.color.border)
@@ -117,7 +123,9 @@
       .on("click", function (d, i, n) {
         if ($isDrawMode) return;
         d.stopPropagation();
-        $isSelectMode && !$isDrawingSignalLine && $panelsClass.selectPanel(d);
+        $isSelectMode &&
+          !$isDrawingSignalLine &&
+          $panelsClass.selectPanels([d.target.__data__.i]);
       });
 
     // Draw Coordinates
@@ -374,8 +382,6 @@
     let lineGroups = $gZoomWrapperRef
       .selectAll("g.signal-line")
       .data($signalLinesClass.array, (d) => d.i);
-
-    console.log(lineGroups);
 
     let lineGroupsEnter = lineGroups
       .enter()
