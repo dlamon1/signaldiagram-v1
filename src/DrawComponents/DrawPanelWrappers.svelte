@@ -47,6 +47,8 @@
     // console.log($colorState);
     let panels = $panelsClass.array;
 
+    d3.select("#temp-signal-line").remove();
+
     // 1
     $groups = $gZoomWrapperRef
       .selectAll("g.panel-wrapper")

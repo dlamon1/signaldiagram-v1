@@ -153,6 +153,7 @@
     selectBox = selectBoxOutline
       .append("path")
       .attr("id", "select-box")
+      .classed("temporary-signal-line")
       .attr("pointer-events", "none")
       .attr("fill", "none")
       .attr("stroke", "red")
