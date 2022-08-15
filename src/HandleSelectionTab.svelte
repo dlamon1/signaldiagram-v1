@@ -1,28 +1,12 @@
 <script>
   import {
-    columns,
-    rows,
-    snapPointsQuantity,
-    snapPointDirection,
     isDrawMode,
     signalLines,
     selection,
     selectionTab,
-    selectedPanels,
-    selectedSquares,
-    selectedSnapPoints,
-    selectedSignalLines,
-    colorState,
-    snapPointLabel,
     panels,
-    topLevelSvgRef,
-    canvasWrapperWidth,
-    canvasWrapperHeight,
-    isSelectMode,
-    isMoveMode,
     mode,
     snapPoints as snapPointsClass,
-    screenAndPanelDimensions,
     transform as transformStore,
     setSelectionTab,
     setSelection,
@@ -30,7 +14,6 @@
 
   $: {
     if ($selection === "panels" || $selectionTab === "panels") {
-      console.log("not panels");
       $selectionTab = "panels";
       $selection === "panels";
       deSelect("panels");
@@ -38,12 +21,10 @@
       $selection === "signallines" ||
       $selectionTab === "signallines"
     ) {
-      console.log("not signal lines");
       $selectionTab = "signallines";
       $selection === "signallines";
       deSelect("signallines");
     } else if ($selection === "snappoints" || $selectionTab === "snappoints") {
-      console.log("not snap points");
       $selectionTab = "snappoints";
       $selection = "snappoints";
       deSelect("snappoints");

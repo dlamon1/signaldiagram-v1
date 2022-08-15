@@ -348,7 +348,7 @@
       .text(() => ($isRearView ? "REAR VIEW" : ""))
       .attr(
         "x",
-        (($columns + 3) * $screenAndPanelDimensions.panelDimension * $width) /
+        (($columns + 1) * $screenAndPanelDimensions.panelDimension * $width) /
           $height /
           2
       )
@@ -367,11 +367,13 @@
       .attr("dominant-baseline", "middle")
       .attr("transform-origin", "50% 50%")
       .attr("transform", () => {
-        let opposite =
-          ($columns * $screenAndPanelDimensions.panelDimension * $width) /
-            $height -
-          150;
-        let adjacent = $rows * $screenAndPanelDimensions.panelDimension - 150;
+        let opposite = $columns * $screenAndPanelDimensions.panelDimension;
+        let adjacent = $rows * $screenAndPanelDimensions.panelDimension;
+        // let opposite =
+        //   ($columns * $screenAndPanelDimensions.panelDimension * $width) /
+        //     $height -
+        //   150;
+        // let adjacent = $rows * $screenAndPanelDimensions.panelDimension - 150;
         let angle = Math.atan(adjacent / opposite);
         angle = ((-angle * 180) / Math.PI) * 0.8;
         return "rotate(" + angle + ")";

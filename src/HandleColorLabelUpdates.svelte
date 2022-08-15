@@ -41,10 +41,12 @@
   };
 
   const updateSelectedSnapPointsLabel = (label) => {
-    $selectedSquares.forEach((point, i) => {
-      $selectedSquares[i].label = label;
-    });
-    $selectedSquares = $selectedSquares;
+    $snapPointsClass.array.forEach((snapPoint, i) => {
+      if (snapPoint.isSelected) {
+        snapPoint.label = label;
+      }
+    }),
+      ($snapPointsClass = $snapPointsClass);
   };
 
   const updateSelectedSnapPointsColor = (colorObj) => {
@@ -57,8 +59,6 @@
   };
 
   const updateSelectedSignalLinesColor = (color) => {
-    // console.log("signal line color ");
-
     $signalLinesClass.array.forEach((line, i) => {
       // console.log(line);
       if (line.isSelected) {
@@ -67,9 +67,6 @@
       }
     });
 
-    // $selectedSignalLines.forEach((line, i) => {
-    //   line.updateColor(color);
-    // });
     $signalLinesClass = $signalLinesClass;
   };
 
