@@ -97,8 +97,8 @@ export class Panels {
   }
 
   deSelect = () => {
-    // console.log("deselect");
     this.array.forEach((p) => p.setIsSelected(false));
+    updatePanels()
   };
 
   hoverPanel = (e) => {

@@ -185,6 +185,7 @@ export class SignalLines {
     this.array.forEach((signalLine) => {
       signalLine.setIsSelected(false);
     });
+    updateSignalLines();
   }
 
   notify() {

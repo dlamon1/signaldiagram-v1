@@ -30,6 +30,7 @@
 
   $: {
     if ($selection === "panels" || $selectionTab === "panels") {
+      console.log("not panels");
       $selectionTab = "panels";
       $selection === "panels";
       deSelect("panels");
@@ -37,10 +38,12 @@
       $selection === "signallines" ||
       $selectionTab === "signallines"
     ) {
+      console.log("not signal lines");
       $selectionTab = "signallines";
       $selection === "signallines";
       deSelect("signallines");
     } else if ($selection === "snappoints" || $selectionTab === "snappoints") {
+      console.log("not snap points");
       $selectionTab = "snappoints";
       $selection = "snappoints";
       deSelect("snappoints");

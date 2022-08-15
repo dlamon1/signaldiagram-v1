@@ -137,6 +137,7 @@ export class SnapPoints {
 
   deSelect = () => {
     this.array.forEach((p) => p.setIsSelected(false));
+    updateSnapPoints();
   };
 
   setIsSquares = (boolean) => {
