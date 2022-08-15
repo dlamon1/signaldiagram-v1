@@ -1,4 +1,6 @@
 <script>
+  import { line } from "d3";
+
   import {
     columns,
     rows,
@@ -21,6 +23,7 @@
     isSelectMode,
     isMoveMode,
     snapPoints as snapPointsClass,
+    signalLines as signalLinesClass,
     screenAndPanelDimensions,
     transform as transformStore,
   } from "./store";
@@ -64,10 +67,20 @@
   };
 
   const updateSelectedSignalLinesColor = (color) => {
-    $selectedSignalLines.forEach((line, i) => {
-      line.updateColor(color);
+    console.log("signal line color ");
+
+    $signalLinesClass.array.forEach((line, i) => {
+      console.log(line);
+      if (line.isSelected) {
+        console.log(line);
+        line.updateColor(color);
+      }
     });
-    $signalLines = $signalLines;
+
+    // $selectedSignalLines.forEach((line, i) => {
+    //   line.updateColor(color);
+    // });
+    $signalLinesClass = $signalLinesClass;
   };
 
   const updatePanelColor = (color) => {

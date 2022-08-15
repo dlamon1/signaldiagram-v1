@@ -1,6 +1,6 @@
 <script>
   import { canvasWrapperHeight, canvasWrapperWidth, svgRef } from "./store";
-  import EventHandlers from "./EventHandlers.svelte";
+  import HandleColorLabelUpdates from "./HandleColorLabelUpdates.svelte";
   import EditToolbar from "./EditToolbar.svelte";
   import CanvasDraw from "./CanvasDraw.svelte";
   import Dialogs from "./Dialogs/index.svelte";
@@ -44,7 +44,7 @@
     bind:clientWidth={$canvasWrapperWidth}
   >
     <div class="canvas" id="canvas">
-      <EventHandlers />
+      <HandleColorLabelUpdates />
     </div>
   </div>
   <div class="toolbar">

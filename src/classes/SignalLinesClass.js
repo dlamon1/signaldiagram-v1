@@ -236,26 +236,17 @@ class SignalLine {
   }
 
   setEndCoordinates(e) {
-    // console.log(e);
     let panel = e.path[1].__data__;
-    // console.log(panel);
     let indexOfPoint = e.path[0].__data__;
     let point = get(snapPoints).array[indexOfPoint];
-    let coordinatesOfPoint = {
-      x: point.x,
-      y: point.y,
-      radius: point.radius,
-    };
-    let cooordinatesOfPanel = e.path[1].__data__;
 
-    // this.end.x = cooordinatesOfPanel.x + coordinatesOfPoint.x;
-    // this.end.y = cooordinatesOfPanel.y + coordinatesOfPoint.y;
     this.destination.snapPointIndex = indexOfPoint;
     this.destination.panelIndex = panel.i;
   }
 
   updateColor(color) {
-    this.backgroundColor = color;
+    console.log("update color");
+    this.color.background = color;
   }
 
   updateLineWidth(width) {

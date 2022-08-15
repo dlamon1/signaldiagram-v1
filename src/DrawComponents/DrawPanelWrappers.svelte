@@ -28,13 +28,14 @@
   import * as d3 from "d3";
 
   $: {
-    // console.log("triggered");
+    console.log("triggered");
     let t = [
       $panelsClass,
       $isRearView,
       $isDrawMode,
       $snapPointsClass,
       $showCoordinates,
+      $signalLinesClass,
       $opacity,
     ];
 
@@ -478,17 +479,14 @@
         (d, i) => $signalLinesClass.getOriginCoordinates(d, i, "destination").y
       )
       .attr("stroke", (d) => {
-        if (d.isSelected) {
-          // return selectedColor;
-          return d.color.background;
-        } else {
-          return d.color.background;
-        }
+        console.log(d.color);
+        return d.color.background;
       })
+      // .attr("stroke", "blue")
       .attr("stroke-width", (d) => d.lineWidth)
       .attr("pointer-events", "none");
 
-    snapPointPath.raise();
+    snapPointsGroupsEnter.raise();
 
     // Init Temporary Signal Line
     // Init Temporary Signal Line
