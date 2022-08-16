@@ -426,3 +426,54 @@ export const drawPanelCoordinates = (p) => {
 //     ",0";
 //   return circlePath;
 // });
+
+// let angle = Math.atan2(
+//   signalLine.end.y - signalLine.origin.y,
+//   signalLine.end.x - signalLine.origin.x
+// );
+// angle += Math.PI / 2;
+// angle += Math.PI;
+// let origin = $snapPoints[signalLine.origin.i];
+// let end = $snapPoints[signalLine.end.i];
+
+// let midpoint = {
+//   x: origin.x + (end.x - origin.x) / 3,
+//   y: origin.y + (end.y - origin.y) / 3,
+// };
+
+// let midpoint2 = {
+//   x: origin.x + ((end.x - origin.x) / 3) * 2,
+//   y: origin.y + ((end.y - origin.y) / 3) * 2,
+// };
+
+// $ctxRef.save();
+// $ctxRef.translate(midpoint.x, midpoint.y);
+// $ctxRef.rotate(angle);
+
+// $ctxRef.beginPath();
+// $ctxRef.moveTo(0, 0);
+// $ctxRef.lineTo(6, 0);
+// $ctxRef.lineTo(0, 15);
+// $ctxRef.lineTo(-6, 0);
+// $ctxRef.closePath();
+// $ctxRef.fillStyle = signalLine.backgroundColor;
+// $ctxRef.fill();
+
+// $ctxRef.rotate(-angle);
+// $ctxRef.restore();
+
+// $ctxRef.save();
+// $ctxRef.translate(midpoint2.x, midpoint2.y);
+// $ctxRef.rotate(angle);
+
+// $ctxRef.beginPath();
+// $ctxRef.moveTo(0, 0);
+// $ctxRef.lineTo(6, 0);
+// $ctxRef.lineTo(0, 15);
+// $ctxRef.lineTo(-6, 0);
+// $ctxRef.closePath();
+// $ctxRef.fillStyle = signalLine.backgroundColor;
+// $ctxRef.fill();
+
+// $ctxRef.rotate(-angle);
+// $ctxRef.restore();

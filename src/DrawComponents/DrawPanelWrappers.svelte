@@ -18,6 +18,7 @@
     width,
     height,
     opacity,
+    transform,
   } from "../store";
 
   let hoveredColor = "rgba(0, 255, 170, 1)";
@@ -26,6 +27,7 @@
   let rearViewLabel = null;
 
   import * as d3 from "d3";
+  import { onMount } from "svelte";
 
   $: {
     // console.log("triggered");
@@ -490,7 +492,65 @@
       .attr("stroke-width", (d) => d.lineWidth)
       .attr("pointer-events", "none");
 
-    snapPointsGroupsEnter.raise();
+    let directionArrow = lineGroupsEnter
+      .append("polygon")
+      .merge(lineGroups.select("polygon.direction-arrow"))
+      .attr("id", (d) => "direction-arrow" + d.i)
+      .classed("direction-arrow", true)
+      .attr("points", (d, i) => {
+        let origin = $signalLinesClass.getOriginCoordinates(d, i, "origin");
+        console.log(origin);
+        let destination = $signalLinesClass.getOriginCoordinates(
+          d,
+          i,
+          "destination"
+        );
+
+        return "0,-6 7,10 -7,10";
+      })
+      .attr("transform", (d, i) => {
+        let origin = $signalLinesClass.getOriginCoordinates(d, i, "origin");
+        let destination = $signalLinesClass.getOriginCoordinates(
+          d,
+          i,
+          "destination"
+        );
+        let midpoint = {
+          x: origin.x + (destination.x - origin.x) / 2,
+          y: origin.y + (destination.y - origin.y) / 2,
+        };
+        let angle =
+          -Math.atan2(destination.x - origin.x, destination.y - origin.y) *
+            (180 / Math.PI) +
+          180;
+        // angle = (angle * 90) / Math.PI + 45;
+        // angle += Math.PI;
+        // angle = 0;
+        return (
+          "translate(" +
+          midpoint.x +
+          "," +
+          midpoint.y +
+          ") rotate(" +
+          angle +
+          ")"
+        );
+        // return midpoint.x, midpoint.y;
+        // rotate(angle);
+      })
+      .attr("fill", (d) => {
+        return d.color.background;
+      })
+      .attr("stroke", (d) => {
+        return d.color.background;
+      })
+      .attr("stroke-width", (d) => {
+        return d.lineWidth;
+      })
+      .attr("pointer-events", "none");
+
+    // snapPointsGroupsEnter.raise();
+    // snapPointPath.raise();
 
     // Init Temporary Signal Line
     // Init Temporary Signal Line
