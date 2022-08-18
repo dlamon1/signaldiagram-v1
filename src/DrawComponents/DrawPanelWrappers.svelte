@@ -498,7 +498,7 @@
       .attr("stroke-width", (d) => d.lineWidth)
       .attr("pointer-events", "none");
 
-    let triangles = lineGroupsEnter
+    let directionArrows = lineGroupsEnter
       .append("polygon")
       .merge(lineGroups.select("polygon.direction-arrow"))
       .classed("direction-arrow", true)
@@ -543,10 +543,10 @@
       })
       .attr("pointer-events", "none");
 
-    console.log($showDirectionArrows);
     if (!$showDirectionArrows) {
-      console.log("it is false");
-      triangles.remove();
+      directionArrows.attr("points", (d, i) => {
+        return "0,0 0,0 0,0";
+      });
     }
 
     // Init Temporary Signal Line
