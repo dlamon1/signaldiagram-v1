@@ -39,9 +39,13 @@ export const setERef = (ref) => {
   eRef.update(($value) => ($value = ref));
 };
 
+
+
 export let title = writable("");
 
 export let toolbarWidth = writable(250);
+
+export let directionArrowQuantity = writable(2);
 
 export let snapPointsQuantity = writable(2);
 export let snapPointDirection = writable("vertical");
