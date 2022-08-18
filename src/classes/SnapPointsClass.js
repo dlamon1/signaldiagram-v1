@@ -84,7 +84,6 @@ export class SnapPoints {
   }
 
   deHover() {
-    // console.log("remove");
     this.array.forEach((sp) => {
       sp.setIsHovered(false);
     });
@@ -137,6 +136,16 @@ export class SnapPoints {
   deSelect = () => {
     this.array.forEach((p) => p.setIsSelected(false));
     updateSnapPoints();
+  };
+
+  removeLabel = () => {
+    this.array.forEach((sp) => {
+      if (sp.isSelected) {
+        sp.removeLabel();
+      }
+    });
+    this.setIsSquares(false);
+    this.setIsTriangles(false);
   };
 
   setIsSquares = (boolean) => {
@@ -193,6 +202,11 @@ export class SnapPoint {
     this.pointIndexFullArray = pointIndexFullArray;
     this.createDimensions(row, column, pointIndexWithinPanel);
   }
+
+  removeLabel = () => {
+    this.label = "";
+    console.log("remove label");
+  };
 
   setBackgroundColor(color) {
     this.color.background = color;

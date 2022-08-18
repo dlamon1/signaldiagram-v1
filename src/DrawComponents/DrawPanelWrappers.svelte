@@ -301,13 +301,15 @@
       .append("text")
       .merge(snapPointGroups.select("text"));
 
+    labels.text("");
+
     labels
       .filter((d, i) => {
         let obj = $snapPointsClass.array[d.pointIndexFullArray];
         return obj.isSquare || obj.isTriangle;
       })
-      .text("")
       .text((d) => {
+        console.log($snapPointsClass.array[d.pointIndexFullArray].label);
         return $snapPointsClass.array[d.pointIndexFullArray].label;
       })
       .attr("dominant-baseline", "middle")

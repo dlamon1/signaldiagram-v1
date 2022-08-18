@@ -29,14 +29,14 @@
     });
   }
 
-  // const deleteSelectedSquares = () => {
-  //   $selectedSquares.forEach((s) => {
-  //     $squares[s.i].isOn = false;
-  //   });
-  //   $selectedSquares = [];
-  //   $selectedSquares = $selectedSquares;
-  //   $squares = $squares;
-  // };
+  const handleRemoveLabel = () => {
+    $snapPointsClass.array.forEach((snapPoint) => {
+      if (snapPoint.isSelected) {
+        $snapPointsClass.removeLabel(snapPoint);
+      }
+    });
+    $snapPointsClass = $snapPointsClass;
+  };
 
   const updateLocalLabelAndColorState = () => {
     if ($selectedSquares.length > 1) return;
@@ -101,7 +101,7 @@
     />
 
     <div id="delete-button" transition:fade={{ y: -10, duration: 300 }}>
-      <!-- <button on:click={deleteSelectedSquares}>Remove Square</button> -->
+      <button on:click={handleRemoveLabel}>Remove Label</button>
     </div>
   {/if}
 </div>
