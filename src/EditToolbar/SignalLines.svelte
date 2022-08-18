@@ -11,9 +11,7 @@
   import ColorPicker from "./components/ColorPicker.svelte";
 
   const removeLine = () => {
-    console.log("here");
     $signalLinesClass.array.forEach((line, i) => {
-      console.log(line.isSelected);
       if (line.isSelected) {
         $signalLinesClass.removeSignalLine(line);
       }
@@ -23,7 +21,6 @@
     // need to call panels update here to
     // trigger redraw, can't use signal lines
     // because of the way the draw updates
-
     $panelsClass = $panelsClass;
   };
 

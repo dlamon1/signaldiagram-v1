@@ -39,6 +39,7 @@
       $snapPointsClass,
       $showCoordinates,
       $opacity,
+      $isDrawingSignalLine,
     ];
 
     drawPanelWrappers();

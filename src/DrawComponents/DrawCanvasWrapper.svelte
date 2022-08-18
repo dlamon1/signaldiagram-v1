@@ -7,6 +7,7 @@
     panels,
     signalLines,
     snapPoints,
+    setIsDrawingSignalLine,
   } from "../store";
 
   import * as d3 from "d3";
@@ -30,7 +31,11 @@
       .append("svg")
       .attr("id", "svg")
       .attr("width", $canvasWrapperWidth)
-      .attr("height", $canvasWrapperHeight);
+      .attr("height", $canvasWrapperHeight)
+      .on("mouseup", () => {
+        console.log("here");
+        setIsDrawingSignalLine(false);
+      });
     // .on("click", deSelectAll);
 
     $gZoomWrapperRef = $topLevelSvgRef

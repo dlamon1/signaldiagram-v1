@@ -121,6 +121,9 @@ export class SignalLines {
 
   addSignalLine() {
     let origin = structuredClone(this.origin);
+    if (!this.destination.snapPointIndex) {
+      return;
+    }
     let sl = new SignalLine(origin, this.destination.snapPointIndex);
     this.array.push(sl);
     this.origin.x = null;
