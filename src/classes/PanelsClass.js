@@ -217,7 +217,6 @@ export class Panel {
 
   setIsSelected(boolean) {
     this.isSelected = boolean;
-    console.log("set is selected ", boolean);
   }
 
   toggleIsSelected() {

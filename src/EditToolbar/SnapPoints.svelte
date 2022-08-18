@@ -66,26 +66,15 @@
     <button id="shape-button" on:click={$snapPointsClass.setIsSquares(true)}
       >Square</button
     >
-  </div>
+    <!-- </div> -->
 
-  <div class="shape-button-container">
+    <!-- <div class="shape-button-container"> -->
     <button id="shape-button" on:click={$snapPointsClass.setIsTriangles(true)}
       >Triangle</button
     >
   </div>
 
   {#if sd.length}
-    <div id="label-input">
-      Label:{" "}
-
-      <input
-        maxlength="3"
-        bind:this={$textInputRef}
-        type="text"
-        bind:value={$snapPointLabel}
-      />
-    </div>
-
     <ColorPicker
       key={"snapPoint"}
       layer={"background"}
@@ -99,6 +88,19 @@
       element={"Font"}
       isOpen={false}
     />
+    <div id="label-input">
+      <div class="label-input-header">
+        Text:{" "}
+      </div>
+
+      <input
+        class="label-text-input"
+        maxlength="3"
+        bind:this={$textInputRef}
+        type="text"
+        bind:value={$snapPointLabel}
+      />
+    </div>
 
     <div id="delete-button" transition:fade={{ y: -10, duration: 300 }}>
       <button on:click={handleRemoveLabel}>Remove Label</button>
@@ -107,10 +109,17 @@
 </div>
 
 <style>
+  .label-text-input {
+    width: 50px;
+  }
   .shape-button-container {
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
+  }
+
+  .label-input-header {
+    margin-right: 10px;
   }
 
   .title {

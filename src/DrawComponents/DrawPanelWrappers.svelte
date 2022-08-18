@@ -311,7 +311,6 @@
         return obj.isSquare || obj.isTriangle;
       })
       .text((d) => {
-        console.log($snapPointsClass.array[d.pointIndexFullArray].label);
         return $snapPointsClass.array[d.pointIndexFullArray].label;
       })
       .attr("dominant-baseline", "middle")
