@@ -17,8 +17,8 @@
   import { onMount } from "svelte";
 
   const deSelectAll = (e) => {
-    console.log("DESELECT");
-    console.log(e);
+    // console.log("DESELECT");
+    // console.log(e);
     $panels.deSelect();
     $signalLines.deSelect();
     $snapPoints.deSelect();
@@ -33,7 +33,6 @@
       .attr("width", $canvasWrapperWidth)
       .attr("height", $canvasWrapperHeight)
       .on("mouseup", () => {
-        console.log("here");
         setIsDrawingSignalLine(false);
       });
     // .on("click", deSelectAll);

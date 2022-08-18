@@ -461,10 +461,10 @@
       .on("click", function (e) {
         e.stopPropagation();
         let i = e.path[0].__data__.i;
-        $isSelectMode &&
-          !$isDrawingSignalLine &&
+        if ($isSelectMode && !$isDrawingSignalLine) {
           $signalLinesClass.selectSignalLine(i);
-        d3.select(this).attr("stroke", selectedColor);
+          d3.select(this).attr("stroke", selectedColor);
+        }
       });
 
     // Line

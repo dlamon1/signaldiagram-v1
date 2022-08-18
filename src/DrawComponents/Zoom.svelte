@@ -40,17 +40,6 @@
   };
 
   $: {
-    // this svgfRef is required because the ref doesn't exist
-    // when this is initialized
-
-    let t = $topLevelSvgRef;
-
-    if ($isDrawMode) {
-      addOnHoverIdTag();
-      removeZoom();
-    }
-    if ($isSelectMode) {
-      $topLevelSvgRef && initZoom();
-    }
+    $topLevelSvgRef && initZoom();
   }
 </script>
