@@ -20,6 +20,7 @@
     opacity,
     transform,
     directionArrowQuantity,
+    showDirectionArrows,
   } from "../store";
 
   let hoveredColor = "rgba(0, 255, 170, 1)";
@@ -40,6 +41,7 @@
       $showCoordinates,
       $opacity,
       $isDrawingSignalLine,
+      $showDirectionArrows,
     ];
 
     drawPanelWrappers();
@@ -496,10 +498,7 @@
       .attr("stroke-width", (d) => d.lineWidth)
       .attr("pointer-events", "none");
 
-    // for (let i = 1; i < $directionArrowQuantity + 1; i++) {
-    // console.log(i);
-    // console.log($directionArrowQuantity + 1);
-    lineGroupsEnter
+    let triangles = lineGroupsEnter
       .append("polygon")
       .merge(lineGroups.select("polygon.direction-arrow"))
       .classed("direction-arrow", true)
@@ -543,10 +542,12 @@
         return d.lineWidth;
       })
       .attr("pointer-events", "none");
-    // }
 
-    // snapPointsGroupsEnter.raise();
-    // snapPointPath.raise();
+    console.log($showDirectionArrows);
+    if (!$showDirectionArrows) {
+      console.log("it is false");
+      triangles.remove();
+    }
 
     // Init Temporary Signal Line
     // Init Temporary Signal Line
