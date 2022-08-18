@@ -2,7 +2,7 @@
   import { canvasWrapperHeight, canvasWrapperWidth, svgRef } from "./store";
   import HandleColorLabelUpdates from "./HandleColorLabelUpdates.svelte";
   import Toolbar from "./Toolbar.svelte";
-  import Dialogs from "./Dialogs/index.svelte";
+  import ExportDialog from "./Dialogs/Exports.svelte";
   import DrawPanelRects from "./DrawComponents/DrawPanelsRects.svelte";
   import DrawCanvasWrapper from "./DrawComponents/DrawCanvasWrapper.svelte";
   import DrawPanelWrappers from "./DrawComponents/DrawPanelWrappers.svelte";
@@ -14,18 +14,7 @@
   import Zoom from "./DrawComponents/Zoom.svelte";
   import DrawSelecteOutline from "./DrawComponents/DrawSelecteOutline.svelte";
 
-  import {
-    topLevelSvgRef,
-    gZoomWrapperRef,
-    panelWrappersRef,
-    selectedPanelRectsRef,
-    snapPointsWrapper,
-    snapPointBaseCircles,
-    selectedSnapPointCirclesRef,
-    coordinatesRef,
-    temporarySignalLine,
-    groupsEnter,
-  } from "./store";
+  import { gZoomWrapperRef } from "./store";
 
   import HandleSelectionTab from "./HandleSelectionTab.svelte";
 
@@ -59,7 +48,7 @@
     <DrawSelecteOutline />
   {/if}
 
-  <Dialogs />
+  <ExportDialog />
 </div>
 
 <style>

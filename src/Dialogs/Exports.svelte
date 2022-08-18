@@ -6,6 +6,7 @@
   const toggleDialog = () => {
     $isExportDialogOpen = !$isExportDialogOpen;
   };
+  $: console.log($isExportDialogOpen);
 </script>
 
 {#if $isExportDialogOpen}

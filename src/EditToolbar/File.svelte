@@ -23,56 +23,94 @@
     isPrinting,
   } from "../store";
 
-  const download = async () => {
-    clearAllSelections();
+  // const download = async () => {
+  //   clearAllSelections();
 
-    await tick();
+  //   await tick();
 
-    // trigger resize function in Panels.svelte
-    $isPrinting = true;
-  };
+  //   // trigger resize function in Panels.svelte
+  //   $isPrinting = true;
+  // };
 
-  const save = async () => {
-    let saveObj = {
-      rows: $rows,
-      columns: $columns,
-      title: $title,
-      toolbarWidth: $toolbarWidth,
-      isRearView: $isRearView,
-      snapPointsQuantity: $snapPointsQuantity,
-      snapPointDirection: $snapPointDirection,
-      columns: $columns,
-      rows: $rows,
-      width: $width,
-      height: $height,
-      panels: $panels,
-      snapPoints: $snapPoints,
-      signalLines: $signalLines,
-      labels: $labels,
-      squares: $squares,
-      circles: $circles,
-    };
+  // const save = async () => {
+  //   let saveObj = {
+  //     rows: $rows,
+  //     columns: $columns,
+  //     title: $title,
+  //     toolbarWidth: $toolbarWidth,
+  //     isRearView: $isRearView,
+  //     snapPointsQuantity: $snapPointsQuantity,
+  //     snapPointDirection: $snapPointDirection,
+  //     columns: $columns,
+  //     rows: $rows,
+  //     width: $width,
+  //     height: $height,
+  //     panels: $panels,
+  //     snapPoints: $snapPoints,
+  //     signalLines: $signalLines,
+  //     labels: $labels,
+  //     squares: $squares,
+  //     circles: $circles,
+  //   };
 
-    let panelsJson = JSON.stringify(saveObj);
+  //   let panelsJson = JSON.stringify(saveObj);
 
-    function download() {
-      const a = document.createElement("a");
-      const file = new Blob([panelsJson], { type: "text/plain" });
-      a.href = URL.createObjectURL(file);
-      a.download = $title + ".json";
-      a.click();
-    }
+  //   function download() {
+  //     const a = document.createElement("a");
+  //     const file = new Blob([panelsJson], { type: "text/plain" });
+  //     a.href = URL.createObjectURL(file);
+  //     a.download = $title + ".json";
+  //     a.click();
+  //   }
 
-    download();
-  };
+  //   download();
+  // };
 
-  const reset = () => {
-    $panels.forEach((p) => {
-      p.backgroundColor = p.color;
-      p.hasSquare = false;
-    });
-    panels.update((p) => $panels);
-  };
+  // const reset = () => {
+  //   $panels.forEach((p) => {
+  //     p.backgroundColor = p.color;
+  //     p.hasSquare = false;
+  //   });
+  //   panels.update((p) => $panels);
+  // };
+
+  function download() {
+    console.log("download");
+    let img = new Image();
+    let serializer = new XMLSerializer();
+    let element = document.getElementById("g-zoom-wrapper");
+    console.log(element);
+    let svgStr = serializer.serializeToString(element);
+
+    img.src = "data:image/svg+xml;utf8," + svgStr;
+
+    // You could also use the actual string without base64 encoding it:
+    //img.src = "data:image/svg+xml;utf8," + svgStr;
+
+    var canvas = document.createElement("canvas");
+
+    var w = 800;
+    var h = 400;
+
+    canvas.width = w;
+    canvas.height = h;
+    canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+
+    var imgURL = canvas.toDataURL("image/png");
+
+    var dlLink = document.createElement("a");
+    dlLink.download = "image";
+    dlLink.href = imgURL;
+    dlLink.dataset.downloadurl = [
+      "image/png",
+      dlLink.download,
+      dlLink.href,
+    ].join(":");
+
+    document.body.appendChild(dlLink);
+    dlLink.click();
+    document.body.removeChild(dlLink);
+  }
 
   let inputRef;
   onMount(() => inputRef.focus());
@@ -89,7 +127,7 @@
 </div>
 <button on:click={download} class="download">Download .PNG</button>
 
-<button on:click={save} class="save">Save</button>
+<!-- <button on:click={save} class="save">Save</button> -->
 
 <Load />
 
