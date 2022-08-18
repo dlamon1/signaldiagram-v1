@@ -39,8 +39,6 @@ export const setERef = (ref) => {
   eRef.update(($value) => ($value = ref));
 };
 
-
-
 export let title = writable("");
 
 export let toolbarWidth = writable(250);
@@ -55,7 +53,8 @@ export const isDrawMode = writable(false);
 export const isSelectMode = writable(true);
 export const isMoveMode = writable(false);
 
-export let mode = writable("select");
+export let mode = writable("draw");
+// export let mode = writable("select");
 export const setMode = (m) => {
   mode.update(($value) => ($value = m));
   if (m == "draw") {

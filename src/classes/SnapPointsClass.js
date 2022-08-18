@@ -123,7 +123,6 @@ export class SnapPoints {
     let current = this.array[i].isSelected;
 
     if (!get(isCtrl)) {
-      // console.log("not control");
       this.array.forEach((p) => p.setIsSelected(false));
     }
 
