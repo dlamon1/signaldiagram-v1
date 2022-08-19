@@ -75,15 +75,16 @@
   // };
 
   function download() {
-    console.log("download");
     let img = new Image();
     let serializer = new XMLSerializer();
     let element = document.getElementById("g-zoom-wrapper");
-    console.log(element);
     let svgStr = serializer.serializeToString(element);
+
+    console.log(element);
 
     img.src = "data:image/svg+xml;utf8," + svgStr;
 
+    console.log(img);
     // You could also use the actual string without base64 encoding it:
     //img.src = "data:image/svg+xml;utf8," + svgStr;
 
