@@ -56,10 +56,6 @@
       $isPrinting,
       $rows,
       $columns,
-      // $colors,
-      // $toolbarWidth,
-      // $snapPointsQuantity,
-      // $snapPointDirection,
     };
 
     setCanvasDimensions();
@@ -77,8 +73,6 @@
     };
 
     $screenAndPanelDimensions && updatePanelArray();
-    // console.log($panelsClass.array.length);
-    // handleNewPanelArray();
   }
 
   let updatePanelArray = () => $panelsClass.updatePanelArray();

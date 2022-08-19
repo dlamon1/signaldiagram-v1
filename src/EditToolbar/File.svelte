@@ -1,4 +1,5 @@
 <script>
+  import { Canvg } from "canvg";
   import { onMount, tick } from "svelte";
   import Load from "./components/LoadFile.svelte";
   import {
@@ -74,43 +75,90 @@
   //   panels.update((p) => $panels);
   // };
 
-  function download() {
-    let img = new Image();
-    let serializer = new XMLSerializer();
-    let element = document.getElementById("g-zoom-wrapper");
-    let svgStr = serializer.serializeToString(element);
+  // function download() {
+  //   let svg = document.getElementById("g-zoom-wrapper").innerHTML;
 
-    console.log(element);
+  //   // window.onload = () => {
+  //   const canvas = document.querySelector("canvas");
+  //   const ctx = canvas.getContext("2d");
+  //   const v = Canvg.fromString(ctx, svg);
 
-    img.src = "data:image/svg+xml;utf8," + svgStr;
+  //   // Start SVG rendering with animations and mouse handling.
+  //   v.start();
 
-    console.log(img);
-    // You could also use the actual string without base64 encoding it:
-    //img.src = "data:image/svg+xml;utf8," + svgStr;
+  //   console.log(v);
 
-    var canvas = document.createElement("canvas");
+  //   let link = document.createElement("a");
+  //   document.body.appendChild(link);
+  //   link.download = $title + ".png";
+  //   link.href = v.toDataURL("image/png");
+  //   link.target = "_blank";
+  //   link.click();
+  //   // };
+  // }
 
-    var w = 800;
-    var h = 400;
+  // function generateLink(fileName, data) {
+  //   let link = document.createElement("a"); // Create a element.
+  //   link.download = fileName; // Set value as the file name of download file.
+  //   link.href = data; // Set value as the file content of download file.
+  //   return link;
+  // }
 
-    canvas.width = w;
-    canvas.height = h;
-    canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+  // function exportSVG(element, fileName) {
+  //   console.log(element);
+  //   let svg = element;
+  //   let svgString;
+  //   if (window.ActiveXObject) {
+  //     svgString = svg.xml;
+  //   } else {
+  //     let oSerializer = new XMLSerializer();
+  //     svgString = oSerializer.serializeToString(svg);
+  //   }
+  //   generateLink(
+  //     fileName + ".svg",
+  //     "data:image/svg+xml;utf8," + svgString
+  //   ).click();
+  // }
 
-    var imgURL = canvas.toDataURL("image/png");
+  const download = async () => {
+    var svg = document.getElementById("svg").innerHTML; // Get SVG element.
+    var canvas = document.createElement("canvas"); // Create a Canvas element.
+    var ctx = canvas.getContext("2d"); // For Canvas returns 2D graphic.
 
-    var dlLink = document.createElement("a");
-    dlLink.download = "image";
-    dlLink.href = imgURL;
-    dlLink.dataset.downloadurl = [
-      "image/png",
-      dlLink.download,
-      dlLink.href,
-    ].join(":");
+    const v = Canvg.fromString(ctx, svg);
+    v.render();
 
-    document.body.appendChild(dlLink);
-    dlLink.click();
-    document.body.removeChild(dlLink);
+    console.log(canvas);
+
+    // function asdf(canvas) {
+    // Arguments: SVG element, callback function.
+    var base64 = canvas.toDataURL("image/png"); // toDataURL return DataURI as Base64 format.
+    generateLink("SVG2PNG-01.png", base64).click(); // Trigger the Link is made by Link Generator and download.
+    // }
+
+    // asdf(canvas)
+  };
+
+  function SVG2PNG(svg, callback) {
+    var canvas = document.createElement("canvas"); // Create a Canvas element.
+    console.log(canvas);
+    var ctx = canvas.getContext("2d"); // For Canvas returns 2D graphic.
+
+    const v = Canvg.fromString(ctx, svg);
+
+    // Start SVG rendering with animations and mouse handling.
+    v.render();
+
+    console.log(v);
+
+    // callback(canvas); // Execute callback function.
+  }
+
+  function generateLink(fileName, data) {
+    var link = document.createElement("a");
+    link.download = fileName;
+    link.href = data;
+    return link;
   }
 
   let inputRef;
