@@ -24,7 +24,7 @@
 
   function handleZoom(e) {
     $transformStore = e.transform;
-    d3.select("svg g").attr("transform", e.transform);
+    d3.select("g.g-zoom-wrapper").attr("transform", e.transform);
   }
 
   function initZoom() {

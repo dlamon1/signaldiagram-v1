@@ -24,12 +24,7 @@
 <div id="container">
   <Reactivity />
   <HandleSelectionTab />
-  <div
-    id="canvas-wrapper"
-    class="canvas-wrapper"
-    bind:clientHeight={$canvasWrapperHeight}
-    bind:clientWidth={$canvasWrapperWidth}
-  >
+  <div id="canvas-wrapper" class="canvas-wrapper">
     <div class="canvas" id="canvas">
       <HandleColorLabelUpdates />
     </div>

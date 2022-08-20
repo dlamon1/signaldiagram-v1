@@ -30,6 +30,9 @@
       .select("#canvas")
       .append("svg")
       .attr("id", "svg")
+      .attr("id", "svg")
+      .attr("class", "top-level-svg")
+      .attr("width", $canvasWrapperWidth)
       .attr("width", $canvasWrapperWidth)
       .attr("height", $canvasWrapperHeight)
       .on("mouseup", () => {
@@ -41,7 +44,8 @@
       .append("g")
       .attr("width", $canvasWrapperWidth)
       .attr("height", $canvasWrapperHeight)
-      .attr("id", "g-zoom-wrapper");
+      .attr("id", "g-zoom-wrapper")
+      .attr("class", "g-zoom-wrapper");
     // .on("click", (d) => d.stopPropagation());
   };
 

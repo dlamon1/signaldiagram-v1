@@ -75,84 +75,27 @@
   //   panels.update((p) => $panels);
   // };
 
-  // function download() {
-  //   let svg = document.getElementById("g-zoom-wrapper").innerHTML;
-
-  //   // window.onload = () => {
-  //   const canvas = document.querySelector("canvas");
-  //   const ctx = canvas.getContext("2d");
-  //   const v = Canvg.fromString(ctx, svg);
-
-  //   // Start SVG rendering with animations and mouse handling.
-  //   v.start();
-
-  //   console.log(v);
-
-  //   let link = document.createElement("a");
-  //   document.body.appendChild(link);
-  //   link.download = $title + ".png";
-  //   link.href = v.toDataURL("image/png");
-  //   link.target = "_blank";
-  //   link.click();
-  //   // };
-  // }
-
-  // function generateLink(fileName, data) {
-  //   let link = document.createElement("a"); // Create a element.
-  //   link.download = fileName; // Set value as the file name of download file.
-  //   link.href = data; // Set value as the file content of download file.
-  //   return link;
-  // }
-
-  // function exportSVG(element, fileName) {
-  //   console.log(element);
-  //   let svg = element;
-  //   let svgString;
-  //   if (window.ActiveXObject) {
-  //     svgString = svg.xml;
-  //   } else {
-  //     let oSerializer = new XMLSerializer();
-  //     svgString = oSerializer.serializeToString(svg);
-  //   }
-  //   generateLink(
-  //     fileName + ".svg",
-  //     "data:image/svg+xml;utf8," + svgString
-  //   ).click();
-  // }
-
   const download = async () => {
-    var svg = document.getElementById("svg").innerHTML; // Get SVG element.
-    var canvas = document.createElement("canvas"); // Create a Canvas element.
-    var ctx = canvas.getContext("2d"); // For Canvas returns 2D graphic.
+    var svg = document.getElementById("g-zoom-wrapper");
 
-    const v = Canvg.fromString(ctx, svg);
+    let cloned = svg.cloneNode(true);
+
+    cloned.style.transform = "translate(0,0) scale(1)";
+
+    var tmp = document.createElement("div");
+    tmp.appendChild(cloned);
+
+    let clonedString = tmp.innerHTML;
+
+    var canvas = document.createElement("canvas");
+    var ctx = canvas.getContext("2d");
+
+    const v = Canvg.fromString(ctx, clonedString);
     v.render();
 
-    console.log(canvas);
-
-    // function asdf(canvas) {
-    // Arguments: SVG element, callback function.
-    var base64 = canvas.toDataURL("image/png"); // toDataURL return DataURI as Base64 format.
-    generateLink("SVG2PNG-01.png", base64).click(); // Trigger the Link is made by Link Generator and download.
-    // }
-
-    // asdf(canvas)
+    var base64 = canvas.toDataURL("image/png");
+    generateLink("SVG2PNG-01.png", base64).click();
   };
-
-  function SVG2PNG(svg, callback) {
-    var canvas = document.createElement("canvas"); // Create a Canvas element.
-    console.log(canvas);
-    var ctx = canvas.getContext("2d"); // For Canvas returns 2D graphic.
-
-    const v = Canvg.fromString(ctx, svg);
-
-    // Start SVG rendering with animations and mouse handling.
-    v.render();
-
-    console.log(v);
-
-    // callback(canvas); // Execute callback function.
-  }
 
   function generateLink(fileName, data) {
     var link = document.createElement("a");
@@ -166,7 +109,6 @@
 </script>
 
 <div class="title">
-  <!-- <div>Title:</div> -->
   <input
     type="text"
     bind:value={$title}
