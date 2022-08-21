@@ -29,7 +29,7 @@
 
 <div id="container">
   <div>
-    <div>Mode.</div>
+    <div>Mode</div>
     <label>
       <input type="radio" bind:group={$mode} name="mode" value="select" />
       Select(SHFT+S)
@@ -43,7 +43,7 @@
   </div>
 
   <!-- {#if $isSelectMode} -->
-  <div id="selecting" class={$isSelectMode ? "isSelecting" : "isNotSelecting"}>
+  <!-- <div id="selecting" class={$isSelectMode ? "isSelecting" : "isNotSelecting"}>
     <div>Selecting (SHFT + Drag)</div>
     <label>
       <input
@@ -72,7 +72,7 @@
       />
       Lines
     </label>
-  </div>
+  </div> -->
   <!-- {/if} -->
 </div>
 

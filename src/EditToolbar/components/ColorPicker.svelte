@@ -1,5 +1,5 @@
 <script>
-  import { selectionTab, colorButtons, colorState } from "../../store";
+  import { colorButtons, colorState } from "../../store";
   import { fly } from "svelte/transition";
 
   export let key;

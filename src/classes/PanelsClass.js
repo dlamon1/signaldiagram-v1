@@ -9,7 +9,7 @@ import {
   updatePanels,
   snapPoints as snapPointsStore,
   setMode,
-  setSelectionTab,
+ 
   setSelection,
   signalLines,
   rows,
@@ -27,7 +27,7 @@ export class Panels {
   }
 
   updatePanelArray = () => {
-    // console.log("update panel array");
+    console.log("update panel array");
     let oldPanels = this.array;
     let snapPoints = get(snapPointsStore);
 

@@ -9,7 +9,6 @@ import {
   isCtrl,
   updateSnapPoints,
   panels,
-  setSelectionTab,
   setSelection,
   signalLines,
   snapPoints,
@@ -122,7 +121,6 @@ export class SnapPoints {
     }
 
     this.array[i].setIsSelected(!current);
-    setSelectionTab("snappoints");
     setSelection("snappoints");
 
     updateSnapPoints();

@@ -1,5 +1,5 @@
 <script>
-  import { Canvg } from "canvg";
+  import { Canvg, presets } from "canvg";
   import { onMount, tick } from "svelte";
   import Load from "./components/LoadFile.svelte";
   import {
@@ -12,10 +12,6 @@
     isRearView,
     width,
     height,
-    selectedSignalLines,
-    squares,
-    circles,
-    selectedSquares,
     toolbarWidth,
     snapPoints,
     signalLines,
@@ -76,11 +72,15 @@
   // };
 
   const download = async () => {
+    $panels.deSelect();
+    $signalLines.deSelect();
+    $snapPoints.deSelect();
+
+    await tick();
+
     var svg = document.getElementById("g-zoom-wrapper");
 
     let cloned = svg.cloneNode(true);
-
-    console.log(cloned);
 
     cloned.style.transform = "translate(0,0) scale(1)";
 
@@ -89,24 +89,56 @@
 
     let clonedString = tmp.innerHTML;
 
-    var canvas = document.createElement("canvas");
-    var ctx = canvas.getContext("2d");
+    newE(clonedString);
 
-    const v = Canvg.fromString(ctx, clonedString);
-    v.render();
+    // var canvas = document.createElement("canvas");
+    // var ctx = canvas.getContext("2d");
 
-    var base64 = canvas.toDataURL("image/png");
-    generateLink("SVG2PNG-01.png", base64).click();
+    // const v = Canvg.fromString(ctx, clonedString);
+    // v.render();
+
+    // var base64 = canvas.toDataURL("image/png");
+    // generateLink("SVG2PNG-01.png", base64).click();
   };
+
+  async function newE(svg) {
+    const preset = presets.offscreen();
+
+    async function toPng(data) {
+      // const { width, height, svg } = data;
+      const canvas = new OffscreenCanvas(1920, 1080);
+      const ctx = canvas.getContext("2d");
+      const v = Canvg.fromString(ctx, svg);
+
+      await v.render();
+
+      const blob = await canvas.convertToBlob();
+
+      console.log(blob);
+
+      const pngUrl = URL.createObjectURL(blob);
+
+      console.log(pngUrl);
+      return pngUrl;
+    }
+
+    toPng().then((pngUrl) => {
+      const img = document.querySelector("img");
+
+      img.src = pngUrl;
+    });
+  }
 
   function generateLink(fileName, data) {
     var link = document.createElement("a");
     link.download = fileName;
     link.href = data;
+    link.remove();
     return link;
   }
 
   let inputRef;
+
   onMount(() => inputRef.focus());
 </script>
 

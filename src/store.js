@@ -112,12 +112,6 @@ export const setSelection = (type) => {
   selection.update(($value) => ($value = type));
 };
 
-// panels, snappoints, lines
-export let selectionTab = writable("panels");
-export const setSelectionTab = (tab) => {
-  selectionTab.update(($value) => ($value = tab));
-};
-
 export const setIsShifted = (boolean) => {
   isShifted.update(($value) => ($value = boolean));
 };

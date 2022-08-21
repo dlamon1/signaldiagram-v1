@@ -8,7 +8,7 @@
   import Coordinates from "./EditToolbar/Coordinates.svelte";
   import SnapPointOptions from "./EditToolbar/SnapPointOptions.svelte";
 
-  import { selectionTab, isExportDialogOpen } from "./store";
+  import { isExportDialogOpen, selection } from "./store";
 </script>
 
 <div id="container">
@@ -36,30 +36,37 @@
 
   <div class="divider" />
 
-  <div>
-    {#if $selectionTab === "panels"}
-      <div class="title">Panels</div>
-    {/if}
-
-    {#if $selectionTab === "snappoints"}
-      <div class="title">Snap Points</div>
-    {/if}
-
-    {#if $selectionTab === "signallines"}
-      <div class="title">Signal Lines</div>
-    {/if}
+  <div class="title-container">
+    <div
+      on:click={() => ($selection = "panels")}
+      class:selected={$selection === "panels"}
+    >
+      Panels
+    </div>
+    <div
+      on:click={() => ($selection = "snappoints")}
+      class:selected={$selection === "snappoints"}
+    >
+      Snap Points
+    </div>
+    <div
+      on:click={() => ($selection = "signallines")}
+      class:selected={$selection === "signallines"}
+    >
+      Signal Lines
+    </div>
   </div>
 
   <div id="selectors">
-    {#if $selectionTab === "panels"}
+    {#if $selection === "panels"}
       <Panels />
     {/if}
 
-    {#if $selectionTab === "snappoints"}
+    {#if $selection === "snappoints"}
       <SnapPoints />
     {/if}
 
-    {#if $selectionTab === "signallines"}
+    {#if $selection === "signallines"}
       <SignalLines />
     {/if}
   </div>
@@ -74,6 +81,17 @@
 </div>
 
 <style>
+  .selected {
+    color: #fff;
+    background-color: #000;
+    padding: 5px;
+  }
+  .title-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    /* margin-bottom: 10px; */
+  }
   .title {
     font-size: 1.2em;
     font-weight: bold;

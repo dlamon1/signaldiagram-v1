@@ -3,30 +3,23 @@
     isDrawMode,
     signalLines,
     selection,
-    selectionTab,
     panels,
     mode,
     snapPoints as snapPointsClass,
     transform as transformStore,
-    setSelectionTab,
     setSelection,
   } from "./store";
 
   $: {
-    if ($selection === "panels" || $selectionTab === "panels") {
-      $selectionTab = "panels";
-      $selection === "panels";
+    if ($selection != "panels") {
       deSelect("panels");
-    } else if (
-      $selection === "signallines" ||
-      $selectionTab === "signallines"
-    ) {
-      $selectionTab = "signallines";
-      $selection === "signallines";
+    }
+
+    if ($selection != "signallines") {
       deSelect("signallines");
-    } else if ($selection === "snappoints" || $selectionTab === "snappoints") {
-      $selectionTab = "snappoints";
-      $selection = "snappoints";
+    }
+
+    if ($selection != "snappoints") {
       deSelect("snappoints");
     }
   }
@@ -42,17 +35,4 @@
       $snapPointsClass.deSelect();
     }
   };
-
-  const handleSelectionTab = () => {
-    if ($isDrawMode) {
-      setSelectionTab("lines");
-      setSelection("lines");
-    }
-  };
-
-  $: {
-    let t = { $mode };
-
-    handleSelectionTab();
-  }
 </script>

@@ -10,7 +10,6 @@ import {
   panels,
   isCtrl,
   setSelection,
-  setSelectionTab,
   updatePanels,
 } from "../store";
 
@@ -151,7 +150,6 @@ export class SignalLines {
     }
     this.array[i].setIsSelected(!current);
 
-    setSelectionTab("signallines");
     setSelection("signallines");
 
     // console.log(this.array

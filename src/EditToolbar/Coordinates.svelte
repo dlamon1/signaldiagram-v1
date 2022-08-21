@@ -3,16 +3,16 @@
 </script>
 
 <div id="general">
-  <div id="input-wrapper">
+  <label class="hovered">
     <input type="checkbox" bind:checked={$showCoordinates} />
     Coordinates
-  </div>
+  </label>
 
   <div id="input-wrapper" class="opacity-wrapper">
-    <div>
+    <label class="hovered">
       <input type="checkbox" bind:checked={$isRearView} />
       Rear View
-    </div>
+    </label>
     <input
       type="range"
       min="0"
@@ -25,6 +25,12 @@
 </div>
 
 <style>
+  label {
+    padding-right: 10px;
+  }
+  label:hover {
+    outline: 1.5px solid rgba(0, 0, 0, 0.445);
+  }
   .opacity-wrapper {
     display: flex;
     justify-content: space-between;

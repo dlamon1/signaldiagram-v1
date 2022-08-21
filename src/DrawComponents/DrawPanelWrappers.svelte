@@ -310,7 +310,9 @@
         return $snapPointsClass.array[d.pointIndexFullArray].label;
       })
       .attr("dominant-baseline", "middle")
-      .style("font-size", (d) => d.width / 6 + "px")
+      .style("font-size", (d) =>
+        $width < $height ? $width / 6 + "px" : $height / 6 + "px"
+      )
       .style("pointer-events", "none")
       .attr("y", (d) => {
         let obj = $snapPointsClass.array[d.pointIndexFullArray];

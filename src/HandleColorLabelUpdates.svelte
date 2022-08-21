@@ -3,7 +3,6 @@
     snapPointsQuantity,
     snapPointDirection,
     isDrawMode,
-    selectionTab,
     selectedPanels,
     selectedSnapPoints,
     selectedSignalLines,
@@ -23,7 +22,6 @@
     };
 
     if ($isDrawMode) {
-      $selectionTab = "signallines";
       $selection = "lines";
     }
   }
