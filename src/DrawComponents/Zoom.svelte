@@ -13,7 +13,7 @@
   let zoom = d3
     .zoom()
     .scaleExtent([
-      0.5,
+      0.25,
       $canvasWrapperHeight / $screenAndPanelDimensions.panelDimension,
     ])
     // .translateExtent([

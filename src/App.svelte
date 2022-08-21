@@ -13,10 +13,13 @@
   import DrawTemporarySignalLine from "./DrawComponents/DrawTemporarySignalLine.svelte";
   import Zoom from "./DrawComponents/Zoom.svelte";
   import DrawSelecteOutline from "./DrawComponents/DrawSelecteOutline.svelte";
+  import DrawRearViewLabel from "./DrawComponents/Draw.RearViewLabel.svelte";
 
   import { gZoomWrapperRef } from "./store";
 
   import HandleSelectionTab from "./HandleSelectionTab.svelte";
+
+  import * as d3 from "d3";
 
   $gZoomWrapperRef = null;
 </script>
@@ -41,6 +44,7 @@
     <DrawPanelWrappers />
     <DrawTemporarySignalLine />
     <DrawSelecteOutline />
+    <DrawRearViewLabel />
   {/if}
 
   <ExportDialog />
@@ -70,5 +74,6 @@
   .canvas {
     z-index: 0;
     position: absolute;
+    /* background-color: aqua; */
   }
 </style>
