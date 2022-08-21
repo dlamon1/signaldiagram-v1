@@ -38,18 +38,21 @@
 
   <div class="title-container">
     <div
+      class="title"
       on:click={() => ($selection = "panels")}
       class:selected={$selection === "panels"}
     >
       Panels
     </div>
     <div
+      class="title"
       on:click={() => ($selection = "snappoints")}
       class:selected={$selection === "snappoints"}
     >
       Snap Points
     </div>
     <div
+      class="title"
       on:click={() => ($selection = "signallines")}
       class:selected={$selection === "signallines"}
     >
@@ -85,6 +88,8 @@
     color: #fff;
     background-color: #000;
     padding: 5px;
+    font-weight: bold;
+    transition: all 0.1s ease-in-out;
   }
   .title-container {
     display: flex;
@@ -93,8 +98,10 @@
     /* margin-bottom: 10px; */
   }
   .title {
-    font-size: 1.2em;
-    font-weight: bold;
+    padding: 5px;
+  }
+  .title:hover {
+    outline: 1px solid #000;
   }
   .dialog {
     height: 40px;
