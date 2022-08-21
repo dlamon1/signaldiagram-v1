@@ -43,7 +43,6 @@
       .transition()
       .duration(500)
       .call(zoom.transform, d3.zoomIdentity.scale(k).translate(x, y));
-    console.log(d3.zoomIdentity.applyX(100));
   };
 
   function handleZoom(e) {

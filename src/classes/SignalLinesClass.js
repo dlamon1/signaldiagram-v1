@@ -204,7 +204,7 @@ class SignalLine {
     this.destination.snapPointIndex = destinationSnapPointIndex; // this.origin = origin;
     this.i = get(signalLines).array.length;
     this.color.background = get(colorState).signalLine.background;
-    this.lineWidth = 5;
+    this.lineWidth = get(width) < get(height) ? get(width) / 20 : get(height) / 20;
   }
 
   setIsSelected(boolean) {

@@ -8,6 +8,8 @@
     transform,
     topLevelSvgRef,
     colorState,
+    width,
+    height,
   } from "../store";
 
   $: {
@@ -51,13 +53,15 @@
       y2 = $snapPointsClass.getYCoordinate(destinationSanpPoint);
     }
 
+    let lineWidth = $width < $height ? $width / 20 : $height;
+
     d3.select("#temp-signal-line")
       .attr("pointer-events", "none")
       .attr("x1", x1)
       .attr("y1", y1)
       .attr("x2", x2)
       .attr("y2", y2)
-      .attr("stroke", $colorState.signalLine.background);
-    // .attr("stroke-width", 5);
+      .attr("stroke", $colorState.signalLine.background)
+      .attr("stroke-width", lineWidth);
   };
 </script>
