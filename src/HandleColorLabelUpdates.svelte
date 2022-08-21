@@ -29,7 +29,7 @@
   }
 
   const updateLocalLabelAndColorState = () => {
-    console.log("updateLocalLabelAndColorState");
+    // console.log("updateLocalLabelAndColorState");
   };
 
   const updateSelectedSnapPointsLabel = (label) => {
