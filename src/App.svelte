@@ -19,15 +19,18 @@
 
   import HandleSelectionTab from "./HandleSelectionTab.svelte";
 
-  import * as d3 from "d3";
-
   $gZoomWrapperRef = null;
 </script>
 
 <div id="container">
   <Reactivity />
   <HandleSelectionTab />
-  <div id="canvas-wrapper" class="canvas-wrapper">
+  <div
+    id="canvas-wrapper"
+    class="canvas-wrapper"
+    bind:clientWidth={$canvasWrapperWidth}
+    bind:clientHeight={$canvasWrapperHeight}
+  >
     <div class="canvas" id="canvas">
       <HandleColorLabelUpdates />
     </div>

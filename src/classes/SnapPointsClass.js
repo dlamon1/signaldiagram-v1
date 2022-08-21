@@ -4,8 +4,6 @@ import { writable } from "svelte/store";
 import {
   scale,
   screenAndPanelDimensions,
-  width,
-  height,
   snapPointDirection,
   snapPointsQuantity,
   isCtrl,
@@ -17,6 +15,8 @@ import {
   snapPoints,
   updateSignalLines,
   updatePanels,
+  width,
+  height
 } from "../store";
 
 export class SnapPoints {
@@ -60,17 +60,13 @@ export class SnapPoints {
   // };
 
   getXCoordinate(snapPoint) {
-    // console.log(snapPoint);
-    let s = get(screenAndPanelDimensions);
-    let ratio = get(width) / get(height);
     return (
-      s.panelDimension * snapPoint.column * ratio + snapPoint.x + s.leftPadding
+      get(width) * snapPoint.column  + snapPoint.x
     );
   }
 
-  getYCoordinate(sp) {
-    let s = get(screenAndPanelDimensions);
-    return s.panelDimension * sp.row + sp.y + s.topPadding;
+  getYCoordinate(snapPoint) {
+    return get(height) * snapPoint.row + snapPoint.y;
   }
 
   hoverSnapPoint(e) {
@@ -238,31 +234,31 @@ export class SnapPoint {
   }
 
   createDimensions(row, column, pointIndexWithinPanel) {
-    let panelDimension = get(screenAndPanelDimensions).panelDimension;
-    let ratio = get(width) / get(height);
+    // let panelDimension = get(screenAndPanelDimensions).panelDimension;
+    // let ratio = get(width) / get(height);
 
-    let x = (panelDimension / 2) * ratio;
-    let y = (panelDimension / 3) * pointIndexWithinPanel;
+    let x = (get(width) / 2) ;
+    let y = (get(height) / 3) * pointIndexWithinPanel;
 
     if (get(snapPointDirection) === "horizontal") {
-      x = ((panelDimension * ratio) / 3) * pointIndexWithinPanel;
-      y = panelDimension / 2;
+      x = ((get(width)) / 3) * pointIndexWithinPanel;
+      y = get(height) / 2;
     }
 
     if (get(snapPointsQuantity) === 1) {
-      x = (panelDimension * ratio) / 2;
-      y = panelDimension / 2;
+      x = (get(width)) / 2;
+      y = get(height) / 2;
     }
 
-    this.radius = panelDimension / 10;
+    this.radius = get(height) / 10;
 
-    if (panelDimension * ratio < panelDimension) {
-      this.radius = this.radius * ratio;
+    if (get(width) < get(height)) {
+      this.radius = get(width)/ 10;
     }
 
     this.x = x;
     this.y = y;
-    this.strokeWidth = panelDimension / 100;
+    this.strokeWidth = this.radius / 10;
   }
 
   toggleIsSelected() {

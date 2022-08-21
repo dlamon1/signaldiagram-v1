@@ -141,14 +141,33 @@ export let scale = writable(1);
 export let columns = writable(15);
 export let rows = writable(5);
 
-export let width = writable(1);
-export let height = writable(2);
+export let width = writable(160);
+export let height = writable(320);
 export let ratio = writable(get(width) / get(height));
 
 // This is the size of the browser window minus the toolbar
 // it does not zoom or pan
-export let canvasWrapperWidth = writable(3300);
-export let canvasWrapperHeight = writable(2550);
+export let canvasWrapperWidth = writable(null);
+export let canvasWrapperHeight = writable(null);
+
+// onMount(() => {
+//   let k = $canvasWrapperWidth / $columns / $width;
+
+//   let d = {
+//     k: k,
+//     x: $canvasWrapperWidth - $columns * $width * k,
+//     y: $canvasWrapperHeight - $rows * $height * k,
+//   };
+//   // console.log(e.transform);
+//   // console.log(e);
+//   console.log(d.y);
+//   console.log($canvasWrapperHeight);
+//   console.log($rows * $height * d.k);
+
+//   d3.select("svg").call(zoom.scaleBy, d.k);
+//   d3.select("svg").call(zoom.translateBy, d.x, -d.y);
+//   // .call(zoom.translateBy, 50, 0);
+// });
 
 // export let innerWidth = writable(window.innerWidth - 10);
 // export let innerHeight = writable(window.innerHeight - 10);

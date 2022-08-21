@@ -26,7 +26,7 @@
   $: {
     let t = [$isRearView, $opacity];
 
-    drawRearViewLabel();
+    // drawRearViewLabel();
   }
 
   import * as d3 from "d3";

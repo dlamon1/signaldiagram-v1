@@ -80,6 +80,8 @@
 
     let cloned = svg.cloneNode(true);
 
+    console.log(cloned);
+
     cloned.style.transform = "translate(0,0) scale(1)";
 
     var tmp = document.createElement("div");

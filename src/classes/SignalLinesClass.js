@@ -50,15 +50,11 @@ export class SignalLines {
     let snapPointX = snapPoint.x;
     let snapPointY = snapPoint.y;
 
-    let panelDimension = get(screenAndPanelDimensions).panelDimension;
-    let topPadding = get(screenAndPanelDimensions).topPadding;
-    let leftPadding = get(screenAndPanelDimensions).leftPadding;
+    let panelX = snapPoint.column * get(width);
+    let panelY = snapPoint.row   * get(height);
 
-    let panelX = (snapPoint.column * panelDimension * get(width)) / get(height);
-    let panelY = snapPoint.row * panelDimension;
-
-    let x = panelX + snapPointX + leftPadding;
-    let y = panelY + snapPointY + topPadding;
+    let x = panelX + snapPointX ;
+    let y = panelY + snapPointY ;
 
     return {
       x,

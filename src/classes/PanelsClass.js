@@ -236,10 +236,14 @@ export class Panel {
   }
 
   setDimensions() {
-    this.width = this.panelDimension * this.ratio;
-    this.height = this.panelDimension;
-    this.x = this.panelDimension * this.column * this.ratio + this.leftPadding;
-    this.y = this.panelDimension * this.row + this.topPadding;
+    this.width = get(width);
+    this.height = get(height);
+    // this.width = this.panelDimension * this.ratio;
+    // this.height = this.panelDimension;
+    // this.x = this.panelDimension * this.column * this.ratio + this.leftPadding;
+    // this.y = this.panelDimension * this.row + this.topPadding;
+    this.x = get(width) * this.column + this.leftPadding;
+    this.y = get(height) * this.row + this.topPadding;
   }
 
   setPanelDimension() {
