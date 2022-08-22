@@ -1,28 +1,14 @@
 <script>
-  import {
-    mode,
-    selection,
-    isSelectMode,
-    isDrawMode,
-    isMoveMode,
-  } from "../store";
-
-  // import { clearSelectedPanels } from "../functions/HandleSelect";
+  import { mode, isSelectMode, isDrawMode } from "../store";
 
   $: {
-    // $isDrawMode = false;
-    // $isSelectMode = false;
-    // console.log("mode changed");
-
     if ($mode === "draw") {
       $isSelectMode = false;
       $isDrawMode = true;
-      // clearSelectedPanels(d);
     }
     if ($mode === "select") {
       $isDrawMode = false;
       $isSelectMode = true;
-      // clearSelectedPanels(d);
     }
   }
 </script>
@@ -32,12 +18,12 @@
     <div>Mode</div>
     <label>
       <input type="radio" bind:group={$mode} name="mode" value="select" />
-      Select(SHFT+S)
+      Select (SHFT+S)
     </label>
     <div>
       <label>
         <input type="radio" bind:group={$mode} name="mode" value="draw" />
-        Draw(SHFT+D)
+        Draw (SHFT+D)
       </label>
     </div>
   </div>

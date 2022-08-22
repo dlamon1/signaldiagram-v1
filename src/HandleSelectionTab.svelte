@@ -35,4 +35,11 @@
       $snapPointsClass.deSelect();
     }
   };
+
+  $: {
+    console.log("here");
+    if ($isDrawMode) {
+      $selection = "signallines";
+    }
+  }
 </script>

@@ -88,8 +88,8 @@
     color: #fff;
     background-color: #000;
     padding: 5px;
-    font-weight: bold;
-    transition: all 0.1s ease-in-out;
+    /* font-weight: bold; */
+    transition: all 0.33s ease-in-out;
   }
   .title-container {
     display: flex;

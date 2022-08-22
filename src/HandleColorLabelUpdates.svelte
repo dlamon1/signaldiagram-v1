@@ -14,18 +14,6 @@
     selection,
   } from "./store";
 
-  $: {
-    let triggers = {
-      $snapPointsQuantity,
-      $snapPointDirection,
-      $isDrawMode,
-    };
-
-    if ($isDrawMode) {
-      $selection = "lines";
-    }
-  }
-
   const updateLocalLabelAndColorState = () => {
     // console.log("updateLocalLabelAndColorState");
   };
