@@ -12,6 +12,7 @@
   import DrawSelecteOutline from "./DrawComponents/Draw.SelecteOutline.svelte";
   import DrawRearViewLabel from "./DrawComponents/Draw.RearViewLabel.svelte";
   import DrawSignalLines from "./DrawComponents/Draw.SignalLines.svelte";
+  import BrowserCompatabilityDialog from "./Dialogs/Dialog.BrowserCompatability.svelte";
 
   import { gZoomWrapperRef } from "./store";
 
@@ -54,6 +55,7 @@
   {/if}
 
   <ExportDialog />
+  <BrowserCompatabilityDialog />
 </div>
 
 <style>
