@@ -11,18 +11,9 @@
     groupsEnter,
     isRearView,
     columns,
-    rows,
     setIsDrawingSignalLine,
     showCoordinates,
-    screenAndPanelDimensions,
-    width,
-    height,
-    opacity,
-    transform,
-    directionArrowQuantity,
     showDirectionArrows,
-    snapPointsGroupEnterRef,
-    snapPointPathRef,
   } from "../store";
 
   let hoveredColor = "rgba(0, 255, 170, 1)";
@@ -63,7 +54,6 @@
     $groupsEnter
       .merge($groups)
       .transition()
-      // .call((d) => console.log(d))
       .attr("id", (d) => "panelgroup" + d.i)
       .attr("transform", (d) => {
         return "translate(" + d.x + "," + d.y + ")";

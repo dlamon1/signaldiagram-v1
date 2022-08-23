@@ -52,6 +52,7 @@
     // 3
     $snapPointsGroupEnterRef
       .merge($snapPointsGroupRef)
+      .transition()
       .attr("transform", (d) => {
         return d.getTranslateString(d);
       });
