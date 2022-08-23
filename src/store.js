@@ -19,7 +19,6 @@ export let snapPointsGroupEnterRef = writable(null);
 export let snapPointPathRef = writable(null);
 export let linesGroupRef = writable(null);
 export let linesGroupEnterRef = writable(null);
-// export let snapPointPathRef = writable(null);
 
 export const opacity = writable(0.2);
 
@@ -80,14 +79,6 @@ export const setMode = (m) => {
   }
 };
 
-export let screenAndPanelDimensions = writable({
-  panelDimension: null,
-  leftPadding: null,
-  topPadding: null,
-  newCanvasWidth: null,
-  newCanvasHeight: null,
-});
-
 export let snapPointLabel = writable("");
 
 export let colorState = writable({
@@ -136,8 +127,6 @@ export const setIsMouseDown = (boolean) => {
 
 export let scale = writable(1);
 
-// export let svgRef = writable(null);
-
 export let columns = writable(13);
 export let rows = writable(5);
 
@@ -150,43 +139,7 @@ export let ratio = writable(get(width) / get(height));
 export let canvasWrapperWidth = writable(null);
 export let canvasWrapperHeight = writable(null);
 
-// onMount(() => {
-//   let k = $canvasWrapperWidth / $columns / $width;
-
-//   let d = {
-//     k: k,
-//     x: $canvasWrapperWidth - $columns * $width * k,
-//     y: $canvasWrapperHeight - $rows * $height * k,
-//   };
-//   // console.log(e.transform);
-//   // console.log(e);
-//   console.log(d.y);
-//   console.log($canvasWrapperHeight);
-//   console.log($rows * $height * d.k);
-
-//   d3.select("svg").call(zoom.scaleBy, d.k);
-//   d3.select("svg").call(zoom.translateBy, d.x, -d.y);
-//   // .call(zoom.translateBy, 50, 0);
-// });
-
-// export let innerWidth = writable(window.innerWidth - 10);
-// export let innerHeight = writable(window.innerHeight - 10);
-
-// export let initCanvasWidth = writable(2200);
-// export let initCanvasHeight = writable(1700);
-
-// export let canvasWidth = writable(1100 * 2);
-// export let canvasHeight = writable(850 * 2);
-
 export let textInputRef = writable(null);
-
-export let panelHoverToDraw = writable([]);
-export let panelSelectedOverlayToDraw = writable([]);
-export let signalLineHoverToDraw = writable([]);
-export let signalLineSelectedOverlayToDraw = writable([]);
-export let snapPointHoverTodraw = writable([]);
-export let isSelectingSnapPoints = writable([]);
-export let snapPointSelectedOverlayToDraw = writable([]);
 
 export let panels = writable(new Panels());
 export let setPanels = (p) => {
@@ -207,76 +160,6 @@ export let signalLines = writable(new SignalLines());
 export const updateSignalLines = () => {
   signalLines.update(($value) => ($value = $value));
 };
-
-export let labels = writable([]);
-export let squares = writable([]);
-export let circles = writable([]);
-
-export let hoveredPanels = writable([]);
-export const setHoveredPanels = (panels) => {
-  hoveredPanels.update(($value) => ($value = panels));
-};
-
-export let hoveredSignalLines = writable([]);
-export const setHoveredSignalLines = (signalLines) => {
-  hoveredSignalLines.update(($value) => ($value = signalLines));
-};
-
-export let hoveredSnapPoints = writable([]);
-export const setHoveredSnapPoints = (snapPoints) => {
-  hoveredSnapPoints.update(($value) => ($value = snapPoints));
-};
-
-export let hoveredSquares = writable([]);
-export const setHoveredSquares = (squares) => {
-  hoveredSquares.update(($value) => ($value = squares));
-};
-
-export let selectedPanels = writable([]);
-export const setSelectedPanels = (panels) => {
-  selectedPanels.update(($value) => ($value = panels));
-};
-
-export let selectedSignalLines = writable([]);
-export const setSelectedSignalLines = (signalLines) => {
-  selectedSignalLines.update(($value) => ($value = signalLines));
-};
-
-export let selectedSnapPoints = writable([]);
-export const setSelectedSnapPoints = (snapPoints) => {
-  selectedSnapPoints.update(($value) => ($value = snapPoints));
-};
-
-export let selectedSquares = writable([]);
-export const setSelectedSquares = (squares) => {
-  selectedSquares.update(($value) => ($value = squares));
-};
-
-export const clearAllSelections = () => {
-  hoveredSignalLines.update(($v) => ($v = []));
-  hoveredSignalLines.update(($v) => ($v = []));
-  hoveredSnapPoints.update(($v) => ($v = []));
-  hoveredSnapPoints.update(($v) => ($v = []));
-  hoveredPanels.update(($v) => ($v = []));
-  hoveredPanels.update(($v) => ($v = []));
-  hoveredSquares.update(($v) => ($v = []));
-  hoveredSquares.update(($v) => ($v = []));
-  selectedPanels.update(($v) => ($v = []));
-  selectedPanels.update(($v) => ($v = []));
-  selectedSignalLines.update(($v) => ($v = []));
-  selectedSignalLines.update(($v) => ($v = []));
-  selectedSnapPoints.update(($v) => ($v = []));
-  selectedSnapPoints.update(($v) => ($v = []));
-  selectedSquares.update(($v) => ($v = []));
-  selectedSquares.update(($v) => ($v = []));
-};
-
-export let colors = writable({
-  // one: "red",
-  // two: "green"
-  one: "#fff",
-  two: "#ddd",
-});
 
 export const colorButtons = writable([
   "#E401CD",
@@ -306,13 +189,6 @@ export const colorButtons = writable([
   "#cbcbcb",
   "#ffffff",
 ]);
-
-export const panelColors = writable({
-  2: "#fff",
-  3: "#ddd",
-});
-
-export const labelColors = writable(["red", "green", "blue", "yellow"]);
 
 export let isRearView = writable(true);
 

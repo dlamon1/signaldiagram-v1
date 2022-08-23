@@ -3,13 +3,11 @@ import { SnapPoints, SnapPoint } from "./SnapPointsClass";
 
 import {
   isCtrl,
-  screenAndPanelDimensions,
   width,
   height,
   updatePanels,
   snapPoints as snapPointsStore,
   setMode,
- 
   setSelection,
   signalLines,
   rows,
@@ -98,7 +96,7 @@ export class Panels {
 
   deSelect = () => {
     this.array.forEach((p) => p.setIsSelected(false));
-    updatePanels()
+    updatePanels();
   };
 
   hoverPanel = (e) => {
@@ -116,28 +114,27 @@ export class Panels {
   };
 
   selectPanels = (arrayOfIndexes) => {
-
     let snapPointsClass = get(snapPointsStore);
     let signalLinesClass = get(signalLines);
     snapPointsClass.deSelect();
     this.snapPoints.deSelect();
-    signalLinesClass.deSelect()
+    signalLinesClass.deSelect();
 
-    let arrayOfCurrent = []
+    let arrayOfCurrent = [];
 
     arrayOfIndexes.forEach((i) => {
       let current = this.array[i].isSelected;
       arrayOfCurrent.push(current);
     });
-    
+
     if (!get(isCtrl || !get(isShifted))) {
       this.array.forEach((panel) => {
         panel.setIsSelected(false);
       });
     }
-    
+
     arrayOfIndexes.forEach((panel, i) => {
-      let x = arrayOfCurrent[i]
+      let x = arrayOfCurrent[i];
       this.array[panel].setIsSelected(!x);
     });
 
@@ -168,7 +165,6 @@ export class Panel {
     this.row = i;
     this.column = j;
     this.i = count;
-    this.setPanelDimension();
     this.setRatio();
     this.setColorIndex(i, j);
     this.setDimensions();
@@ -226,7 +222,7 @@ export class Panel {
   }
 
   setLineWidth() {
-    this.lineWidth = this.panelDimension / 65;
+    this.lineWidth = this.width / 65;
   }
 
   setRatio() {
@@ -238,19 +234,8 @@ export class Panel {
   setDimensions() {
     this.width = get(width);
     this.height = get(height);
-    // this.width = this.panelDimension * this.ratio;
-    // this.height = this.panelDimension;
-    // this.x = this.panelDimension * this.column * this.ratio + this.leftPadding;
-    // this.y = this.panelDimension * this.row + this.topPadding;
-    this.x = get(width) * this.column + this.leftPadding;
-    this.y = get(height) * this.row + this.topPadding;
-  }
-
-  setPanelDimension() {
-    let p = get(screenAndPanelDimensions);
-    this.panelDimension = p.panelDimension;
-    this.leftPadding = p.leftPadding;
-    this.topPadding = p.topPadding;
+    this.x = get(width) * this.column;
+    this.y = get(height) * this.row;
   }
 
   setIndex(count) {

@@ -3,7 +3,6 @@ import {
   panels as panelsClass,
   snapPoints as snapPointsClass,
   signalLines as signalLinesClass,
-  selectedSignalLines,
   isCtrl,
   selection,
   transform,
@@ -12,7 +11,6 @@ import {
 import { focusLabelInput } from "./focusInput";
 
 export const handleDragSelect = (event, xOrigin, yOrigin) => {
-
   let x1 = event.x;
   let y1 = event.y;
   let x2 = xOrigin;
@@ -45,12 +43,18 @@ export const handleDragSelect = (event, xOrigin, yOrigin) => {
   }
 
   if (get(selection) === "signallines") {
-    let indexesOfSignalLinesInsideSelection = checkForSelectedSignalLines(x1, y1, x2, y2);
-    get(signalLinesClass).selectSignalLines(indexesOfSignalLinesInsideSelection);
+    let indexesOfSignalLinesInsideSelection = checkForSelectedSignalLines(
+      x1,
+      y1,
+      x2,
+      y2
+    );
+    get(signalLinesClass).selectSignalLines(
+      indexesOfSignalLinesInsideSelection
+    );
     return;
   }
 };
-
 
 export const checkForSelectedPanels = (
   xOrigin,
@@ -122,13 +126,13 @@ export const checkForSelectedSnapPoints = (
   return indexesOfSnapPointsInsideSelection;
 };
 
-export const checkForSelectedSignalLines = (  
-   xOrigin,
+export const checkForSelectedSignalLines = (
+  xOrigin,
   yOrigin,
   xDestination,
-  yDestination) => {
+  yDestination
+) => {
   const checkIfPointIsWithinBounds = (snapPointIndex) => {
-
     let snapPoint = get(snapPointsClass).array[snapPointIndex];
     let panel = get(panelsClass).array[snapPoint.panelIndex];
     let panelX = panel.x;
@@ -137,7 +141,7 @@ export const checkForSelectedSignalLines = (
     let point = {
       x: panelX + snapPoint.x,
       y: panelY + snapPoint.y,
-    }
+    };
 
     let x1;
     let y1;
@@ -157,9 +161,9 @@ export const checkForSelectedSignalLines = (
   let _signalLines = [];
 
   if (get(isCtrl)) {
-    _signalLines.push(...get(selectedSignalLines));
+    // _signalLines.push(...get(selectedSignalLines));
   }
-  
+
   get(signalLinesClass).array.forEach((line, i) => {
     if (
       checkIfPointIsWithinBounds(line.origin.snapPointIndex) &&
@@ -169,6 +173,5 @@ export const checkForSelectedSignalLines = (
     }
   });
 
-  return _signalLines
-  
+  return _signalLines;
 };

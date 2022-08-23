@@ -1,7 +1,6 @@
 <script>
   import { fly, fade } from "svelte/transition";
   import {
-    selectedSignalLines,
     signalLines as signalLinesClass,
     panels as panelsClass,
     showDirectionArrows,
@@ -25,15 +24,15 @@
   };
 
   const updateLocalLabelAndColorState = () => {
-    if ($selectedSignalLines.length > 1) return;
-    $selectedSignalLines.forEach((line, i) => {
-      $colorState.signalLine.background = line.backgroundColor;
-    });
+    // if ($selectedSignalLines.length > 1) return;
+    // $selectedSignalLines.forEach((line, i) => {
+    //   $colorState.signalLine.background = line.backgroundColor;
+    // });
   };
 
   $: {
     let triggers = {
-      $selectedSignalLines,
+      // $selectedSignalLines,
     };
     updateLocalLabelAndColorState();
   }

@@ -10,11 +10,8 @@
     isRearView,
     width,
     height,
-    squares,
-    circles,
     snapPoints,
     signalLines,
-    labels,
   } from "../../store";
 
   onMount(() => {
@@ -47,9 +44,6 @@
         $panels = [...obj.panels];
         $snapPoints = [...obj.snapPoints];
         $signalLines.array = obj.signalLines.array;
-        $labels = [...obj.labels];
-        $squares = [...obj.squares];
-        $circles = [...obj.circles];
 
         await tick();
 

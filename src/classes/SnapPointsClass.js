@@ -3,7 +3,6 @@ import { writable } from "svelte/store";
 
 import {
   scale,
-  screenAndPanelDimensions,
   snapPointDirection,
   snapPointsQuantity,
   isCtrl,
@@ -15,7 +14,7 @@ import {
   updateSignalLines,
   updatePanels,
   width,
-  height
+  height,
 } from "../store";
 
 export class SnapPoints {
@@ -23,7 +22,6 @@ export class SnapPoints {
 
   constructor() {
     this._store = writable(this);
-    // this.s = get(screenAndPanelDimensions);
     this.ratio = get(width) / get(height);
   }
 
@@ -59,9 +57,7 @@ export class SnapPoints {
   // };
 
   getXCoordinate(snapPoint) {
-    return (
-      get(width) * snapPoint.column  + snapPoint.x
-    );
+    return get(width) * snapPoint.column + snapPoint.x;
   }
 
   getYCoordinate(snapPoint) {
@@ -198,9 +194,9 @@ export class SnapPoint {
   }
 
   getTranslateString() {
-    let containingPanel = get(panels).array[this.panelIndex];
-    let panelX = containingPanel.x;
-    let panelY = containingPanel.y
+    let parentPanel = get(panels).array[this.panelIndex];
+    let panelX = parentPanel.x;
+    let panelY = parentPanel.y;
 
     let x = this.x + panelX;
     let y = this.y + panelY;
@@ -234,34 +230,24 @@ export class SnapPoint {
     this.isTriangle = boolean;
   }
 
-  setPanelDimension() {
-    let p = get(screenAndPanelDimensions);
-    this.panelDimension = p.panelDimension;
-    this.leftPadding = p.leftPadding;
-    this.topPadding = p.topPadding;
-  }
-
   createDimensions(row, column, pointIndexWithinPanel) {
-    // let panelDimension = get(screenAndPanelDimensions).panelDimension;
-    // let ratio = get(width) / get(height);
-
-    let x = (get(width) / 2) ;
+    let x = get(width) / 2;
     let y = (get(height) / 3) * pointIndexWithinPanel;
 
     if (get(snapPointDirection) === "horizontal") {
-      x = ((get(width)) / 3) * pointIndexWithinPanel;
+      x = (get(width) / 3) * pointIndexWithinPanel;
       y = get(height) / 2;
     }
 
     if (get(snapPointsQuantity) === 1) {
-      x = (get(width)) / 2;
+      x = get(width) / 2;
       y = get(height) / 2;
     }
 
     this.radius = get(height) / 10;
 
     if (get(width) < get(height)) {
-      this.radius = get(width)/ 10;
+      this.radius = get(width) / 10;
     }
 
     this.x = x;

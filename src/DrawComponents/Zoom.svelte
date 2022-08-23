@@ -8,7 +8,6 @@
     canvasWrapperHeight,
     canvasWrapperWidth,
     isSelectMode,
-    screenAndPanelDimensions,
     transform as transformStore,
     columns,
     rows,
@@ -18,10 +17,7 @@
 
   let zoom = d3
     .zoom()
-    .scaleExtent([
-      0.25,
-      $canvasWrapperHeight / $screenAndPanelDimensions.panelDimension,
-    ])
+    .scaleExtent([0.25, $canvasWrapperHeight / $width])
     // .translateExtent([
     //   [0, 0],
     //   [$canvasWrapperWidth, $canvasWrapperHeight],

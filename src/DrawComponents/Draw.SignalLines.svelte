@@ -14,7 +14,6 @@
     rows,
     setIsDrawingSignalLine,
     showCoordinates,
-    screenAndPanelDimensions,
     width,
     height,
     opacity,

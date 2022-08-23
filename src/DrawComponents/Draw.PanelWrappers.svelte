@@ -13,6 +13,12 @@
     columns,
     setIsDrawingSignalLine,
     showCoordinates,
+    screenAndPanelDimensions,
+    width,
+    height,
+    opacity,
+    transform,
+    directionArrowQuantity,
     showDirectionArrows,
   } from "../store";
 
@@ -140,7 +146,8 @@
       .attr("dominant-baseline", "hanging")
       .style("font-size", (d) => d.width / 6 + "px")
       .style("pointer-events", "none")
-      .style("user-select", "none");
+      .style("user-select", "none")
+      .style("font-family", "BlinkMacSystemFont");
 
     // Draw Selected Panels
     // Draw Selected Panels
