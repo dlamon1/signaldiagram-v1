@@ -41,13 +41,15 @@
         $snapPointsQuantity = obj.snapPointsQuantity;
         $snapPointDirection = obj.snapPointDirection;
 
-        $panels = [...obj.panels];
-        $snapPoints = [...obj.snapPoints];
-        $signalLines.array = obj.signalLines.array;
+        $panels.setArrayFromLoad(obj.panels.array);
+        // $snapPoints.array = obj.snapPoints.array;
+        // $signalLines.array = obj.signalLines.array;
 
-        await tick();
+        $panels = $panels;
 
-        await tick();
+        // await tick();
+
+        // await tick();
         // deSelectAll();
       }
 

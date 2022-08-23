@@ -20,7 +20,7 @@ export let snapPointPathRef = writable(null);
 export let linesGroupRef = writable(null);
 export let linesGroupEnterRef = writable(null);
 
-export const opacity = writable(0.2);
+export const opacity = writable(0.1);
 
 export let transform = writable({
   k: 1,

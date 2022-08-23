@@ -21,48 +21,36 @@
     mode,
   } from "../store";
 
-  // const download = async () => {
-  //   clearAllSelections();
+  const save = async () => {
+    let saveObj = {
+      rows: $rows,
+      columns: $columns,
+      title: $title,
+      toolbarWidth: $toolbarWidth,
+      isRearView: $isRearView,
+      snapPointsQuantity: $snapPointsQuantity,
+      snapPointDirection: $snapPointDirection,
+      columns: $columns,
+      rows: $rows,
+      width: $width,
+      height: $height,
+      panels: $panels,
+      snapPoints: $snapPoints,
+      signalLines: $signalLines,
+    };
 
-  //   await tick();
+    let panelsJson = JSON.stringify(saveObj);
 
-  //   // trigger resize function in Panels.svelte
-  //   $isPrinting = true;
-  // };
+    function download() {
+      const a = document.createElement("a");
+      const file = new Blob([panelsJson], { type: "application/json" });
+      a.href = URL.createObjectURL(file);
+      a.download = "test" + ".json";
+      a.click();
+    }
 
-  // const save = async () => {
-  //   let saveObj = {
-  //     rows: $rows,
-  //     columns: $columns,
-  //     title: $title,
-  //     toolbarWidth: $toolbarWidth,
-  //     isRearView: $isRearView,
-  //     snapPointsQuantity: $snapPointsQuantity,
-  //     snapPointDirection: $snapPointDirection,
-  //     columns: $columns,
-  //     rows: $rows,
-  //     width: $width,
-  //     height: $height,
-  //     panels: $panels,
-  //     snapPoints: $snapPoints,
-  //     signalLines: $signalLines,
-  //     labels: $labels,
-  //     squares: $squares,
-  //     circles: $circles,
-  //   };
-
-  //   let panelsJson = JSON.stringify(saveObj);
-
-  //   function download() {
-  //     const a = document.createElement("a");
-  //     const file = new Blob([panelsJson], { type: "text/plain" });
-  //     a.href = URL.createObjectURL(file);
-  //     a.download = $title + ".json";
-  //     a.click();
-  //   }
-
-  //   download();
-  // };
+    download();
+  };
 
   // const reset = () => {
   //   $panels.forEach((p) => {
@@ -234,9 +222,10 @@
 </div>
 <button on:click={download} class="download">Download .PNG</button>
 
-<!-- <button on:click={save} class="save">Save</button> -->
+<button on:click={save} class="save">Save</button>
 
-<!-- <Load /> -->
+<Load />
+
 <style>
   .print {
     position: absolute;

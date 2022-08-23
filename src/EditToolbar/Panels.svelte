@@ -1,14 +1,9 @@
 <script>
   import { fade, fly } from "svelte/transition";
 
-  import { panels, updatePanels, colorState } from "../store";
+  import { panels, updatePanels } from "../store";
 
   import ColorPicker from "./components/ColorPicker.svelte";
-
-  let isBackgroundOpen = true;
-
-  $: flex = isBackgroundOpen ? 1 : 0.15;
-  $: background = $colorState.panel.background;
 
   const selectCriss = () => {
     $panels.array.forEach((p) => {
@@ -30,14 +25,6 @@
     });
   };
 </script>
-
-<!-- <div
-  class="title"
-  in:fly={{ x: -100, duration: 120 }}
-  out:fade={{ x: 100, duration: 0 }}
->
-  Panels
-</div> -->
 
 <div
   id="panels"

@@ -7,7 +7,6 @@ import {
   height,
   updatePanels,
   snapPoints as snapPointsStore,
-  setMode,
   setSelection,
   signalLines,
   rows,
@@ -22,6 +21,23 @@ export class Panels {
 
   constructor() {
     this._store = writable(this);
+  }
+
+  setArrayFromLoad(array) {
+    this.resetArray();
+
+    array.forEach((panel) => {
+      this.addPanel(
+        panel.row,
+        panel.column,
+        panel.i,
+        panel.thisPanelsSnapPoints,
+        panel.snapPointObjects,
+        panel.color
+      );
+
+    })
+    updatePanels();
   }
 
   updatePanelArray = () => {
@@ -59,8 +75,8 @@ export class Panels {
           j,
           count,
           thisPanelsSnapPointsIndexes,
-          oldPanel,
-          snapPointObjects
+          snapPointObjects,
+          null
         );
 
         count++;
@@ -74,18 +90,17 @@ export class Panels {
     return this._store.subscribe(subscriber);
   }
 
-  addPanel(i, j, count, thisPanelsSnapPoints, oldPanel, snapPointObjects) {
+  addPanel(i, j, count, thisPanelsSnapPoints, snapPointObjects, colorObj) {
     let newPanel = new Panel(
       i,
       j,
       count,
       thisPanelsSnapPoints,
-      oldPanel,
-      snapPointObjects
+      snapPointObjects,
+      colorObj
     );
     this.array.push(newPanel);
   }
-
   pushPanel(panel) {
     this.array.push(panel);
   }
@@ -161,7 +176,7 @@ export class Panel {
   width;
   height;
 
-  constructor(i, j, count, thisPanelsSnapPoints, oldPanel, snapPointObjects) {
+  constructor(i, j, count, thisPanelsSnapPoints, snapPointObjects, colorObj) {
     this.row = i;
     this.column = j;
     this.i = count;
@@ -171,8 +186,14 @@ export class Panel {
     this.setLineWidth();
     this.thisPanelsSnapPoints = thisPanelsSnapPoints;
     this.snapPointObjects = snapPointObjects;
+    this.setColorObj(colorObj)
     // oldPanel && this.copyFromOldPanel(oldPanel);
     // console.log("constructor");
+  }
+
+  setColorObj(colorObj) {
+    if (!colorObj) { return }
+    this.color = colorObj;
   }
 
   setIsHovered(boolean) {

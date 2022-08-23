@@ -28,7 +28,6 @@
       $snapPointsClass,
       $isDrawingSignalLine,
     ];
-    // console.log("triggered");
 
     $gZoomWrapperRef && drawSnapPointWrappers();
   }
