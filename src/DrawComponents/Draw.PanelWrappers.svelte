@@ -13,7 +13,6 @@
     columns,
     setIsDrawingSignalLine,
     showCoordinates,
-    screenAndPanelDimensions,
     width,
     height,
     opacity,
@@ -147,7 +146,7 @@
       .style("font-size", (d) => d.width / 6 + "px")
       .style("pointer-events", "none")
       .style("user-select", "none")
-      .style("font-family", "BlinkMacSystemFont");
+      .style("font-family", "Heebo");
 
     // Draw Selected Panels
     // Draw Selected Panels

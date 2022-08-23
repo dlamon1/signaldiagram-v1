@@ -188,7 +188,7 @@
         return 0;
       })
       .style("user-select", "none")
-      .style("font-family", "BlinkMacSystemFont")
+      .style("font-family", "Heebo")
       .attr("text-anchor", "middle")
       .attr("stroke", (d) => {
         return $snapPointsClass.array[d.pointIndexFullArray].color.font;

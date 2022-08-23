@@ -42,7 +42,7 @@
       .style("pointer-events", "none")
       .style("user-select", "none")
       .style("font-weight", "800")
-      .style("font-family", "BlinkMacSystemFont")
+      .style("font-family", "Heebo")
       .attr("dominant-baseline", "middle")
       .attr(
         "transform-origin",
