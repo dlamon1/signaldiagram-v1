@@ -71,63 +71,63 @@
   //   panels.update((p) => $panels);
   // };
 
-  const download = async () => {
-    $panels.deSelect();
-    $signalLines.deSelect();
-    $snapPoints.deSelect();
+  // const download = async () => {
+  //   $panels.deSelect();
+  //   $signalLines.deSelect();
+  //   $snapPoints.deSelect();
 
-    await tick();
+  //   await tick();
 
-    var svg = document.getElementById("g-zoom-wrapper");
+  //   var svg = document.getElementById("g-zoom-wrapper");
 
-    let cloned = svg.cloneNode(true);
+  //   let cloned = svg.cloneNode(true);
 
-    cloned.style.transform = "translate(0,0) scale(1)";
+  //   cloned.style.transform = "translate(0,0) scale(1)";
 
-    var tmp = document.createElement("div");
-    tmp.appendChild(cloned);
+  //   var tmp = document.createElement("div");
+  //   tmp.appendChild(cloned);
 
-    let clonedString = tmp.innerHTML;
+  //   let clonedString = tmp.innerHTML;
 
-    newE(clonedString);
+  //   // newE(clonedString);
 
-    // var canvas = document.createElement("canvas");
-    // var ctx = canvas.getContext("2d");
+  //   var canvas = document.createElement("canvas");
+  //   var ctx = canvas.getContext("2d");
 
-    // const v = Canvg.fromString(ctx, clonedString);
-    // v.render();
+  //   const v = Canvg.fromString(ctx, clonedString);
+  //   v.render();
 
-    // var base64 = canvas.toDataURL("image/png");
-    // generateLink("SVG2PNG-01.png", base64).click();
-  };
+  //   var base64 = canvas.toDataURL("image/png");
+  //   generateLink("SVG2PNG-01.png", base64).click();
+  // };
 
-  async function newE(svg) {
-    const preset = presets.offscreen();
+  // async function newE(svg) {
+  //   const preset = presets.offscreen();
 
-    async function toPng(data) {
-      // const { width, height, svg } = data;
-      const canvas = new OffscreenCanvas(1920, 1080);
-      const ctx = canvas.getContext("2d");
-      const v = Canvg.fromString(ctx, svg);
+  //   async function toPng(data) {
+  //     // const { width, height, svg } = data;
+  //     const canvas = new OffscreenCanvas(1920, 1080);
+  //     const ctx = canvas.getContext("2d");
+  //     const v = Canvg.fromString(ctx, svg);
 
-      await v.render();
+  //     await v.render();
 
-      const blob = await canvas.convertToBlob();
+  //     const blob = await canvas.convertToBlob();
 
-      console.log(blob);
+  //     console.log(blob);
 
-      const pngUrl = URL.createObjectURL(blob);
+  //     const pngUrl = URL.createObjectURL(blob);
 
-      console.log(pngUrl);
-      return pngUrl;
-    }
+  //     console.log(pngUrl);
+  //     return pngUrl;
+  //   }
 
-    toPng().then((pngUrl) => {
-      const img = document.querySelector("img");
+  //   toPng().then((pngUrl) => {
+  //     const img = document.querySelector("img");
 
-      img.src = pngUrl;
-    });
-  }
+  //     img.src = pngUrl;
+  //   });
+  // }
 
   function generateLink(fileName, data) {
     var link = document.createElement("a");
@@ -138,6 +138,45 @@
   }
 
   let inputRef;
+
+  const download = async () => {
+    var svg = document.getElementById("g-zoom-wrapper");
+
+    if (typeof window.XMLSerializer != "undefined") {
+      var svgData = new XMLSerializer().serializeToString(svg);
+    } else if (typeof svg.xml != "undefined") {
+      var svgData = svg.xml;
+    }
+
+    var canvas = document.createElement("canvas");
+    var svgSize = svg.getBoundingClientRect();
+
+    console.log(svgSize);
+
+    canvas.width = svgSize.width;
+    canvas.height = svgSize.height;
+    var ctx = canvas.getContext("2d");
+
+    var img = document.createElement("img");
+    console.log(img);
+    img.setAttribute(
+      "src",
+      "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svgData)))
+    );
+    console.log(img);
+
+    img.onload = function () {
+      ctx.drawImage(img, 0, 0);
+      console.log(ctx);
+      var imgsrc = canvas.toDataURL("image/png");
+
+      var a = document.createElement("a");
+      a.download = "asdf.png";
+      a.href = imgsrc;
+      document.appendChild(a);
+      a.click();
+    };
+  };
 
   onMount(() => inputRef.focus());
 </script>
