@@ -18,11 +18,8 @@
 
   let updatePanelArray = () => $panelsClass.updatePanelArray();
 
-  let l = $panelsClass.array;
-
   $: {
     let t = { $mode };
-
     deSelectAllObjects();
   }
 
