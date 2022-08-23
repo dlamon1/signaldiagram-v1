@@ -138,7 +138,7 @@ export let scale = writable(1);
 
 // export let svgRef = writable(null);
 
-export let columns = writable(15);
+export let columns = writable(13);
 export let rows = writable(5);
 
 export let width = writable(160);

@@ -36,6 +36,9 @@
 
   const centerScreen = () => {
     let k = $canvasWrapperWidth / $columns / $width;
+    if ($canvasWrapperHeight < $rows * $height * k) {
+      k = $canvasWrapperHeight / $rows / $height;
+    }
     let x = $canvasWrapperWidth - $columns * $width * k;
     let y = $canvasWrapperHeight - $rows * $height * k;
 

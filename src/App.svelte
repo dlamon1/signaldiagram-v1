@@ -69,6 +69,7 @@
     width: calc(100vw - 250px);
     /* margin: 10px; */
   }
+
   .toolbar {
     background-color: rgb(71, 71, 71);
     width: 250px;

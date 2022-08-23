@@ -14,7 +14,7 @@
     class="container"
     on:click|self={toggleDialog}
     transition:scale={{
-      duration: 180,
+      duration: 130,
     }}
   >
     <div class="dialog-container">
@@ -32,6 +32,7 @@
     justify-content: center;
     align-items: center;
     backdrop-filter: blur(4px);
+    z-index: 2;
   }
 
   .dialog-container {
