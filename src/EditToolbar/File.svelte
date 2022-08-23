@@ -129,18 +129,12 @@
   //   });
   // }
 
-  function generateLink(fileName, data) {
-    var link = document.createElement("a");
-    link.download = fileName;
-    link.href = data;
-    link.remove();
-    return link;
-  }
-
   let inputRef;
 
   const download = async () => {
-    var svg = document.getElementById("g-zoom-wrapper");
+    var svg = document.getElementById("svg");
+
+    console.log(svg);
 
     let img = new Image();
     let serializer = new XMLSerializer();
@@ -148,17 +142,28 @@
 
     img.src = "data:image/svg+xml;base64," + window.btoa(svgStr);
 
+    console.log(img);
     // You could also use the actual string without base64 encoding it:
     //img.src = "data:image/svg+xml;utf8," + svgStr;
 
     var canvas = document.createElement("canvas");
     document.body.appendChild(canvas);
 
+    let w = 1920;
+    let h = 1080;
+
     canvas.width = w;
     canvas.height = h;
     canvas.getContext("2d").drawImage(img, 0, 0, w, h);
 
-    // Now save as png or whatever
+    console.log(canvas);
+
+    var link = document.createElement("a");
+    document.body.appendChild(link);
+    link.download = $title + ".png";
+    link.href = canvas.toDataURL("image/png");
+    link.target = "_blank";
+    link.click();
   };
 
   onMount(() => inputRef.focus());
