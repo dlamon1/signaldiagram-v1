@@ -236,8 +236,7 @@
 
 <!-- <button on:click={save} class="save">Save</button> -->
 
-<Load />
-
+<!-- <Load /> -->
 <style>
   .print {
     position: absolute;
