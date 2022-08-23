@@ -24,7 +24,7 @@
     snapPointBaseCircles,
   } from "../store";
 
-  import { handleDragSelect } from "../functions/handleSelect2";
+  import { handleDragSelect } from "../functions/handleSelect";
 
   let selectBoxOutline;
 

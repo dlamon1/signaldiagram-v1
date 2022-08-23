@@ -4,6 +4,7 @@ import {
   signalLines,
   colorState,
   screenAndPanelDimensions,
+  updateSnapPoints,
   updateSignalLines,
   width,
   height,
@@ -154,6 +155,27 @@ export class SignalLines {
 
     // console.log(this.array
     updateSignalLines();
+  }
+
+  selectSignalLines(arrayOfIndexes) {
+    let snapPointsClass = get(snapPoints);
+    let signalLinesClass = get(signalLines);
+    snapPointsClass.deSelect();
+    signalLinesClass.deSelect();
+    updateSnapPoints();
+    updateSignalLines();
+
+    if (!get(isCtrl)) {
+      this.array.forEach((line) => {
+        line.setIsSelected(false);
+      });
+    }
+
+    arrayOfIndexes.forEach((i) => {
+      this.array[i].setIsSelected(true);
+    });
+
+    updateSnapPoints();
   }
 
   deSelect() {

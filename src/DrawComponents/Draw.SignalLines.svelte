@@ -36,7 +36,7 @@
     let t = [
       $panelsClass,
       $isRearView,
-      // $snapPointsClass,
+      $snapPointsClass,
       $isDrawingSignalLine,
       $showDirectionArrows,
     ];

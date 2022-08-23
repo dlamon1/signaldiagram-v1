@@ -51,10 +51,6 @@
     Show Direction Arrows
   </div>
 
-  <div class="subtitle" on:click={() => (isLineOpen = !isLineOpen)}>
-    Line {isLineOpen ? "▼" : "▲"}
-  </div>
-
   {#if isLineOpen}
     <ColorPicker
       key={"signalLine"}

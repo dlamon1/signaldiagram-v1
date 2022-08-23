@@ -5,7 +5,52 @@ import {
   signalLines as signalLinesClass,
   selectedSignalLines,
   isCtrl,
+  selection,
+  transform,
 } from "../store";
+
+import { focusLabelInput } from "./focusInput";
+
+export const handleDragSelect = (event, xOrigin, yOrigin) => {
+
+  let x1 = event.x;
+  let y1 = event.y;
+  let x2 = xOrigin;
+  let y2 = yOrigin;
+
+  let t = get(transform);
+
+  // using get(transform) apply the transform to the coordinates
+  x1 = event.x / t.k - t.x / t.k;
+  y1 = event.y / t.k - t.y / t.k;
+  x2 = xOrigin / t.k - t.x / t.k;
+  y2 = yOrigin / t.k - t.y / t.k;
+
+  // check which objects are selecting
+  if (get(selection) === "panels") {
+    let indexesOfPanelsInsideSelection = checkForSelectedPanels(x1, y1, x2, y2);
+    get(panelsClass).selectPanels(indexesOfPanelsInsideSelection);
+    return;
+  }
+
+  if (get(selection) === "snappoints") {
+    let indexesOfSnapPointsInsideSelection = checkForSelectedSnapPoints(
+      x1,
+      y1,
+      x2,
+      y2
+    );
+    get(snapPointsClass).selectSnapPoints(indexesOfSnapPointsInsideSelection);
+    return;
+  }
+
+  if (get(selection) === "signallines") {
+    let indexesOfSignalLinesInsideSelection = checkForSelectedSignalLines(x1, y1, x2, y2);
+    get(signalLinesClass).selectSignalLines(indexesOfSignalLinesInsideSelection);
+    return;
+  }
+};
+
 
 export const checkForSelectedPanels = (
   xOrigin,
@@ -85,8 +130,14 @@ export const checkForSelectedSignalLines = (
   const checkIfPointIsWithinBounds = (snapPointIndex) => {
 
     let snapPoint = get(snapPointsClass).array[snapPointIndex];
-    console.log(snapPoint)
-    let point 
+    let panel = get(panelsClass).array[snapPoint.panelIndex];
+    let panelX = panel.x;
+    let panelY = panel.y;
+
+    let point = {
+      x: panelX + snapPoint.x,
+      y: panelY + snapPoint.y,
+    }
 
     let x1;
     let y1;
@@ -110,16 +161,14 @@ export const checkForSelectedSignalLines = (
   }
   
   get(signalLinesClass).array.forEach((line, i) => {
-    i === 0 && console.log(line)
     if (
       checkIfPointIsWithinBounds(line.origin.snapPointIndex) &&
       checkIfPointIsWithinBounds(line.destination.snapPointIndex)
     ) {
-      _signalLines.push(line);
+      _signalLines.push(i);
     }
   });
 
-  return {
-    signalLines: _signalLines,
-  };
+  return _signalLines
+  
 };
