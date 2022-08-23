@@ -2,29 +2,13 @@
   import { onMount } from "svelte";
   import * as d3 from "d3";
   import {
-    panels,
-    snapPoints as snapPointsClass,
-    signalLines as signalLinesClass,
-    selectedPanels,
-    showCoordinates,
-    isRearView,
-    showDirectionArrows,
-    svgRef,
-    screenAndPanelDimensions,
-    isDrawingSignalLine,
-    mode,
-    transform,
     canvasWrapperWidth,
     canvasWrapperHeight,
     isShifted,
-    opacity,
     topLevelSvgRef,
-    gZoomWrapperRef,
-    temporarySignalLine,
-    snapPointBaseCircles,
   } from "../store";
 
-  import { handleDragSelect } from "../functions/handleSelect";
+  import { handleDragSelect } from "../functions/HandleSelect";
 
   let selectBoxOutline;
 
@@ -42,9 +26,6 @@
     // console.log("draw box outline");
     if (!$topLevelSvgRef) return;
 
-    // Draw Select Box Outline
-    // Draw Select Box Outline
-    // Draw Select Box Outline
     selectBoxOutline = d3
       .select("#svg")
       .append("g")
