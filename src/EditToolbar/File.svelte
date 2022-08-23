@@ -1,7 +1,10 @@
 <script>
-  import { Canvg, presets } from "canvg";
   import { onMount, tick } from "svelte";
   import Load from "./components/LoadFile.svelte";
+  import { saveAs } from "file-saver";
+
+  import * as d3 from "d3";
+
   import {
     panels,
     snapPointsQuantity,
@@ -71,103 +74,156 @@
   //   panels.update((p) => $panels);
   // };
 
-  // const download = async () => {
-  //   $panels.deSelect();
-  //   $signalLines.deSelect();
-  //   $snapPoints.deSelect();
-
-  //   await tick();
-
-  //   var svg = document.getElementById("g-zoom-wrapper");
-
-  //   let cloned = svg.cloneNode(true);
-
-  //   cloned.style.transform = "translate(0,0) scale(1)";
-
-  //   var tmp = document.createElement("div");
-  //   tmp.appendChild(cloned);
-
-  //   let clonedString = tmp.innerHTML;
-
-  //   // newE(clonedString);
-
-  //   var canvas = document.createElement("canvas");
-  //   var ctx = canvas.getContext("2d");
-
-  //   const v = Canvg.fromString(ctx, clonedString);
-  //   v.render();
-
-  //   var base64 = canvas.toDataURL("image/png");
-  //   generateLink("SVG2PNG-01.png", base64).click();
-  // };
-
-  // async function newE(svg) {
-  //   const preset = presets.offscreen();
-
-  //   async function toPng(data) {
-  //     // const { width, height, svg } = data;
-  //     const canvas = new OffscreenCanvas(1920, 1080);
-  //     const ctx = canvas.getContext("2d");
-  //     const v = Canvg.fromString(ctx, svg);
-
-  //     await v.render();
-
-  //     const blob = await canvas.convertToBlob();
-
-  //     console.log(blob);
-
-  //     const pngUrl = URL.createObjectURL(blob);
-
-  //     console.log(pngUrl);
-  //     return pngUrl;
-  //   }
-
-  //   toPng().then((pngUrl) => {
-  //     const img = document.querySelector("img");
-
-  //     img.src = pngUrl;
-  //   });
-  // }
-
   let inputRef;
 
   const download = async () => {
-    var svg = document.getElementById("svg");
+    $panels.deSelect();
+    $signalLines.deSelect();
+    $snapPoints.deSelect();
 
-    console.log(svg);
+    await tick();
 
-    let img = new Image();
-    let serializer = new XMLSerializer();
-    let svgStr = serializer.serializeToString(svg);
+    let zoom = d3.zoom().on("zoom", handleZoom);
 
-    img.src = "data:image/svg+xml;base64," + window.btoa(svgStr);
+    let clonedZoomWrapper;
 
-    console.log(img);
-    // You could also use the actual string without base64 encoding it:
-    //img.src = "data:image/svg+xml;utf8," + svgStr;
+    function handleZoom(e) {
+      clonedZoomWrapper.attr("transform", e.transform);
+    }
 
-    var canvas = document.createElement("canvas");
-    document.body.appendChild(canvas);
+    let w = $width * $columns;
+    let h = $height * $rows;
 
-    let w = 1920;
-    let h = 1080;
+    let svg = d3.select("#svg");
+    let g = svg.select("g").clone(true).node();
+    let p = d3.select("#print");
 
-    canvas.width = w;
-    canvas.height = h;
-    canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+    p.attr("width", w);
+    p.attr("height", h);
 
-    console.log(canvas);
+    p.append(() => g);
+    clonedZoomWrapper = p.select("g");
 
-    var link = document.createElement("a");
-    document.body.appendChild(link);
-    link.download = $title + ".png";
-    link.href = canvas.toDataURL("image/png");
-    link.target = "_blank";
-    link.click();
+    d3.select("#print").call(
+      zoom.transform,
+      d3.zoomIdentity.scale(1).translate(0, 0)
+    );
+
+    var svgString = getSVGString(p.node());
+    // console.log(svgString);
+    p.attr("width", 0);
+    p.attr("height", 0);
+
+    svgString2Image(svgString, 2 * w, 2 * h, "png", save); // passes Blob and filesize String to the callback
+
+    function save(dataBlob, filesize) {
+      console.log(dataBlob);
+      saveAs(dataBlob, "D3 vis exported to PNG.png"); // FileSaver.js function
+    }
+
+    // Below are the functions that handle actual exporting:
+    // getSVGString ( svgNode ) and svgString2Image( svgString, width, height, format, callback )
+    function getSVGString(svgNode) {
+      svgNode.setAttribute("xlink", "http://www.w3.org/1999/xlink");
+      var cssStyleText = getCSSStyles(svgNode);
+      appendCSS(cssStyleText, svgNode);
+
+      var serializer = new XMLSerializer();
+      var svgString = serializer.serializeToString(svgNode);
+      svgString = svgString.replace(/(\w+)?:?xlink=/g, "xmlns:xlink="); // Fix root xlink without namespace
+      svgString = svgString.replace(/NS\d+:href/g, "xlink:href"); // Safari NS namespace fix
+
+      return svgString;
+
+      function getCSSStyles(parentElement) {
+        var selectorTextArr = [];
+
+        // Add Parent element Id and Classes to the list
+        selectorTextArr.push("#" + parentElement.id);
+        for (var c = 0; c < parentElement.classList.length; c++)
+          if (!contains("." + parentElement.classList[c], selectorTextArr))
+            selectorTextArr.push("." + parentElement.classList[c]);
+
+        // Add Children element Ids and Classes to the list
+        var nodes = parentElement.getElementsByTagName("*");
+        for (var i = 0; i < nodes.length; i++) {
+          var id = nodes[i].id;
+          if (!contains("#" + id, selectorTextArr))
+            selectorTextArr.push("#" + id);
+
+          var classes = nodes[i].classList;
+          for (var c = 0; c < classes.length; c++)
+            if (!contains("." + classes[c], selectorTextArr))
+              selectorTextArr.push("." + classes[c]);
+        }
+
+        // Extract CSS Rules
+        var extractedCSSText = "";
+        for (var i = 0; i < document.styleSheets.length; i++) {
+          var s = document.styleSheets[i];
+
+          try {
+            if (!s.cssRules) continue;
+          } catch (e) {
+            if (e.name !== "SecurityError") throw e; // for Firefox
+            continue;
+          }
+
+          var cssRules = s.cssRules;
+          for (var r = 0; r < cssRules.length; r++) {
+            if (contains(cssRules[r].selectorText, selectorTextArr))
+              extractedCSSText += cssRules[r].cssText;
+          }
+        }
+
+        return extractedCSSText;
+
+        function contains(str, arr) {
+          return arr.indexOf(str) === -1 ? false : true;
+        }
+      }
+
+      function appendCSS(cssText, element) {
+        var styleElement = document.createElement("style");
+        styleElement.setAttribute("type", "text/css");
+        styleElement.innerHTML = cssText;
+        var refNode = element.hasChildNodes() ? element.children[0] : null;
+        element.insertBefore(styleElement, refNode);
+      }
+    }
+
+    function svgString2Image(svgString, width, height, format, callback) {
+      var format = format ? format : "png";
+
+      var imgsrc =
+        "data:image/svg+xml;base64," +
+        btoa(unescape(encodeURIComponent(svgString))); // Convert SVG string to data URL
+
+      var canvas = document.createElement("canvas");
+      var context = canvas.getContext("2d");
+
+      canvas.width = width;
+      canvas.height = height;
+
+      var image = new Image();
+      image.onload = function () {
+        context.clearRect(0, 0, width, height);
+        context.drawImage(image, 0, 0, width, height);
+
+        canvas.toBlob(function (blob) {
+          var filesize = Math.round(blob.length / 1024) + " KB";
+          if (callback) callback(blob, filesize);
+        });
+      };
+
+      image.src = imgsrc;
+    }
   };
 
   onMount(() => inputRef.focus());
 </script>
+
+<svg id="print" width="0" height="0" />
 
 <div class="title">
   <input
@@ -184,6 +240,9 @@
 <Load />
 
 <style>
+  .print {
+    position: absolute;
+  }
   .title input {
     margin-top: 5px;
     width: 165px;
