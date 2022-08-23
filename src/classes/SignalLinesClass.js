@@ -3,7 +3,6 @@ import {
   snapPoints,
   signalLines,
   colorState,
-  screenAndPanelDimensions,
   updateSnapPoints,
   updateSignalLines,
   width,
@@ -51,10 +50,10 @@ export class SignalLines {
     let snapPointY = snapPoint.y;
 
     let panelX = snapPoint.column * get(width);
-    let panelY = snapPoint.row   * get(height);
+    let panelY = snapPoint.row * get(height);
 
-    let x = panelX + snapPointX ;
-    let y = panelY + snapPointY ;
+    let x = panelX + snapPointX;
+    let y = panelY + snapPointY;
 
     return {
       x,
@@ -214,7 +213,7 @@ class SignalLine {
     background: "#0f0",
     // background: "#000",
   };
-  // lineWidth = get(screenAndPanelDimensions).panelDimension / 10;
+
   lineWidth = 8;
   isSelected = false;
 
@@ -224,7 +223,8 @@ class SignalLine {
     this.destination.snapPointIndex = destinationSnapPointIndex; // this.origin = origin;
     this.i = get(signalLines).array.length;
     this.color.background = get(colorState).signalLine.background;
-    this.lineWidth = get(width) < get(height) ? get(width) / 20 : get(height) / 20;
+    this.lineWidth =
+      get(width) < get(height) ? get(width) / 20 : get(height) / 20;
   }
 
   setIsSelected(boolean) {
