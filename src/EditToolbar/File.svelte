@@ -142,40 +142,23 @@
   const download = async () => {
     var svg = document.getElementById("g-zoom-wrapper");
 
-    if (typeof window.XMLSerializer != "undefined") {
-      var svgData = new XMLSerializer().serializeToString(svg);
-    } else if (typeof svg.xml != "undefined") {
-      var svgData = svg.xml;
-    }
+    let img = new Image();
+    let serializer = new XMLSerializer();
+    let svgStr = serializer.serializeToString(svg);
+
+    img.src = "data:image/svg+xml;base64," + window.btoa(svgStr);
+
+    // You could also use the actual string without base64 encoding it:
+    //img.src = "data:image/svg+xml;utf8," + svgStr;
 
     var canvas = document.createElement("canvas");
-    var svgSize = svg.getBoundingClientRect();
+    document.body.appendChild(canvas);
 
-    console.log(svgSize);
+    canvas.width = w;
+    canvas.height = h;
+    canvas.getContext("2d").drawImage(img, 0, 0, w, h);
 
-    canvas.width = svgSize.width;
-    canvas.height = svgSize.height;
-    var ctx = canvas.getContext("2d");
-
-    var img = document.createElement("img");
-    console.log(img);
-    img.setAttribute(
-      "src",
-      "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svgData)))
-    );
-    console.log(img);
-
-    img.onload = function () {
-      ctx.drawImage(img, 0, 0);
-      console.log(ctx);
-      var imgsrc = canvas.toDataURL("image/png");
-
-      var a = document.createElement("a");
-      a.download = "asdf.png";
-      a.href = imgsrc;
-      document.appendChild(a);
-      a.click();
-    };
+    // Now save as png or whatever
   };
 
   onMount(() => inputRef.focus());
