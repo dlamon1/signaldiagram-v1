@@ -12,10 +12,11 @@ import { focusLabelInput } from "./focusInput";
 import {
   checkForSelectedPanels,
   checkForSelectedSnapPoints,
+  checkForSelectedSignalLines
 } from "./HandleSelect";
 
 export const handleDragSelect = (event, xOrigin, yOrigin) => {
-  console.log("handel drag select");
+  // console.log("handel drag select");
   // TODO
   // convert coordinates from zoom transform
   // set the selection coordinates
@@ -51,6 +52,9 @@ export const handleDragSelect = (event, xOrigin, yOrigin) => {
   }
 
   if (get(selection) === "signallines") {
+    let indexesOfSignalLinesInsideSelection = checkForSelectedSignalLines(x1, y1, x2, y2);
+    console.log(indexesOfSignalLinesInsideSelection)
+    // get(signalLinesClass).selectSignalLines(indexesOfSignalLinesInsideSelection);
     return;
   }
 

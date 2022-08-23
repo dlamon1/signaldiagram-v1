@@ -3,17 +3,15 @@
   import HandleColorLabelUpdates from "./HandleColorLabelUpdates.svelte";
   import Toolbar from "./Toolbar.svelte";
   import ExportDialog from "./Dialogs/Exports.svelte";
-  import DrawPanelRects from "./DrawComponents/DrawPanelsRects.svelte";
-  import DrawCanvasWrapper from "./DrawComponents/DrawCanvasWrapper.svelte";
-  import DrawPanelWrappers from "./DrawComponents/DrawPanelWrappers.svelte";
+  import DrawCanvasWrapper from "./DrawComponents/Draw.CanvasWrapper.svelte";
+  import DrawPanelWrappers from "./DrawComponents/Draw.PanelWrappers.svelte";
   import Reactivity from "./Reactivity.svelte";
-  import DrawSnapPointWrappers from "./DrawComponents/DrawSnapPointWrappers.svelte";
-  import DrawSnapPointObjects from "./DrawComponents/DrawSnapPointObjects.svelte";
-  import DrawCoordinates from "./DrawComponents/DrawCoordinates.svelte";
-  import DrawTemporarySignalLine from "./DrawComponents/DrawTemporarySignalLine.svelte";
+  import DrawSnapPoints from "./DrawComponents/Draw.SnapPoints.svelte";
+  import DrawTemporarySignalLine from "./DrawComponents/Draw.TemporarySignalLine.svelte";
   import Zoom from "./DrawComponents/Zoom.svelte";
-  import DrawSelecteOutline from "./DrawComponents/DrawSelecteOutline.svelte";
+  import DrawSelecteOutline from "./DrawComponents/Draw.SelecteOutline.svelte";
   import DrawRearViewLabel from "./DrawComponents/Draw.RearViewLabel.svelte";
+  import DrawSignalLines from "./DrawComponents/Draw.SignalLines.svelte";
 
   import { gZoomWrapperRef } from "./store";
 
@@ -25,6 +23,7 @@
 <div id="container">
   <Reactivity />
   <HandleSelectionTab />
+
   <div
     id="canvas-wrapper"
     class="canvas-wrapper"
@@ -35,9 +34,11 @@
       <HandleColorLabelUpdates />
     </div>
   </div>
+
   <div class="toolbar">
     <Toolbar />
   </div>
+
   {#if $canvasWrapperWidth && $canvasWrapperHeight}
     <DrawCanvasWrapper />
   {/if}
@@ -47,6 +48,8 @@
     <DrawPanelWrappers />
     <DrawTemporarySignalLine />
     <DrawSelecteOutline />
+    <DrawSignalLines />
+    <DrawSnapPoints />
     <DrawRearViewLabel />
   {/if}
 
@@ -77,6 +80,5 @@
   .canvas {
     z-index: 0;
     position: absolute;
-    /* background-color: aqua; */
   }
 </style>

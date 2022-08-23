@@ -61,7 +61,7 @@
       .attr("y1", y1)
       .attr("x2", x2)
       .attr("y2", y2)
-      .attr("stroke", $colorState.signalLine.background)
-      .attr("stroke-width", lineWidth);
+      .attr("stroke", $colorState.signalLine.background);
+    // .attr("stroke-width", lineWidth);
   };
 </script>

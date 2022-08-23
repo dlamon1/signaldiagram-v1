@@ -197,9 +197,19 @@ export class SnapPoint {
     this.createDimensions(row, column, pointIndexWithinPanel);
   }
 
+  getTranslateString() {
+    let containingPanel = get(panels).array[this.panelIndex];
+    let panelX = containingPanel.x;
+    let panelY = containingPanel.y
+
+    let x = this.x + panelX;
+    let y = this.y + panelY;
+
+    return `translate(${x}, ${y})`;
+  }
+
   removeLabel = () => {
     this.label = "";
-    console.log("remove label");
   };
 
   setBackgroundColor(color) {

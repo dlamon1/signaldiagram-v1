@@ -14,6 +14,12 @@ export let coordinatesRef = writable(null);
 export let temporarySignalLine = writable(null);
 export let groups = writable(null);
 export let groupsEnter = writable(null);
+export let snapPointsGroupRef = writable(null);
+export let snapPointsGroupEnterRef = writable(null);
+export let snapPointPathRef = writable(null);
+export let linesGroupRef = writable(null);
+export let linesGroupEnterRef = writable(null);
+// export let snapPointPathRef = writable(null);
 
 export const opacity = writable(0.2);
 

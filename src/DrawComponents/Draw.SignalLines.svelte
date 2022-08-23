@@ -21,6 +21,9 @@
     transform,
     directionArrowQuantity,
     showDirectionArrows,
+    linesGroupRef,
+    linesGroupEnterRef,
+    snapPointsGroupEnterRef,
   } from "../store";
 
   let hoveredColor = "rgba(0, 255, 170, 1)";
@@ -33,337 +36,38 @@
     let t = [
       $panelsClass,
       $isRearView,
-      $isDrawMode,
-      $snapPointsClass,
-      $showCoordinates,
+      // $snapPointsClass,
       $isDrawingSignalLine,
       $showDirectionArrows,
     ];
 
-    drawPanelWrappers();
+    drawSignalLines();
   }
 
-  const drawPanelWrappers = () => {
-    console.count("draw");
-    // console.log($colorState);
-    let panels = $panelsClass.array;
-
-    d3.select("#temp-signal-line").remove();
-
-    // 1
-    $groups = $gZoomWrapperRef
-      .selectAll("g.panel-wrapper")
-      .data(panels, (d) => d.i);
-
-    // 2
-    $groupsEnter = $groups.enter().append("g").classed("panel-wrapper", true);
-
-    // 3
-    $groupsEnter
-      .merge($groups)
-      .transition()
-      // .call((d) => console.log(d))
-      .attr("id", (d) => "panelgroup" + d.i)
-      .attr("transform", (d) => {
-        return "translate(" + d.x + "," + d.y + ")";
-      });
-
-    // 4
-    $groups.exit().remove();
-
-    //5
-    let rects = $groupsEnter
-      .append("rect")
-      .merge($groups.select("rect"))
-      .attr("id", (d) => {
-        "panel-rectangle" + d.i;
-      })
-      .attr("x", 0)
-      .attr("y", 0)
-      .attr("width", (d) => {
-        if (d.isSelected) {
-          // console.log(d);
-        }
-        return d.width;
-      })
-      .attr("height", (d) => d.height)
-      .attr("fill", (d) => d.color.background)
-      .attr("stroke", (d) => d.color.border)
-      .attr("stroke-width", (d) => d.lineWidth)
-      .style("point-events", $isDrawingSignalLine && "none")
-      .on("mouseover", function (d, i) {
-        if ($isDrawMode) {
-          return;
-        }
-        d3.select(this).attr("fill", hoveredColor);
-      })
-      .on("mouseout", function (d, i) {
-        if ($isDrawMode) return;
-        let obj = d.path[0].__data__;
-        d3.select(this).attr("fill", obj.color.background);
-      })
-      .on("mousemove", function (d) {
-        if (!$isDrawMode) return;
-        $signalLinesClass.nullDestinationSnapPointIndex();
-        $signalLinesClass.setMousePosition(d);
-      })
-      .on("mouseup", function (d) {
-        $signalLinesClass.nullDestinationSnapPointIndex();
-        $signalLinesClass.nullDestinationSnapPointIndex();
-        $signalLinesClass.setMousePosition({ x: 0, y: 0 });
-
-        d3.select("#temp-signal-line")
-          .attr("x1", null)
-          .attr("y1", null)
-          .attr("x2", null)
-          .attr("y2", null);
-
-        setIsDrawingSignalLine(false);
-      })
-      .on("click", function (d, i, n) {
-        if ($isDrawMode) return;
-        d.stopPropagation();
-        if ($isSelectMode && !$isDrawingSignalLine) {
-          $panelsClass.selectPanels([d.target.__data__.i]);
-        }
-      });
-
-    // Draw Coordinates
-    // Draw Coordinates
-    // Draw Coordinates
-    $groupsEnter
-      .append("text")
-      .merge($groups.select("text"))
-      .text((d) => {
-        if (!$showCoordinates) {
-          return "";
-        }
-        if ($isRearView) {
-          return $columns - d.column + "," + (d.row + 1);
-        } else {
-          return d.column + 1 + "," + (d.row + 1);
-        }
-      })
-      .attr("x", (d) => d.width / 32)
-      .attr("y", (d) => d.height / 32)
-      .attr("dominant-baseline", "hanging")
-      .style("font-size", (d) => d.width / 6 + "px")
-      .style("pointer-events", "none")
-      .style("user-select", "none");
-
-    // Draw Selected Panels
-    // Draw Selected Panels
-    // Draw Selected Panels
-    rects
-      .filter(function (d) {
-        return d.isSelected;
-      })
-      .attr("x", (d) => d.lineWidth)
-      .attr("y", (d) => d.lineWidth)
-      .attr("width", (d) => {
-        return d.width - d.lineWidth * 2;
-      })
-      .attr("height", (d) => d.height - d.lineWidth * 2)
-      .attr("stroke", selectedColor)
-      .attr("stroke-width", (d) => d.lineWidth * 2);
-
-    // Draw Snap Points
-    // Draw Snap Points
-    // Draw Snap Points
-    // 1
-    let snapPointGroups = d3
-      .selectAll("g.panel-wrapper")
-      .selectAll("g")
-      .data((d, i) => {
-        // console.log(d.snapPointObjects);
-        return d.snapPointObjects;
-      });
-
-    // 2
-    let snapPointsGroupsEnter = snapPointGroups
-      .enter()
-      .append("g")
-      .attr("id", (d, i) => "snap-point" + i)
-      .attr("class", "snap-point");
-
-    // 3
-    snapPointsGroupsEnter.merge(snapPointGroups).attr("transform", (d) => {
-      return "translate(" + d.x + "," + d.y + ")";
-    });
-
-    // 4
-    snapPointGroups.exit().remove();
-
-    // 5
-    let snapPointPath = snapPointsGroupsEnter
-      .append("path")
-      .merge(snapPointGroups.select("path"))
-      .attr("d", (d) => {
-        let r = d.radius;
-        if ($isDrawMode) {
-          r = d.radius * 2;
-        }
-        return drawPathCircle(r);
-      })
-      .style("point-events", $isDrawingSignalLine && "none")
-      .attr("fill", (d) =>
-        d.isSelected && !$isDrawingSignalLine
-          ? selectedColor
-          : d.color.background
-      )
-      .attr("stroke-width", 3)
-      .attr("stroke", (d) => d.color.border)
-      .style("paint-order", "stroke")
-      .attr("stroke-alignment", "inner")
-      .on("mouseover", function (d, i) {
-        // console.log("mouse over");
-        if ($isDrawingSignalLine) {
-          $signalLinesClass.setDestinationSnapPointIndex(d);
-        }
-        d.stopPropagation();
-        let obj = d.path[0].__data__;
-        d3.select(this).attr("fill", hoveredColor);
-      })
-      .on("mouseout", function (d, i) {
-        d.stopPropagation();
-        let obj = d.path[0].__data__;
-        d3.select(this).attr(
-          "fill",
-          $snapPointsClass.array[obj.pointIndexFullArray].color.background
-        );
-      })
-
-      .on("mousedown", function (d, i) {
-        d.stopPropagation();
-        if (!$isDrawMode) return;
-
-        $signalLinesClass.setOriginSnapPointIndex(d);
-        setIsDrawingSignalLine(true);
-      })
-      .on("mouseup", (d) => {
-        d.stopPropagation();
-        if ($isDrawMode && $isDrawingSignalLine) {
-          $signalLinesClass.addSignalLine();
-          setIsDrawingSignalLine(false);
-        }
-        setIsDrawingSignalLine(false);
-      })
-      .on("click", (e) => {
-        e.stopPropagation();
-        if (!$isDrawMode) {
-          $snapPointsClass.selectSnapPoint(e);
-        }
-      });
-
-    // Draw as Square is Square
-    // Draw as Square is Square
-    // Draw as Square is Square
-    snapPointPath
-      .filter((d, i) => {
-        return $snapPointsClass.array[d.pointIndexFullArray].isSquare;
-      })
-      .attr("fill", (d) => {
-        // console.log(d);
-        return d.color.background;
-      })
-      .attr("stroke", (d) => d.color.border)
-      .attr("stroke-width", (d) => d.radius)
-      .attr("d", "")
-      .attr("d", (d) => drawPathSquare(d.radius))
-      .attr("fill", (d, i) => {
-        return $snapPointsClass.array[d.pointIndexFullArray].color.background;
-      });
-
-    // Draw as Triangle
-    // Draw as Triangle
-    // Draw as Triangle
-    snapPointPath
-      .filter((d, i) => {
-        return $snapPointsClass.array[d.pointIndexFullArray].isTriangle;
-      })
-      .attr("fill", (d) => {
-        return d.color.background;
-      })
-      .attr("stroke", (d) => d.color.border)
-      .attr("stroke-width", (d) => d.radius)
-      .attr("d", "")
-      .attr("d", (d) => drawPathTriangle(d.radius))
-      .attr("fill", (d, i) => {
-        return $snapPointsClass.array[d.pointIndexFullArray].color.background;
-      });
-
-    // Draw Snap Point Label
-    // Draw Snap Point Label
-    // Draw Snap Point Label
-    let labels = snapPointsGroupsEnter
-      .append("text")
-      .merge(snapPointGroups.select("text"));
-
-    labels.text("");
-
-    labels
-      .filter((d, i) => {
-        let obj = $snapPointsClass.array[d.pointIndexFullArray];
-        return obj.isSquare || obj.isTriangle;
-      })
-      .text((d) => {
-        return $snapPointsClass.array[d.pointIndexFullArray].label;
-      })
-      .attr("dominant-baseline", "middle")
-      .style("font-size", (d) => d.width / 6 + "px")
-      .style("pointer-events", "none")
-      .attr("y", (d) => {
-        let obj = $snapPointsClass.array[d.pointIndexFullArray];
-        if (obj.isTriangle) {
-          return obj.radius;
-        }
-        return 0;
-      })
-      .style("user-select", "none")
-      .attr("text-anchor", "middle")
-      .attr("stroke", (d) => {
-        return $snapPointsClass.array[d.pointIndexFullArray].color.font;
-      })
-      .attr("fill", (d) => {
-        return $snapPointsClass.array[d.pointIndexFullArray].color.font;
-      });
-
-    // Draw as Selected if Selected
-    // Draw as Selected if Selected
-    // Draw as Selected if Selected
-    snapPointPath
-      .filter((d, i) => {
-        return $snapPointsClass.array[d.pointIndexFullArray].isSelected;
-      })
-      .attr("stroke", selectedColor)
-      .attr("stroke-width", (d) => d.radius)
-      .attr("fill", (d, i) => {
-        return $snapPointsClass.array[d.pointIndexFullArray].color.background;
-      });
-
+  const drawSignalLines = () => {
     // Signal Line Wrapper
     // Signal Line Wrapper
     // Signal Line Wrapper
-    let lineGroups = $gZoomWrapperRef
+    $linesGroupRef = $gZoomWrapperRef
       .selectAll("g.signal-line")
       .data($signalLinesClass.array, (d) => d.i);
 
-    let lineGroupsEnter = lineGroups
+    $linesGroupEnterRef = $linesGroupRef
       .enter()
       .append("g")
       .attr("id", (d) => "line-group" + d.i)
       .classed("signal-line", true);
 
-    lineGroupsEnter.merge(lineGroups).transition();
+    $linesGroupEnterRef.merge($linesGroupRef).transition();
 
-    lineGroups.exit().remove();
+    $linesGroupRef.exit().remove();
 
     // Line Outline
     // Line Outline
     // Line Outline
-    let signalLineOutline = lineGroupsEnter
+    let signalLineOutline = $linesGroupEnterRef
       .append("line")
-      .merge(lineGroups.select("line.line-outline"))
+      .merge($linesGroupRef.select("line.line-outline"))
       .attr("id", (d) => "line-outline" + d.i)
       .classed("line-outline", true)
       .attr(
@@ -421,9 +125,9 @@
     // Line
     // Line
     // Line
-    let signalLineBase = lineGroupsEnter
+    let signalLineBase = $linesGroupEnterRef
       .append("line")
-      .merge(lineGroups.select("line.line-base"))
+      .merge($linesGroupRef.select("line.line-base"))
       .attr("id", (d) => "line-base" + d.i)
       .classed("line-base", true)
       .attr(
@@ -449,9 +153,9 @@
       .attr("stroke-width", (d) => d.lineWidth)
       .attr("pointer-events", "none");
 
-    let directionArrows = lineGroupsEnter
+    let directionArrows = $linesGroupEnterRef
       .append("polygon")
-      .merge(lineGroups.select("polygon.direction-arrow"))
+      .merge($linesGroupRef.select("polygon.direction-arrow"))
       .classed("direction-arrow", true)
       .attr("points", (d, i) => {
         return "0,-6 7,10 -7,10";
@@ -503,11 +207,15 @@
     // Init Temporary Signal Line
     // Init Temporary Signal Line
     // Init Temporary Signal Line
-    let temporarySignalLine = $gZoomWrapperRef
+    $gZoomWrapperRef
       .append("line")
       .attr("id", "temp-signal-line")
       .attr("stroke", "black")
-      .attr("stroke-width", 5)
+      .attr("stroke-width", $width < $height ? $width / 20 : $height / 20)
       .raise();
+
+    if ($snapPointsGroupEnterRef) {
+      d3.selectAll("g.snap-point-wrapper").raise();
+    }
   };
 </script>
