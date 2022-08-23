@@ -1,27 +1,17 @@
 <script>
-  import { onMount, tick } from "svelte";
   import {
-    rows,
-    columns,
-    width,
-    height,
     panels as panelsClass,
-    toolbarWidth,
-    snapPointsQuantity,
-    snapPointDirection,
     snapPoints,
-    isDrawMode,
-    isPrinting,
-    title,
-    scale,
     canvasWrapperWidth,
     canvasWrapperHeight,
     mode,
     signalLines,
+    columns,
+    rows,
   } from "./store";
 
   $: {
-    let t = [$canvasWrapperHeight, $canvasWrapperWidth];
+    let t = [$canvasWrapperHeight, $canvasWrapperWidth, $columns, $rows];
 
     $canvasWrapperHeight && updatePanelArray();
   }
