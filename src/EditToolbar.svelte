@@ -50,6 +50,8 @@
     {/if}
   </div>
 
+  <a href="https://svg.signaldiagram.com" class="version">v2.0.0 Beta</a>
+
   <button class="dialog" on:click={() => ($isExportDialogOpen = true)}
     >Import / Export</button
   >
@@ -60,6 +62,13 @@
 </div>
 
 <style>
+  .version {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: rgb(62, 115, 176);
+  }
   .dialog {
     height: 40px;
   }
