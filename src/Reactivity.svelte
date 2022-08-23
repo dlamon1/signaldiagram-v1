@@ -20,11 +20,7 @@
     signalLines,
   } from "./store";
 
-  // $: console.log($canvasWrapperWidth, ", " + $canvasWrapperHeight);
-  // This is triggered by calling setCanvasDimensions()
   $: {
-    // console.log("triggered");
-
     let t = [$canvasWrapperHeight, $canvasWrapperWidth];
 
     $canvasWrapperHeight && updatePanelArray();

@@ -3,10 +3,6 @@
   import {
     colorButtons,
     textInputRef,
-    selectedSquares,
-    squares,
-    selectedPanels as selectedPanelsClass,
-    selectedSignalLines,
     snapPointLabel,
     colorState,
     snapPoints as snapPointsClass,
@@ -38,13 +34,13 @@
   };
 
   const updateLocalLabelAndColorState = () => {
-    if ($selectedSquares.length > 1) return;
-    $selectedSquares.forEach((squares, i) => {
-      $snapPointLabel = squares.label;
-      $colorState.snapPoint.background = squares.backgroundColor;
-      $colorState.snapPoint.outline = squares.outlineColor;
-      $colorState.snapPoint.font = squares.fontColor;
-    });
+    // if ($selectedSquares.length > 1) return;
+    // $selectedSquares.forEach((squares, i) => {
+    //   $snapPointLabel = squares.label;
+    //   $colorState.snapPoint.background = squares.backgroundColor;
+    //   $colorState.snapPoint.outline = squares.outlineColor;
+    //   $colorState.snapPoint.font = squares.fontColor;
+    // });
   };
 
   // $: {

@@ -234,8 +234,8 @@ export class Panel {
   setDimensions() {
     this.width = get(width);
     this.height = get(height);
-    this.x = get(width) * this.column + this.leftPadding;
-    this.y = get(height) * this.row + this.topPadding;
+    this.x = get(width) * this.column;
+    this.y = get(height) * this.row;
   }
 
   setIndex(count) {

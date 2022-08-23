@@ -1,11 +1,5 @@
 <script>
   import {
-    snapPointsQuantity,
-    snapPointDirection,
-    isDrawMode,
-    selectedPanels,
-    selectedSnapPoints,
-    selectedSignalLines,
     colorState,
     snapPointLabel,
     panels,
@@ -56,11 +50,7 @@
   };
 
   $: {
-    let triggers = {
-      $selectedPanels,
-      $selectedSnapPoints,
-      $selectedSignalLines,
-    };
+    let triggers = {};
     updateLocalLabelAndColorState();
   }
 

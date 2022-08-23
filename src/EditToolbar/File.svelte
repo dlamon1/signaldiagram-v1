@@ -18,9 +18,7 @@
     toolbarWidth,
     snapPoints,
     signalLines,
-    labels,
-    clearAllSelections,
-    isPrinting,
+    mode,
   } from "../store";
 
   // const download = async () => {
@@ -80,6 +78,7 @@
     $panels.deSelect();
     $signalLines.deSelect();
     $snapPoints.deSelect();
+    $mode = "select";
 
     await tick();
 
@@ -118,7 +117,7 @@
 
     function save(dataBlob, filesize) {
       console.log(dataBlob);
-      saveAs(dataBlob, "D3 vis exported to PNG.png"); // FileSaver.js function
+      saveAs(dataBlob, $title + ".png"); // FileSaver.js function
     }
 
     // Below are the functions that handle actual exporting:
