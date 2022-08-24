@@ -12,4 +12,4 @@ Please post bugs to the forum on the issues tab above
 
 Signal Diagram utilises HTML canvas. I would like to change the draw functionality over to svg in the future. User input populates arrays for each type of object. Drawing is executed when those arrays are updated. Most variables are stores in src/store.js and most functionaly is driver by svelte's reactive functionality.
 
-I will be adding comments explaining which code triggers which code.
+I will be adding comments explaining which code triggers which code..
