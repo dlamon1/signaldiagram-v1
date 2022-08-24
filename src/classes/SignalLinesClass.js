@@ -36,6 +36,10 @@ export class SignalLines {
     this._store = writable(this);
   }
 
+  setArrayFromLoad(snapPointsArray) {
+    console.log(snapPointsArray);
+  }
+
   getOriginCoordinates(d, signalLineIndex, key) {
     // key is either "origin" or "destination"
     let signalLine = this.array[signalLineIndex];

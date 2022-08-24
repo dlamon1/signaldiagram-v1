@@ -25,6 +25,49 @@ export class SnapPoints {
     this.ratio = get(width) / get(height);
   }
 
+  setArrayFromLoad(snapPointsArray) {
+    this.array = [];
+    snapPointsArray.forEach((snapPoint, i) => {
+      let newSnapPoint = new SnapPoint(
+        snapPoint.row,
+        snapPoint.column,
+        snapPoint.pointIndexWithinPanel,
+        snapPoint.panelIndex,
+        snapPoint.pointIndexFullArray
+      );
+
+      this.array.push(newSnapPoint);
+      this.array[i].setIsTriangle(snapPoint.isTriangle);
+      this.array[i].setIsSquare(snapPoint.isSquare);
+      this.array[i].setLabel(snapPoint.label);
+      this.array[i].setColorObj(snapPoint.color);
+    });
+    updateSnapPoints();
+  }
+
+  obj = {
+    isSquare: false,
+    isCircle: false,
+    isTriangle: false,
+    label: "A1",
+    isSelected: false,
+    isHovered: false,
+    color: {
+      background: "#777",
+      font: "#FFF",
+      border: "#000000",
+    },
+    radius: 16,
+    x: 80,
+    y: 213.33333333333334,
+    row: 4,
+    column: 7,
+    pointIndexWithinPanel: 2,
+    panelIndex: 59,
+    pointIndexFullArray: 119,
+    strokeWidth: 1.6,
+  };
+
   addSnapPoint(i, j, k, count, snapPointIndex) {
     let newSnapPoint = new SnapPoint(i, j, k, count, snapPointIndex);
     this.array.push(newSnapPoint);
@@ -33,28 +76,6 @@ export class SnapPoints {
   resetArray() {
     this.array = [];
   }
-
-  // let snpObj = {
-  //   isSquare: false,
-  //   isCircle: false,
-  //   isTriangle: false,
-  //   label: "A1",
-  //   isSelected: false,
-  //   color: {
-  //     background: "#777",
-  //     font: "#000000",
-  //     border: "#000000",
-  //   },
-  //   radius: 8.085714285714285,
-  //   x: 40.42857142857143,
-  //   y: 53.904761904761905,
-  //   row: 3,
-  //   column: 7,
-  //   pointIndexWithinPanel: 1,
-  //   panelIndex: 49,
-  //   pointIndexFullArray: 98,
-  //   strokeWidth: 1.6171428571428572,
-  // };
 
   getXCoordinate(snapPoint) {
     return get(width) * snapPoint.column + snapPoint.x;
@@ -207,6 +228,14 @@ export class SnapPoint {
   removeLabel = () => {
     this.label = "";
   };
+
+  setLabel(label) {
+    this.label = label;
+  }
+
+  setColorObj(colorObj) {
+    this.color = colorObj;
+  }
 
   setBackgroundColor(color) {
     this.color.background = color;

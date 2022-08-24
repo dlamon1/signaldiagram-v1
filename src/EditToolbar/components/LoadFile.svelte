@@ -42,7 +42,7 @@
         $snapPointDirection = obj.snapPointDirection;
 
         $panels.setArrayFromLoad(obj.panels.array);
-        // $snapPoints.array = obj.snapPoints.array;
+        $snapPoints.setArrayFromLoad(obj.snapPoints.array);
         // $signalLines.array = obj.signalLines.array;
 
         $panels = $panels;
@@ -59,20 +59,10 @@
 </script>
 
 <div>
-  <!-- <div class="load">
-  <input type="file" id="file" class="inputfile" accept="application/JSON" />
-</div> -->
-  <!-- <form
-    class="has-advanced-upload"
-    method="post"
-    action=""
-    enctype="multipart/form-data"
-  > -->
   <div class="box__input">
     <input type="file" id="file" class="inputfile" accept="application/JSON" />
     <label for="file"><div>Load</div> </label>
   </div>
-  <!-- </form> -->
 </div>
 
 <style>
