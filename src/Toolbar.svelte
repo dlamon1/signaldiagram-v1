@@ -82,7 +82,7 @@
   </div>
 
   <div class="email">
-    <a href="https://v1.signaldiagram.com">Version 1.0.0</a>
+    <a href="https://v1.signaldiagram.com">Version 2.0.0</a>
   </div>
 </div>
 
