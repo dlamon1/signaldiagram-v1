@@ -1,4 +1,5 @@
 <script>
+  import { isChrome } from "../store";
   let isOpen = true;
 
   const closeDialog = () => {
@@ -6,7 +7,7 @@
   };
 </script>
 
-{#if isOpen}
+{#if isOpen && !$isChrome}
   <div class="container" on:click|self={closeDialog}>
     <div class="dialog-container">
       <div>This website only works in Chrome.</div>

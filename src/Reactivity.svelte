@@ -8,10 +8,19 @@
     signalLines,
     columns,
     rows,
+    width,
+    height,
   } from "./store";
 
   $: {
-    let t = [$canvasWrapperHeight, $canvasWrapperWidth, $columns, $rows];
+    let t = [
+      $canvasWrapperHeight,
+      $canvasWrapperWidth,
+      $columns,
+      $rows,
+      $width,
+      $height,
+    ];
 
     $canvasWrapperHeight && updatePanelArray();
   }

@@ -204,3 +204,5 @@ export let showCoordinates = writable(true);
 export let showDirectionArrows = writable(true);
 
 export let isPrinting = writable(false);
+
+export let isChrome = writable(false);

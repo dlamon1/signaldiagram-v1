@@ -14,6 +14,7 @@
     snapPointsGroupEnterRef,
     snapPointPathRef,
     snapPointDirection,
+    snapPointsQuantity,
   } from "../store";
 
   let hoveredColor = "rgba(0, 255, 170, 1)";
@@ -30,6 +31,7 @@
       $snapPointsClass,
       $isDrawingSignalLine,
       $snapPointDirection,
+      $snapPointsQuantity,
     ];
 
     $gZoomWrapperRef && drawSnapPointWrappers();

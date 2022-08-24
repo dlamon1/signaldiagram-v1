@@ -1,5 +1,5 @@
 <script>
-  import { canvasWrapperHeight, canvasWrapperWidth, svgRef } from "./store";
+  import { canvasWrapperHeight, canvasWrapperWidth, isChrome } from "./store";
   import HandleColorLabelUpdates from "./HandleColorLabelUpdates.svelte";
   import Toolbar from "./Toolbar.svelte";
   import ExportDialog from "./Dialogs/Exports.svelte";
@@ -19,6 +19,15 @@
   import HandleSelectionTab from "./HandleSelectionTab.svelte";
 
   $gZoomWrapperRef = null;
+
+  const getUseragent = () => {
+    const useragent = navigator.userAgent;
+    if (useragent.indexOf("Chrome") !== -1) {
+      $isChrome = true;
+    }
+  };
+
+  getUseragent();
 </script>
 
 <div id="container">

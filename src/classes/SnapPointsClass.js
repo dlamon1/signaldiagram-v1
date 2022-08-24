@@ -281,7 +281,6 @@ export class SnapPoint {
   }
 
   createDimensions(row, column, pointIndexWithinPanel) {
-    console.log(row, column);
     let panelX = get(width) * column;
     let panelY = get(height) * row;
 
