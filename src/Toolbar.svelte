@@ -80,6 +80,10 @@
   <div class="email">
     <a href="mailto: support@leadled.io">Feedback</a>
   </div>
+
+  <div class="email">
+    <a href="https://v1.signaldiagram.com">Version 1.0.0</a>
+  </div>
 </div>
 
 <style>
