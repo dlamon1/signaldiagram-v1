@@ -13,11 +13,6 @@
     columns,
     setIsDrawingSignalLine,
     showCoordinates,
-    width,
-    height,
-    opacity,
-    transform,
-    directionArrowQuantity,
     showDirectionArrows,
   } from "../store";
 

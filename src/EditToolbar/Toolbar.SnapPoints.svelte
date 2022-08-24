@@ -1,10 +1,7 @@
 <script>
-  import { onMount } from "svelte";
   import {
-    colorButtons,
     textInputRef,
     snapPointLabel,
-    colorState,
     snapPoints as snapPointsClass,
   } from "../store";
   import { fade } from "svelte/transition";

@@ -1,5 +1,5 @@
 <script>
-  import { fly, fade } from "svelte/transition";
+  import { fade } from "svelte/transition";
   import {
     signalLines as signalLinesClass,
     panels as panelsClass,

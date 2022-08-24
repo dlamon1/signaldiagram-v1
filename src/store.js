@@ -28,21 +28,12 @@ export let transform = writable({
   y: 0,
 });
 
-export let svgRef;
-
 export let isDrawingSignalLine = writable(false);
 export const setIsDrawingSignalLine = (s) => {
   isDrawingSignalLine.update(($s) => ($s = s));
 };
 
 export let isExportDialogOpen = writable(false);
-
-export let canvasRef = writable();
-export let ctxRef = writable();
-export let eRef = writable();
-export const setERef = (ref) => {
-  eRef.update(($value) => ($value = ref));
-};
 
 export let title = writable("");
 
@@ -195,14 +186,8 @@ export let isRearView = writable(false);
 export let isSelectingPanels = writable(true);
 export let isSelectingSignalLines = writable(true);
 
-export const isFullTile = writable(false);
-
-export const isDragging = writable(false);
-
 export let showCoordinates = writable(true);
 
 export let showDirectionArrows = writable(true);
-
-export let isPrinting = writable(false);
 
 export let isChrome = writable(false);

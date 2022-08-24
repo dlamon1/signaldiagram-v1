@@ -5,7 +5,6 @@
     panels,
     snapPoints as snapPointsClass,
     signalLines as signalLinesClass,
-    selection,
   } from "./store";
 
   const updateLocalLabelAndColorState = () => {

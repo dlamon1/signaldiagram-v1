@@ -11,8 +11,6 @@ import {
   isCtrl,
   setSelection,
   updatePanels,
-  isRearView,
-  columns,
 } from "../store";
 
 export class SignalLines {

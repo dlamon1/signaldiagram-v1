@@ -1,7 +1,5 @@
 <script>
   import {
-    signalLines as signalLinesClass,
-    snapPoints as snapPointsClass,
     panels as panelsClass,
     gZoomWrapperRef,
     isRearView,

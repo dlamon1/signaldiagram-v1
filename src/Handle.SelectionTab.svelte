@@ -4,10 +4,7 @@
     signalLines,
     selection,
     panels,
-    mode,
     snapPoints as snapPointsClass,
-    transform as transformStore,
-    setSelection,
   } from "./store";
 
   $: {

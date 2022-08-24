@@ -1,5 +1,5 @@
 <script>
-  import { onMount, tick } from "svelte";
+  import { tick } from "svelte";
   import { saveAs } from "file-saver";
 
   import * as d3 from "d3";

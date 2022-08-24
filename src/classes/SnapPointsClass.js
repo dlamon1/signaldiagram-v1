@@ -2,7 +2,6 @@ import { get } from "svelte/store";
 import { writable } from "svelte/store";
 
 import {
-  scale,
   snapPointDirection,
   snapPointsQuantity,
   isCtrl,

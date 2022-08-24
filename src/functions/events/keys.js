@@ -1,11 +1,10 @@
-import { get, derived } from "svelte/store";
+import { get } from "svelte/store";
 
 import {
   isShifted,
   setIsShifted,
   isCtrl,
   setIsCtrl,
-  mode,
   setMode,
   isSelectMode,
 } from "../../store";

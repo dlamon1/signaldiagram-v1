@@ -1,15 +1,5 @@
 <script>
-  import {
-    title,
-    columns,
-    rows,
-    width,
-    height,
-    showCoordinates,
-    isRearView,
-    snapPointsQuantity,
-    snapPointDirection,
-  } from "../store";
+  import { columns, rows, width, height } from "../store";
 </script>
 
 <div id="general">
