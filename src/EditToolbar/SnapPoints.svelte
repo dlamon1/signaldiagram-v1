@@ -7,8 +7,7 @@
     colorState,
     snapPoints as snapPointsClass,
   } from "../store";
-  import { fade, fly } from "svelte/transition";
-  import { focusLabelInput } from "../functions/focusInput";
+  import { fade } from "svelte/transition";
 
   import ColorPicker from "./components/ColorPicker.svelte";
 
