@@ -35,8 +35,8 @@
     let snapPoint =
       $snapPointsClass.array[$signalLinesClass.origin.snapPointIndex];
 
-    let x1 = snapPoint.x;
-    let y1 = snapPoint.y;
+    let x1 = snapPoint.getX();
+    let y1 = snapPoint.getY();
 
     // [tx + k * xo, ty + k * yo]
 

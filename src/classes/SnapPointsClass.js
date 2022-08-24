@@ -78,11 +78,11 @@ export class SnapPoints {
   }
 
   getXCoordinate(snapPoint) {
-    return snapPoint.x;
+    return snapPoint.getX();
   }
 
   getYCoordinate(snapPoint) {
-    return snapPoint.y;
+    return snapPoint.getY();
   }
 
   hoverSnapPoint(e) {
@@ -214,32 +214,38 @@ export class SnapPoint {
     this.createDimensions(row, column, pointIndexWithinPanel);
   }
 
-  getTranslateString() {
+  getX() {
     let parentPanel = get(panels).array[this.panelIndex];
-    let panelX = parentPanel.x;
-    let panelY = parentPanel.y;
 
     let x = get(width) / 2;
-    let y = (get(height) / 3) * this.pointIndexWithinPanel;
 
     if (get(snapPointDirection) === "horizontal") {
       x = (get(width) / 3) * this.pointIndexWithinPanel;
-      y = get(height) / 2;
     }
 
     if (get(snapPointsQuantity) === 1) {
       x = get(width) / 2;
+    }
+    return x + parentPanel.x;
+  }
+
+  getY() {
+    let parentPanel = get(panels).array[this.panelIndex];
+    let y = (get(height) / 3) * this.pointIndexWithinPanel;
+
+    if (get(snapPointDirection) === "horizontal") {
       y = get(height) / 2;
     }
 
-    // this.radius = get(height) / 10;
+    if (get(snapPointsQuantity) === 1) {
+      y = get(height) / 2;
+    }
+    return y + parentPanel.y;
+  }
 
-    // if (get(width) < get(height)) {
-    //   this.radius = get(width) / 10;
-    // }
-
-    x = x + panelX;
-    y = y + panelY;
+  getTranslateString() {
+    let x = this.getX();
+    let y = this.getY();
 
     this.translateString = `translate(${x}, ${y})`;
 

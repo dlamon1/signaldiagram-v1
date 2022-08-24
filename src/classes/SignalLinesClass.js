@@ -11,9 +11,9 @@ import {
   isCtrl,
   setSelection,
   updatePanels,
+  isRearView,
+  columns,
 } from "../store";
-
-import * as d3 from "d3";
 
 export class SignalLines {
   origin = {
@@ -60,8 +60,13 @@ export class SignalLines {
 
     let snapPoint = snapPointsClass.array[snapPointIndex];
     // console.log(snapPoint);
-    let snapPointX = snapPoint.x;
-    let snapPointY = snapPoint.y;
+    let snapPointX = snapPoint.getX();
+    let snapPointY = snapPoint.getY();
+
+    // TODO: create a general reverse function for drawing
+    // if (!get(isRearView)) {
+    //   snapPointX = get(columns) * get(width) - snapPointX;
+    // }
 
     let x = snapPointX;
     let y = snapPointY;

@@ -190,7 +190,7 @@ export const colorButtons = writable([
   "#ffffff",
 ]);
 
-export let isRearView = writable(true);
+export let isRearView = writable(false);
 
 export let isSelectingPanels = writable(true);
 export let isSelectingSignalLines = writable(true);

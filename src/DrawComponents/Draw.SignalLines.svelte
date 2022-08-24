@@ -5,24 +5,16 @@
     panels as panelsClass,
     isDrawingSignalLine,
     gZoomWrapperRef,
-    isDrawMode,
     isSelectMode,
-    groups,
-    groupsEnter,
     isRearView,
-    columns,
-    rows,
-    setIsDrawingSignalLine,
-    showCoordinates,
     width,
     height,
-    opacity,
-    transform,
-    directionArrowQuantity,
     showDirectionArrows,
     linesGroupRef,
     linesGroupEnterRef,
     snapPointsGroupEnterRef,
+    snapPointsQuantity,
+    snapPointDirection,
   } from "../store";
 
   let hoveredColor = "rgba(0, 255, 170, 1)";
@@ -38,6 +30,8 @@
       $snapPointsClass,
       $isDrawingSignalLine,
       $showDirectionArrows,
+      $snapPointsQuantity,
+      $snapPointDirection,
     ];
 
     drawSignalLines();
