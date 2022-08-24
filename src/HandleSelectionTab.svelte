@@ -11,37 +11,22 @@
   } from "./store";
 
   $: {
-    if ($selection == "panels") {
-      deSelect("panels");
-    }
-
-    if ($selection == "signallines") {
-      deSelect("signallines");
-    }
-
-    if ($selection == "snappoints") {
-      deSelect("snappoints");
-    }
+    $selection && deSelect();
   }
 
-  const deSelect = (type) => {
-    console.log("DESELECT", type);
-    if (type != "panels") {
-      console.log("panels");
+  const deSelect = () => {
+    if ($selection != "panels") {
       $panels.deSelect();
     }
-    if (type != "signallines") {
-      console.log("signallines");
+    if ($selection != "signallines") {
       $signalLines.deSelect();
     }
-    if (type != "snappoints") {
-      console.log("snappoints");
+    if ($selection != "snappoints") {
       $snapPointsClass.deSelect();
     }
   };
 
   $: {
-    console.log("here");
     if ($isDrawMode) {
       $selection = "signallines";
     }
