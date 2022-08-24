@@ -10,7 +10,10 @@
     rows,
     width,
     height,
+    isExportDialogOpen,
   } from "./store";
+
+  let isOpen = $isExportDialogOpen;
 
   $: {
     let t = [
@@ -22,7 +25,7 @@
       $height,
     ];
 
-    $canvasWrapperHeight && updatePanelArray();
+    $canvasWrapperHeight && !isOpen && updatePanelArray();
   }
 
   let updatePanelArray = () => $panelsClass.updatePanelArray();

@@ -12,6 +12,7 @@
     height,
     snapPoints,
     signalLines,
+    isExportDialogOpen,
   } from "../../store";
 
   onMount(() => {
@@ -45,9 +46,11 @@
         $snapPoints.setArrayFromLoad(obj.snapPoints.array);
         // $signalLines.array = obj.signalLines.array;
 
-        $panels = $panels;
+        $isExportDialogOpen = false;
 
-        // await tick();
+        await tick();
+
+        $panels = $panels;
 
         // await tick();
         // deSelectAll();

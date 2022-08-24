@@ -23,7 +23,6 @@
   import * as d3 from "d3";
 
   $: {
-    console.log("triggered");
     let t = [
       $panelsClass,
       $isRearView,
