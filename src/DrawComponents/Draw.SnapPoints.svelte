@@ -136,7 +136,7 @@
         return d.color.background;
       })
       .attr("stroke", (d) => d.color.border)
-      .attr("stroke-width", (d) => d.radius)
+      .attr("stroke-width", (d) => d.strokeWidth)
       .attr("d", "")
       .attr("d", (d) => drawPathSquare(d.radius))
       .attr("fill", (d, i) => {
@@ -154,7 +154,7 @@
         return d.color.background;
       })
       .attr("stroke", (d) => d.color.border)
-      .attr("stroke-width", (d) => d.radius)
+      .attr("stroke-width", (d) => d.strokeWidth)
       .attr("d", "")
       .attr("d", (d) => drawPathTriangle(d.radius))
       .attr("fill", (d, i) => {
@@ -208,7 +208,7 @@
         return $snapPointsClass.array[d.pointIndexFullArray].isSelected;
       })
       .attr("stroke", selectedColor)
-      .attr("stroke-width", (d) => d.radius)
+      .attr("stroke-width", (d) => d.strokeWidth)
       .attr("fill", (d, i) => {
         return $snapPointsClass.array[d.pointIndexFullArray].color.background;
       });
@@ -234,6 +234,7 @@
   };
 
   const drawPathSquare = (r) => {
+    console.log(r);
     r = 2 * r;
     let l = 2 * r;
     let rectPath =

@@ -1,66 +1,21 @@
 <script>
   import { onMount, tick } from "svelte";
-  import Load from "./components/LoadFile.svelte";
   import { saveAs } from "file-saver";
 
   import * as d3 from "d3";
 
   import {
     panels,
-    snapPointsQuantity,
-    snapPointDirection,
     title,
     rows,
     columns,
     isRearView,
     width,
     height,
-    toolbarWidth,
     snapPoints,
     signalLines,
     mode,
-  } from "../store";
-
-  const save = async () => {
-    let saveObj = {
-      rows: $rows,
-      columns: $columns,
-      title: $title,
-      toolbarWidth: $toolbarWidth,
-      isRearView: $isRearView,
-      snapPointsQuantity: $snapPointsQuantity,
-      snapPointDirection: $snapPointDirection,
-      columns: $columns,
-      rows: $rows,
-      width: $width,
-      height: $height,
-      panels: $panels,
-      snapPoints: $snapPoints,
-      signalLines: $signalLines,
-    };
-
-    let panelsJson = JSON.stringify(saveObj);
-
-    function download() {
-      const a = document.createElement("a");
-      const file = new Blob([panelsJson], { type: "application/json" });
-      a.href = URL.createObjectURL(file);
-      a.download = "test" + ".json";
-      a.click();
-    }
-
-    download();
-  };
-
-  // const reset = () => {
-  //   $panels.forEach((p) => {
-  //     p.backgroundColor = p.color;
-  //     p.hasSquare = false;
-  //   });
-  //   panels.update((p) => $panels);
-  // };
-
-  let inputRef;
+  } from "../../store";
 
   const download = async () => {
     $panels.deSelect();
@@ -97,7 +52,6 @@
     );
 
     var svgString = getSVGString(p.node());
-    // console.log(svgString);
     p.attr("width", 0);
     p.attr("height", 0);
 
@@ -206,39 +160,13 @@
       image.src = imgsrc;
     }
   };
-
-  onMount(() => inputRef.focus());
 </script>
 
 <svg id="print" width="0" height="0" />
 
-<div class="title">
-  <input
-    type="text"
-    bind:value={$title}
-    bind:this={inputRef}
-    placeholder="Filename"
-  />
-</div>
 <button on:click={download} class="download">Download .PNG</button>
 
-<button on:click={save} class="save">Save</button>
-
-<Load />
-
 <style>
-  .print {
-    position: absolute;
-  }
-  .title input {
-    margin-top: 5px;
-    width: 165px;
-    font-size: 1.15em;
-  }
-  .title div {
-    color: white;
-    font-size: 1.25em;
-  }
   button {
     height: 40px;
     width: 175px;
@@ -251,9 +179,6 @@
     color: rgb(255, 255, 255);
   }
 
-  .save {
-    margin-top: 10px;
-  }
   .download {
     margin-top: 10px;
     margin-bottom: 0px;

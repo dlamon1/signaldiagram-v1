@@ -232,15 +232,15 @@ export class SnapPoint {
       y = get(height) / 2;
     }
 
-    this.radius = get(height) / 10;
+    // this.radius = get(height) / 10;
 
-    if (get(width) < get(height)) {
-      this.radius = get(width) / 10;
-    }
+    // if (get(width) < get(height)) {
+    //   this.radius = get(width) / 10;
+    // }
 
     x = x + panelX;
     y = y + panelY;
-    this.strokeWidth = this.radius / 10;
+
     this.translateString = `translate(${x}, ${y})`;
 
     return this.translateString;
@@ -305,7 +305,7 @@ export class SnapPoint {
 
     this.x = x + panelX;
     this.y = y + panelY;
-    this.strokeWidth = this.radius / 10;
+    this.strokeWidth = this.radius / 2;
     this.translateString = `translate(${this.x}, ${this.y})`;
   }
 

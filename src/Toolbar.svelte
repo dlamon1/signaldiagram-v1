@@ -1,12 +1,11 @@
 <script>
-  import Mode from "./EditToolbar/Mode.svelte";
-  import General from ".//EditToolbar/General.svelte";
-  import Panels from "./EditToolbar/Panels.svelte";
-  import SnapPoints from "./EditToolbar/SnapPoints.svelte";
-  import SignalLines from "./EditToolbar/SignalLines.svelte";
-  import File from "./EditToolbar/File.svelte";
-  import Coordinates from "./EditToolbar/Coordinates.svelte";
-  import SnapPointOptions from "./EditToolbar/SnapPointOptions.svelte";
+  import Mode from "./EditToolbar/Toolbar.Mode.svelte";
+  import General from "./EditToolbar/Toolbar.General.svelte";
+  import Panels from "./EditToolbar/Toolbar.Panels.svelte";
+  import SnapPoints from "./EditToolbar/Toolbar.SnapPoints.svelte";
+  import SignalLines from "./EditToolbar/Toolbar.SignalLines.svelte";
+  import Coordinates from "./EditToolbar/Toolbar.Coordinates.svelte";
+  import SnapPointOptions from "./EditToolbar/Toolbar.SnapPointOptions.svelte";
 
   import { isExportDialogOpen, selection } from "./store";
 </script>

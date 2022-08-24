@@ -50,9 +50,6 @@
         await tick();
 
         $panels = $panels;
-
-        // await tick();
-        // deSelectAll();
       }
 
       document.getElementById("file").addEventListener("change", onChange);
@@ -70,7 +67,7 @@
 <style>
   .inputfile + label {
     margin-top: 10px;
-    width: 175px;
+    width: 165px;
     height: 40px;
     font-size: 1em;
     font-weight: 700;

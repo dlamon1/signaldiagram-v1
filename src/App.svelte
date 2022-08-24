@@ -1,11 +1,11 @@
 <script>
   import { canvasWrapperHeight, canvasWrapperWidth, isChrome } from "./store";
-  import HandleColorLabelUpdates from "./HandleColorLabelUpdates.svelte";
+  import HandleColorLabelUpdates from "./Handle.ColorLabelUpdates.svelte";
   import Toolbar from "./Toolbar.svelte";
   import ExportDialog from "./Dialogs/Exports.svelte";
   import DrawCanvasWrapper from "./DrawComponents/Draw.CanvasWrapper.svelte";
   import DrawPanelWrappers from "./DrawComponents/Draw.PanelWrappers.svelte";
-  import Reactivity from "./Reactivity.svelte";
+  import Reactivity from "./Handle.PanelArrayUpdate.svelte";
   import DrawSnapPoints from "./DrawComponents/Draw.SnapPoints.svelte";
   import DrawTemporarySignalLine from "./DrawComponents/Draw.TemporarySignalLine.svelte";
   import Zoom from "./DrawComponents/Zoom.svelte";
@@ -16,7 +16,7 @@
 
   import { gZoomWrapperRef } from "./store";
 
-  import HandleSelectionTab from "./HandleSelectionTab.svelte";
+  import HandleSelectionTab from "./Handle.SelectionTab.svelte";
 
   $gZoomWrapperRef = null;
 

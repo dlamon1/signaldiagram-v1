@@ -28,15 +28,4 @@
 
   let updatePanelArray = () =>
     !$isExportDialogOpen && $panelsClass.updatePanelArray();
-
-  $: {
-    let t = { $mode };
-    deSelectAllObjects();
-  }
-
-  const deSelectAllObjects = () => {
-    $panelsClass.deSelect();
-    $signalLines.deSelect();
-    $snapPoints.deSelect();
-  };
 </script>
