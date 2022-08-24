@@ -13,6 +13,7 @@
     height,
     snapPointsGroupEnterRef,
     snapPointPathRef,
+    snapPointDirection,
   } from "../store";
 
   let hoveredColor = "rgba(0, 255, 170, 1)";
@@ -21,12 +22,14 @@
   import * as d3 from "d3";
 
   $: {
+    console.log("triggered");
     let t = [
       $panelsClass,
       $isRearView,
       $isDrawMode,
       $snapPointsClass,
       $isDrawingSignalLine,
+      $snapPointDirection,
     ];
 
     $gZoomWrapperRef && drawSnapPointWrappers();
@@ -53,7 +56,7 @@
       .merge($snapPointsGroupRef)
       .transition()
       .attr("transform", (d) => {
-        return d.getTranslateString(d);
+        return d.getTranslateString();
       });
 
     // 4

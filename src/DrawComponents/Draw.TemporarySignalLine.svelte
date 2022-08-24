@@ -10,6 +10,7 @@
     colorState,
     width,
     height,
+    snapPointsGroupEnterRef,
   } from "../store";
 
   $: {
@@ -20,12 +21,11 @@
   const drawTemporarySignalLine = () => {
     if (!$topLevelSvgRef) return;
     if (!$isDrawingSignalLine) return;
-    // console.log("temp ABOUT TO CHECKS");
+
     let origin = $signalLinesClass.origin;
     let mouse = $signalLinesClass.mouse;
     if (origin.snapPointIndex && mouse.x && mouse.y) {
       theAcutualDrawing();
-      return;
     }
   };
 
@@ -35,8 +35,8 @@
     let snapPoint =
       $snapPointsClass.array[$signalLinesClass.origin.snapPointIndex];
 
-    let x1 = $snapPointsClass.getXCoordinate(snapPoint);
-    let y1 = $snapPointsClass.getYCoordinate(snapPoint);
+    let x1 = snapPoint.x;
+    let y1 = snapPoint.y;
 
     // [tx + k * xo, ty + k * yo]
 
@@ -62,6 +62,9 @@
       .attr("x2", x2)
       .attr("y2", y2)
       .attr("stroke", $colorState.signalLine.background);
-    // .attr("stroke-width", lineWidth);
+
+    if ($snapPointsGroupEnterRef) {
+      d3.selectAll("g.snap-point-wrapper").raise();
+    }
   };
 </script>

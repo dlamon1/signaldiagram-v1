@@ -78,11 +78,11 @@ export class SnapPoints {
   }
 
   getXCoordinate(snapPoint) {
-    return get(width) * snapPoint.column + snapPoint.x;
+    return snapPoint.x;
   }
 
   getYCoordinate(snapPoint) {
-    return get(height) * snapPoint.row + snapPoint.y;
+    return snapPoint.y;
   }
 
   hoverSnapPoint(e) {
@@ -192,7 +192,7 @@ export class SnapPoint {
     font: "#FFF",
     border: "#000000",
   };
-
+  translateString;
   radius;
   x;
   y;
@@ -219,10 +219,31 @@ export class SnapPoint {
     let panelX = parentPanel.x;
     let panelY = parentPanel.y;
 
-    let x = this.x + panelX;
-    let y = this.y + panelY;
+    let x = get(width) / 2;
+    let y = (get(height) / 3) * this.pointIndexWithinPanel;
 
-    return `translate(${x}, ${y})`;
+    if (get(snapPointDirection) === "horizontal") {
+      x = (get(width) / 3) * this.pointIndexWithinPanel;
+      y = get(height) / 2;
+    }
+
+    if (get(snapPointsQuantity) === 1) {
+      x = get(width) / 2;
+      y = get(height) / 2;
+    }
+
+    this.radius = get(height) / 10;
+
+    if (get(width) < get(height)) {
+      this.radius = get(width) / 10;
+    }
+
+    x = x + panelX;
+    y = y + panelY;
+    this.strokeWidth = this.radius / 10;
+    this.translateString = `translate(${x}, ${y})`;
+
+    return this.translateString;
   }
 
   removeLabel = () => {
@@ -260,6 +281,10 @@ export class SnapPoint {
   }
 
   createDimensions(row, column, pointIndexWithinPanel) {
+    console.log(row, column);
+    let panelX = get(width) * column;
+    let panelY = get(height) * row;
+
     let x = get(width) / 2;
     let y = (get(height) / 3) * pointIndexWithinPanel;
 
@@ -279,9 +304,10 @@ export class SnapPoint {
       this.radius = get(width) / 10;
     }
 
-    this.x = x;
-    this.y = y;
+    this.x = x + panelX;
+    this.y = y + panelY;
     this.strokeWidth = this.radius / 10;
+    this.translateString = `translate(${this.x}, ${this.y})`;
   }
 
   toggleIsSelected() {

@@ -53,11 +53,8 @@ export class SignalLines {
     let snapPointX = snapPoint.x;
     let snapPointY = snapPoint.y;
 
-    let panelX = snapPoint.column * get(width);
-    let panelY = snapPoint.row * get(height);
-
-    let x = panelX + snapPointX;
-    let y = panelY + snapPointY;
+    let x = snapPointX;
+    let y = snapPointY;
 
     return {
       x,
