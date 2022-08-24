@@ -37,7 +37,17 @@ export class SignalLines {
   }
 
   setArrayFromLoad(snapPointsArray) {
-    console.log(snapPointsArray);
+    this.array = [];
+
+    snapPointsArray.forEach((snapPoint, i) => {
+      let newLine = new SignalLine(
+        snapPoint.origin,
+        snapPoint.destination.snapPointIndex
+      );
+      this.array.push(newLine);
+      let thisLine = this.array[i];
+      thisLine.updateColor(snapPoint.color.background);
+    });
   }
 
   getOriginCoordinates(d, signalLineIndex, key) {
@@ -244,7 +254,7 @@ class SignalLine {
   }
 
   updateColor(color) {
-    console.log("update color");
+    // console.log("update color");
     this.color.background = color;
   }
 

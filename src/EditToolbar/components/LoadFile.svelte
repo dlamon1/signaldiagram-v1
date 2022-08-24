@@ -25,7 +25,6 @@
 
       async function onReaderLoad(event) {
         var obj = JSON.parse(event.target.result);
-        console.log(obj);
 
         $width = obj.width;
         $height = obj.height;
@@ -44,7 +43,7 @@
 
         $panels.setArrayFromLoad(obj.panels.array);
         $snapPoints.setArrayFromLoad(obj.snapPoints.array);
-        // $signalLines.array = obj.signalLines.array;
+        $signalLines.setArrayFromLoad(obj.signalLines.array);
 
         $isExportDialogOpen = false;
 

@@ -13,8 +13,6 @@
     isExportDialogOpen,
   } from "./store";
 
-  let isOpen = $isExportDialogOpen;
-
   $: {
     let t = [
       $canvasWrapperHeight,
@@ -25,10 +23,11 @@
       $height,
     ];
 
-    $canvasWrapperHeight && !isOpen && updatePanelArray();
+    $canvasWrapperHeight && updatePanelArray();
   }
 
-  let updatePanelArray = () => $panelsClass.updatePanelArray();
+  let updatePanelArray = () =>
+    !$isExportDialogOpen && $panelsClass.updatePanelArray();
 
   $: {
     let t = { $mode };
