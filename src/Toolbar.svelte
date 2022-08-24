@@ -7,6 +7,8 @@
   import Coordinates from "./EditToolbar/Toolbar.Coordinates.svelte";
   import SnapPointOptions from "./EditToolbar/Toolbar.SnapPointOptions.svelte";
 
+  import { tooltip } from "./Tooltips/tooltip.js";
+
   import { isExportDialogOpen, selection } from "./store";
 </script>
 
@@ -81,12 +83,24 @@
     <a href="mailto: support@leadled.io">Feedback</a>
   </div>
 
-  <div class="email">
-    <a href="https://v1.signaldiagram.com">Version 2.0.0</a>
+  <div class="version">
+    <a
+      class="version"
+      title="Click here for Version 1.0.0"
+      use:tooltip
+      href="https://v1.signaldiagram.com"
+    >
+      Version 2.0.0</a
+    >
   </div>
 </div>
 
 <style>
+  .version {
+    margin-top: 10px;
+    align-self: center;
+    color: aqua;
+  }
   .selected {
     color: #fff;
     background-color: #000;
