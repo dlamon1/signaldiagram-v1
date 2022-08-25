@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { canvasWrapperHeight, canvasWrapperWidth, isChrome } from "./store";
   import HandleColorLabelUpdates from "./Handle.ColorLabelUpdates.svelte";
   import Toolbar from "./Toolbar.svelte";
