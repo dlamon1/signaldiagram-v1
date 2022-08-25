@@ -79,11 +79,22 @@
     >Import / Export</button
   >
 
-  <div class="email">
+  <div class="link-wrapper">
+    <a
+      title="Thank you for the help!"
+      use:tooltip
+      href="https://github.com/dlamon1/signaldiagram/issues"
+      target="_blank"
+    >
+      Report a Bug</a
+    >
+  </div>
+
+  <div class="link-wrapper">
     <a href="mailto: support@leadled.io">Feedback</a>
   </div>
 
-  <div class="version">
+  <div class="link-wrapper">
     <a
       class="version"
       title="Click here for Version 1.0.0"
@@ -127,7 +138,7 @@
     color: #fff;
     text-decoration: none;
   }
-  .email {
+  .link-wrapper {
     margin-top: 10px;
     align-self: center;
   }
