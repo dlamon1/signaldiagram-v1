@@ -102,7 +102,6 @@ export class SignalLines {
     this.origin.panelIndex = panelIndex;
     this.notify();
     updateSignalLines();
-    // console.log(this.origin);
   }
 
   nullOriginAndDestinationValues() {
@@ -118,7 +117,6 @@ export class SignalLines {
   }
 
   setMousePosition(e) {
-    // console.log(e);
     this.mouse.x = e.x;
     this.mouse.y = e.y;
     updateSignalLines();
@@ -166,7 +164,6 @@ export class SignalLines {
 
     setSelection("signallines");
 
-    // console.log(this.array
     updateSignalLines();
   }
 
@@ -242,7 +239,6 @@ class SignalLine {
   }
 
   setIsSelected(boolean) {
-    // console.log("setIsSelected");
     this.isSelected = boolean;
     updateSignalLines();
   }
@@ -257,7 +253,6 @@ class SignalLine {
   }
 
   updateColor(color) {
-    // console.log("update color");
     this.color.background = color;
   }
 

@@ -1,6 +1,8 @@
 import { get, writable } from "svelte/store";
 import { SnapPoints, SnapPoint } from "./SnapPointsClass";
 
+import { SelectableObjects } from "./SelectableObjectsClass";
+
 import {
   isCtrl,
   width,
@@ -15,11 +17,12 @@ import {
   isShifted,
 } from "../store";
 
-export class Panels {
+export class Panels extends SelectableObjects {
   array = [];
   snapPoints = new SnapPoints();
 
   constructor() {
+    super();
     this._store = writable(this);
   }
 
@@ -35,13 +38,11 @@ export class Panels {
         panel.snapPointObjects,
         panel.color
       );
-
-    })
+    });
     updatePanels();
   }
 
   updatePanelArray = () => {
-    console.log("update panel array");
     let oldPanels = this.array;
     let snapPoints = get(snapPointsStore);
 
@@ -101,6 +102,7 @@ export class Panels {
     );
     this.array.push(newPanel);
   }
+
   pushPanel(panel) {
     this.array.push(panel);
   }
@@ -108,11 +110,6 @@ export class Panels {
   resetArray() {
     this.array = [];
   }
-
-  deSelect = () => {
-    this.array.forEach((p) => p.setIsSelected(false));
-    updatePanels();
-  };
 
   hoverPanel = (e) => {
     get(snapPoints).deHover();
@@ -186,43 +183,19 @@ export class Panel {
     this.setLineWidth();
     this.thisPanelsSnapPoints = thisPanelsSnapPoints;
     this.snapPointObjects = snapPointObjects;
-    this.setColorObj(colorObj)
-    // oldPanel && this.copyFromOldPanel(oldPanel);
-    // console.log("constructor");
+    this.setColorObj(colorObj);
   }
 
   setColorObj(colorObj) {
-    if (!colorObj) { return }
+    if (!colorObj) {
+      return;
+    }
     this.color = colorObj;
   }
 
   setIsHovered(boolean) {
     this.isHovered = boolean;
   }
-
-  // x = {
-  //   i: 3,
-  //   thisPanelsSnapPoints: [6, 7],
-  //   colorIndex: 1,
-  //   isSelected: false,
-  //   color: {
-  //     background: "#fff",
-  //     border: "#000",
-  //     font: "#000",
-  //   },
-  //   lineWidth: 2.361025641025641,
-  //   scale: 1,
-  //   x: 230.2,
-  //   y: 159.56666666666666,
-  //   width: 76.73333333333333,
-  //   height: 153.46666666666667,
-  //   row: 0,
-  //   column: 3,
-  //   panelDimension: 153.46666666666667,
-  //   leftPadding: 0,
-  //   topPadding: 159.56666666666666,
-  //   ratio: 0.5,
-  // };
 
   copyFromOldPanel(oldPanel) {
     this.color = oldPanel.color;
@@ -237,8 +210,6 @@ export class Panel {
   }
 
   toggleIsSelected() {
-    // console.log("here");
-
     this.isSelected = !this.isSelected;
   }
 

@@ -1,6 +1,8 @@
 import { get } from "svelte/store";
 import { writable } from "svelte/store";
 
+import { SelectableObjects } from "./SelectableObjectsClass";
+
 import {
   snapPointDirection,
   snapPointsQuantity,
@@ -16,10 +18,11 @@ import {
   height,
 } from "../store";
 
-export class SnapPoints {
+export class SnapPoints extends SelectableObjects {
   array = [];
 
   constructor() {
+    super();
     this._store = writable(this);
     this.ratio = get(width) / get(height);
   }
@@ -141,11 +144,6 @@ export class SnapPoints {
 
     updateSnapPoints();
     updatePanels();
-  };
-
-  deSelect = () => {
-    this.array.forEach((p) => p.setIsSelected(false));
-    updateSnapPoints();
   };
 
   removeLabel = () => {
