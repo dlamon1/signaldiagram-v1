@@ -1,7 +1,5 @@
 import { get } from "svelte/store";
-import { writable } from "svelte/store";
-
-import { SelectableObjects } from "./SelectableObjectsClass";
+import type { ColorObj, LoadSnapPointObj, SnapPointObj } from "../Types/ClassTypes";
 
 import {
   snapPointDirection,
@@ -18,19 +16,13 @@ import {
   height,
 } from "../store";
 
-export class SnapPoints extends SelectableObjects {
+export class SnapPoints {
   array = [];
 
-  constructor() {
-    super();
-    this._store = writable(this);
-    this.ratio = get(width) / get(height);
-  }
-
-  setArrayFromLoad(snapPointsArray) {
+  setArrayFromLoad(snapPointsArray: LoadSnapPointObj[]) {
     this.array = [];
     snapPointsArray.forEach((snapPoint, i) => {
-      let newSnapPoint = new SnapPoint(
+      const newSnapPoint = new SnapPoint(
         snapPoint.row,
         snapPoint.column,
         snapPoint.pointIndexWithinPanel,
@@ -47,31 +39,13 @@ export class SnapPoints extends SelectableObjects {
     updateSnapPoints();
   }
 
-  obj = {
-    isSquare: false,
-    isCircle: false,
-    isTriangle: false,
-    label: "A1",
-    isSelected: false,
-    isHovered: false,
-    color: {
-      background: "#777",
-      font: "#FFF",
-      border: "#000000",
-    },
-    radius: 16,
-    x: 80,
-    y: 213.33333333333334,
-    row: 4,
-    column: 7,
-    pointIndexWithinPanel: 2,
-    panelIndex: 59,
-    pointIndexFullArray: 119,
-    strokeWidth: 1.6,
+  deSelect = () => {
+    this.array.forEach((o) => o.setIsSelected(false));
+    updatePanels();
   };
 
-  addSnapPoint(i, j, k, count, snapPointIndex) {
-    let newSnapPoint = new SnapPoint(i, j, k, count, snapPointIndex);
+  addSnapPoint(i: number, j: number, k: number, count: number, snapPointIndex: number) {
+    const newSnapPoint = new SnapPoint(i, j, k, count, snapPointIndex);
     this.array.push(newSnapPoint);
   }
 
@@ -79,19 +53,18 @@ export class SnapPoints extends SelectableObjects {
     this.array = [];
   }
 
-  getXCoordinate(snapPoint) {
+  getXCoordinate(snapPoint: SnapPointObj) {
     return snapPoint.getX();
   }
 
-  getYCoordinate(snapPoint) {
-    return snapPoint.getY();
+  getYCoordinate(snapPoint: SnapPointObj) {
+    return snapPoint.getY()
   }
 
   hoverSnapPoint(e) {
     this.deHover();
-    get(panels).deHover();
-    // console.log("hover");
-    let i = e.path[0].__data__.pointIndexFullArray;
+
+    const i = e.path[0].__data__.pointIndexFullArray;
     this.array[i].setIsHovered(true);
 
     updateSnapPoints();
@@ -104,9 +77,9 @@ export class SnapPoints extends SelectableObjects {
     updateSnapPoints();
   }
 
-  selectSnapPoints = (arrayOfIndexes) => {
-    let snapPointsClass = get(snapPoints);
-    let signalLinesClass = get(signalLines);
+  selectSnapPoints = (arrayOfIndexes: number[]) => {
+    const snapPointsClass = get(snapPoints);
+    const signalLinesClass = get(signalLines);
     snapPointsClass.deSelect();
     signalLinesClass.deSelect();
     updateSnapPoints();
@@ -126,14 +99,14 @@ export class SnapPoints extends SelectableObjects {
   };
 
   selectSnapPoint = (e) => {
-    let panelsClass = get(panels);
-    let signalLinesClass = get(signalLines);
+    const panelsClass = get(panels);
+    const signalLinesClass = get(signalLines);
     panelsClass.deSelect();
     signalLinesClass.deSelect();
 
-    let i = e.path[0].__data__.pointIndexFullArray;
+    const i = e.path[0].__data__.pointIndexFullArray;
 
-    let current = this.array[i].isSelected;
+    const current = this.array[i].isSelected;
 
     if (!get(isCtrl)) {
       this.array.forEach((p) => p.setIsSelected(false));
@@ -177,7 +150,7 @@ export class SnapPoints extends SelectableObjects {
   };
 }
 
-export class SnapPoint {
+export class SnapPoint implements SnapPointObj {
   isSquare = false;
   isCircle = false;
   isTriangle = false;
@@ -189,19 +162,23 @@ export class SnapPoint {
     font: "#FFF",
     border: "#000000",
   };
-  translateString;
-  radius;
-  x;
-  y;
-  row;
-  column;
+  translateString: string;
+  radius: number;
+  x: number;
+  y: number;
+  row: number;
+  column: number;
+  pointIndexWithinPanel: number;
+  panelIndex: number;
+  pointIndexFullArray: number;
+  strokeWidth: number;
 
   constructor(
-    row,
-    column,
-    pointIndexWithinPanel,
-    panelIndex,
-    pointIndexFullArray
+    row: number,
+    column: number,
+    pointIndexWithinPanel: number,
+    panelIndex: number,
+    pointIndexFullArray: number
   ) {
     this.row = row;
     this.column = column;
@@ -212,7 +189,7 @@ export class SnapPoint {
   }
 
   getX() {
-    let parentPanel = get(panels).array[this.panelIndex];
+    const parentPanel = get(panels).array[this.panelIndex];
 
     let x = get(width) / 2;
 
@@ -227,7 +204,7 @@ export class SnapPoint {
   }
 
   getY() {
-    let parentPanel = get(panels).array[this.panelIndex];
+    const parentPanel = get(panels).array[this.panelIndex];
     let y = (get(height) / 3) * this.pointIndexWithinPanel;
 
     if (get(snapPointDirection) === "horizontal") {
@@ -241,8 +218,8 @@ export class SnapPoint {
   }
 
   getTranslateString() {
-    let x = this.getX();
-    let y = this.getY();
+    const x = this.getX();
+    const y = this.getY();
 
     this.translateString = `translate(${x}, ${y})`;
 
@@ -253,39 +230,39 @@ export class SnapPoint {
     this.label = "";
   };
 
-  setLabel(label) {
+  setLabel(label: string) {
     this.label = label;
   }
 
-  setColorObj(colorObj) {
+  setColorObj(colorObj: ColorObj) {
     this.color = colorObj;
   }
 
-  setBackgroundColor(color) {
+  setBackgroundColor(color: string) {
     this.color.background = color;
   }
 
-  setBorderColor(color) {
+  setBorderColor(color: string) {
     this.color.border = color;
   }
 
-  setFontColor(color) {
+  setFontColor(color: string) {
     this.color.font = color;
   }
 
-  setIsSquare(boolean) {
+  setIsSquare(boolean: boolean) {
     this.isTriangle = false;
     this.isSquare = boolean;
   }
 
-  setIsTriangle(boolean) {
+  setIsTriangle(boolean: boolean) {
     this.isSquare = false;
     this.isTriangle = boolean;
   }
 
-  createDimensions(row, column, pointIndexWithinPanel) {
-    let panelX = get(width) * column;
-    let panelY = get(height) * row;
+  createDimensions(row: number, column: number, pointIndexWithinPanel: number) {
+    const panelX = get(width) * column;
+    const panelY = get(height) * row;
 
     let x = get(width) / 2;
     let y = (get(height) / 3) * pointIndexWithinPanel;
@@ -324,7 +301,4 @@ export class SnapPoint {
     this.isHovered = boolean;
   }
 
-  subscribe(subscriber) {
-    return this._store.subscribe(subscriber);
-  }
 }

@@ -1,26 +1,27 @@
+/* eslint-disable no-self-assign */
 import { get, writable } from "svelte/store";
 import { SignalLines } from "./classes/SignalLinesClass";
 import { Panels } from "./classes/PanelsClass";
 import { SnapPoints } from "./classes/SnapPointsClass";
 
-import type {  Writable } from "svelte/store";
+import type { Writable } from "svelte/store";
 
-export let topLevelSvgRef = writable(null);
-export let gZoomWrapperRef = writable(null);
-export let panelWrappersRef = writable(null);
-export let selectedPanelRectsRef = writable(null);
-export let snapPointsWrapper = writable(null);
-export let snapPointBaseCircles = writable(null);
-export let selectedSnapPointCirclesRef = writable(null);
-export let coordinatesRef = writable(null);
-export let temporarySignalLine = writable(null);
-export let groups = writable(null);
-export let groupsEnter = writable(null);
-export let snapPointsGroupRef = writable(null);
-export let snapPointsGroupEnterRef = writable(null);
-export let snapPointPathRef = writable(null);
-export let linesGroupRef = writable(null);
-export let linesGroupEnterRef = writable(null);
+export const topLevelSvgRef = writable(null);
+export const gZoomWrapperRef = writable(null);
+export const panelWrappersRef = writable(null);
+export const selectedPanelRectsRef = writable(null);
+export const snapPointsWrapper = writable(null);
+export const snapPointBaseCircles = writable(null);
+export const selectedSnapPointCirclesRef = writable(null);
+export const coordinatesRef = writable(null);
+export const temporarySignalLine = writable(null);
+export const groups = writable(null);
+export const groupsEnter = writable(null);
+export const snapPointsGroupRef = writable(null);
+export const snapPointsGroupEnterRef = writable(null);
+export const snapPointPathRef = writable(null);
+export const linesGroupRef = writable(null);
+export const linesGroupEnterRef = writable(null);
 
 export const opacity: Writable<number> = writable(0.1);
 
@@ -30,58 +31,51 @@ interface TransformObj {
   y: number;
 }
 
-export let transform: Writable<TransformObj> = writable({
+export const transform: Writable<TransformObj> = writable({
   k: 1,
   x: 0,
   y: 0,
 });
 
 
-export let isDrawingSignalLine: Writable<boolean> = writable(false);
+export const isDrawingSignalLine: Writable<boolean> = writable(false);
 export const setIsDrawingSignalLine = (s: boolean) => {
-  isDrawingSignalLine.update(($s) => ($s = s));
+  isDrawingSignalLine.update(() => (s));
 };
 
-export let isExportDialogOpen = writable(false);
+export const isExportDialogOpen: Writable<boolean> = writable(false);
 
-export let title = writable("");
+export const title: Writable<string> = writable("");
 
-export let toolbarWidth = writable(250);
+export const toolbarWidth: Writable<number> = writable(250);
 
-export let directionArrowQuantity = writable(2);
+type SnapPointDirection = 'vertical' | 'horizontal';
+export const snapPointsQuantity: Writable<number> = writable(2);
+export const snapPointDirection: Writable<SnapPointDirection> = writable("vertical");
+export const directionArrowQuantity: Writable<number> = writable(2);
 
-export let snapPointsQuantity = writable(2);
-export let snapPointDirection = writable("vertical");
+export const isDrawMode: Writable<boolean> = writable(false);
+export const isSelectMode: Writable<boolean> = writable(true);
+export const isMoveMode: Writable<boolean> = writable(false);
 
-// mode is select or draw
-export const isDrawMode = writable(false);
-export const isSelectMode = writable(true);
-export const isMoveMode = writable(false);
+type Mode = "select" | "draw";
 
-// export let mode = writable("draw");
-export let mode = writable("select");
-export const setMode = (m) => {
-  mode.update(($value) => ($value = m));
+export const mode: Writable<Mode> = writable("select");
+export const setMode = (m: Mode) => {
+  mode.update(() => (m));
   if (m == "draw") {
-    isSelectMode.update(($value) => ($value = false));
-    isMoveMode.update(($v) => ($v = false));
-    isDrawMode.update(($value) => ($value = true));
+    isSelectMode.update(() => (false));
+    isDrawMode.update(() => (true));
   }
   if (m == "select") {
-    isDrawMode.update(($value) => ($value = false));
-    isMoveMode.update(($v) => ($v = false));
-    isSelectMode.update(($value) => ($value = true));
-  }
-  if (m == "move") {
-    isDrawMode.update(($value) => ($value = false));
-    isSelectMode.update(($value) => ($value = true));
-    isMoveMode.update(($v) => ($v = true));
+    isDrawMode.update(() => (false));
+    isSelectMode.update(() => (true));
   }
 };
 
-export let snapPointLabel = writable("");
+export const snapPointLabel: Writable<string> = writable("");
 
-export let colorState = writable({
+export const colorState = writable({
   snapPoint: {
     background: "#ffffff",
     outline: "#000000",
@@ -96,72 +90,64 @@ export let colorState = writable({
     background: "#000000",
   },
 });
-export const setColorState = (key, value) => {
-  colorState.update(($value) => {
-    $value[key] = value;
-    return $value;
-  });
+
+type Selection = 'panels' | 'snappoints' | 'signallines';
+
+export const selection: Writable<Selection> = writable("panels");
+export const setSelection = (type: Selection) => {
+  selection.update(() => (type));
 };
 
-// panels, snappoints, signallines
-export let selection = writable("panels");
-export const setSelection = (type) => {
-  selection.update(($value) => ($value = type));
+export const setIsShifted = (boolean: boolean) => {
+  isShifted.update(() => ( boolean));
 };
 
-export const setIsShifted = (boolean) => {
-  isShifted.update(($value) => ($value = boolean));
+export const isShifted: Writable<boolean> = writable(false);
+
+export const isCtrl = writable(false);
+export const setIsCtrl = (boolean: boolean) => {
+  isCtrl.update(() => (boolean));
 };
 
-export let isShifted = writable(false);
-
-export let isCtrl = writable(false);
-export const setIsCtrl = (boolean) => {
-  isCtrl.update(($value) => ($value = boolean));
+export const isMouseDown: Writable<boolean> = writable(false);
+export const setIsMouseDown = (boolean: boolean) => {
+  isMouseDown.update(() => (boolean));
 };
 
-export let isMouseDown = writable(false);
-export const setIsMouseDown = (boolean) => {
-  isMouseDown.update(($value) => ($value = boolean));
-};
+export const scale: Writable<number> = writable(1);
 
-export let scale = writable(1);
+export const columns: Writable<number> = writable(13);
+export const rows: Writable<number> = writable(5);
 
-export let columns = writable(13);
-export let rows = writable(5);
-
-export let width = writable(160);
-export let height = writable(320);
-export let ratio = writable(get(width) / get(height));
+export const width: Writable<number> = writable(160);
+export const height: Writable<number> = writable(320);
+export const ratio: Writable<number> = writable(get(width) / get(height));
 
 // This is the size of the browser window minus the toolbar
 // it does not zoom or pan
-export let canvasWrapperWidth = writable(null);
-export let canvasWrapperHeight = writable(null);
+export const canvasWrapperWidth: Writable<number> = writable(null);
+export const canvasWrapperHeight: Writable<number> = writable(null);
 
-export let textInputRef = writable(null);
+export const textInputRef = writable(null);
 
-export let panels = writable(new Panels());
-export let setPanels = (p) => {
-  panels.update(($value) => ($value = p));
-};
-export let updatePanels = () => {
+export const panels = writable(new Panels());
+
+export const updatePanels = () => {
   panels.update(($value) => ($value = $value));
 };
 
-export let snapPoints = writable(new SnapPoints());
-export const setSnapPoints = (p) => {
-  snapPoints.update(($value) => ($value = p));
-};
-export const updateSnapPoints = (p) => {
+export const snapPoints = writable(new SnapPoints());
+
+export const updateSnapPoints = () => {
   snapPoints.update(($value) => ($value = $value));
 };
-export let signalLines = writable(new SignalLines());
+
+export const signalLines = writable(new SignalLines());
 export const updateSignalLines = () => {
   signalLines.update(($value) => ($value = $value));
 };
 
-export const colorButtons = writable([
+export const colorButtons: Writable<string[]> = writable([
   "#E401CD",
   // "#FF85B5",
   "#FA1407",
@@ -190,13 +176,13 @@ export const colorButtons = writable([
   "#ffffff",
 ]);
 
-export let isRearView = writable(true);
+export const isRearView: Writable<boolean> = writable(true);
 
-export let isSelectingPanels = writable(true);
-export let isSelectingSignalLines = writable(true);
+export const isSelectingPanels: Writable<boolean> = writable(true);
+export const isSelectingSignalLines: Writable<boolean> = writable(true);
 
-export let showCoordinates = writable(true);
+export const showCoordinates: Writable<boolean> = writable(true);
 
-export let showDirectionArrows = writable(true);
+export const showDirectionArrows: Writable<boolean> = writable(true);
 
-export let isChrome = writable(false);
+export const isChrome: Writable<boolean> = writable(false);

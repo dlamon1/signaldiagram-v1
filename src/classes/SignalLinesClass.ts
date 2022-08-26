@@ -1,4 +1,4 @@
-import { get, writable } from "svelte/store";
+import { get } from "svelte/store";
 import {
   snapPoints,
   signalLines,
@@ -12,6 +12,9 @@ import {
   setSelection,
   updatePanels,
 } from "../store";
+import type { ColorObj, LoadSignalLineObj, SignalLineObj } from "../Types/ClassTypes";
+
+type SnapPointCoordinatesKey = 'origin' | 'destination';
 
 export class SignalLines {
   origin = {
@@ -28,46 +31,36 @@ export class SignalLines {
     y: null,
   };
   array = [];
+  currentlyDrawing = null;
 
-  constructor() {
-    this.currentlyDrawing = null;
-    this._store = writable(this);
-  }
-
-  setArrayFromLoad(snapPointsArray) {
+  setArrayFromLoad(signaLineArray: LoadSignalLineObj[]) {
     this.array = [];
 
-    snapPointsArray.forEach((snapPoint, i) => {
-      let newLine = new SignalLine(
-        snapPoint.origin,
-        snapPoint.destination.snapPointIndex
+    signaLineArray.forEach((signalLine, i) => {
+      const newLine = new SignalLine(
+        signalLine.origin,
+        signalLine.destination.snapPointIndex
       );
       this.array.push(newLine);
-      let thisLine = this.array[i];
-      thisLine.updateColor(snapPoint.color.background);
+      const thisLine = this.array[i];
+      thisLine.updateColor(signalLine.color.background);
     });
   }
 
-  getOriginCoordinates(d, signalLineIndex, key) {
-    // key is either "origin" or "destination"
-    let signalLine = this.array[signalLineIndex];
-    let signalLineClass = get(signalLines);
-    let snapPointsClass = get(snapPoints);
+  getSnapPointCoordinates(signalLineIndex: number, key: SnapPointCoordinatesKey) {
 
-    let snapPointIndex = signalLine[key].snapPointIndex;
+    const signalLine = this.array[signalLineIndex];
+    const snapPointsClass = get(snapPoints);
 
-    let snapPoint = snapPointsClass.array[snapPointIndex];
-    // console.log(snapPoint);
-    let snapPointX = snapPoint.getX();
-    let snapPointY = snapPoint.getY();
+    const snapPointIndex = signalLine[key].snapPointIndex;
 
-    // TODO: create a general reverse function for drawing
-    // if (!get(isRearView)) {
-    //   snapPointX = get(columns) * get(width) - snapPointX;
-    // }
+    const snapPoint = snapPointsClass.array[snapPointIndex];
 
-    let x = snapPointX;
-    let y = snapPointY;
+    const snapPointX = snapPoint.getX();
+    const snapPointY = snapPoint.getY();
+
+    const x = snapPointX;
+    const y = snapPointY;
 
     return {
       x,
@@ -75,9 +68,9 @@ export class SignalLines {
     };
   }
 
-  getPanelIndex(row, column) {
-    let p = get(panels).array;
-    // iterate over array of and return p.i where p.row === row && p.column === column
+  getPanelIndex(row: number, column: number) {
+    const p = get(panels).array;
+
     for (let i = 0; i < p.length; i++) {
       if (p[i].row === row && p[i].column === column) {
         return i;
@@ -91,16 +84,14 @@ export class SignalLines {
 
   setOriginSnapPointIndex(e) {
     // console.log(e);
-    let obj = e.path[0].__data__;
+    const obj = e.path[0].__data__;
 
-    let panelIndex = this.getPanelIndex(obj.row, obj.column);
+    const panelIndex = this.getPanelIndex(obj.row, obj.column);
 
-    let snapPointIndex = obj.pointIndexFullArray;
-    let snapPoint = get(snapPoints).array[snapPointIndex];
+    const snapPointIndex = obj.pointIndexFullArray;
 
     this.origin.snapPointIndex = snapPointIndex;
     this.origin.panelIndex = panelIndex;
-    this.notify();
     updateSignalLines();
   }
 
@@ -111,7 +102,7 @@ export class SignalLines {
   }
 
   setDestinationSnapPointIndex(d3SnapPointObj) {
-    let snapPoint = d3SnapPointObj.path[0].__data__;
+    const snapPoint = d3SnapPointObj.path[0].__data__;
     this.destination.snapPointIndex = snapPoint.pointIndexFullArray;
     updateSignalLines();
   }
@@ -127,11 +118,11 @@ export class SignalLines {
   }
 
   addSignalLine() {
-    let origin = structuredClone(this.origin);
+    const origin = structuredClone(this.origin);
     if (!this.destination.snapPointIndex) {
       return;
     }
-    let sl = new SignalLine(origin, this.destination.snapPointIndex);
+    const sl = new SignalLine(origin, this.destination.snapPointIndex);
     this.array.push(sl);
     this.origin.x = null;
     this.origin.y = null;
@@ -140,21 +131,21 @@ export class SignalLines {
     updatePanels();
   }
 
-  removeSignalLine(line) {
+  removeSignalLine(line: SignalLineObj) {
     this.array = this.array.filter((signalLine) => {
       return signalLine.i !== line.i;
     });
   }
 
-  selectSignalLine(i) {
-    let snapPointsClass = get(snapPoints);
-    let panelsClass = get(panels);
+  selectSignalLine(i: number) {
+    const snapPointsClass = get(snapPoints);
+    const panelsClass = get(panels);
 
     snapPointsClass.deSelect();
     panelsClass.deSelect();
     updatePanels();
 
-    let current = this.array[i].isSelected;
+    const current = this.array[i].isSelected;
 
     if (!get(isCtrl)) {
       this.array.forEach((sl) => sl.setIsSelected(false));
@@ -167,9 +158,9 @@ export class SignalLines {
     updateSignalLines();
   }
 
-  selectSignalLines(arrayOfIndexes) {
-    let snapPointsClass = get(snapPoints);
-    let signalLinesClass = get(signalLines);
+  selectSignalLines(arrayOfIndexes: number[]) {
+    const snapPointsClass = get(snapPoints);
+    const signalLinesClass = get(signalLines);
     snapPointsClass.deSelect();
     signalLinesClass.deSelect();
     updateSnapPoints();
@@ -194,17 +185,9 @@ export class SignalLines {
     });
     updateSignalLines();
   }
-
-  notify() {
-    this._store.set(this);
-  }
-
-  subscribe(subscriber) {
-    return this._store.subscribe(subscriber);
-  }
 }
 
-class SignalLine {
+class SignalLine implements SignalLineObj {
   origin = {
     x: 0,
     y: 0,
@@ -218,13 +201,14 @@ class SignalLine {
     panelIndex: null,
   };
   destination = {
+    panelIndex: null,
     snapPointIndex: null,
   };
   color = {
     background: "#0f0",
     // background: "#000",
   };
-
+  i: number;
   lineWidth = 8;
   isSelected = false;
 
@@ -238,25 +222,25 @@ class SignalLine {
       get(width) < get(height) ? get(width) / 20 : get(height) / 20;
   }
 
-  setIsSelected(boolean) {
+  setIsSelected(boolean: boolean) {
     this.isSelected = boolean;
     updateSignalLines();
   }
 
   setEndCoordinates(e) {
-    let panel = e.path[1].__data__;
-    let indexOfPoint = e.path[0].__data__;
-    let point = get(snapPoints).array[indexOfPoint];
+    const panel = e.path[1].__data__;
+    const indexOfPoint = e.path[0].__data__;
+    const point = get(snapPoints).array[indexOfPoint];
 
     this.destination.snapPointIndex = indexOfPoint;
     this.destination.panelIndex = panel.i;
   }
 
-  updateColor(color) {
+  updateColor(color: string) {
     this.color.background = color;
   }
 
-  updateLineWidth(width) {
+  updateLineWidth(width: number) {
     this.lineWidth = width;
   }
 }

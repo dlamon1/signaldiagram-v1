@@ -1,7 +1,8 @@
-import { get, writable } from "svelte/store";
-import { SnapPoints, SnapPoint } from "./SnapPointsClass";
+import { get } from "svelte/store";
 
-import { SelectableObjects } from "./SelectableObjectsClass";
+// import { SelectableObjects } from "./SelectableObjectsClass";
+
+import type { PanelObj, ColorObj, LoadPanelObj } from "../Types/ClassTypes";
 
 import {
   isCtrl,
@@ -17,32 +18,10 @@ import {
   isShifted,
 } from "../store";
 
-interface ColorObj {
-  background: string;
-  border: string;
-  font: string;
-}
 
-type ColorObjKey = "background" | "border" | "font";
-
-interface LoadPanelObj {
-  row: number;
-  column: number;
-  i: number;
-  thisPanelsSnapPoints: number[];
-  color: ColorObj;
-}
-
-interface PanelsClass {
-  arrary: PanelObj[]
-}
 
 export class Panels {
   array = [];
-
-  constructor() {
-    // super();
-  }
 
   setArrayFromLoad(array: LoadPanelObj[]) {
     this.resetArray();
@@ -65,8 +44,7 @@ export class Panels {
   };
 
   updatePanelArray = () => {
-    let oldPanels = this.array;
-    let snapPoints = get(snapPointsStore);
+    const snapPoints = get(snapPointsStore);
 
     this.resetArray();
 
@@ -75,15 +53,10 @@ export class Panels {
 
     for (let i = 0; i < get(rows); i++) {
       for (let j = 0; j < get(columns); j++) {
-        let thisPanelsSnapPointsIndexes = [];
-        let snapPointObjects = [];
-        let oldPanel = oldPanels[i];
+        const thisPanelsSnapPointsIndexes = [];
 
         for (let k = 1; k < get(snapPointsQuantity) + 1; k++) {
           snapPoints.addSnapPoint(i, j, k, count, snapPointIndex);
-
-          let newSnapPoint = new SnapPoint(i, j, k, count, snapPointIndex);
-          snapPointObjects.push(newSnapPoint);
 
           thisPanelsSnapPointsIndexes.push(snapPointIndex);
 
@@ -106,7 +79,7 @@ export class Panels {
   };
 
   addPanel(i: number, j: number, count: number, thisPanelsSnapPoints: number[], colorObj: ColorObj) {
-    let newPanel = new Panel(
+    const newPanel = new Panel(
       i,
       j,
       count,
@@ -116,52 +89,31 @@ export class Panels {
     this.array.push(newPanel);
   }
 
-  pushPanel(panel) {
-    this.array.push(panel);
-  }
-
   resetArray() {
     this.array = [];
   }
 
-  hoverPanel = (e) => {
-    let snapPoints = get(snapPointsStore);
-
-    get(snapPoints).deHover();
-    this.deHover();
-    let i = e.target.__data__.i;
-    this.array[i].setIsHovered(true);
-  };
-
-  deHover = () => {
-    let snapPoints = get(snapPointsStore);
-
-    this.array.forEach((p) => p.setIsHovered(false));
-    get(snapPoints).deHover();
-    updatePanels();
-  };
-
-  selectPanels = (arrayOfIndexes) => {
-    let snapPointsClass = get(snapPointsStore);
-    let signalLinesClass = get(signalLines);
+  selectPanels = (arrayOfIndexes: number[]) => {
+    const snapPointsClass = get(snapPointsStore);
+    const signalLinesClass = get(signalLines);
     snapPointsClass.deSelect();
     signalLinesClass.deSelect();
 
-    let arrayOfCurrent = [];
+    const arrayOfCurrent = [];
 
     arrayOfIndexes.forEach((i) => {
-      let current = this.array[i].isSelected;
+      const current = this.array[i].isSelected;
       arrayOfCurrent.push(current);
     });
 
-    if (!get(isCtrl || !get(isShifted))) {
+    if (!get(isCtrl) || !get(isShifted)) {
       this.array.forEach((panel) => {
         panel.setIsSelected(false);
       });
     }
 
     arrayOfIndexes.forEach((panel, i) => {
-      let x = arrayOfCurrent[i];
+      const x = arrayOfCurrent[i];
       this.array[panel].setIsSelected(!x);
     });
 
@@ -170,44 +122,22 @@ export class Panels {
   };
 }
 
-interface PanelObj {
-  i: number;
-  row: number;
-  column: number;
-  thisPanelsSnapPoints: number[];
-  color: ColorObj;
-  isSelected: boolean;
-  isHovered: boolean;
-  lineWidth: number;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  setColor: (key: ColorObjKey, color: string) => void;
-  setIsSelected: (isSelected: boolean) => void;
-  setIsHovered: (isHovered: boolean) => void;
-  setLineWidth: (lineWidth: number) => void;
-  toggleIsSelected: () => void;
-  setDimensions: () => void;
-  setIndex: (i: number) => void;
-  setColorIndex: (i: number, j: number) => void;
-}
-
+type ColorObjKey = "background" | "border" | "font";
 
 export class Panel implements PanelObj {
   row: number;
   column: number
   i: number;
   thisPanelsSnapPoints = [];
-  colorIndex: number = 0;
-  isSelected: boolean = false;
-  isHovered: boolean = false;
+  colorIndex = 0;
+  isSelected = false;
+  isHovered = false;
   color: ColorObj = {
     background: "#fff",
     border: "#000",
     font: "#000",
   };
-  lineWidth: number = 0;
+  lineWidth = 0;
   x: number;
   y: number;
   width: number;
@@ -233,7 +163,7 @@ export class Panel implements PanelObj {
   setIsHovered(boolean: boolean) {
     this.isHovered = boolean;
   }
-
+ 
   setColor(key: ColorObjKey, color: string) {
     this.color[key] = color;
   }

@@ -17,7 +17,7 @@ export const handleKeyDown = (e) => {
   }
 
   if (e.keyCode === 16 && get(isShifted) && get(isSelectMode)) {
-    let body = document.getElementById("canvas-wrapper");
+    const body = document.getElementById("canvas-wrapper");
     body.style.cursor = "crosshair";
   }
 
@@ -41,11 +41,10 @@ export const handleKeyDown = (e) => {
 export const handleKeyUp = (e) => {
   if (e.keyCode === 16) {
     setIsShifted(false);
-    let body = document.getElementById("canvas-wrapper");
+    const body = document.getElementById("canvas-wrapper");
 
     body.style.cursor = "default";
   }
-  // console.log(get(isCtrl));
   if (e.keyCode === 17 && get(isCtrl) && !isMac) {
     setIsCtrl(false);
   }

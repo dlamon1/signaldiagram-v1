@@ -1,23 +1,8 @@
-import { get } from "svelte/store";
-import { writable } from "svelte/store";
-
 import {
-  isCtrl,
-  width,
-  height,
   updatePanels,
-  snapPoints as snapPointsStore,
-  setSelection,
-  signalLines,
-  rows,
-  columns,
-  snapPointsQuantity,
-  isShifted,
 } from "../store";
 
 export class SelectableObjects {
-  constructor() {}
-
   deSelect = () => {
     this.array.forEach((o) => o.setIsSelected(false));
     updatePanels();

@@ -65,19 +65,19 @@
       .classed("line-outline", true)
       .attr(
         "x1",
-        (d, i) => $signalLinesClass.getOriginCoordinates(d, i, "origin").x
+        (d, i) => $signalLinesClass.getSnapPointCoordinates(i, "origin").x
       )
       .attr(
         "y1",
-        (d, i) => $signalLinesClass.getOriginCoordinates(d, i, "origin").y
+        (d, i) => $signalLinesClass.getSnapPointCoordinates(i, "origin").y
       )
       .attr(
         "x2",
-        (d, i) => $signalLinesClass.getOriginCoordinates(d, i, "destination").x
+        (d, i) => $signalLinesClass.getSnapPointCoordinates(i, "destination").x
       )
       .attr(
         "y2",
-        (d, i) => $signalLinesClass.getOriginCoordinates(d, i, "destination").y
+        (d, i) => $signalLinesClass.getSnapPointCoordinates(i, "destination").y
       )
       .attr("stroke", (d) => {
         if (d.isSelected) {
@@ -125,19 +125,19 @@
       .classed("line-base", true)
       .attr(
         "x1",
-        (d, i) => $signalLinesClass.getOriginCoordinates(d, i, "origin").x
+        (d, i) => $signalLinesClass.getSnapPointCoordinates(i, "origin").x
       )
       .attr(
         "y1",
-        (d, i) => $signalLinesClass.getOriginCoordinates(d, i, "origin").y
+        (d, i) => $signalLinesClass.getSnapPointCoordinates(i, "origin").y
       )
       .attr(
         "x2",
-        (d, i) => $signalLinesClass.getOriginCoordinates(d, i, "destination").x
+        (d, i) => $signalLinesClass.getSnapPointCoordinates(i, "destination").x
       )
       .attr(
         "y2",
-        (d, i) => $signalLinesClass.getOriginCoordinates(d, i, "destination").y
+        (d, i) => $signalLinesClass.getSnapPointCoordinates(i, "destination").y
       )
       .attr("stroke", (d) => {
         return d.color.background;
@@ -154,9 +154,8 @@
         return "0,-6 7,10 -7,10";
       })
       .attr("transform", (d, i) => {
-        let origin = $signalLinesClass.getOriginCoordinates(d, i, "origin");
-        let destination = $signalLinesClass.getOriginCoordinates(
-          d,
+        let origin = $signalLinesClass.getSnapPointCoordinates(i, "origin");
+        let destination = $signalLinesClass.getSnapPointCoordinates(
           i,
           "destination"
         );
