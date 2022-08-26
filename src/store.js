@@ -1,6 +1,6 @@
 import { get, writable } from "svelte/store";
 import { SignalLines } from "./classes/SignalLinesClass";
-import { Panels } from "./classes/PanelsClass";
+import { Panels } from "./classes/PanelsClass.ts";
 import { SnapPoints } from "./classes/SnapPointsClass";
 
 export let topLevelSvgRef = writable(null);
