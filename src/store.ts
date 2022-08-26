@@ -1,7 +1,9 @@
 import { get, writable } from "svelte/store";
 import { SignalLines } from "./classes/SignalLinesClass";
-import { Panels } from "./classes/PanelsClass.ts";
+import { Panels } from "./classes/PanelsClass";
 import { SnapPoints } from "./classes/SnapPointsClass";
+
+import type {  Writable } from "svelte/store";
 
 export let topLevelSvgRef = writable(null);
 export let gZoomWrapperRef = writable(null);
@@ -20,16 +22,23 @@ export let snapPointPathRef = writable(null);
 export let linesGroupRef = writable(null);
 export let linesGroupEnterRef = writable(null);
 
-export const opacity = writable(0.1);
+export const opacity: Writable<number> = writable(0.1);
 
-export let transform = writable({
+interface TransformObj {
+  k: number;
+  x: number;
+  y: number;
+}
+
+export let transform: Writable<TransformObj> = writable({
   k: 1,
   x: 0,
   y: 0,
 });
 
-export let isDrawingSignalLine = writable(false);
-export const setIsDrawingSignalLine = (s) => {
+
+export let isDrawingSignalLine: Writable<boolean> = writable(false);
+export const setIsDrawingSignalLine = (s: boolean) => {
   isDrawingSignalLine.update(($s) => ($s = s));
 };
 

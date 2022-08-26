@@ -1,6 +1,4 @@
 {
-  "extends": "@tsconfig/svelte/tsconfig.json",
-
   "include": ["src/**/*"],
   "exclude": ["node_modules/*", "__sapper__/*", "public/*"],
   "compilerOptions": {
@@ -8,4 +6,5 @@
     // "allowJs": true,
     "target": "es6"
   },
+  "extends": "@tsconfig/svelte/tsconfig.json", // must be the last entry in the config
 }
