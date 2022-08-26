@@ -1,21 +1,70 @@
 <script>
-  import Panels from "./Panels.svelte";
-  import EventHandlers from "./EventHandlers.svelte";
-  import EditToolbar from "./EditToolbar.svelte";
-  import Mode from "./Mode.svelte";
-  import CanvasDraw from "./CanvasDraw.svelte";
-  import Dialogs from "./Dialogs/index.svelte";
+  import { canvasWrapperHeight, canvasWrapperWidth, isChrome } from "./store";
+  import HandleColorLabelUpdates from "./Handle.ColorLabelUpdates.svelte";
+  import Toolbar from "./Toolbar.svelte";
+  import ExportDialog from "./Dialogs/Exports.svelte";
+  import DrawCanvasWrapper from "./DrawComponents/Draw.CanvasWrapper.svelte";
+  import DrawPanelWrappers from "./DrawComponents/Draw.PanelWrappers.svelte";
+  import Reactivity from "./Handle.PanelArrayUpdate.svelte";
+  import DrawSnapPoints from "./DrawComponents/Draw.SnapPoints.svelte";
+  import DrawTemporarySignalLine from "./DrawComponents/Draw.TemporarySignalLine.svelte";
+  import Zoom from "./DrawComponents/Zoom.svelte";
+  import DrawSelecteOutline from "./DrawComponents/Draw.SelecteOutline.svelte";
+  import DrawRearViewLabel from "./DrawComponents/Draw.RearViewLabel.svelte";
+  import DrawSignalLines from "./DrawComponents/Draw.SignalLines.svelte";
+  import BrowserCompatabilityDialog from "./Dialogs/Dialog.BrowserCompatability.svelte";
 
-  import { canvasWidth, canvasHeight } from "./store";
+  import { gZoomWrapperRef } from "./store";
+
+  import HandleSelectionTab from "./Handle.SelectionTab.svelte";
+
+  $gZoomWrapperRef = null;
+
+  const getUseragent = () => {
+    const useragent = navigator.userAgent;
+    if (useragent.indexOf("Chrome") !== -1) {
+      $isChrome = true;
+    }
+  };
+
+  getUseragent();
 </script>
 
 <div id="container">
-  <Mode />
-  <Panels />
-  <EditToolbar />
-  <EventHandlers />
-  <CanvasDraw />
-  <Dialogs />
+  <Reactivity />
+  <HandleSelectionTab />
+
+  <div
+    id="canvas-wrapper"
+    class="canvas-wrapper"
+    bind:clientWidth={$canvasWrapperWidth}
+    bind:clientHeight={$canvasWrapperHeight}
+  >
+    <div class="canvas" id="canvas">
+      <HandleColorLabelUpdates />
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <Toolbar />
+  </div>
+
+  {#if $canvasWrapperWidth && $canvasWrapperHeight}
+    <DrawCanvasWrapper />
+  {/if}
+
+  {#if $gZoomWrapperRef}
+    <Zoom />
+    <DrawPanelWrappers />
+    <DrawTemporarySignalLine />
+    <DrawSelecteOutline />
+    <DrawSignalLines />
+    <DrawSnapPoints />
+    <DrawRearViewLabel />
+  {/if}
+
+  <ExportDialog />
+  <BrowserCompatabilityDialog />
 </div>
 
 <style>
@@ -24,5 +73,24 @@
     width: 100vw;
     height: 100vh;
     background-color: rgb(37, 37, 37);
+    display: flex;
+    overflow: hidden;
+  }
+  .canvas-wrapper {
+    width: calc(100vw - 250px);
+    /* margin: 10px; */
+  }
+
+  .toolbar {
+    background-color: rgb(71, 71, 71);
+    width: 250px;
+    right: 0;
+    z-index: 1;
+    right: 0;
+    position: absolute;
+  }
+  .canvas {
+    z-index: 0;
+    position: absolute;
   }
 </style>

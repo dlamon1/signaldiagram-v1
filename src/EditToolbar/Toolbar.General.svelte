@@ -1,23 +1,8 @@
 <script>
-  import {
-    title,
-    columns,
-    rows,
-    width,
-    height,
-    showCoordinates,
-    isRearView,
-    snapPointsQuantity,
-    snapPointDirection,
-  } from "../store";
+  import { columns, rows, width, height } from "../store";
 </script>
 
 <div id="general">
-  <!-- <div id="input-wrapper">Title:</div> -->
-  <!-- <div id="input-wrapper">
-    <input type="text" bind:value={$title} style="width: 150px" />
-  </div> -->
-
   <div id="dimensions-container">
     <div id="input-wrapper">
       Columns:

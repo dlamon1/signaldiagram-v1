@@ -4,12 +4,12 @@
 
 Signal Diagram is a Svelte app designed to create signal and power diagrams for modular LED screen builds. It is completely free, requires no login, and stores no cookies from user sessions. PNG files can be download from the Export button in the toolbar. Saving a layout downloads a .json file. This file can be loaded into the app to recall a configuration.
 
+Signal Diagram utilizes the [d3.js libarary](https://d3js.org/) to draw. 
+
 ### Reporting Bugs
 
 Please post bugs to the forum on the issues tab above
 
 ### Pull Requests
 
-Signal Diagram utilises HTML canvas. I would like to change the draw functionality over to svg in the future. User input populates arrays for each type of object. Drawing is executed when those arrays are updated. Most variables are stores in src/store.js and most functionaly is driver by svelte's reactive functionality.
-
-I will be adding comments explaining which code triggers which code.
+Pull Requests are welcome! Feel free to contact me directly with questions at devon@leadled.io

@@ -1,8 +1,8 @@
 <script>
-  import { fly } from "svelte/transition";
+  import { fade } from "svelte/transition";
   import {
-    selectedSignalLines,
-    signalLines,
+    signalLines as signalLinesClass,
+    panels as panelsClass,
     showDirectionArrows,
     colorState,
     colorButtons,
@@ -10,25 +10,29 @@
   import ColorPicker from "./components/ColorPicker.svelte";
 
   const removeLine = () => {
-    $selectedSignalLines.forEach((line) => {
-      $signalLines.removeSignalLine(line);
+    $signalLinesClass.array.forEach((line, i) => {
+      if (line.isSelected) {
+        $signalLinesClass.removeSignalLine(line);
+      }
     });
 
-    $selectedSignalLines = [];
-    $selectedSignalLines = $selectedSignalLines;
-    $signalLines = $signalLines;
+    $signalLinesClass = $signalLinesClass;
+    // need to call panels update here to
+    // trigger redraw, cannott use signal lines
+    // because of the way the draw updates
+    $panelsClass = $panelsClass;
   };
 
   const updateLocalLabelAndColorState = () => {
-    if ($selectedSignalLines.length > 1) return;
-    $selectedSignalLines.forEach((line, i) => {
-      $colorState.signalLine.background = line.backgroundColor;
-    });
+    // if ($selectedSignalLines.length > 1) return;
+    // $selectedSignalLines.forEach((line, i) => {
+    //   $colorState.signalLine.background = line.backgroundColor;
+    // });
   };
 
   $: {
     let triggers = {
-      $selectedSignalLines,
+      // $selectedSignalLines,
     };
     updateLocalLabelAndColorState();
   }
@@ -38,22 +42,21 @@
 
 <div
   id="signallines"
-  in:fly={{ x: 100, duration: 150 }}
-  out:fly={{ x: 0, duration: 150 }}
+  in:fade={{ x: 100, duration: 150 }}
+  out:fade={{ x: 0, duration: 40 }}
 >
-  <div class="title">Signal Lines</div>
-
   <div class="input-wrapper">
     <input type="checkbox" bind:checked={$showDirectionArrows} />
     Show Direction Arrows
   </div>
 
-  <div class="subtitle" on:click={() => (isLineOpen = !isLineOpen)}>
-    Line {isLineOpen ? "▼" : "▲"}
-  </div>
-
   {#if isLineOpen}
-    <ColorPicker key={"signalLine"} layer={"background"} />
+    <ColorPicker
+      key={"signalLine"}
+      layer={"background"}
+      element={"Signal Lines"}
+      isOpen={true}
+    />
   {/if}
   <div class="remove-lines-container">
     <button on:click={removeLine}>Remove Lines</button>

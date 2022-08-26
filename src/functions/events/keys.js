@@ -1,11 +1,10 @@
-import { get, derived } from "svelte/store";
+import { get } from "svelte/store";
 
 import {
   isShifted,
   setIsShifted,
   isCtrl,
   setIsCtrl,
-  mode,
   setMode,
   isSelectMode,
 } from "../../store";
@@ -13,15 +12,17 @@ import {
 const isMac = navigator.platform.toUpperCase().indexOf("MAC") >= 0;
 
 export const handleKeyDown = (e) => {
-  if (e.keyCode === 16 && !get(isShifted) && get(isSelectMode)) {
+  if (e.keyCode === 16 && !get(isShifted)) {
     setIsShifted(true);
-    canvas.style.cursor = "crosshair";
+  }
+
+  if (e.keyCode === 16 && get(isShifted) && get(isSelectMode)) {
+    let body = document.getElementById("canvas-wrapper");
+    body.style.cursor = "crosshair";
   }
 
   // if ctrl is pressed, set isCtrl to true
   if (e.keyCode === 17 && !get(isCtrl) && !isMac && get(isSelectMode)) {
-    console.log('ctrl on');
-
     setIsCtrl(true);
   }
   // if command on mac is pressed
@@ -29,17 +30,10 @@ export const handleKeyDown = (e) => {
     setIsCtrl(true);
   }
 
-  // if (e.keyCode === 17 && !get(isCtrl) && !isMac) {
-  //   // isCtrl = true;
-  //   setIsCtrl(true)
-  // }
-
-  if (e.keyCode === 68) {
-    // mode = "draw";
+  if (e.keyCode === 68 && get(isShifted)) {
     setMode("draw");
   }
-  if (e.keyCode === 83) {
-    // mode = "select";
+  if (e.keyCode === 83 && get(isShifted)) {
     setMode("select");
   }
 };
@@ -47,9 +41,11 @@ export const handleKeyDown = (e) => {
 export const handleKeyUp = (e) => {
   if (e.keyCode === 16) {
     setIsShifted(false);
-    canvas.style.cursor = "default";
+    let body = document.getElementById("canvas-wrapper");
+
+    body.style.cursor = "default";
   }
-  console.log(get(isCtrl));
+  // console.log(get(isCtrl));
   if (e.keyCode === 17 && get(isCtrl) && !isMac) {
     setIsCtrl(false);
   }

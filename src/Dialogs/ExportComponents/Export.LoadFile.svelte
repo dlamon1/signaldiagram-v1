@@ -10,11 +10,9 @@
     isRearView,
     width,
     height,
-    squares,
-    circles,
     snapPoints,
     signalLines,
-    labels,
+    isExportDialogOpen,
   } from "../../store";
 
   onMount(() => {
@@ -27,7 +25,6 @@
 
       async function onReaderLoad(event) {
         var obj = JSON.parse(event.target.result);
-        console.log(obj);
 
         $width = obj.width;
         $height = obj.height;
@@ -44,17 +41,15 @@
         $snapPointsQuantity = obj.snapPointsQuantity;
         $snapPointDirection = obj.snapPointDirection;
 
-        $panels = [...obj.panels];
-        $snapPoints = [...obj.snapPoints];
-        $signalLines.array = obj.signalLines.array;
-        $labels = [...obj.labels];
-        $squares = [...obj.squares];
-        $circles = [...obj.circles];
+        $panels.setArrayFromLoad(obj.panels.array);
+        $snapPoints.setArrayFromLoad(obj.snapPoints.array);
+        $signalLines.setArrayFromLoad(obj.signalLines.array);
+
+        $isExportDialogOpen = false;
 
         await tick();
 
-        await tick();
-        // deSelectAll();
+        $panels = $panels;
       }
 
       document.getElementById("file").addEventListener("change", onChange);
@@ -63,26 +58,16 @@
 </script>
 
 <div>
-  <!-- <div class="load">
-  <input type="file" id="file" class="inputfile" accept="application/JSON" />
-</div> -->
-  <!-- <form
-    class="has-advanced-upload"
-    method="post"
-    action=""
-    enctype="multipart/form-data"
-  > -->
   <div class="box__input">
     <input type="file" id="file" class="inputfile" accept="application/JSON" />
     <label for="file"><div>Load</div> </label>
   </div>
-  <!-- </form> -->
 </div>
 
 <style>
   .inputfile + label {
     margin-top: 10px;
-    width: 175px;
+    width: 165px;
     height: 40px;
     font-size: 1em;
     font-weight: 700;
