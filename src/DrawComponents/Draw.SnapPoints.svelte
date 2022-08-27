@@ -15,6 +15,7 @@
     snapPointPathRef,
     snapPointDirection,
     snapPointsQuantity,
+    snapPoints,
   } from "../store";
 
   let hoveredColor = "rgba(0, 255, 170, 1)";
@@ -26,7 +27,7 @@
 
   $: {
     let t = [
-      $panelsClass,
+      // $panelsClass,
       $isRearView,
       $isDrawMode,
       $snapPointsClass,

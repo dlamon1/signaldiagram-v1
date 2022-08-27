@@ -17,7 +17,8 @@ export const groups = writable(null);
 export const groupsEnter:Writable <d3.Selection<SVGGElement, PanelObj, HTMLElement, any>> = writable(null);
 
 export const snapPointsGroupRef = writable(null);
-export const snapPointsGroupEnterRef: Writable <d3.Selection<SVGGElement, SnapPointObj, HTMLElement, any>> = writable(null);
+export const snapPointsGroupEnterRef = writable(null);
+// export const snapPointsGroupEnterRef: Writable <d3.Selection<SVGGElement, SnapPointObj, HTMLElement, any>> = writable(null);
 export const snapPointPathRef = writable(null);
 
 export const linesGroupRef = writable(null);

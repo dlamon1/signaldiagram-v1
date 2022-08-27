@@ -1,3 +1,4 @@
+import { updateSnapPoints } from './../store';
 import { get } from "svelte/store";
 
 // import { SelectableObjects } from "./SelectableObjectsClass";
@@ -46,6 +47,7 @@ export class Panels {
   updatePanelArray = () => {
     const snapPoints = get(snapPointsStore);
 
+    snapPoints.resetArray()
     this.resetArray();
 
     let snapPointIndex = 0;
@@ -76,6 +78,7 @@ export class Panels {
     }
 
     updatePanels();
+    updateSnapPoints()
   };
 
   addPanel(i: number, j: number, count: number, thisPanelsSnapPoints: number[], colorObj: ColorObj) {
