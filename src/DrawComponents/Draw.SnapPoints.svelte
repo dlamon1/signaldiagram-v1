@@ -44,7 +44,7 @@
     // 1
     $snapPointsGroupRef = $gZoomWrapperRef
       .selectAll("g.snap-point-wrapper")
-      .data(snapPoints);
+      .data(snapPoints, (d) => d.i);
 
     // 2
     $snapPointsGroupEnterRef = $snapPointsGroupRef

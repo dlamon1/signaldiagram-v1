@@ -37,7 +37,6 @@
   }
 
   const drawPanelWrappers = () => {
-    console.count("draw");
     let panels = $panelsClass.array;
 
     d3.select("#temp-signal-line").remove();
