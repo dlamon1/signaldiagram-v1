@@ -1,5 +1,10 @@
 import { get } from "svelte/store";
-import type { ColorObj, LoadSnapPointObj, SnapPointObj } from "../Types/ClassTypes";
+import type {
+  ColorObj,
+  LoadSnapPointObj,
+  SnapPointObj,
+  SnapPointsType,
+} from "../Types/ClassTypes";
 
 import {
   snapPointDirection,
@@ -16,7 +21,7 @@ import {
   height,
 } from "../store";
 
-export class SnapPoints {
+export class SnapPoints implements SnapPointsType {
   array = [];
 
   setArrayFromLoad(snapPointsArray: LoadSnapPointObj[]) {
@@ -44,7 +49,13 @@ export class SnapPoints {
     updatePanels();
   };
 
-  addSnapPoint(i: number, j: number, k: number, count: number, snapPointIndex: number) {
+  addSnapPoint(
+    i: number,
+    j: number,
+    k: number,
+    count: number,
+    snapPointIndex: number
+  ) {
     const newSnapPoint = new SnapPoint(i, j, k, count, snapPointIndex);
     this.array.push(newSnapPoint);
   }
@@ -58,23 +69,7 @@ export class SnapPoints {
   }
 
   getYCoordinate(snapPoint: SnapPointObj) {
-    return snapPoint.getY()
-  }
-
-  hoverSnapPoint(e) {
-    this.deHover();
-
-    const i = e.path[0].__data__.pointIndexFullArray;
-    this.array[i].setIsHovered(true);
-
-    updateSnapPoints();
-  }
-
-  deHover() {
-    this.array.forEach((sp) => {
-      sp.setIsHovered(false);
-    });
-    updateSnapPoints();
+    return snapPoint.getY();
   }
 
   selectSnapPoints = (arrayOfIndexes: number[]) => {
@@ -129,7 +124,7 @@ export class SnapPoints {
     this.setIsTriangles(false);
   };
 
-  setIsSquares = (boolean) => {
+  setIsSquares = (boolean: boolean) => {
     this.array.forEach((sp) => {
       if (sp.isSelected) {
         sp.setIsTriangle(false);
@@ -139,7 +134,7 @@ export class SnapPoints {
     updateSnapPoints();
   };
 
-  setIsTriangles = (boolean) => {
+  setIsTriangles = (boolean: boolean) => {
     this.array.forEach((sp) => {
       if (sp.isSelected) {
         sp.setIsSquare(false);
@@ -300,5 +295,4 @@ export class SnapPoint implements SnapPointObj {
   setIsHovered(boolean) {
     this.isHovered = boolean;
   }
-
 }

@@ -8,7 +8,8 @@
     "amplify/backend/amplify-meta.json": true,
     "amplify/backend/awscloudformation": true
   },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[javascript, typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-}
+  }
 }

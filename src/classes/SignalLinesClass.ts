@@ -1,4 +1,5 @@
 import { get } from "svelte/store";
+
 import {
   snapPoints,
   signalLines,
@@ -12,25 +13,37 @@ import {
   setSelection,
   updatePanels,
 } from "../store";
-import type { LoadSignalLineObj, SignalLineObj, SnapPointCoordinates } from "../Types/ClassTypes";
 
-type SnapPointCoordinatesKey = 'origin' | 'destination';
+import type {
+  LoadSignalLineObj,
+  SignalLineObj,
+  SignalLinesType,
+  SnapPointCoordinates,
+  SnapPointCoordinatesKey,
+  XYCoordinates,
+} from "../Types/ClassTypes";
 
-export class SignalLines {
+export class SignalLines implements SignalLinesType {
+  array = [];
+
   origin = {
     x: null,
     y: null,
     snapPointIndex: null,
     panelIndex: null,
   };
+
   destination = {
+    x: null,
+    y: null,
     snapPointIndex: null,
+    panelIndex: null,
   };
+
   mouse = {
     x: null,
     y: null,
   };
-  array = [];
 
   setArrayFromLoad(signaLineArray: LoadSignalLineObj[]) {
     this.array = [];
@@ -46,8 +59,10 @@ export class SignalLines {
     });
   }
 
-  getSnapPointCoordinates(signalLineIndex: number, key: SnapPointCoordinatesKey) {
-
+  getSnapPointCoordinates(
+    signalLineIndex: number,
+    key: SnapPointCoordinatesKey
+  ) {
     const signalLine = this.array[signalLineIndex];
     const snapPointsClass = get(snapPoints);
 
@@ -105,7 +120,7 @@ export class SignalLines {
     updateSignalLines();
   }
 
-  setMousePosition(e) {
+  setMousePosition(e: XYCoordinates) {
     this.mouse.x = e.x;
     this.mouse.y = e.y;
     updateSignalLines();
@@ -196,8 +211,8 @@ class SignalLine implements SignalLineObj {
   };
   color = {
     background: "#0f0",
-    border: '#000',
-    font: '#fff'
+    border: "#000",
+    font: "#fff",
   };
   i: number;
   lineWidth = 8;

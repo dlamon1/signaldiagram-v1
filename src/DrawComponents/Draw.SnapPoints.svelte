@@ -27,7 +27,6 @@
 
   $: {
     let t = [
-      // $panelsClass,
       $isRearView,
       $isDrawMode,
       $snapPointsClass,

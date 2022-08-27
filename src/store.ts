@@ -6,7 +6,7 @@ import { SnapPoints } from "./classes/SnapPointsClass";
 
 import type { PanelObj, SnapPointObj, SignalLineObj } from "./Types/ClassTypes";
 
-import type * as d3 from 'd3'
+import type * as d3 from "d3";
 
 import type { Writable } from "svelte/store";
 
@@ -14,15 +14,21 @@ export const topLevelSvgRef = writable(null);
 export const gZoomWrapperRef = writable(null);
 
 export const groups = writable(null);
-export const groupsEnter:Writable <d3.Selection<SVGGElement, PanelObj, HTMLElement, any>> = writable(null);
+export const groupsEnter: Writable<
+  d3.Selection<SVGGElement, PanelObj, HTMLElement, any>
+> = writable(null);
 
 export const snapPointsGroupRef = writable(null);
-export const snapPointsGroupEnterRef = writable(null);
-// export const snapPointsGroupEnterRef: Writable <d3.Selection<SVGGElement, SnapPointObj, HTMLElement, any>> = writable(null);
+// export const snapPointsGroupEnterRef = writable(null);
+export const snapPointsGroupEnterRef: Writable<
+  d3.Selection<SVGGElement, SnapPointObj, HTMLElement, any>
+> = writable(null);
 export const snapPointPathRef = writable(null);
 
 export const linesGroupRef = writable(null);
-export const linesGroupEnterRef: Writable <d3.Selection<SVGGElement, SignalLineObj, HTMLElement, any>> = writable(null);
+export const linesGroupEnterRef: Writable<
+  d3.Selection<SVGGElement, SignalLineObj, HTMLElement, any>
+> = writable(null);
 
 export const temporarySignalLine = writable(null);
 
@@ -40,15 +46,14 @@ export const transform: Writable<TransformObj> = writable({
   y: 0,
 });
 
-
 export const isDrawingSignalLine: Writable<boolean> = writable(false);
 export const setIsDrawingSignalLine = (s: boolean) => {
-  isDrawingSignalLine.update(() => (s));
+  isDrawingSignalLine.update(() => s);
 };
 
 export const isDrawingSelectLine: Writable<boolean> = writable(false);
 export const setIsDrawingSelectLine = (s: boolean) => {
-  isDrawingSignalLine.update(() => (s));
+  isDrawingSignalLine.update(() => s);
 };
 
 export const isExportDialogOpen: Writable<boolean> = writable(false);
@@ -57,9 +62,10 @@ export const title: Writable<string> = writable("");
 
 export const toolbarWidth: Writable<number> = writable(250);
 
-type SnapPointDirection = 'vertical' | 'horizontal';
+type SnapPointDirection = "vertical" | "horizontal";
 export const snapPointsQuantity: Writable<number> = writable(2);
-export const snapPointDirection: Writable<SnapPointDirection> = writable("vertical");
+export const snapPointDirection: Writable<SnapPointDirection> =
+  writable("vertical");
 export const directionArrowQuantity: Writable<number> = writable(2);
 
 export const isDrawMode: Writable<boolean> = writable(false);
@@ -70,14 +76,14 @@ type Mode = "select" | "draw";
 
 export const mode: Writable<Mode> = writable("select");
 export const setMode = (m: Mode) => {
-  mode.update(() => (m));
+  mode.update(() => m);
   if (m == "draw") {
-    isSelectMode.update(() => (false));
-    isDrawMode.update(() => (true));
+    isSelectMode.update(() => false);
+    isDrawMode.update(() => true);
   }
   if (m == "select") {
-    isDrawMode.update(() => (false));
-    isSelectMode.update(() => (true));
+    isDrawMode.update(() => false);
+    isSelectMode.update(() => true);
   }
 };
 
@@ -99,27 +105,27 @@ export const colorState = writable({
   },
 });
 
-type Selection = 'panels' | 'snappoints' | 'signallines';
+type Selection = "panels" | "snappoints" | "signallines";
 
 export const selection: Writable<Selection> = writable("panels");
 export const setSelection = (type: Selection) => {
-  selection.update(() => (type));
+  selection.update(() => type);
 };
 
 export const setIsShifted = (boolean: boolean) => {
-  isShifted.update(() => ( boolean));
+  isShifted.update(() => boolean);
 };
 
 export const isShifted: Writable<boolean> = writable(false);
 
 export const isCtrl = writable(false);
 export const setIsCtrl = (boolean: boolean) => {
-  isCtrl.update(() => (boolean));
+  isCtrl.update(() => boolean);
 };
 
 export const isMouseDown: Writable<boolean> = writable(false);
 export const setIsMouseDown = (boolean: boolean) => {
-  isMouseDown.update(() => (boolean));
+  isMouseDown.update(() => boolean);
 };
 
 export const scale: Writable<number> = writable(1);

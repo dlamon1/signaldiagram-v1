@@ -1,9 +1,15 @@
-import { updateSnapPoints } from './../store';
+import { updateSnapPoints } from "./../store";
 import { get } from "svelte/store";
 
 // import { SelectableObjects } from "./SelectableObjectsClass";
 
-import type { PanelObj, ColorObj, LoadPanelObj } from "../Types/ClassTypes";
+import type {
+  PanelObj,
+  ColorObj,
+  LoadPanelObj,
+  ColorObjKey,
+  PanelsType,
+} from "../Types/ClassTypes";
 
 import {
   isCtrl,
@@ -19,9 +25,7 @@ import {
   isShifted,
 } from "../store";
 
-
-
-export class Panels {
+export class Panels implements PanelsType {
   array = [];
 
   setArrayFromLoad(array: LoadPanelObj[]) {
@@ -47,7 +51,7 @@ export class Panels {
   updatePanelArray = () => {
     const snapPoints = get(snapPointsStore);
 
-    snapPoints.resetArray()
+    snapPoints.resetArray();
     this.resetArray();
 
     let snapPointIndex = 0;
@@ -65,30 +69,24 @@ export class Panels {
           snapPointIndex += 1;
         }
 
-        this.addPanel(
-          i,
-          j,
-          count,
-          thisPanelsSnapPointsIndexes,
-          null
-        );
+        this.addPanel(i, j, count, thisPanelsSnapPointsIndexes, null);
 
         count++;
       }
     }
 
     updatePanels();
-    updateSnapPoints()
+    updateSnapPoints();
   };
 
-  addPanel(i: number, j: number, count: number, thisPanelsSnapPoints: number[], colorObj: ColorObj) {
-    const newPanel = new Panel(
-      i,
-      j,
-      count,
-      thisPanelsSnapPoints,
-      colorObj
-    );
+  addPanel(
+    i: number,
+    j: number,
+    count: number,
+    thisPanelsSnapPoints: number[],
+    colorObj: ColorObj
+  ) {
+    const newPanel = new Panel(i, j, count, thisPanelsSnapPoints, colorObj);
     this.array.push(newPanel);
   }
 
@@ -125,11 +123,9 @@ export class Panels {
   };
 }
 
-type ColorObjKey = "background" | "border" | "font";
-
 export class Panel implements PanelObj {
   row: number;
-  column: number
+  column: number;
   i: number;
   thisPanelsSnapPoints = [];
   colorIndex = 0;
@@ -146,7 +142,13 @@ export class Panel implements PanelObj {
   width: number;
   height: number;
 
-  constructor(i: number, j: number, count: number, thisPanelsSnapPoints: number[], colorObj:ColorObj ) {
+  constructor(
+    i: number,
+    j: number,
+    count: number,
+    thisPanelsSnapPoints: number[],
+    colorObj: ColorObj
+  ) {
     this.row = i;
     this.column = j;
     this.i = count;
@@ -166,7 +168,7 @@ export class Panel implements PanelObj {
   setIsHovered(boolean: boolean) {
     this.isHovered = boolean;
   }
- 
+
   setColor(key: ColorObjKey, color: string) {
     this.color[key] = color;
   }
