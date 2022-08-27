@@ -12,6 +12,7 @@
     height,
     columns,
     rows,
+    isShifted,
   } from "../store";
 
   import * as d3 from "d3";
@@ -23,6 +24,7 @@
   const deSelectAll = (e) => {
     // console.log("DESELECT");
     // console.log(e);
+    if ($isShifted) return;
     $panels.deSelect();
     $signalLines.deSelect();
     $snapPoints.deSelect();
@@ -40,8 +42,8 @@
       .attr("height", $canvasWrapperHeight)
       .on("mouseup", () => {
         setIsDrawingSignalLine(false);
-      });
-    // .on("click", deSelectAll);
+      })
+      .on("click", deSelectAll);
 
     $gZoomWrapperRef = $topLevelSvgRef
       .append("g")
