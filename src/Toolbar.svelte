@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Mode from "./EditToolbar/Toolbar.Mode.svelte";
   import General from "./EditToolbar/Toolbar.General.svelte";
   import Panels from "./EditToolbar/Toolbar.Panels.svelte";

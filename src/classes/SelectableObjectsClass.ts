@@ -3,6 +3,8 @@ import {
 } from "../store";
 
 export class SelectableObjects {
+  array = [];
+  
   deSelect = () => {
     this.array.forEach((o) => o.setIsSelected(false));
     updatePanels();

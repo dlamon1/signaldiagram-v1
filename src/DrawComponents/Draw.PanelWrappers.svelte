@@ -66,17 +66,9 @@
     let rects = $groupsEnter
       .append("rect")
       .merge($groups.select("rect"))
-      .attr("id", (d) => {
-        "panel-rectangle" + d.i;
-      })
       .attr("x", 0)
       .attr("y", 0)
-      .attr("width", (d) => {
-        if (d.isSelected) {
-          // console.log(d);
-        }
-        return d.width;
-      })
+      .attr("width", (d) => d.width)
       .attr("height", (d) => d.height)
       .attr("fill", (d) => d.color.background)
       .attr("stroke", (d) => d.color.border)
@@ -111,11 +103,11 @@
 
         setIsDrawingSignalLine(false);
       })
-      .on("click", function (d, i, n) {
+      .on("click", (e) => {
         if ($isDrawMode) return;
-        d.stopPropagation();
+        e.stopPropagation();
         if ($isSelectMode && !$isDrawingSignalLine) {
-          $panelsClass.selectPanels([d.target.__data__.i]);
+          $panelsClass.selectPanels([e.target.__data__.i]);
         }
       });
 

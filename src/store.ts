@@ -4,6 +4,8 @@ import { SignalLines } from "./classes/SignalLinesClass";
 import { Panels } from "./classes/PanelsClass";
 import { SnapPoints } from "./classes/SnapPointsClass";
 
+import type { PanelObj, SnapPointObj, SignalLineObj } from "./Types/ClassTypes";
+
 import type * as d3 from 'd3'
 
 import type { Writable } from "svelte/store";
@@ -12,14 +14,14 @@ export const topLevelSvgRef = writable(null);
 export const gZoomWrapperRef = writable(null);
 
 export const groups = writable(null);
-export const groupsEnter = writable(null);
+export const groupsEnter:Writable <d3.Selection<SVGGElement, PanelObj, HTMLElement, any>> = writable(null);
 
 export const snapPointsGroupRef = writable(null);
-export const snapPointsGroupEnterRef = writable(null);
+export const snapPointsGroupEnterRef: Writable <d3.Selection<SVGGElement, SnapPointObj, HTMLElement, any>> = writable(null);
 export const snapPointPathRef = writable(null);
 
 export const linesGroupRef = writable(null);
-export const linesGroupEnterRef: Writable <d3.Selection<SVGGElement, unknown, HTMLElement, any>> = writable(null);
+export const linesGroupEnterRef: Writable <d3.Selection<SVGGElement, SignalLineObj, HTMLElement, any>> = writable(null);
 
 export const temporarySignalLine = writable(null);
 

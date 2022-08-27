@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import {
     signalLines as signalLinesClass,
     snapPoints as snapPointsClass,
@@ -21,6 +21,8 @@
   let selectedColor = "rgba(241, 89, 70, 1)";
 
   import * as d3 from "d3";
+
+  import type { SnapPointObj } from "../Types/ClassTypes";
 
   $: {
     let t = [
@@ -48,7 +50,7 @@
     $snapPointsGroupEnterRef = $snapPointsGroupRef
       .enter()
       .append("g")
-      .attr("id", (d, i) => "snap-point" + i)
+      .attr("id", (_: SnapPointObj, i: number) => "snap-point" + i)
       .classed("snap-point-wrapper", true)
       .raise();
 
@@ -214,7 +216,7 @@
       });
   };
 
-  const drawPathTriangle = (r) => {
+  const drawPathTriangle = (r: number) => {
     let length = 2 * r;
 
     let trianglePath =
@@ -233,7 +235,7 @@
     return trianglePath;
   };
 
-  const drawPathSquare = (r) => {
+  const drawPathSquare = (r: number) => {
     console.log(r);
     r = 2 * r;
     let l = 2 * r;
@@ -254,7 +256,7 @@
     return rectPath;
   };
 
-  const drawPathCircle = (r) => {
+  const drawPathCircle = (r: number) => {
     // let r = d.radius * 1.5;
     let circlePath =
       "M " +

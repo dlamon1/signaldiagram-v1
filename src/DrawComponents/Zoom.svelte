@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { onMount } from "svelte";
   import * as d3 from "d3";
 
@@ -15,20 +15,20 @@
     height,
   } from "../store";
 
-  let zoom = d3
-    .zoom()
-    .scaleExtent([0.25, $canvasWrapperHeight / $width])
-    // .translateExtent([
-    //   [0, 0],
-    //   [$canvasWrapperWidth, $canvasWrapperHeight],
-    // ])
-    .on("zoom", handleZoom);
-
   $: {
     let t = [$columns, $rows, $width, $height];
 
     centerScreen();
   }
+
+  let zoom = d3
+    .zoom()
+    .scaleExtent([0.25, $canvasWrapperHeight / $width])
+    // .translateExtent([
+    //   [-100, -100],
+    //   [$canvasWrapperWidth, $canvasWrapperHeight],
+    // ])
+    .on("zoom", handleZoom);
 
   const centerScreen = () => {
     let k = $canvasWrapperWidth / $columns / $width;
@@ -41,7 +41,7 @@
     d3.select("svg")
       .transition()
       .duration(500)
-      .call(zoom.transform, d3.zoomIdentity.scale(k).translate(x, y));
+      .call(zoom.transform as any, d3.zoomIdentity.scale(k).translate(x, y));
   };
 
   function handleZoom(e) {

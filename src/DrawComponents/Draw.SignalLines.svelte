@@ -22,6 +22,8 @@
 
   import * as d3 from "d3";
 
+  import type { SignalLineObj } from "../Types/ClassTypes";
+
   $: {
     // console.log("triggered");
     let t = [
@@ -43,12 +45,12 @@
     // Signal Line Wrapper
     $linesGroupRef = $gZoomWrapperRef
       .selectAll("g.signal-line")
-      .data($signalLinesClass.array, (d) => d.i);
+      .data($signalLinesClass.array, (d: SignalLineObj) => d.i);
 
     $linesGroupEnterRef = $linesGroupRef
       .enter()
       .append("g")
-      .attr("id", (d) => "line-group" + d.i)
+      .attr("id", (d: SignalLineObj) => "line-group" + d.i)
       .classed("signal-line", true);
 
     $linesGroupEnterRef.merge($linesGroupRef).transition();
@@ -79,8 +81,8 @@
         "y2",
         (d, i) => $signalLinesClass.getSnapPointCoordinates(i, "destination").y
       )
-      .attr("stroke", function () {
-        if (this.isSelected) {
+      .attr("stroke", (d) => {
+        if (d.isSelected) {
           return selectedColor;
         } else {
           return "none";
@@ -88,17 +90,17 @@
       })
       .attr("stroke-width", (d) => d.lineWidth * 2)
       .attr("pointer-events", "visible")
-      .on("mouseover", (e, d) => {
+      .on("mouseover", (e) => {
         e.stopPropagation();
         $isSelectMode &&
           !$isDrawingSignalLine &&
           d3.select(e.path[0]).attr("stroke", hoveredColor);
       })
-      .on("mouseout", (e) => {
+      .on("mouseout", (e, d) => {
         e.stopPropagation();
         $isSelectMode &&
           !$isDrawingSignalLine &&
-          d3.select(e.path[0]).attr("stroke", function (d) {
+          d3.select(e.path[0]).attr("stroke", () => {
             if (d.isSelected) {
               return selectedColor;
             } else {

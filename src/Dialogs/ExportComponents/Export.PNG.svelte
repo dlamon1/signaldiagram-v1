@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { tick } from "svelte";
   import { saveAs } from "file-saver";
 
@@ -47,7 +47,7 @@
     clonedZoomWrapper = p.select("g");
 
     d3.select("#print").call(
-      zoom.transform,
+      zoom.transform as any,
       d3.zoomIdentity.scale(1).translate(0, 0)
     );
 
@@ -112,7 +112,7 @@
 
           var cssRules = s.cssRules;
           for (var r = 0; r < cssRules.length; r++) {
-            if (contains(cssRules[r].selectorText, selectorTextArr))
+            if (contains(cssRules[r].cssText, selectorTextArr))
               extractedCSSText += cssRules[r].cssText;
           }
         }
@@ -152,7 +152,7 @@
         context.drawImage(image, 0, 0, width, height);
 
         canvas.toBlob(function (blob) {
-          var filesize = Math.round(blob.length / 1024) + " KB";
+          var filesize = Math.round(blob.size / 1024) + " KB";
           if (callback) callback(blob, filesize);
         });
       };

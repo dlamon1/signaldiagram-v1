@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { isChrome } from "../store";
   let isOpen = true;
 

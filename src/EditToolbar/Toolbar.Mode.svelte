@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { mode, isSelectMode, isDrawMode } from "../store";
 
   $: {

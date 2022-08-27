@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import {
     textInputRef,
     snapPointLabel,
@@ -23,7 +23,7 @@
   const handleRemoveLabel = () => {
     $snapPointsClass.array.forEach((snapPoint) => {
       if (snapPoint.isSelected) {
-        $snapPointsClass.removeLabel(snapPoint);
+        $snapPointsClass.removeLabel();
       }
     });
     $snapPointsClass = $snapPointsClass;
@@ -48,20 +48,16 @@
   // }
 </script>
 
-<div
-  id="snappoints"
-  in:fade={{ x: 100, duration: 150 }}
-  out:fade={{ x: 0, duration: 0 }}
->
+<div id="snappoints" in:fade={{ duration: 150 }} out:fade={{ duration: 0 }}>
   <div class="shape-button-container">
-    <button id="shape-button" on:click={$snapPointsClass.setIsSquares(true)}
-      >Square</button
+    <button
+      id="shape-button"
+      on:click={() => $snapPointsClass.setIsSquares(true)}>Square</button
     >
-    <!-- </div> -->
 
-    <!-- <div class="shape-button-container"> -->
-    <button id="shape-button" on:click={$snapPointsClass.setIsTriangles(true)}
-      >Triangle</button
+    <button
+      id="shape-button"
+      on:click={() => $snapPointsClass.setIsTriangles(true)}>Triangle</button
     >
   </div>
 
@@ -93,7 +89,7 @@
       />
     </div>
 
-    <div id="delete-button" transition:fade={{ y: -10, duration: 300 }}>
+    <div id="delete-button" transition:fade={{ duration: 300 }}>
       <button on:click={handleRemoveLabel}>Remove Label</button>
     </div>
   {/if}
@@ -111,11 +107,6 @@
 
   .label-input-header {
     margin-right: 10px;
-  }
-
-  .title {
-    font-size: 1.2em;
-    font-weight: bold;
   }
 
   #delete-button {

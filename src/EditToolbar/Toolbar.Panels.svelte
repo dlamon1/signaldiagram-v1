@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { fade } from "svelte/transition";
 
   import { panels, updatePanels } from "../store";
@@ -26,11 +26,7 @@
   };
 </script>
 
-<div
-  id="panels"
-  in:fade={{ x: 100, duration: 150 }}
-  out:fade={{ x: 0, duration: 0 }}
->
+<div id="panels" in:fade={{ duration: 150 }} out:fade={{ duration: 0 }}>
   <div class="crisscross">
     <button class="criss-cross" on:click={selectCriss}>Select [0]</button>
     <button class="criss-cross" on:click={selectCross}>select [1]</button>
@@ -55,10 +51,6 @@
     justify-content: space-around;
     align-items: center;
     margin-top: 10px;
-  }
-  .title {
-    font-size: 1.2em;
-    font-weight: bold;
   }
   #panels {
     position: absolute;

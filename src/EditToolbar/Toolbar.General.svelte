@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { columns, rows, width, height } from "../store";
 </script>
 

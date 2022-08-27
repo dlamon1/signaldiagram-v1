@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { showCoordinates, isRearView, opacity } from "../store";
 </script>
 

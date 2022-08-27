@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { colorButtons, colorState } from "../../store";
   import { fly } from "svelte/transition";
 

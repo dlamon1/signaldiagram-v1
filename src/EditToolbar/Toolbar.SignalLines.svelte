@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { fade } from "svelte/transition";
   import {
     signalLines as signalLinesClass,
@@ -40,11 +40,7 @@
   let isLineOpen = true;
 </script>
 
-<div
-  id="signallines"
-  in:fade={{ x: 100, duration: 150 }}
-  out:fade={{ x: 0, duration: 40 }}
->
+<div id="signallines" in:fade={{ duration: 150 }} out:fade={{ duration: 40 }}>
   <div class="input-wrapper">
     <input type="checkbox" bind:checked={$showDirectionArrows} />
     Show Direction Arrows
@@ -73,13 +69,6 @@
   .remove-lines-container {
     display: flex;
     justify-content: center;
-    margin-top: 10px;
-  }
-  .title {
-    font-size: 1.2em;
-    font-weight: bold;
-  }
-  .subtitle {
     margin-top: 10px;
   }
   #signallines {

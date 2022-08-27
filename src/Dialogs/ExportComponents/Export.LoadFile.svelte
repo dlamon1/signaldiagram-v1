@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { onMount, tick } from "svelte";
   import {
     panels,
@@ -93,18 +93,5 @@
     overflow: hidden;
     position: absolute;
     z-index: -1;
-  }
-  .has-advanced-upload {
-    background-color: white;
-    outline: 2px dashed black;
-    outline-offset: -10px;
-    height: 150px;
-    width: 175px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .has-advanced-upload .box__dragndrop {
-    display: inline;
   }
 </style>

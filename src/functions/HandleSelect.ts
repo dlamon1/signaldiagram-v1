@@ -14,7 +14,7 @@ export const handleDragSelect = (event, xOrigin: number, yOrigin: number) => {
   let x2 = xOrigin;
   let y2 = yOrigin;
 
-  let t = get(transform);
+  const t = get(transform);
 
   // using get(transform) apply the transform to the coordinates
   x1 = event.x / t.k - t.x / t.k;
@@ -24,13 +24,13 @@ export const handleDragSelect = (event, xOrigin: number, yOrigin: number) => {
 
   // check which objects are selecting
   if (get(selection) === "panels") {
-    let indexesOfPanelsInsideSelection = checkForSelectedPanels(x1, y1, x2, y2);
+    const indexesOfPanelsInsideSelection = checkForSelectedPanels(x1, y1, x2, y2);
     get(panelsClass).selectPanels(indexesOfPanelsInsideSelection);
     return;
   }
 
   if (get(selection) === "snappoints") {
-    let indexesOfSnapPointsInsideSelection = checkForSelectedSnapPoints(
+    const indexesOfSnapPointsInsideSelection = checkForSelectedSnapPoints(
       x1,
       y1,
       x2,
@@ -41,7 +41,7 @@ export const handleDragSelect = (event, xOrigin: number, yOrigin: number) => {
   }
 
   if (get(selection) === "signallines") {
-    let indexesOfSignalLinesInsideSelection = checkForSelectedSignalLines(
+    const indexesOfSignalLinesInsideSelection = checkForSelectedSignalLines(
       x1,
       y1,
       x2,
@@ -60,8 +60,8 @@ export const checkForSelectedPanels = (
   xDestination: number,
   yDestination: number
 ) => {
-  let p = get(panelsClass);
-  let panels = p.array;
+  const p = get(panelsClass);
+  const panels = p.array;
 
   let x1: number = null;
   let y1: number = null;
@@ -73,9 +73,9 @@ export const checkForSelectedPanels = (
   xOrigin > xDestination ? (x2 = xOrigin) : (x2 = xDestination);
   yOrigin > yDestination ? (y2 = yOrigin) : (y2 = yDestination);
 
-  let indexesOfPanelsInsideSelection = [];
+  const indexesOfPanelsInsideSelection = [];
 
-  panels.forEach((panel, i) => {
+  panels.forEach((panel) => {
     if (
       panel.x >= x1 &&
       panel.x + panel.width <= x2 &&
@@ -105,10 +105,10 @@ export const checkForSelectedSnapPoints = (
   xOrigin > xDestination ? (x2 = xOrigin) : (x2 = xDestination);
   yOrigin > yDestination ? (y2 = yOrigin) : (y2 = yDestination);
 
-  let indexesOfSnapPointsInsideSelection = [];
+  const indexesOfSnapPointsInsideSelection = [];
 
-  let sp = get(snapPointsClass);
-  let snapPoints = sp.array;
+  const sp = get(snapPointsClass);
+  const snapPoints = sp.array;
 
   snapPoints.forEach((snapPoint, i) => {
     if (
@@ -131,12 +131,12 @@ export const checkForSelectedSignalLines = (
   yDestination: number
 ) => {
   const checkIfPointIsWithinBounds = (snapPointIndex: number) => {
-    let snapPoint = get(snapPointsClass).array[snapPointIndex];
-    let panel = get(panelsClass).array[snapPoint.panelIndex];
-    let panelX = panel.x;
-    let panelY = panel.y;
+    const snapPoint = get(snapPointsClass).array[snapPointIndex];
+    const panel = get(panelsClass).array[snapPoint.panelIndex];
+    const panelX = panel.x;
+    const panelY = panel.y;
 
-    let point = {
+    const point = {
       x: panelX + snapPoint.x,
       y: panelY + snapPoint.y,
     };
@@ -156,7 +156,7 @@ export const checkForSelectedSignalLines = (
     return false;
   };
 
-  let _signalLines = [];
+  const _signalLines = [];
 
   if (get(isCtrl)) {
     // _signalLines.push(...get(selectedSignalLines));

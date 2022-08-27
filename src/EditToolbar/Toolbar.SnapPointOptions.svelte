@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { snapPointsQuantity, snapPointDirection } from "../store";
 </script>
 

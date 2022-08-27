@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import {
     panels,
     snapPointsQuantity,
@@ -23,8 +23,6 @@
       isRearView: $isRearView,
       snapPointsQuantity: $snapPointsQuantity,
       snapPointDirection: $snapPointDirection,
-      columns: $columns,
-      rows: $rows,
       width: $width,
       height: $height,
       panels: $panels,
