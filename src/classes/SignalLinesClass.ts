@@ -12,7 +12,7 @@ import {
   setSelection,
   updatePanels,
 } from "../store";
-import type { ColorObj, LoadSignalLineObj, SignalLineObj } from "../Types/ClassTypes";
+import type { LoadSignalLineObj, SignalLineObj, SnapPointCoordinates } from "../Types/ClassTypes";
 
 type SnapPointCoordinatesKey = 'origin' | 'destination';
 
@@ -31,7 +31,6 @@ export class SignalLines {
     y: null,
   };
   array = [];
-  currentlyDrawing = null;
 
   setArrayFromLoad(signaLineArray: LoadSignalLineObj[]) {
     this.array = [];
@@ -83,7 +82,6 @@ export class SignalLines {
   }
 
   setOriginSnapPointIndex(e) {
-    // console.log(e);
     const obj = e.path[0].__data__;
 
     const panelIndex = this.getPanelIndex(obj.row, obj.column);
@@ -111,10 +109,6 @@ export class SignalLines {
     this.mouse.x = e.x;
     this.mouse.y = e.y;
     updateSignalLines();
-  }
-
-  setCurrentlyDrawing(signalLine) {
-    this.currentlyDrawing = signalLine;
   }
 
   addSignalLine() {
@@ -191,31 +185,28 @@ class SignalLine implements SignalLineObj {
   origin = {
     x: 0,
     y: 0,
-    snapPointIndex: null,
-    panelIndex: null,
-  };
-  end = {
-    x: 0,
-    y: 0,
-    snapPointIndex: null,
-    panelIndex: null,
+    snapPointIndex: 0,
+    panelIndex: 0,
   };
   destination = {
-    panelIndex: null,
-    snapPointIndex: null,
+    x: 0,
+    y: 0,
+    panelIndex: 0,
+    snapPointIndex: 0,
   };
   color = {
     background: "#0f0",
-    // background: "#000",
+    border: '#000',
+    font: '#fff'
   };
   i: number;
   lineWidth = 8;
   isSelected = false;
 
-  constructor(origin, destinationSnapPointIndex) {
+  constructor(origin: SnapPointCoordinates, destinationSnapPointIndex: number) {
     this.origin.snapPointIndex = origin.snapPointIndex;
     this.origin.panelIndex = origin.panelIndex;
-    this.destination.snapPointIndex = destinationSnapPointIndex; // this.origin = origin;
+    this.destination.snapPointIndex = destinationSnapPointIndex;
     this.i = get(signalLines).array.length;
     this.color.background = get(colorState).signalLine.background;
     this.lineWidth =
@@ -230,8 +221,6 @@ class SignalLine implements SignalLineObj {
   setEndCoordinates(e) {
     const panel = e.path[1].__data__;
     const indexOfPoint = e.path[0].__data__;
-    const point = get(snapPoints).array[indexOfPoint];
-
     this.destination.snapPointIndex = indexOfPoint;
     this.destination.panelIndex = panel.i;
   }

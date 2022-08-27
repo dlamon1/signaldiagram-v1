@@ -4,24 +4,24 @@ import { SignalLines } from "./classes/SignalLinesClass";
 import { Panels } from "./classes/PanelsClass";
 import { SnapPoints } from "./classes/SnapPointsClass";
 
+import type * as d3 from 'd3'
+
 import type { Writable } from "svelte/store";
 
 export const topLevelSvgRef = writable(null);
 export const gZoomWrapperRef = writable(null);
-export const panelWrappersRef = writable(null);
-export const selectedPanelRectsRef = writable(null);
-export const snapPointsWrapper = writable(null);
-export const snapPointBaseCircles = writable(null);
-export const selectedSnapPointCirclesRef = writable(null);
-export const coordinatesRef = writable(null);
-export const temporarySignalLine = writable(null);
+
 export const groups = writable(null);
 export const groupsEnter = writable(null);
+
 export const snapPointsGroupRef = writable(null);
 export const snapPointsGroupEnterRef = writable(null);
 export const snapPointPathRef = writable(null);
+
 export const linesGroupRef = writable(null);
-export const linesGroupEnterRef = writable(null);
+export const linesGroupEnterRef: Writable <d3.Selection<SVGGElement, unknown, HTMLElement, any>> = writable(null);
+
+export const temporarySignalLine = writable(null);
 
 export const opacity: Writable<number> = writable(0.1);
 
@@ -40,6 +40,11 @@ export const transform: Writable<TransformObj> = writable({
 
 export const isDrawingSignalLine: Writable<boolean> = writable(false);
 export const setIsDrawingSignalLine = (s: boolean) => {
+  isDrawingSignalLine.update(() => (s));
+};
+
+export const isDrawingSelectLine: Writable<boolean> = writable(false);
+export const setIsDrawingSelectLine = (s: boolean) => {
   isDrawingSignalLine.update(() => (s));
 };
 

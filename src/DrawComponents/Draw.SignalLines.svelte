@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import {
     signalLines as signalLinesClass,
     snapPoints as snapPointsClass,
@@ -79,8 +79,8 @@
         "y2",
         (d, i) => $signalLinesClass.getSnapPointCoordinates(i, "destination").y
       )
-      .attr("stroke", (d) => {
-        if (d.isSelected) {
+      .attr("stroke", function () {
+        if (this.isSelected) {
           return selectedColor;
         } else {
           return "none";
@@ -98,7 +98,7 @@
         e.stopPropagation();
         $isSelectMode &&
           !$isDrawingSignalLine &&
-          d3.select(e.path[0]).attr("stroke", (d) => {
+          d3.select(e.path[0]).attr("stroke", function (d) {
             if (d.isSelected) {
               return selectedColor;
             } else {

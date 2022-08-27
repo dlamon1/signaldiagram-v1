@@ -8,9 +8,7 @@ import {
   transform,
 } from "../store";
 
-import { focusLabelInput } from "./focusInput";
-
-export const handleDragSelect = (event, xOrigin, yOrigin) => {
+export const handleDragSelect = (event, xOrigin: number, yOrigin: number) => {
   let x1 = event.x;
   let y1 = event.y;
   let x2 = xOrigin;
@@ -57,18 +55,18 @@ export const handleDragSelect = (event, xOrigin, yOrigin) => {
 };
 
 export const checkForSelectedPanels = (
-  xOrigin,
-  yOrigin,
-  xDestination,
-  yDestination
+  xOrigin: number,
+  yOrigin: number,
+  xDestination: number,
+  yDestination: number
 ) => {
   let p = get(panelsClass);
   let panels = p.array;
 
-  let x1;
-  let y1;
-  let x2;
-  let y2;
+  let x1: number = null;
+  let y1: number = null;
+  let x2: number = null;
+  let y2: number = null;
 
   xOrigin < xDestination ? (x1 = xOrigin) : (x1 = xDestination);
   yOrigin < yDestination ? (y1 = yOrigin) : (y1 = yDestination);
@@ -92,15 +90,15 @@ export const checkForSelectedPanels = (
 };
 
 export const checkForSelectedSnapPoints = (
-  xOrigin,
-  yOrigin,
-  xDestination,
-  yDestination
+  xOrigin: number,
+  yOrigin: number,
+  xDestination: number,
+  yDestination: number
 ) => {
-  let x1;
-  let y1;
-  let x2;
-  let y2;
+  let x1: number = null;
+  let y1: number = null;
+  let x2: number = null;
+  let y2: number = null;
 
   xOrigin < xDestination ? (x1 = xOrigin) : (x1 = xDestination);
   yOrigin < yDestination ? (y1 = yOrigin) : (y1 = yDestination);
@@ -127,12 +125,12 @@ export const checkForSelectedSnapPoints = (
 };
 
 export const checkForSelectedSignalLines = (
-  xOrigin,
-  yOrigin,
-  xDestination,
-  yDestination
+  xOrigin: number,
+  yOrigin: number,
+  xDestination: number,
+  yDestination: number
 ) => {
-  const checkIfPointIsWithinBounds = (snapPointIndex) => {
+  const checkIfPointIsWithinBounds = (snapPointIndex: number) => {
     let snapPoint = get(snapPointsClass).array[snapPointIndex];
     let panel = get(panelsClass).array[snapPoint.panelIndex];
     let panelX = panel.x;
@@ -143,11 +141,11 @@ export const checkForSelectedSignalLines = (
       y: panelY + snapPoint.y,
     };
 
-    let x1;
-    let y1;
-    let x2;
-    let y2;
-    xOrigin < xDestination ? (x1 = xOrigin) : (x1 = xDestination);
+    let x1: number = null;
+    let y1: number = null;
+    let x2: number = null;
+    let y2: number = null;
+      xOrigin < xDestination ? (x1 = xOrigin) : (x1 = xDestination);
     yOrigin < yDestination ? (y1 = yOrigin) : (y1 = yDestination);
     xOrigin > xDestination ? (x2 = xOrigin) : (x2 = xDestination);
     yOrigin > yDestination ? (y2 = yOrigin) : (y2 = yDestination);

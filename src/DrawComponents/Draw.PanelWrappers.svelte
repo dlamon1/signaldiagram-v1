@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import {
     signalLines as signalLinesClass,
     snapPoints as snapPointsClass,

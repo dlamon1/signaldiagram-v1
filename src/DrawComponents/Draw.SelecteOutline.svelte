@@ -1,16 +1,17 @@
-<script>
-  import { onMount } from "svelte";
+<script lang="ts">
   import * as d3 from "d3";
   import {
     canvasWrapperWidth,
     canvasWrapperHeight,
     isShifted,
     topLevelSvgRef,
+    isDrawingSelectLine,
+    setIsDrawingSelectLine,
   } from "../store";
 
   import { handleDragSelect } from "../functions/HandleSelect";
 
-  let selectBoxOutline;
+  let selectBoxOutline: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
 
   $: {
     $isShifted && drawOutline();
@@ -23,7 +24,6 @@
   };
 
   const drawOutline = () => {
-    // console.log("draw box outline");
     if (!$topLevelSvgRef) return;
 
     selectBoxOutline = d3
@@ -52,10 +52,9 @@
       });
   };
 
-  let isDrawingSelectLine = false;
-  let selectBox;
-  let xOrigin;
-  let yOrigin;
+  let selectBox: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
+  let xOrigin: number = null;
+  let yOrigin: number = null;
 
   const handleSelectMouseMove = (e) => {
     if (!isDrawingSelectLine || !selectBox) return;
@@ -78,7 +77,6 @@
   const handleSelectMouseDown = (e) => {
     xOrigin = e.x;
     yOrigin = e.y;
-    isDrawingSelectLine = true;
     selectBox = selectBoxOutline
       .append("path")
       .attr("id", "select-box")
@@ -87,12 +85,13 @@
       .attr("stroke", "red")
       .attr("stroke-width", 2)
       .attr("stroke-dasharray", "5,5");
+    setIsDrawingSelectLine(true);
   };
 
   const handleSelectMouseUp = (e) => {
     selectBox.remove();
-    isDrawingSelectLine = false;
     selectBox = null;
     handleDragSelect(e, xOrigin, yOrigin);
+    setIsDrawingSelectLine(false);
   };
 </script>

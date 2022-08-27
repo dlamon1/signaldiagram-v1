@@ -1,7 +1,7 @@
-<script>
-  export let title;
-  export let x;
-  export let y;
+<script lang="ts">
+  export let title: string;
+  export let x: number;
+  export let y: number;
 
   let clientWidth = document.documentElement.clientWidth;
   let clientHeight = document.documentElement.clientHeight;

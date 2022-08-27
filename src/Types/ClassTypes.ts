@@ -49,7 +49,7 @@ export interface PanelObj {
     label: string;
   }
 
-  type SnapPointCoordinates = {
+  export type SnapPointCoordinates = {
     x: number;
     y: number;
     snapPointIndex: number;
@@ -98,8 +98,8 @@ export interface PanelObj {
 
   export interface SignalLineObj {
     i: number
-    origin: SnapPointObj;
-    destination: SnapPointObj;
+    origin: SnapPointCoordinates;
+    destination: SnapPointCoordinates;
     color: ColorObj;
     lineWidth: number;
     isSelected: boolean;
