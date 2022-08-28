@@ -145,7 +145,7 @@
   .divider {
     height: 1px;
     background-color: #ccc;
-    margin: 10px 0;
+    margin-top: 10px;
   }
   #mode {
     margin-top: 0px;

@@ -20,11 +20,11 @@
       ($snapPointsClass = $snapPointsClass);
   };
 
-  const updateSelectedSnapPointsColor = (colorObj) => {
+  const updateSelectedSnapPointsColor = () => {
     $snapPointsClass.array.forEach((sp, i) => {
       if (!sp.isSelected) return;
-      sp.setBackgroundColor(colorObj.background);
-      sp.setFontColor(colorObj.font);
+      sp.setBackgroundColor($colorState.snapPoint.background);
+      sp.setFontColor($colorState.snapPoint.font);
     });
     $snapPointsClass = $snapPointsClass;
   };
@@ -63,6 +63,7 @@
   $: {
     let t = [$colorState]
     updatePanelColor();
+    updateSelectedSnapPointsColor()
   }
 
   // $: {

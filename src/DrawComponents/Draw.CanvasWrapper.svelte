@@ -22,7 +22,7 @@
   import { onMount } from "svelte";
 
   const deSelectAll = (e) => {
-    if (isShifted) return;
+    if ($isShifted) return;
     $panels.deSelect();
     $signalLines.deSelect();
     $snapPoints.deSelect();
