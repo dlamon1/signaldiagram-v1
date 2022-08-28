@@ -42,8 +42,8 @@
   const updatePanelColor = () => {
     $panels.array.forEach((p) => {
       if (p.isSelected) {
-        console.count('is selecteed')
-        $panels.array[p.i].setColorObj($colorState.panel);
+        console.count('is selected')
+        $panels.array[p.i].setColor("background", $colorState.panel.background);
       }
     });
     $panels = $panels;
