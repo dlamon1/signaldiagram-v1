@@ -24,7 +24,12 @@ export const handleDragSelect = (event, xOrigin: number, yOrigin: number) => {
 
   // check which objects are selecting
   if (get(selection) === "panels") {
-    const indexesOfPanelsInsideSelection = checkForSelectedPanels(x1, y1, x2, y2);
+    const indexesOfPanelsInsideSelection = checkForSelectedPanels(
+      x1,
+      y1,
+      x2,
+      y2
+    );
     get(panelsClass).selectPanels(indexesOfPanelsInsideSelection);
     return;
   }
@@ -145,7 +150,7 @@ export const checkForSelectedSignalLines = (
     let y1: number = null;
     let x2: number = null;
     let y2: number = null;
-      xOrigin < xDestination ? (x1 = xOrigin) : (x1 = xDestination);
+    xOrigin < xDestination ? (x1 = xOrigin) : (x1 = xDestination);
     yOrigin < yDestination ? (y1 = yOrigin) : (y1 = yDestination);
     xOrigin > xDestination ? (x2 = xOrigin) : (x2 = xDestination);
     yOrigin > yDestination ? (y2 = yOrigin) : (y2 = yDestination);

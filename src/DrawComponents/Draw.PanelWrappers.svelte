@@ -104,6 +104,7 @@
         setIsDrawingSignalLine(false);
       })
       .on("click", (e) => {
+        console.log('click')
         if ($isDrawMode) return;
         e.stopPropagation();
         if ($isSelectMode && !$isDrawingSignalLine) {

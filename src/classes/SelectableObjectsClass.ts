@@ -1,14 +1,12 @@
-import {
-  updatePanels,
-} from "../store";
+import { updatePanels } from "../store";
 
 export class SelectableObjects {
   array = [];
-  
-  deSelect = () => {
-    this.array.forEach((o) => o.setIsSelected(false));
-    updatePanels();
-  };
+
+  // deSelect = () => {
+  //   this.array.forEach((o) => o.setIsSelected(false));
+  //   updatePanels();
+  // };
 
   // selectObjects = (arrayOfIndexes) => {
   //   let snapPointsClass = get(snapPointsStore);

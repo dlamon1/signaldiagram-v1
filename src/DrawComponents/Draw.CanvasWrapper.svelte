@@ -12,6 +12,7 @@
     height,
     columns,
     rows,
+    isShifted
   } from "../store";
 
   import * as d3 from "d3";
@@ -21,6 +22,7 @@
   import { onMount } from "svelte";
 
   const deSelectAll = (e) => {
+    if (isShifted) return;
     $panels.deSelect();
     $signalLines.deSelect();
     $snapPoints.deSelect();

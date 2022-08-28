@@ -89,9 +89,9 @@
   };
 
   const handleSelectMouseUp = (e) => {
-    selectBox.remove();
-    selectBox = null;
     handleDragSelect(e, xOrigin, yOrigin);
     setIsDrawingSelectLine(false);
+    selectBox.remove();
+    selectBox = null;
   };
 </script>

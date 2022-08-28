@@ -44,11 +44,13 @@ export class Panels implements PanelsType {
   }
 
   deSelect = () => {
+    console.log("deselect");
     this.array.forEach((o) => o.setIsSelected(false));
     updatePanels();
   };
 
   updatePanelArray = () => {
+    // console.log("updatePanelArray");
     const snapPoints = get(snapPointsStore);
 
     snapPoints.resetArray();
@@ -107,7 +109,7 @@ export class Panels implements PanelsType {
       arrayOfCurrent.push(current);
     });
 
-    if (!get(isCtrl) || !get(isShifted)) {
+    if (!get(isCtrl)) {
       this.array.forEach((panel) => {
         panel.setIsSelected(false);
       });
@@ -174,6 +176,8 @@ export class Panel implements PanelObj {
   }
 
   setIsSelected(boolean: boolean) {
+    console.log(boolean);
+
     this.isSelected = boolean;
   }
 
