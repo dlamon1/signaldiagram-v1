@@ -237,7 +237,6 @@
   };
 
   const drawPathSquare = (r: number) => {
-    console.log(r);
     r = 2 * r;
     let l = 2 * r;
     let rectPath =

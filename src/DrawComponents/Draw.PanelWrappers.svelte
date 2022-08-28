@@ -66,10 +66,10 @@
     let rects = $groupsEnter
       .append("rect")
       .merge($groups.select("rect"))
-      .attr("x", 0)
-      .attr("y", 0)
-      .attr("width", (d) =>  d.width )
-      .attr("height", (d) => d.height )
+      .attr("x",(d) => d.lineWidth)
+      .attr("y",(d) =>  d.lineWidth)
+      .attr("width", (d) =>  d.width - d.lineWidth)
+      .attr("height", (d) => d.height - d.lineWidth)
       .attr("fill", (d) => d.color.background)
       .attr("stroke", (d) => d.color.border)
       .attr("stroke-width", (d) => d.lineWidth)
@@ -104,7 +104,6 @@
         setIsDrawingSignalLine(false);
       })
       .on("click", (e) => {
-        console.log('click')
         if ($isDrawMode) return;
         e.stopPropagation();
         if ($isSelectMode && !$isDrawingSignalLine) {
@@ -132,6 +131,7 @@
       .attr("y", (d) => d.height / 32)
       .attr("dominant-baseline", "hanging")
       .style("font-size", (d) => d.width / 6 + "px")
+      .attr('fill', (d) => d.color.font)
       .style("pointer-events", "none")
       .style("user-select", "none")
       .style("font-family", "Heebo");

@@ -44,7 +44,6 @@ export class Panels implements PanelsType {
   }
 
   deSelect = () => {
-    console.log("deselect");
     this.array.forEach((o) => o.setIsSelected(false));
     updatePanels();
   };
@@ -176,8 +175,6 @@ export class Panel implements PanelObj {
   }
 
   setIsSelected(boolean: boolean) {
-    console.log(boolean);
-
     this.isSelected = boolean;
   }
 

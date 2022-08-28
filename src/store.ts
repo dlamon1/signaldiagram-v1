@@ -92,16 +92,17 @@ export const snapPointLabel: Writable<string> = writable("");
 export const colorState = writable({
   snapPoint: {
     background: "#ffffff",
-    outline: "#000000",
+    border: "#000000",
     font: "#000000",
   },
   panel: {
     background: "#ffffff",
-    outline: "#000000",
+    border: "#000000",
     font: "#000000",
   },
   signalLine: {
     background: "#000000",
+    outline: "#fff",
   },
 });
 

@@ -44,6 +44,8 @@
       if (p.isSelected) {
         console.count('is selected')
         $panels.array[p.i].setColor("background", $colorState.panel.background);
+        $panels.array[p.i].setColor("border", $colorState.panel.border);
+        $panels.array[p.i].setColor("font", $colorState.panel.font);
       }
     });
     $panels = $panels;
@@ -61,7 +63,6 @@
   $: {
     let t = [$colorState]
     updatePanelColor();
-    console.log("panel color")
   }
 
   // $: {
