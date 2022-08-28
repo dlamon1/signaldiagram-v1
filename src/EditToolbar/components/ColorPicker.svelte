@@ -2,13 +2,17 @@
   import { colorButtons, colorState } from "../../store";
   import { fly } from "svelte/transition";
 
-  export let key;
-  export let layer;
-  export let element;
-  export let isOpen;
+  type Key = "panel" | 'signalLine' | "snapPoint";
+  type Layer = "background" | "border" | "font";
+  type Element = "Background" | "Border" | "Font" | "Signal Lines" | "SnapPoint";
+
+  export let key: Key;
+  export let layer: Layer;
+  export let element: Element;
+  export let isOpen: boolean;
 
   $: flex = isOpen ? 1 : 0.15;
-  $: background = $colorState.panel.background;
+  $: background = $colorState[key][layer];
 </script>
 
 <div class="subtitle" on:click={() => (isOpen = !isOpen)}>

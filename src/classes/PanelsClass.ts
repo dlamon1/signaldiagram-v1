@@ -76,7 +76,7 @@ export class Panels implements PanelsType {
     }
 
     updatePanels();
-    updateSnapPoints();
+    // updateSnapPoints();
   };
 
   addPanel(

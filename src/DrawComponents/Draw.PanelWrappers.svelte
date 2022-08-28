@@ -37,6 +37,7 @@
   }
 
   const drawPanelWrappers = () => {
+    console.log('draw panels')
     let panels = $panelsClass.array;
 
     d3.select("#temp-signal-line").remove();
@@ -67,8 +68,8 @@
       .merge($groups.select("rect"))
       .attr("x", 0)
       .attr("y", 0)
-      .attr("width", (d) => d.width)
-      .attr("height", (d) => d.height)
+      .attr("width", (d) =>  d.width - d.lineWidth)
+      .attr("height", (d) => d.height - d.lineWidth)
       .attr("fill", (d) => d.color.background)
       .attr("stroke", (d) => d.color.border)
       .attr("stroke-width", (d) => d.lineWidth)
@@ -143,9 +144,7 @@
       })
       .attr("x", (d) => d.lineWidth)
       .attr("y", (d) => d.lineWidth)
-      .attr("width", (d) => {
-        return d.width - d.lineWidth * 2;
-      })
+      .attr("width", (d) =>  d.width - d.lineWidth * 2)
       .attr("height", (d) => d.height - d.lineWidth * 2)
       .attr("stroke", selectedColor)
       .attr("stroke-width", (d) => d.lineWidth * 2);

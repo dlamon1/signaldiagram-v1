@@ -34,9 +34,21 @@
 
   <ColorPicker
     key={"panel"}
-    layer={"background"}
+    layer="background"
     element={"Background"}
     isOpen={true}
+  />
+  <ColorPicker
+    key={"panel"}
+    layer="border"
+    element={"Border"}
+    isOpen={false}
+  />
+  <ColorPicker
+    key={"panel"}
+    layer={"font"}
+    element={"Font"}
+    isOpen={false}
   />
 </div>
 

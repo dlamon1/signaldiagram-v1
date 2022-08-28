@@ -11,7 +11,7 @@
     // console.log("updateLocalLabelAndColorState");
   };
 
-  const updateSelectedSnapPointsLabel = (label) => {
+  const updateSelectedSnapPointsLabel = (label: string) => {
     $snapPointsClass.array.forEach((snapPoint, i) => {
       if (snapPoint.isSelected) {
         snapPoint.label = label;
@@ -39,33 +39,32 @@
     $signalLinesClass = $signalLinesClass;
   };
 
-  const updatePanelColor = (color) => {
+  const updatePanelColor = () => {
     $panels.array.forEach((p) => {
       if (p.isSelected) {
-        $panels.array[p.i].setColor("background", color);
+        console.count('is selecteed')
+        $panels.array[p.i].setColorObj($colorState.panel);
       }
     });
     $panels = $panels;
   };
 
   $: {
-    let triggers = {};
-    updateLocalLabelAndColorState();
-  }
-
-  $: {
     updateSelectedSnapPointsLabel($snapPointLabel);
   }
 
+  // $: {
+  //   updateSelectedSnapPointsColor($colorState.snapPoint);
+  //   console.log("snap points color")
+  // }
+  
   $: {
-    updateSelectedSnapPointsColor($colorState.snapPoint);
+    let t = [$colorState]
+    updatePanelColor();
+    console.log("panel color")
   }
 
-  $: {
-    updatePanelColor($colorState.panel.background);
-  }
-
-  $: {
-    updateSelectedSignalLinesColor($colorState.signalLine.background);
-  }
+  // $: {
+  //   updateSelectedSignalLinesColor($colorState.signalLine.background);
+  // }
 </script>

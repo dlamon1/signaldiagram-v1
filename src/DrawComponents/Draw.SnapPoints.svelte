@@ -27,6 +27,7 @@
 
   $: {
     let t = [
+      $panelsClass,
       $isRearView,
       $isDrawMode,
       $snapPointsClass,
@@ -57,7 +58,7 @@
     // 3
     $snapPointsGroupEnterRef
       .merge($snapPointsGroupRef)
-      .transition()
+      // .transition()
       .attr("transform", (d) => {
         return d.getTranslateString();
       });
