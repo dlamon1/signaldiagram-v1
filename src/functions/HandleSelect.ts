@@ -142,8 +142,8 @@ export const checkForSelectedSignalLines = (
     const panelY = panel.y;
 
     const point = {
-      x: panelX + snapPoint.x,
-      y: panelY + snapPoint.y,
+      x: snapPoint.x,
+      y: snapPoint.y,
     };
 
     let x1: number = null;
@@ -176,5 +176,6 @@ export const checkForSelectedSignalLines = (
     }
   });
 
+  console.log(_signalLines);
   return _signalLines;
 };
