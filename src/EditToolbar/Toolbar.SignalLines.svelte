@@ -52,6 +52,7 @@
       layer={"background"}
       element={"Signal Lines"}
       isOpen={true}
+      classObj={$signalLinesClass}
     />
   {/if}
   <div class="remove-lines-container">

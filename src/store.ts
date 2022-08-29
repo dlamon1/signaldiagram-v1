@@ -108,6 +108,11 @@ export const colorState = writable({
     font: "#000000",
   },
 });
+export const setSignalLineColor = (color: string) => {
+  let newColorObj = get(colorState);
+  newColorObj.signalLine.background = color;
+  colorState.update(() => newColorObj);
+};
 
 type Selection = "panels" | "snappoints" | "signallines";
 

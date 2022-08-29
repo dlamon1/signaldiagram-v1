@@ -12,6 +12,7 @@ import {
   isCtrl,
   setSelection,
   updatePanels,
+  setSignalLineColor,
 } from "../store";
 
 import type {
@@ -197,11 +198,16 @@ export class SignalLines implements SignalLinesType {
   }
 
   setColors(key: ColorObjKey, color: string) {
+    let isSignalLinesSelected = false;
     this.array.forEach((snapPoint) => {
       if (snapPoint.isSelected) {
         snapPoint.setColor(key, color);
+        isSignalLinesSelected = true;
       }
     });
+    if (!isSignalLinesSelected) {
+      setSignalLineColor(color);
+    }
     updatePanels();
   }
 }
