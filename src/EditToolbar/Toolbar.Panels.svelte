@@ -1,7 +1,7 @@
 <script lang="ts">
   import { fade } from "svelte/transition";
 
-  import { panels, updatePanels } from "../store";
+  import { panels, updatePanels, snapPoints, signalLines } from "../store";
 
   import ColorPicker from "./components/ColorPicker.svelte";
 
@@ -37,18 +37,21 @@
     layer="background"
     element={"Background"}
     isOpen={true}
+    classObj={$panels}
   />
   <ColorPicker
     key={"panel"}
     layer="border"
     element={"Border"}
     isOpen={false}
+    classObj={$panels}
   />
   <ColorPicker
     key={"panel"}
     layer={"font"}
     element={"Font"}
     isOpen={false}
+    classObj={$panels}
   />
 </div>
 
@@ -64,6 +67,7 @@
     align-items: center;
     margin-top: 10px;
   }
+
   #panels {
     position: absolute;
     flex: 1;

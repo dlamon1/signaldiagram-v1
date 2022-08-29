@@ -28,24 +28,6 @@
     });
     $snapPointsClass = $snapPointsClass;
   };
-
-  const updateLocalLabelAndColorState = () => {
-    // if ($selectedSquares.length > 1) return;
-    // $selectedSquares.forEach((squares, i) => {
-    //   $snapPointLabel = squares.label;
-    //   $colorState.snapPoint.background = squares.backgroundColor;
-    //   $colorState.snapPoint.outline = squares.outlineColor;
-    //   $colorState.snapPoint.font = squares.fontColor;
-    // });
-  };
-
-  // $: {
-  //   let triggers = {
-  //     $selectedPanelsClass,
-  //     $selectedSignalLines,
-  //   };
-  //   updateLocalLabelAndColorState();
-  // }
 </script>
 
 <div id="snappoints" in:fade={{ duration: 150 }} out:fade={{ duration: 0 }}>
@@ -67,6 +49,7 @@
       layer={"background"}
       element={"Background"}
       isOpen={true}
+      classObj={$snapPointsClass}
     />
 
     <ColorPicker
@@ -74,6 +57,7 @@
       layer={"font"}
       element={"Font"}
       isOpen={false}
+      classObj={$snapPointsClass}
     />
     <div id="label-input">
       <div class="label-input-header">
@@ -116,6 +100,7 @@
     align-self: center;
     margin-top: 10px;
   }
+
   #shape-button {
     width: 100px;
     height: 30px;

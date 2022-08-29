@@ -21,6 +21,7 @@ import type {
   SnapPointCoordinates,
   SnapPointCoordinatesKey,
   XYCoordinates,
+  ColorObjKey,
 } from "../Types/ClassTypes";
 
 export class SignalLines implements SignalLinesType {
@@ -194,6 +195,15 @@ export class SignalLines implements SignalLinesType {
     });
     updateSignalLines();
   }
+
+  setColors(key: ColorObjKey, color: string) {
+    this.array.forEach((snapPoint) => {
+      if (snapPoint.isSelected) {
+        snapPoint.setColor(key, color);
+      }
+    });
+    updatePanels();
+  }
 }
 
 class SignalLine implements SignalLineObj {
@@ -210,9 +220,9 @@ class SignalLine implements SignalLineObj {
     snapPointIndex: 0,
   };
   color = {
-    background: "#0f0",
-    border: "#000",
-    font: "#fff",
+    background: "#000000",
+    border: "#000000",
+    font: "#ffffff",
   };
   i: number;
   lineWidth = 8;
@@ -246,5 +256,9 @@ class SignalLine implements SignalLineObj {
 
   updateLineWidth(width: number) {
     this.lineWidth = width;
+  }
+
+  setColor(key: ColorObjKey, color: string) {
+    this.color[key] = color;
   }
 }

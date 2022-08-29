@@ -4,6 +4,7 @@ import type {
   LoadSnapPointObj,
   SnapPointObj,
   SnapPointsType,
+  ColorObjKey,
 } from "../Types/ClassTypes";
 
 import {
@@ -143,6 +144,15 @@ export class SnapPoints implements SnapPointsType {
     });
     updateSnapPoints();
   };
+
+  setColors(key: ColorObjKey, color: string) {
+    this.array.forEach((panel) => {
+      if (panel.isSelected) {
+        panel.setColor(key, color);
+      }
+    });
+    updatePanels();
+  }
 }
 
 export class SnapPoint implements SnapPointObj {
@@ -153,8 +163,8 @@ export class SnapPoint implements SnapPointObj {
   isSelected = false;
   isHovered = false;
   color = {
-    background: "#777",
-    font: "#FFF",
+    background: "#777777",
+    font: "#ffffff",
     border: "#000000",
   };
   translateString: string;
@@ -227,6 +237,10 @@ export class SnapPoint implements SnapPointObj {
 
   setLabel(label: string) {
     this.label = label;
+  }
+
+  setColor(key: ColorObjKey, color: string) {
+    this.color[key] = color;
   }
 
   setColorObj(colorObj: ColorObj) {

@@ -102,7 +102,8 @@ export const colorState = writable({
   },
   signalLine: {
     background: "#000000",
-    outline: "#fff",
+    border: "#ffffff",
+    font: "#000000",
   },
 });
 

@@ -2,24 +2,31 @@
   import { colorButtons, colorState, panels } from "../../store";
   import { fly } from "svelte/transition";
 
-  import type {ColorObjKey} from '../../Types/ClassTypes'
+  import type { ColorObjKey } from "../../Types/ClassTypes";
 
-  type Key = "panel" | 'signalLine' | "snapPoint";
-  type Layer = ColorObjKey
-  type Element = "Background" | "Border" | "Font" | "Signal Lines" | "SnapPoint";
+  type Key = "panel" | "signalLine" | "snapPoint";
+  type Layer = ColorObjKey;
+  type Element =
+    | "Background"
+    | "Border"
+    | "Font"
+    | "Signal Lines"
+    | "SnapPoint";
 
   export let key: Key;
   export let layer: Layer;
   export let element: Element;
   export let isOpen: boolean;
+  export let classObj: any;
 
   $: flex = isOpen ? 1 : 0.15;
-  // $: background = $colorState[key][layer];
+
+  $: background = $colorState[key][layer];
 </script>
 
 <div class="subtitle" on:click={() => (isOpen = !isOpen)}>
   {element}
-  <div class="color-id-box" style:flex  />
+  <div class="color-id-box" style:flex style:background />
 </div>
 
 {#if isOpen}
@@ -30,7 +37,7 @@
           id="color-button"
           style="background-color: {color}"
           on:click={() => {
-            $panels.setColors(layer, color)
+            classObj.setColors(layer, color);
           }}
         />
       {/each}

@@ -2,10 +2,11 @@
   import {
     colorState,
     snapPointLabel,
-    panels,
+    panels as PanelsClass,
     snapPoints as snapPointsClass,
     signalLines as signalLinesClass,
   } from "./store";
+  import type { ColorObj } from "./Types/ClassTypes";
 
   const updateLocalLabelAndColorState = () => {
     // console.log("updateLocalLabelAndColorState");
@@ -39,34 +40,52 @@
     $signalLinesClass = $signalLinesClass;
   };
 
-  const updatePanelColor = () => {
-    $panels.array.forEach((p) => {
-      if (p.isSelected) {
-        console.count('is selected')
-        $panels.array[p.i].setColor("background", $colorState.panel.background);
-        $panels.array[p.i].setColor("border", $colorState.panel.border);
-        $panels.array[p.i].setColor("font", $colorState.panel.font);
-      }
-    });
-    $panels = $panels;
-  };
-
   $: {
     updateSelectedSnapPointsLabel($snapPointLabel);
   }
 
-  // $: {
-  //   updateSelectedSnapPointsColor($colorState.snapPoint);
-  //   console.log("snap points color")
-  // }
-  
+  type Key = "panel" | "signalLine" | "snapPoint";
+
+  const updatePanelColorState = () => {
+    $PanelsClass.array.forEach((panel) => {
+      if (panel.isSelected) {
+        $colorState.panel = panel.color;
+      }
+    });
+    $PanelsClass = $PanelsClass;
+  };
+
   $: {
-    let t = [$colorState]
-    updatePanelColor();
-    updateSelectedSnapPointsColor()
+    let t = [$PanelsClass];
+
+    updatePanelColorState();
   }
 
-  // $: {
-  //   updateSelectedSignalLinesColor($colorState.signalLine.background);
-  // }
+  const updateSnapPointColorState = () => {
+    $snapPointsClass.array.forEach((snapPoint, i) => {
+      if (snapPoint.isSelected) {
+        $colorState.snapPoint = snapPoint.color;
+      }
+    }),
+      ($snapPointsClass = $snapPointsClass);
+  };
+
+  $: {
+    let t = [$snapPointsClass];
+    updateSnapPointColorState();
+  }
+
+  const updateSignalLineColorState = () => {
+    $signalLinesClass.array.forEach((signalLine, i) => {
+      if (signalLine.isSelected) {
+        $colorState.signalLine = signalLine.color;
+      }
+    }),
+      ($signalLinesClass = $signalLinesClass);
+  };
+
+  $: {
+    let t = [$signalLinesClass];
+    updateSignalLineColorState();
+  }
 </script>

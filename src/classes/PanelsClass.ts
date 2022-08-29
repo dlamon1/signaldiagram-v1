@@ -141,9 +141,9 @@ export class Panel implements PanelObj {
   isSelected = false;
   isHovered = false;
   color: ColorObj = {
-    background: "#fff",
-    border: "#000",
-    font: "#000",
+    background: "#ffffff",
+    border: "#000000",
+    font: "#000000",
   };
   lineWidth = 0;
   x: number;
