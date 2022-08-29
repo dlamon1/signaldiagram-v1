@@ -1,7 +1,9 @@
 <script lang="ts">
+  import { loop_guard } from "svelte/internal";
+
   import { fade } from "svelte/transition";
 
-  import { panels, updatePanels, snapPoints, signalLines } from "../store";
+  import { panels, updatePanels, lineWidthState } from "../store";
 
   import ColorPicker from "./components/ColorPicker.svelte";
 
@@ -24,6 +26,17 @@
       updatePanels();
     });
   };
+
+  const updateLineWidth = (e: Event) => {
+    const target = e.target as HTMLInputElement;
+    console.log(target.value);
+    $panels.array.forEach((panel) => {
+      if (panel.isSelected) {
+        panel.setLineWidthMultiplier(target.value);
+      }
+    });
+    $panels = $panels;
+  };
 </script>
 
 <div id="panels" in:fade={{ duration: 150 }} out:fade={{ duration: 0 }}>
@@ -31,6 +44,16 @@
     <button class="criss-cross" on:click={selectCriss}>Select [0]</button>
     <button class="criss-cross" on:click={selectCross}>select [1]</button>
   </div>
+
+  <!-- <input
+    type="range"
+    min="0"
+    max="10"
+    step=".01"
+    bind:value={$lineWidthState}
+    on:input={(e) => updateLineWidth(e)}
+    class="range"
+  /> -->
 
   <ColorPicker
     key={"panel"}

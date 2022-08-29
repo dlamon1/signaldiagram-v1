@@ -5,12 +5,8 @@
     panels as PanelsClass,
     snapPoints as snapPointsClass,
     signalLines as signalLinesClass,
+    lineWidthState,
   } from "./store";
-  import type { ColorObj } from "./Types/ClassTypes";
-
-  const updateLocalLabelAndColorState = () => {
-    // console.log("updateLocalLabelAndColorState");
-  };
 
   const updateSelectedSnapPointsLabel = (label: string) => {
     $snapPointsClass.array.forEach((snapPoint, i) => {
@@ -21,35 +17,15 @@
       ($snapPointsClass = $snapPointsClass);
   };
 
-  const updateSelectedSnapPointsColor = () => {
-    $snapPointsClass.array.forEach((sp, i) => {
-      if (!sp.isSelected) return;
-      sp.setBackgroundColor($colorState.snapPoint.background);
-      sp.setFontColor($colorState.snapPoint.font);
-    });
-    $snapPointsClass = $snapPointsClass;
-  };
-
-  const updateSelectedSignalLinesColor = (color) => {
-    $signalLinesClass.array.forEach((line, i) => {
-      if (line.isSelected) {
-        line.updateColor(color);
-      }
-    });
-
-    $signalLinesClass = $signalLinesClass;
-  };
-
   $: {
     updateSelectedSnapPointsLabel($snapPointLabel);
   }
-
-  type Key = "panel" | "signalLine" | "snapPoint";
 
   const updatePanelColorState = () => {
     $PanelsClass.array.forEach((panel) => {
       if (panel.isSelected) {
         $colorState.panel = panel.color;
+        $lineWidthState = panel.lineWidth;
       }
     });
     $PanelsClass = $PanelsClass;

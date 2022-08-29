@@ -7,6 +7,7 @@ export interface PanelObj {
   isSelected: boolean;
   isHovered: boolean;
   lineWidth: number;
+  lineWidthMultiplier: number;
   x: number;
   y: number;
   width: number;
@@ -19,6 +20,7 @@ export interface PanelObj {
   setDimensions: () => void;
   setIndex: (i: number) => void;
   setColorIndex: (i: number, j: number) => void;
+  setLineWidthMultiplier: (multiplier: number) => void;
 }
 
 export interface ColorObj {

@@ -37,7 +37,7 @@
   }
 
   const drawPanelWrappers = () => {
-    console.log('draw panels')
+    console.log("draw panels");
     let panels = $panelsClass.array;
 
     d3.select("#temp-signal-line").remove();
@@ -66,13 +66,13 @@
     let rects = $groupsEnter
       .append("rect")
       .merge($groups.select("rect"))
-      .attr("x",(d) => d.lineWidth)
-      .attr("y",(d) =>  d.lineWidth)
-      .attr("width", (d) =>  d.width - d.lineWidth)
-      .attr("height", (d) => d.height - d.lineWidth)
+      .attr("x", (d) => d.lineWidth * d.lineWidthMultiplier)
+      .attr("y", (d) => d.lineWidth * d.lineWidthMultiplier)
+      .attr("width", (d) => d.width - d.lineWidth * d.lineWidthMultiplier)
+      .attr("height", (d) => d.height - d.lineWidth * d.lineWidthMultiplier)
       .attr("fill", (d) => d.color.background)
       .attr("stroke", (d) => d.color.border)
-      .attr("stroke-width", (d) => d.lineWidth)
+      .attr("stroke-width", (d) => d.lineWidth * d.lineWidthMultiplier)
       .style("point-events", $isDrawingSignalLine && "none")
       .on("mouseover", function (d, i) {
         if ($isDrawMode) {
@@ -131,7 +131,7 @@
       .attr("y", (d) => d.height / 32)
       .attr("dominant-baseline", "hanging")
       .style("font-size", (d) => d.width / 6 + "px")
-      .attr('fill', (d) => d.color.font)
+      .attr("fill", (d) => d.color.font)
       .style("pointer-events", "none")
       .style("user-select", "none")
       .style("font-family", "Heebo");
@@ -145,7 +145,7 @@
       })
       .attr("x", (d) => d.lineWidth)
       .attr("y", (d) => d.lineWidth)
-      .attr("width", (d) =>  d.width - d.lineWidth * 2)
+      .attr("width", (d) => d.width - d.lineWidth * 2)
       .attr("height", (d) => d.height - d.lineWidth * 2)
       .attr("stroke", selectedColor)
       .attr("stroke-width", (d) => d.lineWidth * 2);

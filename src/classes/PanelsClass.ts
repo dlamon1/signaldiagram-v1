@@ -145,7 +145,8 @@ export class Panel implements PanelObj {
     border: "#000000",
     font: "#000000",
   };
-  lineWidth = 0;
+  lineWidth = 1;
+  lineWidthMultiplier = 1;
   x: number;
   y: number;
   width: number;
@@ -166,6 +167,10 @@ export class Panel implements PanelObj {
     this.setLineWidth();
     this.thisPanelsSnapPoints = thisPanelsSnapPoints;
     this.setColorObj(colorObj);
+  }
+
+  setLineWidthMultiplier(multiplier: number) {
+    this.lineWidthMultiplier = multiplier;
   }
 
   setColorObj(colorObj: ColorObj) {

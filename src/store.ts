@@ -89,6 +89,8 @@ export const setMode = (m: Mode) => {
 
 export const snapPointLabel: Writable<string> = writable("");
 
+export const lineWidthState: Writable<number> = writable(1);
+
 export const colorState = writable({
   snapPoint: {
     background: "#ffffff",
