@@ -22,11 +22,11 @@ import {
   rows,
   columns,
   snapPointsQuantity,
-  isShifted,
 } from "../store";
 
 export class Panels implements PanelsType {
   array = [];
+  selectedIndexes: number[] = [];
 
   setArrayFromLoad(array: LoadPanelObj[]) {
     this.resetArray();
@@ -49,7 +49,6 @@ export class Panels implements PanelsType {
   };
 
   updatePanelArray = () => {
-    // console.log("updatePanelArray");
     const snapPoints = get(snapPointsStore);
 
     snapPoints.resetArray();
@@ -122,6 +121,15 @@ export class Panels implements PanelsType {
     setSelection("panels");
     updatePanels();
   };
+
+  setColors(key: ColorObjKey, color: string) {
+    this.array.forEach((panel) => {
+      if (panel.isSelected) {
+        panel.setColor(key, color);
+      }
+    });
+    updatePanels();
+  }
 }
 
 export class Panel implements PanelObj {
