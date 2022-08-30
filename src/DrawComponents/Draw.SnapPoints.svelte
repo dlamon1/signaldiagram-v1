@@ -40,6 +40,7 @@
   }
 
   const drawSnapPointWrappers = () => {
+    // console.log("draw snap Points");
     let snapPoints = $snapPointsClass.array;
 
     // 1
