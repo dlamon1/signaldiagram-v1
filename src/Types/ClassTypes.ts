@@ -12,6 +12,7 @@ export interface PanelObj {
   y: number;
   width: number;
   height: number;
+  reverseIndex: number;
   setColor: (key: ColorObjKey, color: string) => void;
   setIsSelected: (isSelected: boolean) => void;
   setIsHovered: (isHovered: boolean) => void;
@@ -37,6 +38,7 @@ export interface LoadPanelObj {
   i: number;
   thisPanelsSnapPoints: number[];
   color: ColorObj;
+  reverseIndex: number;
 }
 
 export interface LoadSnapPointObj {
@@ -125,7 +127,8 @@ export type PanelsType = {
     column: number,
     index: number,
     thisPanelsSnapPoints: number[],
-    colorObj: ColorObj
+    colorObj: ColorObj,
+    reverseIndex: number
   ) => void;
   selectPanels: (arrayOfIndexes: number[]) => void;
 };

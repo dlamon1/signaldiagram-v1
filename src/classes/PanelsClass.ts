@@ -37,7 +37,8 @@ export class Panels implements PanelsType {
         panel.column,
         panel.i,
         panel.thisPanelsSnapPoints,
-        panel.color
+        panel.color,
+        panel.reverseIndex
       );
     });
     updatePanels();
@@ -59,6 +60,8 @@ export class Panels implements PanelsType {
 
     for (let i = 0; i < get(rows); i++) {
       for (let j = 0; j < get(columns); j++) {
+        const reverseIndex = get(columns) - j + i * get(columns);
+
         const thisPanelsSnapPointsIndexes = [];
 
         for (let k = 1; k < get(snapPointsQuantity) + 1; k++) {
@@ -69,14 +72,20 @@ export class Panels implements PanelsType {
           snapPointIndex += 1;
         }
 
-        this.addPanel(i, j, count, thisPanelsSnapPointsIndexes, null);
+        this.addPanel(
+          i,
+          j,
+          count,
+          thisPanelsSnapPointsIndexes,
+          null,
+          reverseIndex
+        );
 
         count++;
       }
     }
 
     updatePanels();
-    // updateSnapPoints();
   };
 
   addPanel(
@@ -84,9 +93,17 @@ export class Panels implements PanelsType {
     j: number,
     count: number,
     thisPanelsSnapPoints: number[],
-    colorObj: ColorObj
+    colorObj: ColorObj,
+    reverseIndex: number
   ) {
-    const newPanel = new Panel(i, j, count, thisPanelsSnapPoints, colorObj);
+    const newPanel = new Panel(
+      i,
+      j,
+      count,
+      thisPanelsSnapPoints,
+      colorObj,
+      reverseIndex
+    );
     this.array.push(newPanel);
   }
 
@@ -151,13 +168,15 @@ export class Panel implements PanelObj {
   y: number;
   width: number;
   height: number;
+  reverseIndex: number;
 
   constructor(
     i: number,
     j: number,
     count: number,
     thisPanelsSnapPoints: number[],
-    colorObj: ColorObj
+    colorObj: ColorObj,
+    reverseIndex: number
   ) {
     this.row = i;
     this.column = j;
@@ -167,6 +186,7 @@ export class Panel implements PanelObj {
     this.setLineWidth();
     this.thisPanelsSnapPoints = thisPanelsSnapPoints;
     this.setColorObj(colorObj);
+    this.reverseIndex = reverseIndex;
   }
 
   setLineWidthMultiplier(multiplier: number) {
