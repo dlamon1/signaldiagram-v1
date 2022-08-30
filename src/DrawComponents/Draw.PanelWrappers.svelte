@@ -22,7 +22,6 @@
   import * as d3 from "d3";
 
   $: {
-    // console.log("triggered");
     let t = [
       $panelsClass,
       $isRearView,
@@ -56,7 +55,9 @@
       .transition()
       .attr("id", (d) => "panelgroup" + d.i)
       .attr("transform", (d) => {
-        return "translate(" + d.x + "," + d.y + ")";
+        return (
+          "translate(" + d.getDimensions().x + "," + d.getDimensions().y + ")"
+        );
       });
 
     // 4
@@ -90,7 +91,7 @@
         $signalLinesClass.nullDestinationSnapPointIndex();
         $signalLinesClass.setMousePosition(d);
       })
-      .on("mouseup", function (d) {
+      .on("mouseup", function () {
         $signalLinesClass.nullDestinationSnapPointIndex();
         $signalLinesClass.nullDestinationSnapPointIndex();
         $signalLinesClass.setMousePosition({ x: 0, y: 0 });
@@ -117,16 +118,7 @@
     $groupsEnter
       .append("text")
       .merge($groups.select("text"))
-      .text((d) => {
-        if (!$showCoordinates) {
-          return "";
-        }
-        if ($isRearView) {
-          return $columns - d.column + "," + (d.row + 1);
-        } else {
-          return d.column + 1 + "," + (d.row + 1);
-        }
-      })
+      .text((d) => d.getCoordinateText())
       .attr("x", (d) => d.width / 32)
       .attr("y", (d) => d.height / 32)
       .attr("dominant-baseline", "hanging")

@@ -1,4 +1,3 @@
-import { updateSnapPoints } from "./../store";
 import { get } from "svelte/store";
 
 // import { SelectableObjects } from "./SelectableObjectsClass";
@@ -22,6 +21,8 @@ import {
   rows,
   columns,
   snapPointsQuantity,
+  showCoordinates,
+  isRearView,
 } from "../store";
 
 export class Panels implements PanelsType {
@@ -223,7 +224,30 @@ export class Panel implements PanelObj {
     this.width = get(width);
     this.height = get(height);
     this.x = get(width) * this.column;
+    if (get(isRearView)) {
+      this.x = get(width) * (get(columns) - this.column + 1);
+    }
     this.y = get(height) * this.row;
+  }
+
+  getDimensions() {
+    let x: number = get(width) * this.column;
+
+    if (get(isRearView)) {
+      x = get(width) * (get(columns) - this.column - 1);
+    }
+
+    let y: number = (this.y = get(height) * this.row);
+
+    return { x, y };
+  }
+
+  getCoordinateText() {
+    if (!get(showCoordinates)) {
+      return "";
+    }
+
+    return this.column + 1 + "," + (this.row + 1);
   }
 
   setIndex(count: number) {

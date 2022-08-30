@@ -205,7 +205,7 @@ export class SnapPoint implements SnapPointObj {
     if (get(snapPointsQuantity) === 1) {
       x = get(width) / 2;
     }
-    return x + parentPanel.x;
+    return x + parentPanel.getDimensions().x;
   }
 
   getY() {

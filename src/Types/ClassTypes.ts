@@ -13,6 +13,7 @@ export interface PanelObj {
   width: number;
   height: number;
   reverseIndex: number;
+  getDimensions: () => { x: number; y: number };
   setColor: (key: ColorObjKey, color: string) => void;
   setIsSelected: (isSelected: boolean) => void;
   setIsHovered: (isHovered: boolean) => void;
@@ -22,6 +23,7 @@ export interface PanelObj {
   setIndex: (i: number) => void;
   setColorIndex: (i: number, j: number) => void;
   setLineWidthMultiplier: (multiplier: number) => void;
+  getCoordinateText: () => string;
 }
 
 export interface ColorObj {
