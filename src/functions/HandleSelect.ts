@@ -82,8 +82,8 @@ export const checkForSelectedPanels = (
 
   panels.forEach((panel) => {
     if (
-      panel.x >= x1 &&
-      panel.x + panel.width <= x2 &&
+      panel.getDimensions().x >= x1 &&
+      panel.getDimensions().x + panel.width <= x2 &&
       panel.y >= y1 &&
       panel.y + panel.height <= y2
     ) {
@@ -137,9 +137,6 @@ export const checkForSelectedSignalLines = (
 ) => {
   const checkIfPointIsWithinBounds = (snapPointIndex: number) => {
     const snapPoint = get(snapPointsClass).array[snapPointIndex];
-    const panel = get(panelsClass).array[snapPoint.panelIndex];
-    const panelX = panel.x;
-    const panelY = panel.y;
 
     const point = {
       x: snapPoint.x,
@@ -176,6 +173,5 @@ export const checkForSelectedSignalLines = (
     }
   });
 
-  console.log(_signalLines);
   return _signalLines;
 };
