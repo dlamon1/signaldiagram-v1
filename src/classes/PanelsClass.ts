@@ -119,13 +119,17 @@ export class Panels implements PanelsType {
     signalLinesClass.deSelect();
 
     const arrayOfCurrent = [];
+    this.selectedIndexes = [];
 
     arrayOfIndexes.forEach((i) => {
       const current = this.array[i].isSelected;
       arrayOfCurrent.push(current);
+      this.selectedIndexes.push(i);
     });
 
     if (!get(isCtrl)) {
+      this.selectedIndexes = [];
+
       this.array.forEach((panel) => {
         panel.setIsSelected(false);
       });
@@ -134,11 +138,16 @@ export class Panels implements PanelsType {
     arrayOfIndexes.forEach((panel, i) => {
       const x = arrayOfCurrent[i];
       this.array[panel].setIsSelected(!x);
+      this.selectedIndexes.push(i);
     });
 
     setSelection("panels");
     updatePanels();
   };
+
+  toggleHidePanels() {
+    console.log(this.selectedIndexes);
+  }
 
   setColors(key: ColorObjKey, color: string) {
     this.array.forEach((panel) => {

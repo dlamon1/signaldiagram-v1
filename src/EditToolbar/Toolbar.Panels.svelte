@@ -36,28 +36,60 @@
     $panels = $panels;
   };
 
-  const hideSnapPoints = (snapPointArray: number[]) => {
+  const hideSnapPoints = (snapPointArray: number[], isHidden: boolean) => {
     snapPointArray.forEach((snapPointIndex) => {
-      $snapPoints.array[snapPointIndex].setIsHidden(true);
+      $snapPoints.array[snapPointIndex].setIsHidden(isHidden);
     });
     $snapPoints = $snapPoints;
   };
 
-  const hide = () => {
+  const hide = (isHidden: boolean) => {
     $panels.array.forEach((p: PanelObj) => {
       if (p.isSelected) {
-        hideSnapPoints(p.thisPanelsSnapPoints);
-        p.setIsHidden(true);
+        hideSnapPoints(p.thisPanelsSnapPoints, isHidden);
+        p.setIsHidden(isHidden);
       }
     });
     $panels = $panels;
   };
+
+  $: hide(!isVisible);
+
+  let isVisible = true;
+
+  const setIsVisible = () => {
+    isVisible = true;
+
+    $panels.array.forEach((p) => {
+      if (p.isSelected) {
+        isVisible = !p.isHidden;
+      }
+    });
+  };
+
+  $: {
+    let t = [$panels];
+
+    setIsVisible();
+  }
 </script>
 
 <div id="panels" in:fade={{ duration: 150 }} out:fade={{ duration: 0 }}>
   <div class="crisscross">
     <button class="criss-cross" on:click={selectCriss}>Select [0]</button>
     <button class="criss-cross" on:click={selectCross}>select [1]</button>
+  </div>
+
+  <div class="hide">
+    <label>
+      <input
+        type="checkbox"
+        bind:checked={isVisible}
+        name="mode"
+        value="draw"
+      />
+      Visible
+    </label>
   </div>
 
   <!-- <input
@@ -91,11 +123,14 @@
     isOpen={false}
     classObj={$panels}
   />
-
-  <button class="" on:click={hide}>Hide</button>
 </div>
 
 <style>
+  .hide {
+    width: 100%;
+    display: flex;
+    margin-top: 10px;
+  }
   .criss-cross {
     padding: 5px;
     padding-inline: 15px;
