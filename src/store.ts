@@ -4,7 +4,12 @@ import { SignalLines } from "./classes/SignalLinesClass";
 import { Panels } from "./classes/PanelsClass";
 import { SnapPoints } from "./classes/SnapPointsClass";
 
-import type { PanelObj, SnapPointObj, SignalLineObj } from "./Types/ClassTypes";
+import type {
+  PanelObj,
+  SnapPointObj,
+  SignalLineObj,
+  XYCoordinates,
+} from "./Types/ClassTypes";
 
 import type * as d3 from "d3";
 
@@ -197,6 +202,87 @@ export const colorButtons: Writable<string[]> = writable([
   "#afafaf",
   "#cbcbcb",
   "#ffffff",
+]);
+
+export type DirectionObj = {
+  initialDirection: "vertical" | "horizontal";
+  transform: string;
+  points: XYCoordinates[];
+};
+
+export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
+  {
+    points: [
+      { x: 0, y: 0 },
+      { x: 1, y: 0 },
+      { x: 1, y: 1 },
+    ],
+    initialDirection: "horizontal",
+    transform: "rotate(0) scale(.8)",
+  },
+  {
+    points: [
+      { x: 1, y: 0 },
+      { x: 0, y: 0 },
+      { x: 0, y: 1 },
+    ],
+    initialDirection: "horizontal",
+    transform: "rotate(180) scale(.8, -.8)",
+  },
+  {
+    points: [
+      { x: 1, y: 1 },
+      { x: 0, y: 1 },
+      { x: 0, y: 0 },
+    ],
+    initialDirection: "horizontal",
+    transform: "rotate(180) scale(.8)",
+  },
+  {
+    points: [
+      { x: 0, y: 1 },
+      { x: 1, y: 1 },
+      { x: 1, y: 0 },
+    ],
+    initialDirection: "horizontal",
+    transform: "rotate(0) scale(.8, -.8)",
+  },
+  {
+    points: [
+      { x: 0, y: 1 },
+      { x: 0, y: 0 },
+      { x: 1, y: 0 },
+    ],
+    initialDirection: "vertical",
+    transform: "rotate(270) scale(.8)",
+  },
+  {
+    points: [
+      { x: 1, y: 1 },
+      { x: 1, y: 0 },
+      { x: 0, y: 0 },
+    ],
+    initialDirection: "vertical",
+    transform: "rotate(270) scale(.8, -.8)",
+  },
+  {
+    points: [
+      { x: 0, y: 0 },
+      { x: 0, y: 1 },
+      { x: 1, y: 1 },
+    ],
+    initialDirection: "vertical",
+    transform: "rotate(90) scale(.8, -.8)",
+  },
+  {
+    points: [
+      { x: 1, y: 0 },
+      { x: 1, y: 1 },
+      { x: 0, y: 1 },
+    ],
+    initialDirection: "vertical",
+    transform: "rotate(90) scale(.8)",
+  },
 ]);
 
 export const isRearView: Writable<boolean> = writable(false);

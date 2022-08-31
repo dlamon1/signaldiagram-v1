@@ -5,6 +5,7 @@
   import type { PanelObj, SnapPointObj } from "../Types/ClassTypes";
 
   import ColorPicker from "./components/ColorPicker.svelte";
+  import SignalButtons from "./components/SignalButtons.svelte";
 
   const selectCriss = () => {
     $panels.array.forEach((p) => {
@@ -123,6 +124,8 @@
     isOpen={false}
     classObj={$panels}
   />
+
+  <SignalButtons />
 </div>
 
 <style>
