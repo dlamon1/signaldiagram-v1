@@ -99,11 +99,7 @@
       })
       .on("mouseout", function (d, i) {
         d.stopPropagation();
-        let obj = d.path[0].__data__;
-        d3.select(this).attr(
-          "fill",
-          $snapPointsClass.array[obj.pointIndexFullArray].color.background
-        );
+        drawSnapPointWrappers();
       })
 
       .on("mousedown", function (d, i) {
@@ -180,7 +176,7 @@
         return obj.isSquare || obj.isTriangle;
       })
       .text((d) => {
-        return $snapPointsClass.array[d.pointIndexFullArray].label;
+        return d.getLabelString();
       })
       .attr("dominant-baseline", "middle")
       .style("font-size", (d) =>
@@ -216,6 +212,13 @@
       .attr("fill", (d, i) => {
         return $snapPointsClass.array[d.pointIndexFullArray].color.background;
       });
+
+    $snapPointPathRef
+      .filter((d, i) => {
+        return $snapPointsClass.array[d.pointIndexFullArray].isHidden;
+      })
+      .attr("stroke", "transparent")
+      .attr("fill", "transparent");
   };
 
   const drawPathTriangle = (r: number) => {

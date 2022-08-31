@@ -170,6 +170,7 @@ export class Panel implements PanelObj {
   width: number;
   height: number;
   reverseIndex: number;
+  isHidden: boolean;
 
   constructor(
     i: number,
@@ -188,6 +189,10 @@ export class Panel implements PanelObj {
     this.thisPanelsSnapPoints = thisPanelsSnapPoints;
     this.setColorObj(colorObj);
     this.reverseIndex = reverseIndex;
+  }
+
+  setIsHidden(isHidden: boolean) {
+    this.isHidden = isHidden;
   }
 
   setLineWidthMultiplier(multiplier: number) {
@@ -246,6 +251,8 @@ export class Panel implements PanelObj {
     if (!get(showCoordinates)) {
       return "";
     }
+
+    if (this.isHidden) return "";
 
     return this.column + 1 + "," + (this.row + 1);
   }

@@ -83,8 +83,7 @@
       })
       .on("mouseout", function (d, i) {
         if ($isDrawMode) return;
-        let obj = d.path[0].__data__;
-        d3.select(this).attr("fill", obj.color.background);
+        drawPanelWrappers();
       })
       .on("mousemove", function (d) {
         if (!$isDrawMode) return;
@@ -141,5 +140,12 @@
       .attr("height", (d) => d.height - d.lineWidth * 2)
       .attr("stroke", selectedColor)
       .attr("stroke-width", (d) => d.lineWidth * 2);
+
+    rects
+      .filter((d) => {
+        return d.isHidden;
+      })
+      .attr("fill", "transparent")
+      .attr("stroke", "transparent");
   };
 </script>

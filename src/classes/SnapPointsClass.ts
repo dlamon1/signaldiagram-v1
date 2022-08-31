@@ -177,6 +177,7 @@ export class SnapPoint implements SnapPointObj {
   panelIndex: number;
   pointIndexFullArray: number;
   strokeWidth: number;
+  isHidden: boolean;
 
   constructor(
     row: number,
@@ -191,6 +192,10 @@ export class SnapPoint implements SnapPointObj {
     this.panelIndex = panelIndex;
     this.pointIndexFullArray = pointIndexFullArray;
     this.createDimensions(row, column, pointIndexWithinPanel);
+  }
+
+  setIsHidden(isHidden: boolean) {
+    this.isHidden = isHidden;
   }
 
   getX() {
@@ -308,5 +313,10 @@ export class SnapPoint implements SnapPointObj {
 
   setIsHovered(boolean) {
     this.isHovered = boolean;
+  }
+
+  getLabelString() {
+    if (this.isHidden) return "";
+    return this.label;
   }
 }

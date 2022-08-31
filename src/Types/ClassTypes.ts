@@ -13,6 +13,7 @@ export interface PanelObj {
   width: number;
   height: number;
   reverseIndex: number;
+  isHidden: boolean;
   getDimensions: () => { x: number; y: number };
   setColor: (key: ColorObjKey, color: string) => void;
   setIsSelected: (isSelected: boolean) => void;
@@ -24,6 +25,7 @@ export interface PanelObj {
   setColorIndex: (i: number, j: number) => void;
   setLineWidthMultiplier: (multiplier: number) => void;
   getCoordinateText: () => string;
+  setIsHidden: (isHidden: boolean) => void;
 }
 
 export interface ColorObj {
@@ -86,6 +88,7 @@ export interface SnapPointObj {
   panelIndex: number;
   pointIndexFullArray: number;
   strokeWidth: number;
+  isHidden: boolean;
   getX: () => number;
   getY: () => number;
   getTranslateString: () => string;
@@ -104,6 +107,8 @@ export interface SnapPointObj {
   toggleIsSelected: () => void;
   setIsSelected: (isSelected: boolean) => void;
   setIsHovered: (isHovered: boolean) => void;
+  setIsHidden: (isHidden: boolean) => void;
+  getLabelString: () => string;
 }
 
 export interface SignalLineObj {

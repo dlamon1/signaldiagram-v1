@@ -1,9 +1,8 @@
 <script lang="ts">
-  import { loop_guard } from "svelte/internal";
-
   import { fade } from "svelte/transition";
 
-  import { panels, updatePanels, lineWidthState } from "../store";
+  import { panels, updatePanels, snapPoints } from "../store";
+  import type { PanelObj, SnapPointObj } from "../Types/ClassTypes";
 
   import ColorPicker from "./components/ColorPicker.svelte";
 
@@ -29,10 +28,26 @@
 
   const updateLineWidth = (e: Event) => {
     const target = e.target as HTMLInputElement;
-    console.log(target.value);
     $panels.array.forEach((panel) => {
       if (panel.isSelected) {
         panel.setLineWidthMultiplier(target.value);
+      }
+    });
+    $panels = $panels;
+  };
+
+  const hideSnapPoints = (snapPointArray: number[]) => {
+    snapPointArray.forEach((snapPointIndex) => {
+      $snapPoints.array[snapPointIndex].setIsHidden(true);
+    });
+    $snapPoints = $snapPoints;
+  };
+
+  const hide = () => {
+    $panels.array.forEach((p: PanelObj) => {
+      if (p.isSelected) {
+        hideSnapPoints(p.thisPanelsSnapPoints);
+        p.setIsHidden(true);
       }
     });
     $panels = $panels;
@@ -53,7 +68,7 @@
     bind:value={$lineWidthState}
     on:input={(e) => updateLineWidth(e)}
     class="range"
-  /> -->
+    /> -->
 
   <ColorPicker
     key={"panel"}
@@ -76,6 +91,8 @@
     isOpen={false}
     classObj={$panels}
   />
+
+  <button class="" on:click={hide}>Hide</button>
 </div>
 
 <style>
