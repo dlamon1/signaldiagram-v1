@@ -1,5 +1,11 @@
 <script lang="ts">
-  import { signalLines, distanceUnit, snapPointDirection } from "../store";
+  import {
+    signalLines,
+    distanceUnit,
+    snapPointDirection,
+    widthMM,
+    heightMM,
+  } from "../store";
 
   import type { SignalLineObj } from "../Types/ClassTypes";
 
@@ -13,7 +19,7 @@
   let bottomBottomCounts = [];
 
   $: {
-    let t = [$signalLines.array];
+    let t = [$signalLines.array, widthMM, heightMM];
 
     let signalLineTotals = setCalculations();
 

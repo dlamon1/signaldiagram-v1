@@ -89,14 +89,11 @@
       .on("mousemove", function (d) {
         if (!$isDrawMode) return;
         $signalLinesClass.nullDestinationSnapPointIndex();
-        // $signalLinesClass.setMousePosition(d);
-
         $mousePosition.x = d.x;
         $mousePosition.y = d.y;
       })
       .on("mouseup", function () {
         $signalLinesClass.nullDestinationSnapPointIndex();
-        // $signalLinesClass.setMousePosition({ x: 0, y: 0 });
         $mousePosition.x = 0;
         $mousePosition.y = 0;
 

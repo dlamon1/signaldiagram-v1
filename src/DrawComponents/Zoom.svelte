@@ -31,9 +31,9 @@
     .on("zoom", handleZoom);
 
   const centerScreen = () => {
-    let k = $canvasWrapperWidth / $columns / $width;
+    let k = ($canvasWrapperWidth / $columns / $width) * 0.85;
     if ($canvasWrapperHeight < $rows * $height * k) {
-      k = $canvasWrapperHeight / $rows / $height;
+      k = ($canvasWrapperHeight / $rows / $height) * 0.85;
     }
     let x = $canvasWrapperWidth - $columns * $width * k;
     let y = $canvasWrapperHeight - $rows * $height * k;

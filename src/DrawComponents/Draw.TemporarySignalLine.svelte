@@ -16,18 +16,16 @@
 
   $: {
     let t = [$signalLinesClass, $mousePosition];
-    console.log("draw temp signal line");
+    // console.log("draw temp signal line");
     drawTemporarySignalLine();
   }
 
   const drawTemporarySignalLine = () => {
     if (!$topLevelSvgRef) return;
-    console.log($isDrawingSignalLine);
     if (!$isDrawingSignalLine) return;
 
     let origin = $signalLinesClass.origin;
     let mouse = get(mousePosition);
-    console.log(mouse);
     if (origin.snapPointIndex && mouse.x && mouse.y) {
       theAcutualDrawing();
     }
