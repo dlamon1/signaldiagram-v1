@@ -1,16 +1,16 @@
 <script lang="ts">
-  import Mode from "./EditToolbar/Toolbar.Mode.svelte";
-  import ScreenSize from "./EditToolbar/Toolbar.ScreenSize.svelte";
-  import Panels from "./EditToolbar/Toolbar.Panels.svelte";
-  import SnapPoints from "./EditToolbar/Toolbar.SnapPoints.svelte";
-  import SignalLines from "./EditToolbar/Toolbar.SignalLines.svelte";
-  import Coordinates from "./EditToolbar/Toolbar.Coordinates.svelte";
-  import SnapPointOptions from "./EditToolbar/Toolbar.SnapPointOptions.svelte";
-  import Calculator from "./EditToolbar/Toolbar.LineCounter.svelte";
+  import Mode from "./Toolbar.Mode.svelte";
+  import ScreenSize from "./Toolbar.ScreenSize.svelte";
+  import Panels from "./Toolbar.Panels.svelte";
+  import SnapPoints from "./Toolbar.SnapPoints.svelte";
+  import SignalLines from "./Toolbar.SignalLines.svelte";
+  import Coordinates from "./Toolbar.Coordinates.svelte";
+  import SnapPointOptions from "./Toolbar.SnapPointOptions.svelte";
+  import LineCounter from "./Toolbar.LineCounter.svelte";
 
-  import { tooltip } from "./Tooltips/tooltip.js";
+  import { tooltip } from "../Tooltips/tooltip";
 
-  import { isExportDialogOpen, selection } from "./store";
+  import { isExportDialogOpen, selection } from "../store";
 </script>
 
 <div id="container">
@@ -76,7 +76,7 @@
     {/if}
   </div>
 
-  <Calculator />
+  <LineCounter />
 
   <button class="dialog" on:click={() => ($isExportDialogOpen = true)}
     >Import / Export</button

@@ -6,7 +6,7 @@
     snapPoints as snapPointsClass,
     signalLines as signalLinesClass,
     lineWidthState,
-  } from "./store";
+  } from "../store";
 
   const updateSelectedSnapPointsLabel = (label: string) => {
     $snapPointsClass.array.forEach((snapPoint, i) => {
