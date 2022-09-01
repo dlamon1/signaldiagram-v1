@@ -91,8 +91,8 @@
         $signalLinesClass.nullDestinationSnapPointIndex();
         // $signalLinesClass.setMousePosition(d);
 
-        $mousePosition.x = d.x1;
-        $mousePosition.y = d.y1;
+        $mousePosition.x = d.x;
+        $mousePosition.y = d.y;
       })
       .on("mouseup", function () {
         $signalLinesClass.nullDestinationSnapPointIndex();
