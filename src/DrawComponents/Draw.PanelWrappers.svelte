@@ -14,6 +14,7 @@
     setIsDrawingSignalLine,
     showCoordinates,
     showDirectionArrows,
+    mousePosition,
   } from "../store";
 
   let hoveredColor = "rgba(0, 255, 170, 1)";
@@ -36,7 +37,7 @@
   }
 
   const drawPanelWrappers = () => {
-    console.log("draw panels");
+    // console.log("draw panels");
     let panels = $panelsClass.array;
 
     d3.select("#temp-signal-line").remove();
@@ -88,12 +89,16 @@
       .on("mousemove", function (d) {
         if (!$isDrawMode) return;
         $signalLinesClass.nullDestinationSnapPointIndex();
-        $signalLinesClass.setMousePosition(d);
+        // $signalLinesClass.setMousePosition(d);
+
+        $mousePosition.x = d.x1;
+        $mousePosition.y = d.y1;
       })
       .on("mouseup", function () {
         $signalLinesClass.nullDestinationSnapPointIndex();
-        $signalLinesClass.nullDestinationSnapPointIndex();
-        $signalLinesClass.setMousePosition({ x: 0, y: 0 });
+        // $signalLinesClass.setMousePosition({ x: 0, y: 0 });
+        $mousePosition.x = 0;
+        $mousePosition.y = 0;
 
         d3.select("#temp-signal-line")
           .attr("x1", null)

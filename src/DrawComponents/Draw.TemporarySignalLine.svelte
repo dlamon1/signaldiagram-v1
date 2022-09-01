@@ -1,5 +1,6 @@
 <script lang="ts">
   import * as d3 from "d3";
+  import { get } from "svelte/store";
   import {
     snapPoints as snapPointsClass,
     signalLines as signalLinesClass,
@@ -10,10 +11,12 @@
     width,
     height,
     snapPointsGroupEnterRef,
+    mousePosition,
   } from "../store";
 
   $: {
-    let t = $signalLinesClass;
+    let t = [$signalLinesClass, $mousePosition];
+    // console.log("draw temp signal line");
     drawTemporarySignalLine();
   }
 
@@ -22,7 +25,7 @@
     if (!$isDrawingSignalLine) return;
 
     let origin = $signalLinesClass.origin;
-    let mouse = $signalLinesClass.mouse;
+    let mouse = get(mousePosition);
     if (origin.snapPointIndex && mouse.x && mouse.y) {
       theAcutualDrawing();
     }
@@ -39,10 +42,8 @@
 
     // [tx + k * xo, ty + k * yo]
 
-    let x2 =
-      $signalLinesClass.mouse.x / $transform.k - $transform.x / $transform.k;
-    let y2 =
-      $signalLinesClass.mouse.y / $transform.k - $transform.y / $transform.k;
+    let x2 = get(mousePosition).x / $transform.k - $transform.x / $transform.k;
+    let y2 = get(mousePosition).y / $transform.k - $transform.y / $transform.k;
 
     if (destinationI) {
       let destinationSanpPoint =

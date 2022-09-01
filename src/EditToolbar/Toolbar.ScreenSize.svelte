@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { columns, rows, width, height } from "../store";
+  import { columns, rows, width, height, widthMM, heightMM } from "../store";
 </script>
 
 <div id="general">
@@ -15,13 +15,23 @@
     </div>
 
     <div id="input-wrapper">
-      Width:
+      Width(px):
       <input type="number" bind:value={$width} min="1" />
     </div>
 
     <div id="input-wrapper">
-      Height:
+      Height(px):
       <input type="number" bind:value={$height} min="1" />
+    </div>
+
+    <div id="input-wrapper">
+      Width(mm):
+      <input type="number" bind:value={$widthMM} min="1" />
+    </div>
+
+    <div id="input-wrapper">
+      Height(mm):
+      <input type="number" bind:value={$heightMM} min="1" />
     </div>
   </div>
 </div>

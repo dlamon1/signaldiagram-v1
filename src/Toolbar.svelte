@@ -1,11 +1,12 @@
 <script lang="ts">
   import Mode from "./EditToolbar/Toolbar.Mode.svelte";
-  import General from "./EditToolbar/Toolbar.General.svelte";
+  import ScreenSize from "./EditToolbar/Toolbar.ScreenSize.svelte";
   import Panels from "./EditToolbar/Toolbar.Panels.svelte";
   import SnapPoints from "./EditToolbar/Toolbar.SnapPoints.svelte";
   import SignalLines from "./EditToolbar/Toolbar.SignalLines.svelte";
   import Coordinates from "./EditToolbar/Toolbar.Coordinates.svelte";
   import SnapPointOptions from "./EditToolbar/Toolbar.SnapPointOptions.svelte";
+  import Calculator from "./EditToolbar/Toolbar.Calculator.svelte";
 
   import { tooltip } from "./Tooltips/tooltip.js";
 
@@ -20,7 +21,7 @@
   <div class="divider" />
 
   <div id="general">
-    <General />
+    <ScreenSize />
   </div>
 
   <div class="divider" />
@@ -74,6 +75,8 @@
       <SignalLines />
     {/if}
   </div>
+
+  <Calculator />
 
   <button class="dialog" on:click={() => ($isExportDialogOpen = true)}
     >Import / Export</button
