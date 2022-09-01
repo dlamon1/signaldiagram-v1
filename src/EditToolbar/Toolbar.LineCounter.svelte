@@ -5,6 +5,7 @@
     snapPointDirection,
     widthMM,
     heightMM,
+    isRearView,
   } from "../store";
 
   import type { SignalLineObj } from "../Types/ClassTypes";
@@ -19,7 +20,7 @@
   let bottomBottomCounts = [];
 
   $: {
-    let t = [$signalLines.array, widthMM, heightMM];
+    let t = [$signalLines.array, $widthMM, $heightMM, $isRearView];
 
     let signalLineTotals = setCalculations();
 

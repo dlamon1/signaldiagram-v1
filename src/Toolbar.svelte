@@ -6,7 +6,7 @@
   import SignalLines from "./EditToolbar/Toolbar.SignalLines.svelte";
   import Coordinates from "./EditToolbar/Toolbar.Coordinates.svelte";
   import SnapPointOptions from "./EditToolbar/Toolbar.SnapPointOptions.svelte";
-  import Calculator from "./EditToolbar/Toolbar.Calculator.svelte";
+  import Calculator from "./EditToolbar/Toolbar.LineCounter.svelte";
 
   import { tooltip } from "./Tooltips/tooltip.js";
 
@@ -104,7 +104,7 @@
       use:tooltip
       href="https://v1.signaldiagram.com"
     >
-      Version 2.0.0</a
+      Version 2.1.0</a
     >
   </div>
 </div>
