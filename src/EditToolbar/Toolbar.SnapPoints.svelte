@@ -48,7 +48,7 @@
       key={"snapPoint"}
       layer={"background"}
       element={"Background"}
-      isOpen={true}
+      isOpen={false}
       classObj={$snapPointsClass}
     />
 

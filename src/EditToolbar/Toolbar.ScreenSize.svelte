@@ -40,7 +40,7 @@
   #dimensions-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    margin-top: 10px;
+    margin-top: 5px;
   }
 
   #dimensions-container input {
