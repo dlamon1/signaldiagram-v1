@@ -82,7 +82,6 @@
   }
   .canvas-wrapper {
     width: calc(100vw - 250px);
-    /* margin: 10px; */
   }
 
   .toolbar {

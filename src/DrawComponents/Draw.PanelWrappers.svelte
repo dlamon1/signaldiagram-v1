@@ -10,7 +10,6 @@
     groups,
     groupsEnter,
     isRearView,
-    columns,
     setIsDrawingSignalLine,
     showCoordinates,
     showDirectionArrows,
