@@ -16,8 +16,10 @@
   };
 
   let topTopCounts: Length[] = [];
-  let topBottomCounts = [];
-  let bottomBottomCounts = [];
+  let topBottomCounts: Length[] = [];
+  let bottomBottomCounts: Length[] = [];
+  let horizontalCounts: Length[] = [];
+  let verticalCounts: Length[] = [];
 
   $: {
     let t = [$signalLines.array, $widthMM, $heightMM, $isRearView];
@@ -44,17 +46,35 @@
       let obj: Length = { length: parseInt(l), quantity: bbCounts[l] };
       bottomBottomCounts.push(obj);
     }
+
+    // let hCounts = calculateTotals(signalLineTotals.horizontals);
+
+    // for (const l in hCounts) {
+    //   let obj: Length = { length: parseInt(l), quantity: hCounts[l] };
+    //   horizontalCounts.push(obj);
+    // }
+
+    // let vCounts = calculateTotals(signalLineTotals.verticals);
+
+    // for (const l in vCounts) {
+    //   let obj: Length = { length: parseInt(l), quantity: vCounts[l] };
+    //   verticalCounts.push(obj);
+    // }
   }
 
   const setCalculations = () => {
     topTopCounts = [];
     topBottomCounts = [];
     bottomBottomCounts = [];
+    horizontalCounts = [];
+    verticalCounts = [];
 
     let totals = {
       topTop: [],
       topBottom: [],
       bottomBottom: [],
+      horizontals: [],
+      verticals: [],
     };
 
     $signalLines.array.forEach((sl: SignalLineObj) => {
@@ -63,12 +83,16 @@
 
       if (originIndex == 1 && destinationIndex == 1) {
         totals.topTop.push(sl.getLengthInMM());
+        totals.horizontals.push(sl.getLengthInMM());
       } else if (originIndex == 1 && destinationIndex == 2) {
         totals.topBottom.push(sl.getLengthInMM());
+        totals.verticals.push(sl.getLengthInMM());
       } else if (originIndex == 2 && destinationIndex == 1) {
         totals.topBottom.push(sl.getLengthInMM());
+        totals.verticals.push(sl.getLengthInMM());
       } else if (originIndex == 2 && destinationIndex == 2) {
         totals.bottomBottom.push(sl.getLengthInMM());
+        totals.horizontals.push(sl.getLengthInMM());
       }
     });
 
@@ -85,6 +109,40 @@
 </script>
 
 <div class="component-container">
+  <!-- <div class="category-container">
+    <div class="category-header">Total Horizontal</div>
+    <div class="table-header">
+      <div class="table-row">
+        <div>Length</div>
+        <div>Quantity</div>
+      </div>
+
+      {#each horizontalCounts as length}
+        <div class="table-row">
+          <div>{length.length}{$distanceUnit}</div>
+          <div>{length.quantity}</div>
+        </div>
+      {/each}
+    </div>
+  </div>
+
+  <div class="category-container">
+    <div class="category-header">Total Vertical 🏄</div>
+    <div class="table-header">
+      <div class="table-row">
+        <div>Length</div>
+        <div>Quantity</div>
+      </div>
+
+      {#each horizontalCounts as length}
+        <div class="table-row">
+          <div>{length.length}{$distanceUnit}</div>
+          <div>{length.quantity}</div>
+        </div>
+      {/each}
+    </div>
+  </div> -->
+
   <div class="category-container">
     <div class="category-header">
       {$snapPointDirection == "vertical" ? "Top:Top" : "Left:Left"}
@@ -97,7 +155,9 @@
 
       {#each topTopCounts as length}
         <div class="table-row">
-          <div>{length.length}{$distanceUnit}</div>
+          <div>
+            {length.length}{$distanceUnit}
+          </div>
           <div>{length.quantity}</div>
         </div>
       {/each}
