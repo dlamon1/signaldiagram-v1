@@ -132,7 +132,8 @@ export class SignalLines implements SignalLinesType {
 
   addSignalLine() {
     const origin = structuredClone(this.origin);
-    if (!this.destination.snapPointIndex) {
+    console.log(this.destination.snapPointIndex);
+    if (this.destination.snapPointIndex < 0) {
       return;
     }
     const sl = new SignalLine(origin, this.destination.snapPointIndex);
