@@ -9,6 +9,27 @@
   import { fade } from "svelte/transition";
 
   import ColorPicker from "./components/ColorPicker.svelte";
+  import type { SnapPointObj } from "../Types/ClassTypes";
+
+  const selectOnes = () => {
+    $snapPointsClass.array.forEach((p: SnapPointObj) => {
+      p.setIsSelected(false);
+      if (p.pointIndexWithinPanel == 1) {
+        p.setIsSelected(true);
+      }
+      $snapPointsClass = $snapPointsClass;
+    });
+  };
+
+  const selectTwos = () => {
+    $snapPointsClass.array.forEach((p: SnapPointObj) => {
+      p.setIsSelected(false);
+      if (p.pointIndexWithinPanel == 2) {
+        p.setIsSelected(true);
+      }
+      $snapPointsClass = $snapPointsClass;
+    });
+  };
 
   let sd = [];
 
@@ -47,6 +68,11 @@
 </script>
 
 <div id="snappoints" in:fade={{ duration: 150 }} out:fade={{ duration: 0 }}>
+  <div class="crisscross">
+    <button class="select" on:click={selectOnes}>Select [0]</button>
+    <button class="select" on:click={selectTwos}>select [1]</button>
+  </div>
+
   <div id="input-wrapper" class="opacity-wrapper" style="margin-top: 10px;">
     <label class="hovered">
       X Offset
@@ -124,6 +150,18 @@
 </div>
 
 <style>
+  .select > button {
+    padding: 5px;
+    padding-inline: 15px;
+  }
+
+  .crisscross {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 10px;
+  }
+
   .label-text-input {
     width: 50px;
   }
