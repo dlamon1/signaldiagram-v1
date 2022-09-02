@@ -3,11 +3,9 @@
   import * as d3 from "d3";
 
   import {
-    isDrawMode,
     topLevelSvgRef,
     canvasWrapperHeight,
     canvasWrapperWidth,
-    isSelectMode,
     transform as transformStore,
     columns,
     rows,
@@ -19,6 +17,10 @@
     let t = [$columns, $rows, $width, $height];
 
     centerScreen();
+  }
+
+  $: {
+    $topLevelSvgRef && initZoom();
   }
 
   let zoom = d3
@@ -51,17 +53,5 @@
 
   function initZoom() {
     d3.select("svg").call(zoom);
-  }
-
-  // function removeZoom() {
-  //   d3.select("svg").on(".zoom", null);
-  // }
-
-  // const addOnHoverIdTag = () => {
-  //   d3.select("svg").selectAll("g").attr("id", "g-onhover");
-  // };
-
-  $: {
-    $topLevelSvgRef && initZoom();
   }
 </script>
