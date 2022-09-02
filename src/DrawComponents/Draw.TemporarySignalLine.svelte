@@ -26,7 +26,7 @@
 
     let origin = $signalLinesClass.origin;
     let mouse = get(mousePosition);
-    if (origin.snapPointIndex && mouse.x && mouse.y) {
+    if (origin.snapPointIndex >= 0 && mouse.x && mouse.y) {
       theAcutualDrawing();
     }
   };
