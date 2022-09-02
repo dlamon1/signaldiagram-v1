@@ -153,6 +153,22 @@ export class SnapPoints implements SnapPointsType {
     });
     updatePanels();
   }
+
+  setXOffsets(value: number) {
+    this.array.forEach((panel) => {
+      if (panel.isSelected) {
+        panel.setXOffset(value);
+      }
+    });
+  }
+
+  setYOffsets(value: number) {
+    this.array.forEach((panel) => {
+      if (panel.isSelected) {
+        panel.setYOffset(value);
+      }
+    });
+  }
 }
 
 export class SnapPoint implements SnapPointObj {
@@ -178,6 +194,8 @@ export class SnapPoint implements SnapPointObj {
   pointIndexFullArray: number;
   strokeWidth: number;
   isHidden: boolean;
+  xOffset = 0;
+  yOffset = 0;
 
   constructor(
     row: number,
@@ -210,7 +228,7 @@ export class SnapPoint implements SnapPointObj {
     if (get(snapPointsQuantity) === 1) {
       x = get(width) / 2;
     }
-    return x + parentPanel.getDimensions().x;
+    return x + parentPanel.getDimensions().x + this.xOffset;
   }
 
   getY() {
@@ -224,12 +242,20 @@ export class SnapPoint implements SnapPointObj {
     if (get(snapPointsQuantity) === 1) {
       y = get(height) / 2;
     }
-    return y + parentPanel.y;
+    return y + parentPanel.y + this.yOffset;
+  }
+
+  setXOffset(value: number) {
+    this.xOffset = value;
+  }
+
+  setYOffset(value: number) {
+    this.yOffset = value;
   }
 
   getTranslateString() {
     const x = this.getX();
-    const y = this.getY();
+    const y = this.getY() + this.yOffset;
 
     this.translateString = `translate(${x}, ${y})`;
 

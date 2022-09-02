@@ -59,7 +59,6 @@
     // 3
     $snapPointsGroupEnterRef
       .merge($snapPointsGroupRef)
-      // .transition()
       .attr("transform", (d) => {
         return d.getTranslateString();
       });
@@ -89,7 +88,6 @@
       .style("paint-order", "stroke")
       .attr("stroke-alignment", "inner")
       .on("mouseover", function (d, i) {
-        // console.log("mouse over");
         if ($isDrawingSignalLine) {
           $signalLinesClass.setDestinationSnapPointIndex(d);
         }
