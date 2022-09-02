@@ -88,6 +88,8 @@ export interface SnapPointObj {
   pointIndexFullArray: number;
   strokeWidth: number;
   isHidden: boolean;
+  xOffset: number;
+  yOffset: number;
   getX: () => number;
   getY: () => number;
   getTranslateString: () => string;
@@ -161,6 +163,8 @@ export type SnapPointsType = {
   removeLabel: () => void;
   setIsSquares: (isSquare: boolean) => void;
   setIsTriangles: (isTriangle: boolean) => void;
+  setXOffsets: (value: number) => void;
+  setYOffsets: (value: number) => void;
 };
 
 export type SignalLinesType = {
