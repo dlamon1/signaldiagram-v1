@@ -1,11 +1,8 @@
 <script lang="ts">
-  import { canvasWrapperHeight, canvasWrapperWidth, isChrome } from "./store";
-  import HandleColorLabelUpdates from "./Handle.ColorLabelUpdates.svelte";
-  import Toolbar from "./Toolbar.svelte";
+  import Toolbar from "./EditToolbar/Toolbar.svelte";
   import ExportDialog from "./Dialogs/Exports.svelte";
   import DrawCanvasWrapper from "./DrawComponents/Draw.CanvasWrapper.svelte";
   import DrawPanelWrappers from "./DrawComponents/Draw.PanelWrappers.svelte";
-  import Reactivity from "./Handle.PanelArrayUpdate.svelte";
   import DrawSnapPoints from "./DrawComponents/Draw.SnapPoints.svelte";
   import DrawTemporarySignalLine from "./DrawComponents/Draw.TemporarySignalLine.svelte";
   import Zoom from "./DrawComponents/Zoom.svelte";
@@ -14,9 +11,16 @@
   import DrawSignalLines from "./DrawComponents/Draw.SignalLines.svelte";
   import BrowserCompatabilityDialog from "./Dialogs/Dialog.BrowserCompatability.svelte";
 
-  import { gZoomWrapperRef } from "./store";
+  import {
+    canvasWrapperHeight,
+    canvasWrapperWidth,
+    isChrome,
+    gZoomWrapperRef,
+  } from "./store";
 
-  import HandleSelectionTab from "./Handle.SelectionTab.svelte";
+  import HandleColorLabelUpdates from "./Handlers/Handle.ColorLabelUpdates.svelte";
+  import Reactivity from "./Handlers/Handle.PanelArrayUpdate.svelte";
+  import HandleSelectionTab from "./Handlers/Handle.SelectionTab.svelte";
 
   $gZoomWrapperRef = null;
 
@@ -78,7 +82,6 @@
   }
   .canvas-wrapper {
     width: calc(100vw - 250px);
-    /* margin: 10px; */
   }
 
   .toolbar {

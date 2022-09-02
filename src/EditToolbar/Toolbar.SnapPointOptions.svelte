@@ -2,7 +2,7 @@
   import { snapPointsQuantity, snapPointDirection } from "../store";
 </script>
 
-<div>
+<div class="component-container">
   <div>Snap Point Quantity</div>
   <label>
     <input
@@ -50,6 +50,9 @@
 </div>
 
 <style>
+  .component-container {
+    margin-top: 5px;
+  }
   .twoPoints {
     opacity: 1;
     margin-top: 10px;

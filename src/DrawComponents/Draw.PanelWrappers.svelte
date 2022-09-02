@@ -10,10 +10,10 @@
     groups,
     groupsEnter,
     isRearView,
-    columns,
     setIsDrawingSignalLine,
     showCoordinates,
     showDirectionArrows,
+    mousePosition,
   } from "../store";
 
   let hoveredColor = "rgba(0, 255, 170, 1)";
@@ -36,7 +36,7 @@
   }
 
   const drawPanelWrappers = () => {
-    console.log("draw panels");
+    // console.log("draw panels");
     let panels = $panelsClass.array;
 
     d3.select("#temp-signal-line").remove();
@@ -88,12 +88,13 @@
       .on("mousemove", function (d) {
         if (!$isDrawMode) return;
         $signalLinesClass.nullDestinationSnapPointIndex();
-        $signalLinesClass.setMousePosition(d);
+        $mousePosition.x = d.x;
+        $mousePosition.y = d.y;
       })
       .on("mouseup", function () {
         $signalLinesClass.nullDestinationSnapPointIndex();
-        $signalLinesClass.nullDestinationSnapPointIndex();
-        $signalLinesClass.setMousePosition({ x: 0, y: 0 });
+        $mousePosition.x = 0;
+        $mousePosition.y = 0;
 
         d3.select("#temp-signal-line")
           .attr("x1", null)
@@ -134,8 +135,8 @@
       .filter(function (d) {
         return d.isSelected;
       })
-      .attr("x", (d) => d.lineWidth)
-      .attr("y", (d) => d.lineWidth)
+      .attr("x", (d) => d.lineWidth + d.lineWidth / 2)
+      .attr("y", (d) => d.lineWidth + d.lineWidth / 2)
       .attr("width", (d) => d.width - d.lineWidth * 2)
       .attr("height", (d) => d.height - d.lineWidth * 2)
       .attr("stroke", selectedColor)

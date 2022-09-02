@@ -58,10 +58,9 @@ export interface LoadSnapPointObj {
 }
 
 export type SnapPointCoordinates = {
-  x: number;
-  y: number;
   snapPointIndex: number;
   panelIndex: number;
+  pointIndexWithinPanel: number;
 };
 
 export interface LoadSignalLineObj {
@@ -122,6 +121,7 @@ export interface SignalLineObj {
   setEndCoordinates: (event) => void;
   updateColor: (color: string) => void;
   updateLineWidth: (lineWidth: number) => void;
+  getLengthInMM: () => number;
 }
 
 export type PanelsType = {

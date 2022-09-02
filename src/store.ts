@@ -4,7 +4,12 @@ import { SignalLines } from "./classes/SignalLinesClass";
 import { Panels } from "./classes/PanelsClass";
 import { SnapPoints } from "./classes/SnapPointsClass";
 
-import type { PanelObj, SnapPointObj, SignalLineObj } from "./Types/ClassTypes";
+import type {
+  PanelObj,
+  SnapPointObj,
+  SignalLineObj,
+  XYCoordinates,
+} from "./Types/ClassTypes";
 
 import type * as d3 from "d3";
 
@@ -114,6 +119,11 @@ export const setSignalLineColor = (color: string) => {
   colorState.update(() => newColorObj);
 };
 
+export const mousePosition: Writable<XYCoordinates> = writable({
+  x: 0,
+  y: 0,
+});
+
 type Selection = "panels" | "snappoints" | "signallines";
 
 export const selection: Writable<Selection> = writable("panels");
@@ -144,6 +154,8 @@ export const rows: Writable<number> = writable(5);
 
 export const width: Writable<number> = writable(160);
 export const height: Writable<number> = writable(320);
+export const widthMM: Writable<number> = writable(500);
+export const heightMM: Writable<number> = writable(1000);
 export const ratio: Writable<number> = writable(get(width) / get(height));
 
 // This is the size of the browser window minus the toolbar
@@ -158,6 +170,10 @@ export const panels = writable(new Panels());
 export const updatePanels = () => {
   panels.update(($value) => ($value = $value));
 };
+
+type DistanceUnit = "mm" | "ft" | "cm";
+
+export const distanceUnit: Writable<DistanceUnit> = writable("mm");
 
 export const snapPoints = writable(new SnapPoints());
 

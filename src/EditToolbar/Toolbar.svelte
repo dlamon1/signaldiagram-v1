@@ -1,15 +1,15 @@
 <script lang="ts">
-  import Mode from "./EditToolbar/Toolbar.Mode.svelte";
-  import General from "./EditToolbar/Toolbar.General.svelte";
-  import Panels from "./EditToolbar/Toolbar.Panels.svelte";
-  import SnapPoints from "./EditToolbar/Toolbar.SnapPoints.svelte";
-  import SignalLines from "./EditToolbar/Toolbar.SignalLines.svelte";
-  import Coordinates from "./EditToolbar/Toolbar.Coordinates.svelte";
-  import SnapPointOptions from "./EditToolbar/Toolbar.SnapPointOptions.svelte";
+  import Mode from "./Toolbar.Mode.svelte";
+  import ScreenSize from "./Toolbar.ScreenSize.svelte";
+  import Panels from "./Toolbar.Panels.svelte";
+  import SnapPoints from "./Toolbar.SnapPoints.svelte";
+  import SignalLines from "./Toolbar.SignalLines.svelte";
+  import Coordinates from "./Toolbar.Coordinates.svelte";
+  import SnapPointOptions from "./Toolbar.SnapPointOptions.svelte";
+  import LineCounter from "./Toolbar.LineCounter.svelte";
+  import Links from "./Toolbar.Links.svelte";
 
-  import { tooltip } from "./Tooltips/tooltip.js";
-
-  import { isExportDialogOpen, selection } from "./store";
+  import { selection } from "../store";
 </script>
 
 <div id="container">
@@ -20,7 +20,7 @@
   <div class="divider" />
 
   <div id="general">
-    <General />
+    <ScreenSize />
   </div>
 
   <div class="divider" />
@@ -75,43 +75,12 @@
     {/if}
   </div>
 
-  <button class="dialog" on:click={() => ($isExportDialogOpen = true)}
-    >Import / Export</button
-  >
+  <LineCounter />
 
-  <div class="link-wrapper">
-    <a
-      title="Thank you for the help!"
-      use:tooltip
-      href="https://github.com/dlamon1/signaldiagram/issues"
-      target="_blank"
-    >
-      Report a Bug</a
-    >
-  </div>
-
-  <div class="link-wrapper">
-    <a href="mailto: support@leadled.io">Feedback</a>
-  </div>
-
-  <div class="link-wrapper">
-    <a
-      class="version"
-      title="Click here for Version 1.0.0"
-      use:tooltip
-      href="https://v1.signaldiagram.com"
-    >
-      Version 2.0.0</a
-    >
-  </div>
+  <Links />
 </div>
 
 <style>
-  .version {
-    margin-top: 10px;
-    align-self: center;
-    color: aqua;
-  }
   .selected {
     color: #fff;
     background-color: #000;
@@ -131,17 +100,7 @@
   .title:hover {
     outline: 1px solid #000;
   }
-  .dialog {
-    height: 40px;
-  }
-  a {
-    color: #fff;
-    text-decoration: none;
-  }
-  .link-wrapper {
-    margin-top: 10px;
-    align-self: center;
-  }
+
   .divider {
     height: 1px;
     background-color: #ccc;

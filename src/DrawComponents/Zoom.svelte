@@ -3,11 +3,9 @@
   import * as d3 from "d3";
 
   import {
-    isDrawMode,
     topLevelSvgRef,
     canvasWrapperHeight,
     canvasWrapperWidth,
-    isSelectMode,
     transform as transformStore,
     columns,
     rows,
@@ -21,19 +19,23 @@
     centerScreen();
   }
 
+  $: {
+    $topLevelSvgRef && initZoom();
+  }
+
   let zoom = d3
     .zoom()
     .scaleExtent([0.25, $canvasWrapperHeight / $width])
-    // .translateExtent([
-    //   [-100, -100],
-    //   [$canvasWrapperWidth, $canvasWrapperHeight],
-    // ])
+    .translateExtent([
+      [-$width * $columns, -$rows * $height * 0.95],
+      [$width * $columns * 2, $rows * $height * 1.95],
+    ])
     .on("zoom", handleZoom);
 
   const centerScreen = () => {
-    let k = $canvasWrapperWidth / $columns / $width;
+    let k = ($canvasWrapperWidth / $columns / $width) * 0.85;
     if ($canvasWrapperHeight < $rows * $height * k) {
-      k = $canvasWrapperHeight / $rows / $height;
+      k = ($canvasWrapperHeight / $rows / $height) * 0.85;
     }
     let x = $canvasWrapperWidth - $columns * $width * k;
     let y = $canvasWrapperHeight - $rows * $height * k;
@@ -51,17 +53,5 @@
 
   function initZoom() {
     d3.select("svg").call(zoom);
-  }
-
-  // function removeZoom() {
-  //   d3.select("svg").on(".zoom", null);
-  // }
-
-  // const addOnHoverIdTag = () => {
-  //   d3.select("svg").selectAll("g").attr("id", "g-onhover");
-  // };
-
-  $: {
-    $topLevelSvgRef && initZoom();
   }
 </script>

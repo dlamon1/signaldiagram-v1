@@ -5,7 +5,7 @@
     selection,
     panels,
     snapPoints as snapPointsClass,
-  } from "./store";
+  } from "../store";
 
   $: {
     $selection && deSelect();

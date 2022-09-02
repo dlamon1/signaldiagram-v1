@@ -13,6 +13,8 @@ import {
   setSelection,
   updatePanels,
   setSignalLineColor,
+  heightMM,
+  widthMM,
 } from "../store";
 
 import type {
@@ -23,23 +25,23 @@ import type {
   SnapPointCoordinatesKey,
   XYCoordinates,
   ColorObjKey,
+  PanelObj,
+  SnapPointObj,
 } from "../Types/ClassTypes";
 
 export class SignalLines implements SignalLinesType {
   array = [];
 
   origin = {
-    x: null,
-    y: null,
     snapPointIndex: null,
     panelIndex: null,
+    pointIndexWithinPanel: null,
   };
 
   destination = {
-    x: null,
-    y: null,
     snapPointIndex: null,
     panelIndex: null,
+    pointIndexWithinPanel: null,
   };
 
   mouse = {
@@ -130,13 +132,13 @@ export class SignalLines implements SignalLinesType {
 
   addSignalLine() {
     const origin = structuredClone(this.origin);
-    if (!this.destination.snapPointIndex) {
+    console.log(this.destination.snapPointIndex);
+    if (this.destination.snapPointIndex < 0) {
       return;
     }
     const sl = new SignalLine(origin, this.destination.snapPointIndex);
     this.array.push(sl);
-    this.origin.x = null;
-    this.origin.y = null;
+
     this.nullOriginAndDestinationValues();
     updateSignalLines();
     updatePanels();
@@ -214,16 +216,14 @@ export class SignalLines implements SignalLinesType {
 
 class SignalLine implements SignalLineObj {
   origin = {
-    x: 0,
-    y: 0,
     snapPointIndex: 0,
     panelIndex: 0,
+    pointIndexWithinPanel: 0,
   };
   destination = {
-    x: 0,
-    y: 0,
-    panelIndex: 0,
     snapPointIndex: 0,
+    panelIndex: 0,
+    pointIndexWithinPanel: 0,
   };
   color = {
     background: "#000000",
@@ -242,6 +242,24 @@ class SignalLine implements SignalLineObj {
     this.color.background = get(colorState).signalLine.background;
     this.lineWidth =
       get(width) < get(height) ? get(width) / 20 : get(height) / 20;
+    this.setDestinationPanelIndex();
+    this.setIndexesWithInPanel();
+    // console.log(origin, destinationSnapPointIndex);
+  }
+
+  setIndexesWithInPanel() {
+    let oSp: SnapPointObj = get(snapPoints).array[this.origin.snapPointIndex];
+    let o = oSp.pointIndexWithinPanel;
+    let dSp: SnapPointObj =
+      get(snapPoints).array[this.destination.snapPointIndex];
+    let d = dSp.pointIndexWithinPanel;
+    this.origin.pointIndexWithinPanel = o;
+    this.destination.pointIndexWithinPanel = d;
+  }
+
+  setDestinationPanelIndex() {
+    let sp = get(snapPoints).array[this.destination.snapPointIndex];
+    this.destination.panelIndex = sp.panelIndex;
   }
 
   setIsSelected(boolean: boolean) {
@@ -266,5 +284,27 @@ class SignalLine implements SignalLineObj {
 
   setColor(key: ColorObjKey, color: string) {
     this.color[key] = color;
+  }
+
+  getLengthInMM() {
+    const originSnapPoint: SnapPointObj =
+      get(snapPoints).array[this.origin.snapPointIndex];
+
+    const destinationSnapPoint: SnapPointObj =
+      get(snapPoints).array[this.destination.snapPointIndex];
+
+    const destinationX =
+      (destinationSnapPoint.getX() / get(width)) * get(widthMM);
+    const destinationY =
+      (destinationSnapPoint.getY() / get(height)) * get(heightMM);
+
+    const originX = (originSnapPoint.getX() / get(width)) * get(widthMM);
+    const originY = (originSnapPoint.getY() / get(height)) * get(heightMM);
+
+    const a = Math.abs(destinationX - originX);
+    const b = Math.abs(destinationY - originY);
+    const c = Math.ceil(Math.sqrt(a * a + b * b));
+
+    return c;
   }
 }
