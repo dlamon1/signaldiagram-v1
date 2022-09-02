@@ -136,8 +136,8 @@
       .filter(function (d) {
         return d.isSelected;
       })
-      .attr("x", (d) => d.lineWidth)
-      .attr("y", (d) => d.lineWidth)
+      .attr("x", (d) => d.lineWidth + d.lineWidth / 2)
+      .attr("y", (d) => d.lineWidth + d.lineWidth / 2)
       .attr("width", (d) => d.width - d.lineWidth * 2)
       .attr("height", (d) => d.height - d.lineWidth * 2)
       .attr("stroke", selectedColor)
