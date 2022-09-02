@@ -15,6 +15,7 @@
     snapPointsGroupEnterRef,
     snapPointsQuantity,
     snapPointDirection,
+    isDrawMode,
   } from "../store";
 
   let hoveredColor = "rgba(0, 255, 170, 1)";
@@ -91,12 +92,14 @@
       .attr("stroke-width", (d) => d.lineWidth * 2)
       .attr("pointer-events", "visible")
       .on("mouseover", (e) => {
+        if ($isDrawMode) return;
         e.stopPropagation();
         $isSelectMode &&
           !$isDrawingSignalLine &&
           d3.select(e.path[0]).attr("stroke", hoveredColor);
       })
       .on("mouseout", (e, d) => {
+        if ($isDrawMode) return;
         e.stopPropagation();
         $isSelectMode &&
           !$isDrawingSignalLine &&
@@ -109,6 +112,7 @@
           });
       })
       .on("click", function (e) {
+        if ($isDrawMode) return;
         e.stopPropagation();
         let i = e.path[0].__data__.i;
         if ($isSelectMode && !$isDrawingSignalLine) {
