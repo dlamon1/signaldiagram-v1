@@ -1,12 +1,71 @@
 <script lang="ts">
-  import { signalDirectionButtons, width, height } from "../../store";
+  import { signalDirectionButtons, width, height, panels } from "../../store";
   import type { DirectionObj } from "../../store";
+  import type { PanelObj } from "../../Types/ClassTypes";
 
   let count = 0;
+  let selectedArray: PanelObj[] = [];
 
   const setSignalDirection = (direction: DirectionObj) => {
+    selectedArray = [];
+
+    $panels.array.forEach((p) => {
+      if (p.isSelected) {
+        selectedArray.push(p);
+      }
+    });
+
+    if (!selectedArray.length) {
+      return;
+    }
+
     // Find starting snap point
+
     let startingSnapPoint = getStartSnapPoint(direction);
+
+    const setCornerPanelIndexes = (arrayOfPanels: PanelObj[]) => {
+      console.log(arrayOfPanels[0].i);
+      let cornerPanelIndexes = {
+        topLeft: arrayOfPanels[0].i,
+        topRight: arrayOfPanels[0].i,
+        bottomLeft: arrayOfPanels[0].i,
+        bottomRight: arrayOfPanels[0].i,
+      };
+
+      arrayOfPanels.forEach((p) => {
+        if (
+          p.x <= $panels.array[cornerPanelIndexes.topLeft].x &&
+          p.y <= $panels.array[cornerPanelIndexes.topLeft].y
+        ) {
+          cornerPanelIndexes.topLeft = p.i;
+        }
+        if (
+          p.x >= $panels.array[cornerPanelIndexes.topRight].x &&
+          p.y <= $panels.array[cornerPanelIndexes.topRight].y
+        ) {
+          cornerPanelIndexes.topRight = p.i;
+        }
+        if (
+          p.x <= $panels.array[cornerPanelIndexes.bottomLeft].x &&
+          p.y >= $panels.array[cornerPanelIndexes.bottomLeft].y
+        ) {
+          cornerPanelIndexes.bottomLeft = p.i;
+        }
+        if (
+          p.x >= $panels.array[cornerPanelIndexes.bottomRight].x &&
+          p.y >= $panels.array[cornerPanelIndexes.bottomRight].y
+        ) {
+          cornerPanelIndexes.bottomRight = p.i;
+        }
+      });
+
+      return cornerPanelIndexes;
+    };
+
+    let cornerPanelIndexes = setCornerPanelIndexes(selectedArray);
+
+    console.log(cornerPanelIndexes);
+
     // Set signal line start
     // Get next end point
     // Set signal line end
@@ -15,7 +74,10 @@
     // Find next snap point
   };
 
-  const getStartSnapPoint = (direction: DirectionObj) => {};
+  const getStartSnapPoint = (direction: DirectionObj) => {
+    // console.log(direction);
+    return;
+  };
 
   let lineColor = "#000000";
   let strokeWidth = 8;

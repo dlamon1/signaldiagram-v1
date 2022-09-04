@@ -208,7 +208,10 @@ export type DirectionObj = {
   initialDirection: "vertical" | "horizontal";
   transform: string;
   points: XYCoordinates[];
+  pointOne: InitalPoint;
 };
+
+type InitalPoint = "topleft" | "topright" | "bottomleft" | "bottomright";
 
 export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
   {
@@ -219,6 +222,7 @@ export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
     ],
     initialDirection: "horizontal",
     transform: "rotate(0) scale(.8)",
+    pointOne: "topleft",
   },
   {
     points: [
@@ -228,6 +232,7 @@ export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
     ],
     initialDirection: "horizontal",
     transform: "rotate(180) scale(.8, -.8)",
+    pointOne: "topright",
   },
   {
     points: [
@@ -237,6 +242,7 @@ export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
     ],
     initialDirection: "horizontal",
     transform: "rotate(180) scale(.8)",
+    pointOne: "bottomright",
   },
   {
     points: [
@@ -246,6 +252,7 @@ export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
     ],
     initialDirection: "horizontal",
     transform: "rotate(0) scale(.8, -.8)",
+    pointOne: "bottomleft",
   },
   {
     points: [
@@ -255,6 +262,7 @@ export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
     ],
     initialDirection: "vertical",
     transform: "rotate(270) scale(.8)",
+    pointOne: "bottomleft",
   },
   {
     points: [
@@ -264,6 +272,7 @@ export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
     ],
     initialDirection: "vertical",
     transform: "rotate(270) scale(.8, -.8)",
+    pointOne: "bottomright",
   },
   {
     points: [
@@ -273,6 +282,7 @@ export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
     ],
     initialDirection: "vertical",
     transform: "rotate(90) scale(.8, -.8)",
+    pointOne: "topleft",
   },
   {
     points: [
@@ -282,6 +292,7 @@ export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
     ],
     initialDirection: "vertical",
     transform: "rotate(90) scale(.8)",
+    pointOne: "topright",
   },
 ]);
 
