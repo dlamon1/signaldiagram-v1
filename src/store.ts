@@ -204,10 +204,16 @@ export const colorButtons: Writable<string[]> = writable([
   "#ffffff",
 ]);
 
+type XYandIndex = {
+  i: number;
+  x: number;
+  y: number;
+};
+
 export type DirectionObj = {
   initialDirection: "vertical" | "horizontal";
   transform: string;
-  points: XYCoordinates[];
+  points: XYandIndex[];
   pointOne: PointCorner;
   pointTwo: PointCorner;
   pointThree: PointCorner;
@@ -219,11 +225,11 @@ type PointCorner = "topleft" | "topright" | "bottomleft" | "bottomright";
 export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
   {
     points: [
-      { x: 0, y: 0 },
-      { x: 1, y: 0 },
-      { x: 0, y: 1 },
-      { x: -1, y: 0 },
-      { x: 0, y: 1 },
+      { x: 0, y: 0, i: 1 },
+      { x: 1, y: 0, i: 1 },
+      { x: 0, y: 1, i: 0 },
+      { x: -1, y: 0, i: 0 },
+      { x: 0, y: 1, i: 1 },
     ],
     initialDirection: "horizontal",
     transform: "rotate(0) scale(.8)",
@@ -234,11 +240,11 @@ export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
   },
   {
     points: [
-      { x: 1, y: 0 },
-      { x: -1, y: 0 },
-      { x: 0, y: 1 },
-      { x: 1, y: 0 },
-      { x: 0, y: 1 },
+      { x: 1, y: 0, i: 1 },
+      { x: -1, y: 0, i: 1 },
+      { x: 0, y: 1, i: 0 },
+      { x: 1, y: 0, i: 0 },
+      { x: 0, y: 1, i: 0 },
     ],
     initialDirection: "horizontal",
     transform: "rotate(180) scale(.8, -.8)",
@@ -249,11 +255,11 @@ export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
   },
   {
     points: [
-      { x: 0, y: 1 },
-      { x: 1, y: 0 },
-      { x: 0, y: -1 },
-      { x: -1, y: 0 },
-      { x: 0, y: -1 },
+      { x: 0, y: 1, i: 0 },
+      { x: 1, y: 0, i: 0 },
+      { x: 0, y: -1, i: 0 },
+      { x: -1, y: 0, i: 0 },
+      { x: 0, y: -1, i: 0 },
     ],
     initialDirection: "horizontal",
     transform: "rotate(0) scale(.8, -.8)",
@@ -264,11 +270,11 @@ export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
   },
   {
     points: [
-      { x: 1, y: 1 },
-      { x: -1, y: 0 },
-      { x: 0, y: -1 },
-      { x: 1, y: 0 },
-      { x: 0, y: -1 },
+      { x: 1, y: 1, i: 0 },
+      { x: -1, y: 0, i: 0 },
+      { x: 0, y: -1, i: 0 },
+      { x: 1, y: 0, i: 0 },
+      { x: 0, y: -1, i: 0 },
     ],
     initialDirection: "horizontal",
     transform: "rotate(180) scale(.8)",
@@ -279,11 +285,11 @@ export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
   },
   {
     points: [
-      { x: 0, y: 1 },
-      { x: 0, y: -1 },
-      { x: 1, y: 0 },
-      { x: 0, y: 1 },
-      { x: 1, y: 0 },
+      { x: 0, y: 1, i: 0 },
+      { x: 0, y: -1, i: 1 },
+      { x: 1, y: 0, i: 0 },
+      { x: 0, y: 1, i: 0 },
+      { x: 1, y: 0, i: 0 },
     ],
     initialDirection: "vertical",
     transform: "rotate(270) scale(.8)",
@@ -294,11 +300,11 @@ export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
   },
   {
     points: [
-      { x: 0, y: 1 },
-      { x: 0, y: -1 },
-      { x: -1, y: 0 },
-      { x: 0, y: 1 },
-      { x: -1, y: 0 },
+      { x: 0, y: 1, i: 0 },
+      { x: 0, y: -1, i: 1 },
+      { x: -1, y: 0, i: 0 },
+      { x: 0, y: 1, i: 0 },
+      { x: -1, y: 0, i: 0 },
     ],
     initialDirection: "vertical",
     transform: "rotate(270) scale(.8, -.8)",
@@ -309,11 +315,11 @@ export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
   },
   {
     points: [
-      { x: 0, y: 0 },
-      { x: 0, y: 1 },
-      { x: 1, y: 0 },
-      { x: 0, y: -1 },
-      { x: 1, y: 0 },
+      { x: 0, y: 0, i: 1 },
+      { x: 0, y: 1, i: 0 },
+      { x: 1, y: 0, i: 0 },
+      { x: 0, y: -1, i: 0 },
+      { x: 1, y: 0, i: 0 },
     ],
     initialDirection: "vertical",
     transform: "rotate(90) scale(.8, -.8)",
@@ -324,11 +330,11 @@ export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
   },
   {
     points: [
-      { x: 1, y: 0 },
-      { x: 0, y: 1 },
-      { x: -1, y: 0 },
-      { x: 0, y: -1 },
-      { x: -1, y: 0 },
+      { x: 1, y: 0, i: 1 },
+      { x: 0, y: 1, i: 0 },
+      { x: -1, y: 0, i: 0 },
+      { x: 0, y: -1, i: 0 },
+      { x: -1, y: 0, i: 0 },
     ],
     initialDirection: "vertical",
     transform: "rotate(90) scale(.8)",
