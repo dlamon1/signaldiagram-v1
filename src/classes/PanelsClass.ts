@@ -278,13 +278,13 @@ export class Panel implements PanelObj {
   }
 
   getDimensions() {
-    let x: number = get(width) * this.column;
+    let x = get(width) * this.column;
 
     if (get(isRearView)) {
       x = get(width) * (get(columns) - this.column - 1);
     }
 
-    let y: number = (this.y = get(height) * this.row);
+    let y = get(height) * this.row;
 
     return { x, y };
   }

@@ -276,7 +276,7 @@ export class SnapPoint implements SnapPointObj {
 
   getTranslateString() {
     const x = this.getX();
-    const y = this.getY() + this.yOffset;
+    const y = this.getY();
 
     this.translateString = `translate(${x}, ${y})`;
 
