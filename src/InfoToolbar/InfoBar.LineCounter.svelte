@@ -88,6 +88,7 @@
 
 <div class="component-container">
   <div class="category-container">
+    <h3>Cable Counts</h3>
     <div class="category-header">
       {$snapPointDirection == "vertical" ? "Top:Top" : "Left:Left"}
     </div>
@@ -155,6 +156,9 @@
 </div>
 
 <style>
+  h3 {
+    text-align: center;
+  }
   .component-container {
     margin-inline: 40px;
   }

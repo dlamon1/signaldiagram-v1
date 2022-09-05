@@ -3,6 +3,7 @@
   import Coordinates from "./InfoBar.Coordinates.svelte";
   import LineCounter from "./InfoBar.LineCounter.svelte";
   import Links from "./InfoBar.Links.svelte";
+  import SnapPointOptions from "./InfoBar.SnapPointOptions.svelte";
 </script>
 
 <div class="container">
@@ -15,6 +16,14 @@
   <div id="general">
     <Coordinates />
   </div>
+
+  <div class="divider" />
+
+  <div id="general">
+    <SnapPointOptions />
+  </div>
+
+  <div class="divider" />
 
   <LineCounter />
 
@@ -39,7 +48,6 @@
   .container {
     width: calc(100% - 10px);
     height: calc(100vh - 10px);
-    background-color: rgb(71, 71, 71);
     color: #f7f7f7;
     font-size: 1em;
     font-weight: 500;

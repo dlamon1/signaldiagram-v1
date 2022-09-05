@@ -3,7 +3,6 @@
   import Panels from "./Toolbar.Panels.svelte";
   import SnapPoints from "./Toolbar.SnapPoints.svelte";
   import SignalLines from "./Toolbar.SignalLines.svelte";
-  import SnapPointOptions from "./Toolbar.SnapPointOptions.svelte";
 
   import { selection } from "../store";
 </script>
@@ -11,12 +10,6 @@
 <div id="container">
   <div id="mode">
     <Mode />
-  </div>
-
-  <div class="divider" />
-
-  <div id="general">
-    <SnapPointOptions />
   </div>
 
   <div class="divider" />
@@ -89,13 +82,10 @@
   #mode {
     margin-top: 0px;
   }
-  #general {
-    margin-top: 0px;
-  }
+
   #container {
     width: calc(100% - 10px);
     height: calc(100vh - 10px);
-    background-color: rgb(71, 71, 71);
     color: #f7f7f7;
     font-size: 1em;
     font-weight: 500;

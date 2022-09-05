@@ -88,15 +88,13 @@
     flex: 1;
   }
   .info {
-    background-color: rgb(71, 71, 71);
+    background-color: rgb(58, 58, 58);
     width: 250px;
     height: 100%;
   }
   .toolbar {
-    background-color: rgb(71, 71, 71);
+    background-color: rgb(58, 58, 58);
     width: 250px;
     right: 0;
-  }
-  .canvas {
   }
 </style>
