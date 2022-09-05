@@ -8,6 +8,7 @@
     width,
     height,
     opacity,
+    snapPointsGroupEnterRef,
   } from "../store";
 
   $: {
@@ -53,5 +54,9 @@
     //   angle = ((-angle * 180) / Math.PI) * 0.4;
     //   return "rotate(" + angle + ")";
     // });
+
+    if ($snapPointsGroupEnterRef) {
+      d3.selectAll("g.snap-point-wrapper").raise();
+    }
   };
 </script>

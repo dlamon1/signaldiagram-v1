@@ -37,7 +37,7 @@ export const linesGroupEnterRef: Writable<
 
 export const temporarySignalLine = writable(null);
 
-export const opacity: Writable<number> = writable(0.1);
+export const opacity: Writable<number> = writable(0.5);
 
 interface TransformObj {
   k: number;

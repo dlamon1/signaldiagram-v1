@@ -5,7 +5,7 @@
 <div class="general">
   <label class="hovered">
     <input type="checkbox" bind:checked={$showCoordinates} />
-    Coordinates
+    Show Coordinates
   </label>
 
   <div id="input-wrapper" class="opacity-wrapper">
