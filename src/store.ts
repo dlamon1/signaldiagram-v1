@@ -215,7 +215,7 @@ export const colorButtons: Writable<string[]> = writable([
   "#ffffff",
 ]);
 
-export const isRearView: Writable<boolean> = writable(false);
+export const isRearView: Writable<boolean> = writable(true);
 
 export const isSelectingPanels: Writable<boolean> = writable(true);
 export const isSelectingSignalLines: Writable<boolean> = writable(true);

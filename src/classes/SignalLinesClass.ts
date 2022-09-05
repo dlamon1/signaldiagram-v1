@@ -330,7 +330,7 @@ class SignalLine implements SignalLineObj {
 
     const a = Math.abs(destinationX - originX);
     const b = Math.abs(destinationY - originY);
-    const c = Math.ceil(Math.sqrt(a * a + b * b));
+    const c = Math.floor(Math.sqrt(a * a + b * b) / 25) * 25;
 
     return c;
   }
