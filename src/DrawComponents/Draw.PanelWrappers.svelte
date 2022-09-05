@@ -52,7 +52,6 @@
     // 3
     $groupsEnter
       .merge($groups)
-      .transition()
       .attr("id", (d) => "panelgroup" + d.i)
       .attr("transform", (d) => {
         return (
