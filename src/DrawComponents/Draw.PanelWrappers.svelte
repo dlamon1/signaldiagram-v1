@@ -107,7 +107,7 @@
         if ($isDrawMode) return;
         e.stopPropagation();
         if ($isSelectMode && !$isDrawingSignalLine) {
-          $panelsClass.selectPanels([e.target.__data__.i]);
+          $panelsClass.togglePanels([e.target.__data__.i]);
         }
       });
 

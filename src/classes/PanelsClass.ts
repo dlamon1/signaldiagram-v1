@@ -137,6 +137,39 @@ export class Panels implements PanelsType {
 
     arrayOfIndexes.forEach((panel, i) => {
       const x = arrayOfCurrent[i];
+      this.array[panel].setIsSelected(true);
+      this.selectedIndexes.push(i);
+    });
+
+    setSelection("panels");
+    updatePanels();
+  };
+
+  togglePanels = (arrayOfIndexes: number[]) => {
+    const snapPointsClass = get(snapPointsStore);
+    const signalLinesClass = get(signalLines);
+    snapPointsClass.deSelect();
+    signalLinesClass.deSelect();
+
+    const arrayOfCurrent = [];
+    this.selectedIndexes = [];
+
+    arrayOfIndexes.forEach((i) => {
+      const current = this.array[i].isSelected;
+      arrayOfCurrent.push(current);
+      this.selectedIndexes.push(i);
+    });
+
+    if (!get(isCtrl)) {
+      this.selectedIndexes = [];
+
+      this.array.forEach((panel) => {
+        panel.setIsSelected(false);
+      });
+    }
+
+    arrayOfIndexes.forEach((panel, i) => {
+      const x = arrayOfCurrent[i];
       this.array[panel].setIsSelected(!x);
       this.selectedIndexes.push(i);
     });
