@@ -42,15 +42,16 @@
 
     // [tx + k * xo, ty + k * yo]
 
-    let x2 = get(mousePosition).x / $transform.k - $transform.x / $transform.k;
+    let x2 =
+      (get(mousePosition).x - 250) / $transform.k - $transform.x / $transform.k;
     let y2 = get(mousePosition).y / $transform.k - $transform.y / $transform.k;
 
     if (destinationI) {
-      let destinationSanpPoint =
+      let destinationSnapPoint =
         $snapPointsClass.array[$signalLinesClass.destination.snapPointIndex];
 
-      x2 = $snapPointsClass.getXCoordinate(destinationSanpPoint);
-      y2 = $snapPointsClass.getYCoordinate(destinationSanpPoint);
+      x2 = destinationSnapPoint.getX();
+      y2 = destinationSnapPoint.getY();
     }
 
     let lineWidth = $width < $height ? $width / 20 : $height;
