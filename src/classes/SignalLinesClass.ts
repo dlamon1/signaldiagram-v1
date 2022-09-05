@@ -136,12 +136,15 @@ export class SignalLines implements SignalLinesType {
     if (this.destination.snapPointIndex < 0) {
       return;
     }
-    const sl = new SignalLine(origin, this.destination.snapPointIndex);
-    this.array.push(sl);
+
+    if (this.origin.snapPointIndex != this.destination.snapPointIndex) {
+      const sl = new SignalLine(origin, this.destination.snapPointIndex);
+      this.array.push(sl);
+      updateSignalLines();
+      updatePanels();
+    }
 
     this.nullOriginAndDestinationValues();
-    updateSignalLines();
-    updatePanels();
   }
 
   removeSignalLine(line: SignalLineObj) {
