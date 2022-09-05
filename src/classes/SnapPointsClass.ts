@@ -24,6 +24,7 @@ import {
 
 export class SnapPoints implements SnapPointsType {
   array = [];
+  selectedSnapPointIndexes = [];
 
   setArrayFromLoad(snapPointsArray: LoadSnapPointObj[]) {
     this.array = [];
@@ -82,12 +83,14 @@ export class SnapPoints implements SnapPointsType {
     updateSignalLines();
 
     if (!get(isCtrl)) {
+      this.selectedSnapPointIndexes = [];
       this.array.forEach((panel) => {
         panel.setIsSelected(false);
       });
     }
 
     arrayOfIndexes.forEach((i) => {
+      this.selectedSnapPointIndexes = arrayOfIndexes;
       this.array[i].setIsSelected(true);
     });
 
@@ -103,6 +106,8 @@ export class SnapPoints implements SnapPointsType {
     updateSignalLines();
 
     if (!get(isCtrl)) {
+      this.selectedSnapPointIndexes = [];
+
       this.array.forEach((panel) => {
         panel.setIsSelected(false);
       });
@@ -126,9 +131,12 @@ export class SnapPoints implements SnapPointsType {
     const current = this.array[i].isSelected;
 
     if (!get(isCtrl)) {
+      this.selectedSnapPointIndexes = [];
+
       this.array.forEach((p) => p.setIsSelected(false));
     }
 
+    this.selectedSnapPointIndexes[i];
     this.array[i].setIsSelected(!current);
     setSelection("snappoints");
 
@@ -354,11 +362,11 @@ export class SnapPoint implements SnapPointObj {
     this.isSelected = !this.isSelected;
   }
 
-  setIsSelected(boolean) {
+  setIsSelected(boolean: boolean) {
     this.isSelected = boolean;
   }
 
-  setIsHovered(boolean) {
+  setIsHovered(boolean: boolean) {
     this.isHovered = boolean;
   }
 

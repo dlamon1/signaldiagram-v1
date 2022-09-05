@@ -124,6 +124,7 @@ export interface SignalLineObj {
   updateColor: (color: string) => void;
   updateLineWidth: (lineWidth: number) => void;
   getLengthInMM: () => number;
+  getLineWidth: () => number;
 }
 
 export type PanelsType = {
@@ -147,6 +148,7 @@ export type PanelsType = {
 
 export type SnapPointsType = {
   array: SnapPointObj[];
+  selectedSnapPointIndexes: number[];
   setArrayFromLoad: (array: LoadSnapPointObj[]) => void;
   deSelect: () => void;
   addSnapPoint: (

@@ -26,10 +26,10 @@
   let zoom = d3
     .zoom()
     .scaleExtent([0.25, $canvasWrapperHeight / $width])
-    .translateExtent([
-      [-$width * $columns, -$rows * $height * 0.95],
-      [$width * $columns * 2, $rows * $height * 1.95],
-    ])
+    // .translateExtent([
+    //   [-$width * $columns, -$rows * $height * 0.95],
+    //   [$width * $columns * 2, $rows * $height * 1.95],
+    // ])
     .on("zoom", handleZoom);
 
   const centerScreen = () => {

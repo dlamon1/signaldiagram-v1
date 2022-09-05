@@ -270,6 +270,10 @@ class SignalLine implements SignalLineObj {
     // console.log(origin, destinationSnapPointIndex);
   }
 
+  getLineWidth() {
+    return get(width) < get(height) ? get(width) / 20 : get(height) / 20;
+  }
+
   setIndexesWithInPanel() {
     let oSp: SnapPointObj = get(snapPoints).array[this.origin.snapPointIndex];
     let o = oSp.pointIndexWithinPanel;

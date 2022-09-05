@@ -89,7 +89,7 @@
           return "none";
         }
       })
-      .attr("stroke-width", (d) => d.lineWidth * 2)
+      .attr("stroke-width", (d) => d.getLineWidth() * 2)
       .attr("pointer-events", "visible")
       .on("mouseover", (e) => {
         if ($isDrawMode) return;
