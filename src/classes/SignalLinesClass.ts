@@ -23,6 +23,7 @@ import type {
   SnapPointCoordinatesKey,
   XYCoordinates,
   ColorObjKey,
+  SnapPointObj,
 } from "../Types/ClassTypes";
 
 export class SignalLines implements SignalLinesType {
@@ -98,15 +99,14 @@ export class SignalLines implements SignalLinesType {
     this.destination.snapPointIndex = null;
   }
 
-  setOriginSnapPointIndex(e) {
-    const obj = e.path[0].__data__;
-
+  setOriginSnapPointIndex(obj: SnapPointObj) {
     const panelIndex = this.getPanelIndex(obj.row, obj.column);
 
     const snapPointIndex = obj.pointIndexFullArray;
 
     this.origin.snapPointIndex = snapPointIndex;
     this.origin.panelIndex = panelIndex;
+
     updateSignalLines();
   }
 
@@ -114,10 +114,10 @@ export class SignalLines implements SignalLinesType {
     this.origin.snapPointIndex = null;
     this.origin.panelIndex = null;
     this.destination.snapPointIndex = null;
+    this.destination.panelIndex = null;
   }
 
-  setDestinationSnapPointIndex(d3SnapPointObj) {
-    const snapPoint = d3SnapPointObj.path[0].__data__;
+  setDestinationSnapPointIndex(snapPoint: SnapPointObj) {
     this.destination.snapPointIndex = snapPoint.pointIndexFullArray;
     updateSignalLines();
   }

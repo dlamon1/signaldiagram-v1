@@ -1,13 +1,33 @@
 <script lang="ts">
-  import { signalDirectionButtons, width, height, panels } from "../../store";
+  import {
+    signalDirectionButtons,
+    signalLines,
+    panels,
+    snapPoints,
+    snapPointDirection,
+  } from "../../store";
   import type { DirectionObj } from "../../store";
-  import type { PanelObj } from "../../Types/ClassTypes";
+  import type { PanelObj, SnapPointObj } from "../../Types/ClassTypes";
 
-  let count = 0;
   let selectedArray: PanelObj[] = [];
 
   const setSignalDirection = (direction: DirectionObj) => {
+    // console.log(direction);
     selectedArray = [];
+    let count = 0;
+    let snapPointIndexCount = 0;
+
+    // if (direction.initialDirection == $snapPointDirection) {
+    snapPointIndexCount = Math.max(
+      direction.points[0].y,
+      direction.points[1].y
+    );
+
+    if (direction.initialDirection != $snapPointDirection) {
+      snapPointIndexCount == 1
+        ? (snapPointIndexCount = 0)
+        : (snapPointIndexCount = 1);
+    }
 
     $panels.array.forEach((p) => {
       if (p.isSelected) {
@@ -20,63 +40,142 @@
     }
 
     // Find starting snap point
-
-    let startingSnapPoint = getStartSnapPoint(direction);
-
-    const setCornerPanelIndexes = (arrayOfPanels: PanelObj[]) => {
-      console.log(arrayOfPanels[0].i);
-      let cornerPanelIndexes = {
-        topLeft: arrayOfPanels[0].i,
-        topRight: arrayOfPanels[0].i,
-        bottomLeft: arrayOfPanels[0].i,
-        bottomRight: arrayOfPanels[0].i,
-      };
-
-      arrayOfPanels.forEach((p) => {
-        if (
-          p.x <= $panels.array[cornerPanelIndexes.topLeft].x &&
-          p.y <= $panels.array[cornerPanelIndexes.topLeft].y
-        ) {
-          cornerPanelIndexes.topLeft = p.i;
-        }
-        if (
-          p.x >= $panels.array[cornerPanelIndexes.topRight].x &&
-          p.y <= $panels.array[cornerPanelIndexes.topRight].y
-        ) {
-          cornerPanelIndexes.topRight = p.i;
-        }
-        if (
-          p.x <= $panels.array[cornerPanelIndexes.bottomLeft].x &&
-          p.y >= $panels.array[cornerPanelIndexes.bottomLeft].y
-        ) {
-          cornerPanelIndexes.bottomLeft = p.i;
-        }
-        if (
-          p.x >= $panels.array[cornerPanelIndexes.bottomRight].x &&
-          p.y >= $panels.array[cornerPanelIndexes.bottomRight].y
-        ) {
-          cornerPanelIndexes.bottomRight = p.i;
-        }
-      });
-
-      return cornerPanelIndexes;
-    };
+    // Find starting snap point
+    // Find starting snap point
 
     let cornerPanelIndexes = setCornerPanelIndexes(selectedArray);
 
-    console.log(cornerPanelIndexes);
+    // Get starting snap point
+    // Get starting snap point
+    // Get starting snap point
+    let startingSnapPointObj = getStartSnapPoint(
+      direction,
+      selectedArray,
+      cornerPanelIndexes,
+      snapPointIndexCount
+    );
 
     // Set signal line start
+    // Set signal line start
+    // Set signal line start
+    $signalLines.setOriginSnapPointIndex(startingSnapPointObj);
+
+    if ($snapPointDirection == direction.initialDirection) {
+      snapPointIndexCount -= 1;
+    }
+
     // Get next end point
+    // Get next end point
+    // Get next end point
+    let nextSnapPoint = getNextSnapPoint(
+      direction,
+      selectedArray,
+      cornerPanelIndexes,
+      startingSnapPointObj,
+      snapPointIndexCount
+    );
+
+    // console.log(nextSnapPoint);
+
     // Set signal line end
+    // Set signal line end
+    // Set signal line end
+    $signalLines.setDestinationSnapPointIndex(nextSnapPoint);
+
     // Add snap point
+    // Add snap point
+    // Add snap point
+    $signalLines.addSignalLine();
+
     // Signal line start is previous end
     // Find next snap point
+
+    $signalLines.nullOriginAndDestinationValues();
   };
 
-  const getStartSnapPoint = (direction: DirectionObj) => {
+  const getStartSnapPoint = (
+    direction: DirectionObj,
+    selectedArray: PanelObj[],
+    cornerPanelIndexes,
+    snapPointIndexCount: number
+  ) => {
+    // console.log(selectedArray);
+    // console.log(cornerPanelIndexes);
+    let panelIndex = cornerPanelIndexes[direction.pointOne];
+    let panel = $panels.array[panelIndex];
+    let snapPointIndex = panel.thisPanelsSnapPoints[snapPointIndexCount];
+    let obj = $snapPoints.array[snapPointIndex];
+
+    return obj;
+  };
+
+  const getNextSnapPoint = (
+    direction: DirectionObj,
+    selectedArray: PanelObj[],
+    cornerPanelIndexes,
+    startingSnapPointObj,
+    snapPointIndexCount: number
+  ) => {
     // console.log(direction);
-    return;
+    // console.log(selectedArray);
+    // console.log(cornerPanelIndexes);
+    // console.log(startingSnapPointObj);
+
+    let prevCol = startingSnapPointObj.column;
+    let prevRow = startingSnapPointObj.row;
+
+    let nextCol = prevCol + direction.points[1].x;
+    let nextRow = prevRow + direction.points[1].y;
+
+    // find panel in panels with nextCol and nextRow
+    let nextPanel: PanelObj = $panels.array.find((p) => {
+      return p.column === nextCol && p.row === nextRow;
+    });
+
+    let nextSnapPointIndex =
+      nextPanel.thisPanelsSnapPoints[snapPointIndexCount];
+
+    let obj = $snapPoints.array[nextSnapPointIndex];
+
+    return obj;
+  };
+
+  const setCornerPanelIndexes = (arrayOfPanels: PanelObj[]) => {
+    let cornerPanelIndexes = {
+      topleft: arrayOfPanels[0].i,
+      topright: arrayOfPanels[0].i,
+      bottomleft: arrayOfPanels[0].i,
+      bottomright: arrayOfPanels[0].i,
+    };
+
+    arrayOfPanels.forEach((p) => {
+      if (
+        p.x <= $panels.array[cornerPanelIndexes.topleft].x &&
+        p.y <= $panels.array[cornerPanelIndexes.topleft].y
+      ) {
+        cornerPanelIndexes.topleft = p.i;
+      }
+      if (
+        p.x >= $panels.array[cornerPanelIndexes.topright].x &&
+        p.y <= $panels.array[cornerPanelIndexes.topright].y
+      ) {
+        cornerPanelIndexes.topright = p.i;
+      }
+      if (
+        p.x <= $panels.array[cornerPanelIndexes.bottomleft].x &&
+        p.y >= $panels.array[cornerPanelIndexes.bottomleft].y
+      ) {
+        cornerPanelIndexes.bottomleft = p.i;
+      }
+      if (
+        p.x >= $panels.array[cornerPanelIndexes.bottomright].x &&
+        p.y >= $panels.array[cornerPanelIndexes.bottomright].y
+      ) {
+        cornerPanelIndexes.bottomright = p.i;
+      }
+    });
+
+    return cornerPanelIndexes;
   };
 
   let lineColor = "#000000";

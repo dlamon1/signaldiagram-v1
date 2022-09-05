@@ -36,7 +36,7 @@
   }
 
   const drawPanelWrappers = () => {
-    console.log("draw panels");
+    // console.log("draw panels");
     let panels = $panelsClass.array;
 
     d3.select("#temp-signal-line").remove();
@@ -52,7 +52,7 @@
     // 3
     $groupsEnter
       .merge($groups)
-      .transition()
+      // .transition()
       .attr("id", (d) => "panelgroup" + d.i)
       .attr("transform", (d) => {
         return (

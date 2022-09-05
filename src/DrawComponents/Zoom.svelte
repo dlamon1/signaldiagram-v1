@@ -39,8 +39,8 @@
     let y = $canvasWrapperHeight - $rows * $height * k;
 
     d3.select("svg")
-      .transition()
-      .duration(500)
+      // .transition()
+      // .duration(500)
       .call(zoom.transform as any, d3.zoomIdentity.scale(k).translate(x, y));
   };
 

@@ -208,91 +208,134 @@ export type DirectionObj = {
   initialDirection: "vertical" | "horizontal";
   transform: string;
   points: XYCoordinates[];
-  pointOne: InitalPoint;
+  pointOne: PointCorner;
+  pointTwo: PointCorner;
+  pointThree: PointCorner;
+  snapPointIndex: number;
 };
 
-type InitalPoint = "topleft" | "topright" | "bottomleft" | "bottomright";
+type PointCorner = "topleft" | "topright" | "bottomleft" | "bottomright";
 
 export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
   {
     points: [
       { x: 0, y: 0 },
       { x: 1, y: 0 },
-      { x: 1, y: 1 },
+      { x: 0, y: 1 },
+      { x: -1, y: 0 },
+      { x: 0, y: 1 },
     ],
     initialDirection: "horizontal",
     transform: "rotate(0) scale(.8)",
     pointOne: "topleft",
+    pointTwo: "topright",
+    pointThree: "bottomright",
+    snapPointIndex: 1,
   },
   {
     points: [
       { x: 1, y: 0 },
-      { x: 0, y: 0 },
+      { x: -1, y: 0 },
+      { x: 0, y: 1 },
+      { x: 1, y: 0 },
       { x: 0, y: 1 },
     ],
     initialDirection: "horizontal",
     transform: "rotate(180) scale(.8, -.8)",
     pointOne: "topright",
-  },
-  {
-    points: [
-      { x: 1, y: 1 },
-      { x: 0, y: 1 },
-      { x: 0, y: 0 },
-    ],
-    initialDirection: "horizontal",
-    transform: "rotate(180) scale(.8)",
-    pointOne: "bottomright",
+    pointTwo: "topleft",
+    pointThree: "bottomleft",
+    snapPointIndex: 1,
   },
   {
     points: [
       { x: 0, y: 1 },
-      { x: 1, y: 1 },
       { x: 1, y: 0 },
+      { x: 0, y: -1 },
+      { x: -1, y: 0 },
+      { x: 0, y: -1 },
     ],
     initialDirection: "horizontal",
     transform: "rotate(0) scale(.8, -.8)",
     pointOne: "bottomleft",
+    pointTwo: "bottomright",
+    pointThree: "topright",
+    snapPointIndex: 0,
+  },
+  {
+    points: [
+      { x: 1, y: 1 },
+      { x: -1, y: 0 },
+      { x: 0, y: -1 },
+      { x: 1, y: 0 },
+      { x: 0, y: -1 },
+    ],
+    initialDirection: "horizontal",
+    transform: "rotate(180) scale(.8)",
+    pointOne: "bottomright",
+    pointTwo: "bottomleft",
+    pointThree: "topleft",
+    snapPointIndex: 0,
   },
   {
     points: [
       { x: 0, y: 1 },
-      { x: 0, y: 0 },
+      { x: 0, y: -1 },
+      { x: 1, y: 0 },
+      { x: 0, y: 1 },
       { x: 1, y: 0 },
     ],
     initialDirection: "vertical",
     transform: "rotate(270) scale(.8)",
     pointOne: "bottomleft",
+    pointTwo: "topleft",
+    pointThree: "topright",
+    snapPointIndex: 0,
   },
   {
     points: [
-      { x: 1, y: 1 },
-      { x: 1, y: 0 },
-      { x: 0, y: 0 },
+      { x: 0, y: 1 },
+      { x: 0, y: -1 },
+      { x: -1, y: 0 },
+      { x: 0, y: 1 },
+      { x: -1, y: 0 },
     ],
     initialDirection: "vertical",
     transform: "rotate(270) scale(.8, -.8)",
     pointOne: "bottomright",
+    pointTwo: "topright",
+    pointThree: "topleft",
+    snapPointIndex: 0,
   },
   {
     points: [
       { x: 0, y: 0 },
       { x: 0, y: 1 },
-      { x: 1, y: 1 },
+      { x: 1, y: 0 },
+      { x: 0, y: -1 },
+      { x: 1, y: 0 },
     ],
     initialDirection: "vertical",
     transform: "rotate(90) scale(.8, -.8)",
     pointOne: "topleft",
+    pointTwo: "bottomleft",
+    pointThree: "bottomright",
+    snapPointIndex: 0,
   },
   {
     points: [
       { x: 1, y: 0 },
-      { x: 1, y: 1 },
       { x: 0, y: 1 },
+      { x: -1, y: 0 },
+      { x: 0, y: -1 },
+      { x: -1, y: 0 },
     ],
     initialDirection: "vertical",
     transform: "rotate(90) scale(.8)",
     pointOne: "topright",
+    pointTwo: "bottomright",
+    pointThree: "bottomleft",
+    snapPointIndex: 0,
   },
 ]);
 
