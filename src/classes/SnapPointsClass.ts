@@ -94,6 +94,27 @@ export class SnapPoints implements SnapPointsType {
     updateSnapPoints();
   };
 
+  toggleSnapPoints = (arrayOfIndexes: number[]) => {
+    const snapPointsClass = get(snapPoints);
+    const signalLinesClass = get(signalLines);
+    snapPointsClass.deSelect();
+    signalLinesClass.deSelect();
+    updateSnapPoints();
+    updateSignalLines();
+
+    if (!get(isCtrl)) {
+      this.array.forEach((panel) => {
+        panel.setIsSelected(false);
+      });
+    }
+
+    arrayOfIndexes.forEach((i) => {
+      this.array[i].setIsSelected(true);
+    });
+
+    updateSnapPoints();
+  };
+
   selectSnapPoint = (e) => {
     const panelsClass = get(panels);
     const signalLinesClass = get(signalLines);
@@ -242,7 +263,7 @@ export class SnapPoint implements SnapPointObj {
     if (get(snapPointsQuantity) === 1) {
       y = get(height) / 2;
     }
-    return y + parentPanel.y + this.yOffset;
+    return y + parentPanel.getDimensions().y + this.yOffset;
   }
 
   setXOffset(value: number) {
@@ -255,7 +276,7 @@ export class SnapPoint implements SnapPointObj {
 
   getTranslateString() {
     const x = this.getX();
-    const y = this.getY() + this.yOffset;
+    const y = this.getY();
 
     this.translateString = `translate(${x}, ${y})`;
 

@@ -141,6 +141,7 @@ export type PanelsType = {
     reverseIndex: number
   ) => void;
   selectPanels: (arrayOfIndexes: number[]) => void;
+  togglePanels: (arrayOfIndexes: number[]) => void;
   toggleHidePanels: (arrayOfIndexes: number[]) => void;
 };
 
@@ -159,6 +160,7 @@ export type SnapPointsType = {
   getXCoordinate: (snapPoint: SnapPointObj) => number;
   getYCoordinate: (snapPoint: SnapPointObj) => number;
   selectSnapPoints: (arrayOfIndexes: number[]) => void;
+  toggleSnapPoints: (arrayOfIndexes: number[]) => void;
   selectSnapPoint: (d3Object: any) => void;
   removeLabel: () => void;
   setIsSquares: (isSquare: boolean) => void;

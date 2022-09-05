@@ -40,10 +40,10 @@
     let x = $canvasWrapperWidth - $columns * $width * k;
     let y = $canvasWrapperHeight - $rows * $height * k;
 
-    d3.select("svg")
-      .transition()
-      .duration(500)
-      .call(zoom.transform as any, d3.zoomIdentity.scale(k).translate(x, y));
+    d3.select("svg").call(
+      zoom.transform as any,
+      d3.zoomIdentity.scale(k).translate(x, y)
+    );
   };
 
   function handleZoom(e) {

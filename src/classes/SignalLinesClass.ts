@@ -132,16 +132,18 @@ export class SignalLines implements SignalLinesType {
 
   addSignalLine() {
     const origin = structuredClone(this.origin);
-    console.log(this.destination.snapPointIndex);
     if (this.destination.snapPointIndex < 0) {
       return;
     }
-    const sl = new SignalLine(origin, this.destination.snapPointIndex);
-    this.array.push(sl);
+
+    if (this.origin.snapPointIndex != this.destination.snapPointIndex) {
+      const sl = new SignalLine(origin, this.destination.snapPointIndex);
+      this.array.push(sl);
+      updateSignalLines();
+      updatePanels();
+    }
 
     this.nullOriginAndDestinationValues();
-    updateSignalLines();
-    updatePanels();
   }
 
   removeSignalLine(line: SignalLineObj) {
@@ -151,6 +153,27 @@ export class SignalLines implements SignalLinesType {
   }
 
   selectSignalLine(i: number) {
+    const snapPointsClass = get(snapPoints);
+    const panelsClass = get(panels);
+
+    snapPointsClass.deSelect();
+    panelsClass.deSelect();
+    updatePanels();
+
+    const current = this.array[i].isSelected;
+
+    if (!get(isCtrl)) {
+      this.array.forEach((sl) => sl.setIsSelected(false));
+      this.array[i].setIsSelected(true);
+    }
+    this.array[i].setIsSelected(true);
+
+    setSelection("signallines");
+
+    updateSignalLines();
+  }
+
+  toggleSignalLine(i: number) {
     const snapPointsClass = get(snapPoints);
     const panelsClass = get(panels);
 

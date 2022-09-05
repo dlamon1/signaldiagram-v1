@@ -116,7 +116,7 @@
         e.stopPropagation();
         let i = e.path[0].__data__.i;
         if ($isSelectMode && !$isDrawingSignalLine) {
-          $signalLinesClass.selectSignalLine(i);
+          $signalLinesClass.toggleSignalLine(i);
           d3.select(this).attr("stroke", selectedColor);
         }
       });
