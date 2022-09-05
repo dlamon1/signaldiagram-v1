@@ -21,6 +21,7 @@
   import HandleColorLabelUpdates from "./Handlers/Handle.ColorLabelUpdates.svelte";
   import Reactivity from "./Handlers/Handle.PanelArrayUpdate.svelte";
   import HandleSelectionTab from "./Handlers/Handle.SelectionTab.svelte";
+  import InfoBar from "./InfoToolbar/InfoBar.svelte";
 
   $gZoomWrapperRef = null;
 
@@ -37,6 +38,10 @@
 <div id="container">
   <Reactivity />
   <HandleSelectionTab />
+
+  <div class="info">
+    <InfoBar />
+  </div>
 
   <div
     id="canvas-wrapper"
@@ -73,7 +78,6 @@
 
 <style>
   #container {
-    position: relative;
     width: 100vw;
     height: 100vh;
     background-color: rgb(37, 37, 37);
@@ -81,19 +85,18 @@
     overflow: hidden;
   }
   .canvas-wrapper {
-    width: calc(100vw - 250px);
+    flex: 1;
   }
-
+  .info {
+    background-color: rgb(71, 71, 71);
+    width: 250px;
+    height: 100%;
+  }
   .toolbar {
     background-color: rgb(71, 71, 71);
     width: 250px;
     right: 0;
-    z-index: 1;
-    right: 0;
-    position: absolute;
   }
   .canvas {
-    z-index: 0;
-    position: absolute;
   }
 </style>

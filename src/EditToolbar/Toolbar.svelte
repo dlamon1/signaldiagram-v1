@@ -1,13 +1,9 @@
 <script lang="ts">
   import Mode from "./Toolbar.Mode.svelte";
-  import ScreenSize from "./Toolbar.ScreenSize.svelte";
   import Panels from "./Toolbar.Panels.svelte";
   import SnapPoints from "./Toolbar.SnapPoints.svelte";
   import SignalLines from "./Toolbar.SignalLines.svelte";
-  import Coordinates from "./Toolbar.Coordinates.svelte";
   import SnapPointOptions from "./Toolbar.SnapPointOptions.svelte";
-  import LineCounter from "./Toolbar.LineCounter.svelte";
-  import Links from "./Toolbar.Links.svelte";
 
   import { selection } from "../store";
 </script>
@@ -15,18 +11,6 @@
 <div id="container">
   <div id="mode">
     <Mode />
-  </div>
-
-  <div class="divider" />
-
-  <div id="general">
-    <ScreenSize />
-  </div>
-
-  <div class="divider" />
-
-  <div id="general">
-    <Coordinates />
   </div>
 
   <div class="divider" />
@@ -74,10 +58,6 @@
       <SignalLines />
     {/if}
   </div>
-
-  <LineCounter />
-
-  <Links />
 </div>
 
 <style>

@@ -1,6 +1,8 @@
 <script lang="ts">
   import { fade } from "svelte/transition";
 
+  import { showCoordinates, isRearView, opacity } from "../store";
+
   import { panels, updatePanels, snapPoints } from "../store";
   import type { PanelObj, SnapPointObj } from "../Types/ClassTypes";
 
