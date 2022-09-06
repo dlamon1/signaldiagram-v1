@@ -9,7 +9,7 @@ import {
 } from "../store";
 
 export const handleDragSelect = (event, xOrigin: number, yOrigin: number) => {
-  let x1 = event.x;
+  let x1 = event.x - 250;
   let y1 = event.y;
   let x2 = xOrigin;
   let y2 = yOrigin;
@@ -17,10 +17,10 @@ export const handleDragSelect = (event, xOrigin: number, yOrigin: number) => {
   const t = get(transform);
 
   // using get(transform) apply the transform to the coordinates
-  x1 = event.x / t.k - t.x / t.k;
-  y1 = event.y / t.k - t.y / t.k;
-  x2 = xOrigin / t.k - t.x / t.k;
-  y2 = yOrigin / t.k - t.y / t.k;
+  x1 = x1 / t.k - t.x / t.k;
+  y1 = y1 / t.k - t.y / t.k;
+  x2 = x2 / t.k - t.x / t.k;
+  y2 = y2 / t.k - t.y / t.k;
 
   // check which objects are selecting
   if (get(selection) === "panels") {

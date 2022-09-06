@@ -18,6 +18,12 @@ import type { Writable } from "svelte/store";
 export const topLevelSvgRef = writable(null);
 export const gZoomWrapperRef = writable(null);
 
+export const selectedSnapPointIndexes: Writable<number[]> = writable([]);
+export const setSelectedSnapPointIndexes = (indexes: number[]) => {
+  console.log("update the array");
+  selectedSnapPointIndexes.update(() => indexes);
+};
+
 export const groups = writable(null);
 export const groupsEnter: Writable<
   d3.Selection<SVGGElement, PanelObj, HTMLElement, any>

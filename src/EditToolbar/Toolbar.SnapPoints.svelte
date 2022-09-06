@@ -1,10 +1,12 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import {
     textInputRef,
     snapPointLabel,
     snapPoints as snapPointsClass,
     width,
     height,
+    selectedSnapPointIndexes,
   } from "../store";
   import { fade } from "svelte/transition";
 
@@ -18,6 +20,26 @@
         p.setIsSelected(true);
       }
       $snapPointsClass = $snapPointsClass;
+    });
+  };
+
+  $: {
+    let t = [$selectedSnapPointIndexes];
+
+    console.log("here");
+
+    updateOffsetValues();
+  }
+
+  const updateOffsetValues = () => {
+    xOffset = 0;
+    yOffset = 0;
+
+    $snapPointsClass.array.forEach((sp: SnapPointObj) => {
+      if (sp.isSelected) {
+        xOffset = sp.xOffset;
+        yOffset = sp.yOffset;
+      }
     });
   };
 

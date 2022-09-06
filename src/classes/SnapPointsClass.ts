@@ -20,6 +20,7 @@ import {
   updatePanels,
   width,
   height,
+  setSelectedSnapPointIndexes,
 } from "../store";
 
 export class SnapPoints implements SnapPointsType {
@@ -84,6 +85,7 @@ export class SnapPoints implements SnapPointsType {
 
     if (!get(isCtrl)) {
       this.selectedSnapPointIndexes = [];
+      setSelectedSnapPointIndexes([]);
       this.array.forEach((panel) => {
         panel.setIsSelected(false);
       });
@@ -94,6 +96,7 @@ export class SnapPoints implements SnapPointsType {
       this.array[i].setIsSelected(true);
     });
 
+    setSelectedSnapPointIndexes(this.selectedSnapPointIndexes);
     updateSnapPoints();
   };
 
@@ -109,13 +112,18 @@ export class SnapPoints implements SnapPointsType {
       this.selectedSnapPointIndexes = [];
 
       this.array.forEach((panel) => {
+        this.selectedSnapPointIndexes = [];
+        setSelectedSnapPointIndexes([]);
         panel.setIsSelected(false);
       });
     }
 
     arrayOfIndexes.forEach((i) => {
+      this.selectedSnapPointIndexes = arrayOfIndexes;
       this.array[i].setIsSelected(true);
     });
+
+    setSelectedSnapPointIndexes(this.selectedSnapPointIndexes);
 
     updateSnapPoints();
   };
@@ -137,6 +145,8 @@ export class SnapPoints implements SnapPointsType {
     }
 
     this.selectedSnapPointIndexes[i];
+    setSelectedSnapPointIndexes(this.selectedSnapPointIndexes);
+
     this.array[i].setIsSelected(!current);
     setSelection("snappoints");
 
