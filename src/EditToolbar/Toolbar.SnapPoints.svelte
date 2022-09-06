@@ -26,8 +26,6 @@
   $: {
     let t = [$selectedSnapPointIndexes];
 
-    console.log("here");
-
     updateOffsetValues();
   }
 

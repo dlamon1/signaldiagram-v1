@@ -20,7 +20,6 @@ export const gZoomWrapperRef = writable(null);
 
 export const selectedSnapPointIndexes: Writable<number[]> = writable([]);
 export const setSelectedSnapPointIndexes = (indexes: number[]) => {
-  console.log("update the array");
   selectedSnapPointIndexes.update(() => indexes);
 };
 

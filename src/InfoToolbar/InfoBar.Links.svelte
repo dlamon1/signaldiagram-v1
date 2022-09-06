@@ -30,7 +30,7 @@
     use:tooltip
     href="https://v1.signaldiagram.com"
   >
-    Version 2.1.0</a
+    Version 2.2.1</a
   >
 </div>
 
