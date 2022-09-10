@@ -170,11 +170,6 @@
 </div>
 
 <style>
-  .select > button {
-    padding: 5px;
-    padding-inline: 15px;
-  }
-
   .crisscross {
     display: flex;
     justify-content: space-around;
