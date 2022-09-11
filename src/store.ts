@@ -222,7 +222,6 @@ export const colorButtons: Writable<string[]> = writable([
 
 type XYandIndex = {
   i: number[];
-  doesFlip: boolean;
   x: number;
   y: number;
 };
