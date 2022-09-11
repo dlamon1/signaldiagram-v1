@@ -109,7 +109,7 @@
     key={"panel"}
     layer="background"
     element={"Background"}
-    isOpen={false}
+    isOpen={true}
     classObj={$panels}
   />
   <ColorPicker
