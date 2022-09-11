@@ -11,136 +11,130 @@
 
   let selectedArray: PanelObj[] = [];
 
+  let directionPointIndex = 0;
+
   const setSignalDirection = (direction: DirectionObj) => {
     // console.log(direction);
     selectedArray = [];
-    let count = 0;
-    let snapPointIndexCount = 0;
 
-    // if (direction.initialDirection == $snapPointDirection) {
-    snapPointIndexCount = Math.max(
-      direction.points[0].y,
-      direction.points[1].y
-    );
+    let directionInstructionPosition = 1;
 
-    if (direction.initialDirection != $snapPointDirection) {
-      snapPointIndexCount == 1
-        ? (snapPointIndexCount = 0)
-        : (snapPointIndexCount = 1);
-    }
+    const incrementDirectionInstructionPosition = () => {
+      directionInstructionPosition += 1;
+      if (directionInstructionPosition == 5) {
+        directionInstructionPosition = 1;
+      }
+    };
 
+    // Create array with all selected panels
     $panels.array.forEach((p) => {
       if (p.isSelected) {
         selectedArray.push(p);
       }
     });
 
+    // return if no panels are selected
     if (!selectedArray.length) {
       return;
     }
 
-    // Find starting snap point
-
+    // Set bounds
     let cornerPanelIndexes = setCornerPanelIndexes(selectedArray);
 
-    let startingSnapPointObj: SnapPointObj;
+    const getPrevPanel = () => {
+      let panelIndex = cornerPanelIndexes[direction.pointOne];
 
-    let snapPointCount = 0;
+      let panel = $panels.array[panelIndex];
 
-    for (let i = 0; i < selectedArray.length - 1; i++) {
-      // Get starting snap point
-      startingSnapPointObj = getNextSnapPoint(
-        direction,
-        selectedArray,
-        cornerPanelIndexes,
-        startingSnapPointObj,
-        snapPointCount
-      );
+      return panel;
+    };
 
-      // Set signal line start
-      $signalLines.setOriginSnapPointIndex(startingSnapPointObj);
+    let prevPanel: PanelObj = getPrevPanel();
 
-      snapPointCount++;
+    let initSnapPointIndex =
+      prevPanel.thisPanelsSnapPoints[direction.points[0].i[0]];
 
-      // Get next end point
-      let nextSnapPoint = getNextSnapPoint(
-        direction,
-        selectedArray,
-        cornerPanelIndexes,
-        startingSnapPointObj,
-        snapPointCount
-      );
+    let initSnapPointObj = $snapPoints.array[initSnapPointIndex];
 
-      // Set signal line end
-      $signalLines.setDestinationSnapPointIndex(nextSnapPoint);
+    // Set signal lie class origin snap point
+    $signalLines.setOriginSnapPointIndex(initSnapPointObj);
 
-      // Add snap point
-      $signalLines.addSignalLine();
+    let isSettingDestination = true;
 
-      snapPointCount++;
+    const checkForNextPanelInCurrentDirection = (column, row) => {
+      let directionInstruction = direction.points[directionInstructionPosition];
 
-      // Find next snap point
-      $signalLines.nullOriginAndDestinationValues();
+      column = column + directionInstruction.x;
+      row = row + directionInstruction.y;
+
+      let nextPanelIndex = selectedArray.findIndex((p) => {
+        return p.column === column && p.row === row;
+      });
+
+      return nextPanelIndex;
+    };
+
+    const getNexPanelObj = () => {
+      let column = prevPanel.column;
+      let row = prevPanel.row;
+
+      let nextPanelExists = checkForNextPanelInCurrentDirection(column, row);
+
+      if (nextPanelExists < 0) {
+        incrementDirectionInstructionPosition();
+      }
+
+      let initDirectionInstruction =
+        direction.points[directionInstructionPosition];
+
+      column = column + initDirectionInstruction.x;
+      row = row + initDirectionInstruction.y;
+
+      let nextPanel: PanelObj = $panels.array.find((p) => {
+        return p.column === column && p.row === row;
+      });
+
+      return nextPanel;
+    };
+
+    for (let i = 1; i < selectedArray.length * 2 - 2; i++) {
+      if (isSettingDestination) {
+        // Get Next Panel
+        let nextPanel = getNexPanelObj();
+
+        // Set Destination Snap Point
+        let destSnapPointIndex =
+          nextPanel.thisPanelsSnapPoints[
+            direction.points[directionInstructionPosition].i[1]
+          ];
+
+        let destSnapPointObj = $snapPoints.array[destSnapPointIndex];
+
+        $signalLines.setDestinationSnapPointIndex(destSnapPointObj);
+
+        $signalLines.addSignalLine();
+
+        // Update PrevPanel
+        prevPanel = nextPanel;
+
+        isSettingDestination = false;
+      } else {
+        let originSnapPointIndex =
+          prevPanel.thisPanelsSnapPoints[
+            direction.points[directionInstructionPosition].i[0]
+          ];
+
+        let originSnapPointObj = $snapPoints.array[originSnapPointIndex];
+
+        $signalLines.setOriginSnapPointIndex(originSnapPointObj);
+
+        isSettingDestination = true;
+      }
+
+      if (directionInstructionPosition % 2 == 0) {
+        incrementDirectionInstructionPosition();
+      }
     }
-  };
-
-  const getStartSnapPoint = (
-    direction: DirectionObj,
-    selectedArray: PanelObj[],
-    cornerPanelIndexes,
-    snapPointIndexCount: number
-  ) => {
-    let panelIndex = cornerPanelIndexes[direction.pointOne];
-    let panel = $panels.array[panelIndex];
-    let snapPointIndex =
-      panel.thisPanelsSnapPoints[direction.points[snapPointIndexCount].i];
-    let obj = $snapPoints.array[snapPointIndex];
-
-    return obj;
-  };
-
-  const getNextSnapPoint = (
-    direction: DirectionObj,
-    selectedArray: PanelObj[],
-    cornerPanelIndexes,
-    startingSnapPointObj,
-    snapPointIndexCount: number
-  ) => {
-    console.log(snapPointIndexCount);
-
-    if (!startingSnapPointObj) {
-      let obj = getStartSnapPoint(
-        direction,
-        selectedArray,
-        cornerPanelIndexes,
-        snapPointIndexCount
-      );
-
-      return obj;
-    }
-
-    let prevCol = startingSnapPointObj.column;
-    let prevRow = startingSnapPointObj.row;
-
-    let nextCol = prevCol + direction.points[1].x;
-    let nextRow = prevRow + direction.points[1].y;
-
-    // return index of next panel withh column equal to nextCol and row equal to nextRow
-    let panelIndex = selectedArray.findIndex(
-      (p) => p.column == nextCol && p.row == nextRow
-    );
-
-    // find panel in panels with nextCol and nextRow
-    let nextPanel: PanelObj = $panels.array.find((p) => {
-      return p.column === nextCol && p.row === nextRow;
-    });
-
-    let nextSnapPointIndex =
-      nextPanel.thisPanelsSnapPoints[direction.points[snapPointIndexCount].i];
-
-    let obj = $snapPoints.array[nextSnapPointIndex];
-
-    return obj;
   };
 
   const setCornerPanelIndexes = (arrayOfPanels: PanelObj[]) => {

@@ -37,7 +37,7 @@ export const linesGroupEnterRef: Writable<
 
 export const temporarySignalLine = writable(null);
 
-export const opacity: Writable<number> = writable(0.1);
+export const opacity: Writable<number> = writable(0.01);
 
 interface TransformObj {
   k: number;
@@ -205,7 +205,8 @@ export const colorButtons: Writable<string[]> = writable([
 ]);
 
 type XYandIndex = {
-  i: number;
+  i: number[];
+  doesFlip: boolean;
   x: number;
   y: number;
 };
@@ -225,11 +226,11 @@ type PointCorner = "topleft" | "topright" | "bottomleft" | "bottomright";
 export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
   {
     points: [
-      { x: 0, y: 0, i: 1 },
-      { x: 1, y: 0, i: 1 },
-      { x: 0, y: 1, i: 0 },
-      { x: -1, y: 0, i: 0 },
-      { x: 0, y: 1, i: 1 },
+      { x: 0, y: 0, i: [1, 1], doesFlip: false }, //  initial point
+      { x: 1, y: 0, i: [1, 0], doesFlip: true }, //  first move
+      { x: 0, y: 1, i: [1, 0], doesFlip: true }, //  second move
+      { x: -1, y: 0, i: [1, 0], doesFlip: true }, // third move
+      { x: 0, y: 1, i: [1, 0], doesFlip: true }, //  fourth move
     ],
     initialDirection: "horizontal",
     transform: "rotate(0) scale(.8)",
@@ -240,11 +241,11 @@ export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
   },
   {
     points: [
-      { x: 1, y: 0, i: 1 },
-      { x: -1, y: 0, i: 1 },
-      { x: 0, y: 1, i: 0 },
-      { x: 1, y: 0, i: 0 },
-      { x: 0, y: 1, i: 0 },
+      { x: 1, y: 0, i: [1, 1], doesFlip: false },
+      { x: -1, y: 0, i: [1, 0], doesFlip: false },
+      { x: 0, y: 1, i: [1, 0], doesFlip: false },
+      { x: 1, y: 0, i: [1, 0], doesFlip: false },
+      { x: 0, y: 1, i: [1, 0], doesFlip: false },
     ],
     initialDirection: "horizontal",
     transform: "rotate(180) scale(.8, -.8)",
@@ -255,11 +256,11 @@ export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
   },
   {
     points: [
-      { x: 0, y: 1, i: 0 },
-      { x: 1, y: 0, i: 0 },
-      { x: 0, y: -1, i: 0 },
-      { x: -1, y: 0, i: 0 },
-      { x: 0, y: -1, i: 0 },
+      { x: 0, y: 1, i: [0, 0], doesFlip: false },
+      { x: 1, y: 0, i: [0, 1], doesFlip: false },
+      { x: 0, y: -1, i: [0, 1], doesFlip: false },
+      { x: -1, y: 0, i: [0, 1], doesFlip: false },
+      { x: 0, y: -1, i: [0, 1], doesFlip: false },
     ],
     initialDirection: "horizontal",
     transform: "rotate(0) scale(.8, -.8)",
@@ -270,11 +271,11 @@ export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
   },
   {
     points: [
-      { x: 1, y: 1, i: 0 },
-      { x: -1, y: 0, i: 0 },
-      { x: 0, y: -1, i: 0 },
-      { x: 1, y: 0, i: 0 },
-      { x: 0, y: -1, i: 0 },
+      { x: 1, y: 1, i: [0, 0], doesFlip: false },
+      { x: -1, y: 0, i: [0, 1], doesFlip: false },
+      { x: 0, y: -1, i: [0, 1], doesFlip: false },
+      { x: 1, y: 0, i: [0, 1], doesFlip: false },
+      { x: 0, y: -1, i: [0, 1], doesFlip: false },
     ],
     initialDirection: "horizontal",
     transform: "rotate(180) scale(.8)",
@@ -285,11 +286,11 @@ export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
   },
   {
     points: [
-      { x: 0, y: 1, i: 0 },
-      { x: 0, y: -1, i: 1 },
-      { x: 1, y: 0, i: 0 },
-      { x: 0, y: 1, i: 0 },
-      { x: 1, y: 0, i: 0 },
+      { x: 0, y: 1, i: [0, 0] },
+      { x: 0, y: -1, i: [0, 1] },
+      { x: 1, y: 0, i: [0, 0] },
+      { x: 0, y: 1, i: [1, 0] },
+      { x: 1, y: 0, i: [1, 1] },
     ],
     initialDirection: "vertical",
     transform: "rotate(270) scale(.8)",
@@ -300,11 +301,11 @@ export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
   },
   {
     points: [
-      { x: 0, y: 1, i: 0 },
-      { x: 0, y: -1, i: 1 },
-      { x: -1, y: 0, i: 0 },
-      { x: 0, y: 1, i: 0 },
-      { x: -1, y: 0, i: 0 },
+      { x: 0, y: 1, i: [0, 0] },
+      { x: 0, y: -1, i: [0, 1] },
+      { x: -1, y: 0, i: [0, 0] },
+      { x: 0, y: 1, i: [1, 0] },
+      { x: -1, y: 0, i: [1, 1] },
     ],
     initialDirection: "vertical",
     transform: "rotate(270) scale(.8, -.8)",
@@ -315,11 +316,11 @@ export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
   },
   {
     points: [
-      { x: 0, y: 0, i: 1 },
-      { x: 0, y: 1, i: 0 },
-      { x: 1, y: 0, i: 0 },
-      { x: 0, y: -1, i: 0 },
-      { x: 1, y: 0, i: 0 },
+      { x: 0, y: 0, i: [1, 0] },
+      { x: 0, y: 1, i: [1, 0] },
+      { x: 1, y: 0, i: [1, 1] },
+      { x: 0, y: -1, i: [0, 1] },
+      { x: 1, y: 0, i: [0, 0] },
     ],
     initialDirection: "vertical",
     transform: "rotate(90) scale(.8, -.8)",
@@ -330,11 +331,11 @@ export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
   },
   {
     points: [
-      { x: 1, y: 0, i: 1 },
-      { x: 0, y: 1, i: 0 },
-      { x: -1, y: 0, i: 0 },
-      { x: 0, y: -1, i: 0 },
-      { x: -1, y: 0, i: 0 },
+      { x: 1, y: 0, i: [1, 0] },
+      { x: 0, y: 1, i: [1, 0] },
+      { x: -1, y: 0, i: [1, 1] },
+      { x: 0, y: -1, i: [0, 1] },
+      { x: -1, y: 0, i: [0, 0] },
     ],
     initialDirection: "vertical",
     transform: "rotate(90) scale(.8)",
