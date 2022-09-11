@@ -57,6 +57,7 @@
   let yOrigin: number = null;
 
   const handleSelectMouseMove = (e) => {
+    let x = e.x - 250;
     if (!isDrawingSelectLine || !selectBox) return;
     selectBox.attr(
       "d",
@@ -65,7 +66,7 @@
         " " +
         yOrigin +
         " H " +
-        e.x +
+        x +
         " V " +
         e.y +
         " H " +
@@ -75,7 +76,7 @@
   };
 
   const handleSelectMouseDown = (e) => {
-    xOrigin = e.x;
+    xOrigin = e.x - 250;
     yOrigin = e.y;
     selectBox = selectBoxOutline
       .append("path")

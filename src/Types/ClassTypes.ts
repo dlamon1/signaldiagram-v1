@@ -58,10 +58,9 @@ export interface LoadSnapPointObj {
 }
 
 export type SnapPointCoordinates = {
-  x: number;
-  y: number;
   snapPointIndex: number;
   panelIndex: number;
+  pointIndexWithinPanel: number;
 };
 
 export interface LoadSignalLineObj {
@@ -89,6 +88,8 @@ export interface SnapPointObj {
   pointIndexFullArray: number;
   strokeWidth: number;
   isHidden: boolean;
+  xOffset: number;
+  yOffset: number;
   getX: () => number;
   getY: () => number;
   getTranslateString: () => string;
@@ -122,6 +123,8 @@ export interface SignalLineObj {
   setEndCoordinates: (event) => void;
   updateColor: (color: string) => void;
   updateLineWidth: (lineWidth: number) => void;
+  getLengthInMM: () => number;
+  getLineWidth: () => number;
 }
 
 export type PanelsType = {
@@ -139,11 +142,13 @@ export type PanelsType = {
     reverseIndex: number
   ) => void;
   selectPanels: (arrayOfIndexes: number[]) => void;
+  togglePanels: (arrayOfIndexes: number[]) => void;
   toggleHidePanels: (arrayOfIndexes: number[]) => void;
 };
 
 export type SnapPointsType = {
   array: SnapPointObj[];
+  selectedSnapPointIndexes: number[];
   setArrayFromLoad: (array: LoadSnapPointObj[]) => void;
   deSelect: () => void;
   addSnapPoint: (
@@ -157,10 +162,13 @@ export type SnapPointsType = {
   getXCoordinate: (snapPoint: SnapPointObj) => number;
   getYCoordinate: (snapPoint: SnapPointObj) => number;
   selectSnapPoints: (arrayOfIndexes: number[]) => void;
+  toggleSnapPoints: (arrayOfIndexes: number[]) => void;
   selectSnapPoint: (d3Object: any) => void;
   removeLabel: () => void;
   setIsSquares: (isSquare: boolean) => void;
   setIsTriangles: (isTriangle: boolean) => void;
+  setXOffsets: (value: number) => void;
+  setYOffsets: (value: number) => void;
 };
 
 export type SignalLinesType = {

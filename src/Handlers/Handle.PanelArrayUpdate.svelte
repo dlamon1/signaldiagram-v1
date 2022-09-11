@@ -11,7 +11,7 @@
     width,
     height,
     isExportDialogOpen,
-  } from "./store";
+  } from "../store";
 
   $: {
     let t = [

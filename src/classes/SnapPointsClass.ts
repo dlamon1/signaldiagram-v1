@@ -20,10 +20,12 @@ import {
   updatePanels,
   width,
   height,
+  setSelectedSnapPointIndexes,
 } from "../store";
 
 export class SnapPoints implements SnapPointsType {
   array = [];
+  selectedSnapPointIndexes = [];
 
   setArrayFromLoad(snapPointsArray: LoadSnapPointObj[]) {
     this.array = [];
@@ -82,14 +84,46 @@ export class SnapPoints implements SnapPointsType {
     updateSignalLines();
 
     if (!get(isCtrl)) {
+      this.selectedSnapPointIndexes = [];
+      setSelectedSnapPointIndexes([]);
       this.array.forEach((panel) => {
         panel.setIsSelected(false);
       });
     }
 
     arrayOfIndexes.forEach((i) => {
+      this.selectedSnapPointIndexes = arrayOfIndexes;
       this.array[i].setIsSelected(true);
     });
+
+    setSelectedSnapPointIndexes(this.selectedSnapPointIndexes);
+    updateSnapPoints();
+  };
+
+  toggleSnapPoints = (arrayOfIndexes: number[]) => {
+    const snapPointsClass = get(snapPoints);
+    const signalLinesClass = get(signalLines);
+    snapPointsClass.deSelect();
+    signalLinesClass.deSelect();
+    updateSnapPoints();
+    updateSignalLines();
+
+    if (!get(isCtrl)) {
+      this.selectedSnapPointIndexes = [];
+
+      this.array.forEach((panel) => {
+        this.selectedSnapPointIndexes = [];
+        setSelectedSnapPointIndexes([]);
+        panel.setIsSelected(false);
+      });
+    }
+
+    arrayOfIndexes.forEach((i) => {
+      this.selectedSnapPointIndexes = arrayOfIndexes;
+      this.array[i].setIsSelected(true);
+    });
+
+    setSelectedSnapPointIndexes(this.selectedSnapPointIndexes);
 
     updateSnapPoints();
   };
@@ -105,8 +139,13 @@ export class SnapPoints implements SnapPointsType {
     const current = this.array[i].isSelected;
 
     if (!get(isCtrl)) {
+      this.selectedSnapPointIndexes = [];
+
       this.array.forEach((p) => p.setIsSelected(false));
     }
+
+    this.selectedSnapPointIndexes[i];
+    setSelectedSnapPointIndexes(this.selectedSnapPointIndexes);
 
     this.array[i].setIsSelected(!current);
     setSelection("snappoints");
@@ -153,6 +192,22 @@ export class SnapPoints implements SnapPointsType {
     });
     updatePanels();
   }
+
+  setXOffsets(value: number) {
+    this.array.forEach((panel) => {
+      if (panel.isSelected) {
+        panel.setXOffset(value);
+      }
+    });
+  }
+
+  setYOffsets(value: number) {
+    this.array.forEach((panel) => {
+      if (panel.isSelected) {
+        panel.setYOffset(value);
+      }
+    });
+  }
 }
 
 export class SnapPoint implements SnapPointObj {
@@ -178,6 +233,8 @@ export class SnapPoint implements SnapPointObj {
   pointIndexFullArray: number;
   strokeWidth: number;
   isHidden: boolean;
+  xOffset = 0;
+  yOffset = 0;
 
   constructor(
     row: number,
@@ -210,7 +267,7 @@ export class SnapPoint implements SnapPointObj {
     if (get(snapPointsQuantity) === 1) {
       x = get(width) / 2;
     }
-    return x + parentPanel.getDimensions().x;
+    return x + parentPanel.getDimensions().x + this.xOffset;
   }
 
   getY() {
@@ -224,7 +281,15 @@ export class SnapPoint implements SnapPointObj {
     if (get(snapPointsQuantity) === 1) {
       y = get(height) / 2;
     }
-    return y + parentPanel.y;
+    return y + parentPanel.getDimensions().y + this.yOffset;
+  }
+
+  setXOffset(value: number) {
+    this.xOffset = value;
+  }
+
+  setYOffset(value: number) {
+    this.yOffset = value;
   }
 
   getTranslateString() {
@@ -307,11 +372,11 @@ export class SnapPoint implements SnapPointObj {
     this.isSelected = !this.isSelected;
   }
 
-  setIsSelected(boolean) {
+  setIsSelected(boolean: boolean) {
     this.isSelected = boolean;
   }
 
-  setIsHovered(boolean) {
+  setIsHovered(boolean: boolean) {
     this.isHovered = boolean;
   }
 

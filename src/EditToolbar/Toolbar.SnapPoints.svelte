@@ -1,14 +1,71 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import {
     textInputRef,
     snapPointLabel,
     snapPoints as snapPointsClass,
+    width,
+    height,
+    selectedSnapPointIndexes,
   } from "../store";
   import { fade } from "svelte/transition";
 
   import ColorPicker from "./components/ColorPicker.svelte";
+  import type { SnapPointObj } from "../Types/ClassTypes";
+
+  const selectOnes = () => {
+    $snapPointsClass.array.forEach((p: SnapPointObj) => {
+      p.setIsSelected(false);
+      if (p.pointIndexWithinPanel == 1) {
+        p.setIsSelected(true);
+      }
+      $snapPointsClass = $snapPointsClass;
+    });
+  };
+
+  $: {
+    let t = [$selectedSnapPointIndexes];
+
+    updateOffsetValues();
+  }
+
+  const updateOffsetValues = () => {
+    xOffset = 0;
+    yOffset = 0;
+
+    $snapPointsClass.array.forEach((sp: SnapPointObj) => {
+      if (sp.isSelected) {
+        xOffset = sp.xOffset;
+        yOffset = sp.yOffset;
+      }
+    });
+  };
+
+  const selectTwos = () => {
+    $snapPointsClass.array.forEach((p: SnapPointObj) => {
+      p.setIsSelected(false);
+      if (p.pointIndexWithinPanel == 2) {
+        p.setIsSelected(true);
+      }
+      $snapPointsClass = $snapPointsClass;
+    });
+  };
 
   let sd = [];
+
+  let xOffset = 0;
+  let yOffset = 0;
+
+  $: {
+    setOffsets(xOffset, -yOffset);
+  }
+
+  const setOffsets = (x: number, y: number) => {
+    $snapPointsClass.setXOffsets(x);
+    $snapPointsClass.setYOffsets(y);
+
+    $snapPointsClass = $snapPointsClass;
+  };
 
   $: {
     sd = [];
@@ -31,6 +88,39 @@
 </script>
 
 <div id="snappoints" in:fade={{ duration: 150 }} out:fade={{ duration: 0 }}>
+  <div class="crisscross">
+    <button class="select" on:click={selectOnes}>Select [0]</button>
+    <button class="select" on:click={selectTwos}>select [1]</button>
+  </div>
+
+  <div id="input-wrapper" class="opacity-wrapper" style="margin-top: 10px;">
+    <label class="hovered">
+      X Offset
+      <input
+        type="range"
+        min={-$width / 3}
+        max={$width / 3}
+        step="1"
+        bind:value={xOffset}
+        class="range"
+      />
+    </label>
+  </div>
+
+  <div id="input-wrapper" class="opacity-wrapper">
+    <label class="hovered">
+      Y Offset
+      <input
+        type="range"
+        min={-$height / 3}
+        max={$height / 3}
+        step="1"
+        bind:value={yOffset}
+        class="range"
+      />
+    </label>
+  </div>
+
   <div class="shape-button-container">
     <button
       id="shape-button"
@@ -48,7 +138,7 @@
       key={"snapPoint"}
       layer={"background"}
       element={"Background"}
-      isOpen={true}
+      isOpen={false}
       classObj={$snapPointsClass}
     />
 
@@ -80,6 +170,18 @@
 </div>
 
 <style>
+  .select > button {
+    padding: 5px;
+    padding-inline: 15px;
+  }
+
+  .crisscross {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 10px;
+  }
+
   .label-text-input {
     width: 50px;
   }

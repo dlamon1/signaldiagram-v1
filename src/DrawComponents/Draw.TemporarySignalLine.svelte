@@ -1,5 +1,6 @@
 <script lang="ts">
   import * as d3 from "d3";
+  import { get } from "svelte/store";
   import {
     snapPoints as snapPointsClass,
     signalLines as signalLinesClass,
@@ -10,10 +11,12 @@
     width,
     height,
     snapPointsGroupEnterRef,
+    mousePosition,
   } from "../store";
 
   $: {
-    let t = $signalLinesClass;
+    let t = [$signalLinesClass, $mousePosition];
+    // console.log("draw temp signal line");
     drawTemporarySignalLine();
   }
 
@@ -22,8 +25,8 @@
     if (!$isDrawingSignalLine) return;
 
     let origin = $signalLinesClass.origin;
-    let mouse = $signalLinesClass.mouse;
-    if (origin.snapPointIndex && mouse.x && mouse.y) {
+    let mouse = get(mousePosition);
+    if (origin.snapPointIndex >= 0 && mouse.x && mouse.y) {
       theAcutualDrawing();
     }
   };
@@ -40,16 +43,15 @@
     // [tx + k * xo, ty + k * yo]
 
     let x2 =
-      $signalLinesClass.mouse.x / $transform.k - $transform.x / $transform.k;
-    let y2 =
-      $signalLinesClass.mouse.y / $transform.k - $transform.y / $transform.k;
+      (get(mousePosition).x - 250) / $transform.k - $transform.x / $transform.k;
+    let y2 = get(mousePosition).y / $transform.k - $transform.y / $transform.k;
 
     if (destinationI) {
-      let destinationSanpPoint =
+      let destinationSnapPoint =
         $snapPointsClass.array[$signalLinesClass.destination.snapPointIndex];
 
-      x2 = $snapPointsClass.getXCoordinate(destinationSanpPoint);
-      y2 = $snapPointsClass.getYCoordinate(destinationSanpPoint);
+      x2 = destinationSnapPoint.getX();
+      y2 = destinationSnapPoint.getY();
     }
 
     let lineWidth = $width < $height ? $width / 20 : $height;

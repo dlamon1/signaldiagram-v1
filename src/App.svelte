@@ -1,11 +1,8 @@
 <script lang="ts">
-  import { canvasWrapperHeight, canvasWrapperWidth, isChrome } from "./store";
-  import HandleColorLabelUpdates from "./Handle.ColorLabelUpdates.svelte";
-  import Toolbar from "./Toolbar.svelte";
+  import Toolbar from "./EditToolbar/Toolbar.svelte";
   import ExportDialog from "./Dialogs/Exports.svelte";
   import DrawCanvasWrapper from "./DrawComponents/Draw.CanvasWrapper.svelte";
   import DrawPanelWrappers from "./DrawComponents/Draw.PanelWrappers.svelte";
-  import Reactivity from "./Handle.PanelArrayUpdate.svelte";
   import DrawSnapPoints from "./DrawComponents/Draw.SnapPoints.svelte";
   import DrawTemporarySignalLine from "./DrawComponents/Draw.TemporarySignalLine.svelte";
   import Zoom from "./DrawComponents/Zoom.svelte";
@@ -14,9 +11,17 @@
   import DrawSignalLines from "./DrawComponents/Draw.SignalLines.svelte";
   import BrowserCompatabilityDialog from "./Dialogs/Dialog.BrowserCompatability.svelte";
 
-  import { gZoomWrapperRef } from "./store";
+  import {
+    canvasWrapperHeight,
+    canvasWrapperWidth,
+    isChrome,
+    gZoomWrapperRef,
+  } from "./store";
 
-  import HandleSelectionTab from "./Handle.SelectionTab.svelte";
+  import HandleColorLabelUpdates from "./Handlers/Handle.ColorLabelUpdates.svelte";
+  import Reactivity from "./Handlers/Handle.PanelArrayUpdate.svelte";
+  import HandleSelectionTab from "./Handlers/Handle.SelectionTab.svelte";
+  import InfoBar from "./InfoToolbar/InfoBar.svelte";
 
   $gZoomWrapperRef = null;
 
@@ -33,6 +38,10 @@
 <div id="container">
   <Reactivity />
   <HandleSelectionTab />
+
+  <div class="info">
+    <InfoBar />
+  </div>
 
   <div
     id="canvas-wrapper"
@@ -69,7 +78,6 @@
 
 <style>
   #container {
-    position: relative;
     width: 100vw;
     height: 100vh;
     background-color: rgb(37, 37, 37);
@@ -77,20 +85,16 @@
     overflow: hidden;
   }
   .canvas-wrapper {
-    width: calc(100vw - 250px);
-    /* margin: 10px; */
+    flex: 1;
   }
-
+  .info {
+    background-color: rgb(58, 58, 58);
+    width: 250px;
+    height: 100%;
+  }
   .toolbar {
-    background-color: rgb(71, 71, 71);
+    background-color: rgb(58, 58, 58);
     width: 250px;
     right: 0;
-    z-index: 1;
-    right: 0;
-    position: absolute;
-  }
-  .canvas {
-    z-index: 0;
-    position: absolute;
   }
 </style>

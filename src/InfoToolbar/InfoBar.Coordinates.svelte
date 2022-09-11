@@ -2,10 +2,10 @@
   import { showCoordinates, isRearView, opacity } from "../store";
 </script>
 
-<div id="general">
+<div class="general">
   <label class="hovered">
     <input type="checkbox" bind:checked={$showCoordinates} />
-    Coordinates
+    Show Coordinates
   </label>
 
   <div id="input-wrapper" class="opacity-wrapper">
@@ -25,6 +25,9 @@
 </div>
 
 <style>
+  .general {
+    margin-top: 5px;
+  }
   label {
     padding-right: 10px;
   }
