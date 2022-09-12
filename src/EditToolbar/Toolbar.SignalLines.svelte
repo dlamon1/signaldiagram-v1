@@ -4,8 +4,6 @@
     signalLines as signalLinesClass,
     panels as panelsClass,
     showDirectionArrows,
-    colorState,
-    colorButtons,
   } from "../store";
   import ColorPicker from "./components/ColorPicker.svelte";
 
