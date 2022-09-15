@@ -220,7 +220,148 @@ export const colorButtons: Writable<string[]> = writable([
   "#ffffff",
 ]);
 
-export const isRearView: Writable<boolean> = writable(true);
+type XYandIndex = {
+  i: number[];
+  x: number;
+  y: number;
+};
+
+export type DirectionObj = {
+  initialDirection: "vertical" | "horizontal";
+  transform: string;
+  points: XYandIndex[];
+  pointOne: PointCorner;
+  pointTwo: PointCorner;
+  pointThree: PointCorner;
+  snapPointIndex: number;
+};
+
+type PointCorner = "topleft" | "topright" | "bottomleft" | "bottomright";
+
+export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
+  {
+    points: [
+      { x: 0, y: 1, i: [0, 0] },
+      { x: 0, y: -1, i: [0, 1] },
+      { x: 1, y: 0, i: [0, 0] },
+      { x: 0, y: 1, i: [1, 0] },
+      { x: 1, y: 0, i: [1, 1] },
+    ],
+    initialDirection: "vertical",
+    transform: "rotate(270) scale(.8)",
+    pointOne: "bottomleft",
+    pointTwo: "topleft",
+    pointThree: "topright",
+    snapPointIndex: 0,
+  },
+  {
+    points: [
+      { x: 0, y: 1, i: [0, 0] },
+      { x: 0, y: -1, i: [0, 1] },
+      { x: -1, y: 0, i: [0, 0] },
+      { x: 0, y: 1, i: [1, 0] },
+      { x: -1, y: 0, i: [1, 1] },
+    ],
+    initialDirection: "vertical",
+    transform: "rotate(270) scale(.8, -.8)",
+    pointOne: "bottomright",
+    pointTwo: "topright",
+    pointThree: "topleft",
+    snapPointIndex: 0,
+  },
+  {
+    points: [
+      { x: 0, y: 0, i: [1, 0] },
+      { x: 0, y: 1, i: [1, 0] },
+      { x: 1, y: 0, i: [1, 1] },
+      { x: 0, y: -1, i: [0, 1] },
+      { x: 1, y: 0, i: [0, 0] },
+    ],
+    initialDirection: "vertical",
+    transform: "rotate(90) scale(.8, -.8)",
+    pointOne: "topleft",
+    pointTwo: "bottomleft",
+    pointThree: "bottomright",
+    snapPointIndex: 0,
+  },
+  {
+    points: [
+      { x: 1, y: 0, i: [1, 0] },
+      { x: 0, y: 1, i: [1, 0] },
+      { x: -1, y: 0, i: [1, 1] },
+      { x: 0, y: -1, i: [0, 1] },
+      { x: -1, y: 0, i: [0, 0] },
+    ],
+    initialDirection: "vertical",
+    transform: "rotate(90) scale(.8)",
+    pointOne: "topright",
+    pointTwo: "bottomright",
+    pointThree: "bottomleft",
+    snapPointIndex: 0,
+  },
+  {
+    points: [
+      { x: 0, y: 0, i: [1, 1], doesFlip: false }, //  initial point
+      { x: 1, y: 0, i: [1, 0], doesFlip: true }, //  first move
+      { x: 0, y: 1, i: [1, 0], doesFlip: true }, //  second move
+      { x: -1, y: 0, i: [1, 0], doesFlip: true }, // third move
+      { x: 0, y: 1, i: [1, 0], doesFlip: true }, //  fourth move
+    ],
+    initialDirection: "horizontal",
+    transform: "rotate(0) scale(.8)",
+    pointOne: "topleft",
+    pointTwo: "topright",
+    pointThree: "bottomright",
+    snapPointIndex: 1,
+  },
+  {
+    points: [
+      { x: 1, y: 0, i: [1, 1], doesFlip: false },
+      { x: -1, y: 0, i: [1, 0], doesFlip: false },
+      { x: 0, y: 1, i: [1, 0], doesFlip: false },
+      { x: 1, y: 0, i: [1, 0], doesFlip: false },
+      { x: 0, y: 1, i: [1, 0], doesFlip: false },
+    ],
+    initialDirection: "horizontal",
+    transform: "rotate(180) scale(.8, -.8)",
+    pointOne: "topright",
+    pointTwo: "topleft",
+    pointThree: "bottomleft",
+    snapPointIndex: 1,
+  },
+  {
+    points: [
+      { x: 0, y: 1, i: [0, 0], doesFlip: false },
+      { x: 1, y: 0, i: [0, 1], doesFlip: false },
+      { x: 0, y: -1, i: [0, 1], doesFlip: false },
+      { x: -1, y: 0, i: [0, 1], doesFlip: false },
+      { x: 0, y: -1, i: [0, 1], doesFlip: false },
+    ],
+    initialDirection: "horizontal",
+    transform: "rotate(0) scale(.8, -.8)",
+    pointOne: "bottomleft",
+    pointTwo: "bottomright",
+    pointThree: "topright",
+    snapPointIndex: 0,
+  },
+  {
+    points: [
+      { x: 1, y: 1, i: [0, 0], doesFlip: false },
+      { x: -1, y: 0, i: [0, 1], doesFlip: false },
+      { x: 0, y: -1, i: [0, 1], doesFlip: false },
+      { x: 1, y: 0, i: [0, 1], doesFlip: false },
+      { x: 0, y: -1, i: [0, 1], doesFlip: false },
+    ],
+    initialDirection: "horizontal",
+    transform: "rotate(180) scale(.8)",
+    pointOne: "bottomright",
+    pointTwo: "bottomleft",
+    pointThree: "topleft",
+    snapPointIndex: 0,
+  },
+]);
+
+export const isRearView: Writable<boolean> = writable(false);
 
 export const isSelectingPanels: Writable<boolean> = writable(true);
 export const isSelectingSignalLines: Writable<boolean> = writable(true);

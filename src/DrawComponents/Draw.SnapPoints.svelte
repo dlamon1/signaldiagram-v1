@@ -89,7 +89,7 @@
       .attr("stroke-alignment", "inner")
       .on("mouseover", function (d, i) {
         if ($isDrawingSignalLine) {
-          $signalLinesClass.setDestinationSnapPointIndex(d);
+          $signalLinesClass.setDestinationSnapPointIndex(d.path[0].__data__);
         }
         d.stopPropagation();
         let obj = d.path[0].__data__;
@@ -104,14 +104,13 @@
         d.stopPropagation();
         if (!$isDrawMode) return;
 
-        $signalLinesClass.setOriginSnapPointIndex(d);
+        $signalLinesClass.setOriginSnapPointIndex(d.path[0].__data__);
         setIsDrawingSignalLine(true);
       })
       .on("mouseup", (d) => {
         d.stopPropagation();
         if ($isDrawMode && $isDrawingSignalLine) {
           $signalLinesClass.addSignalLine();
-          setIsDrawingSignalLine(false);
         }
         setIsDrawingSignalLine(false);
       })

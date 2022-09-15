@@ -36,7 +36,7 @@
     $snapPointsClass.array.forEach((sp: SnapPointObj) => {
       if (sp.isSelected) {
         xOffset = sp.xOffset;
-        yOffset = sp.yOffset;
+        yOffset = -sp.yOffset;
       }
     });
   };

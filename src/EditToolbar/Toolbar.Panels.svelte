@@ -7,6 +7,7 @@
   import type { PanelObj, SnapPointObj } from "../Types/ClassTypes";
 
   import ColorPicker from "./components/ColorPicker.svelte";
+  import SignalButtons from "./components/SignalButtons.svelte";
 
   const selectCriss = () => {
     $panels.array.forEach((p) => {
@@ -108,7 +109,7 @@
     key={"panel"}
     layer="background"
     element={"Background"}
-    isOpen={false}
+    isOpen={true}
     classObj={$panels}
   />
   <ColorPicker
@@ -125,6 +126,8 @@
     isOpen={false}
     classObj={$panels}
   />
+
+  <SignalButtons />
 </div>
 
 <style>
