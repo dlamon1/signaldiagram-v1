@@ -26,6 +26,11 @@ import {
 export class SnapPoints implements SnapPointsType {
   array = [];
   selectedSnapPointIndexes = [];
+  screenIndex = undefined;
+
+  constructor(screenIndex: number) {
+    this.screenIndex = screenIndex;
+  }
 
   setArrayFromLoad(snapPointsArray: LoadSnapPointObj[]) {
     this.array = [];

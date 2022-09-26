@@ -1,8 +1,12 @@
+import { get } from "svelte/store";
+
 import type { ScreenObj } from "../Types/ClassTypes";
 
 import { Panels } from "./PanelsClass";
 import { SignalLines } from "./SignalLinesClass";
 import { SnapPoints } from "./SnapPointsClass";
+
+import { screens } from "../store";
 
 export class Screen implements ScreenObj {
   panels = null;
@@ -11,10 +15,31 @@ export class Screen implements ScreenObj {
   width = 0;
   height = 0;
   isRearView = true;
+  columns = null;
+  rows = null;
+  name = null;
+  isSelected = false;
+  index = undefined;
 
-  constructor() {
-    this.panels = new Panels();
-    this.snapPoints = new SnapPoints();
+  constructor(
+    columns: number,
+    rows: number,
+    width: number,
+    height: number,
+    widthMM: number,
+    heightMM: number,
+    name: string
+  ) {
+    this.name = name;
+    this.columns = columns;
+    this.rows = rows;
+    this.width = width;
+    this.height = height;
+
+    this.index = get(screens).length;
+
+    this.panels = new Panels(this.index);
+    this.snapPoints = new SnapPoints(this.index);
     this.signalLines = new SignalLines();
   }
 }

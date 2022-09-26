@@ -14,6 +14,8 @@
     showCoordinates,
     showDirectionArrows,
     mousePosition,
+    screens,
+    currentScreenIndex,
   } from "../store";
 
   let hoveredColor = "rgba(0, 255, 170, 1)";
@@ -30,14 +32,18 @@
       $showCoordinates,
       $isDrawingSignalLine,
       $showDirectionArrows,
+      $currentScreenIndex,
     ];
 
     drawPanelWrappers();
   }
 
   const drawPanelWrappers = () => {
-    // console.log("draw panels");
-    let panels = $panelsClass.array;
+    if (typeof $currentScreenIndex != "number") {
+      return;
+    }
+
+    let panels = $screens[$currentScreenIndex].panels.array;
 
     d3.select("#temp-signal-line").remove();
 
@@ -103,13 +109,23 @@
 
         setIsDrawingSignalLine(false);
       })
-      .on("click", (e) => {
+      .on("click", function (e, i) {
         if ($isDrawMode) return;
         e.stopPropagation();
         if ($isSelectMode && !$isDrawingSignalLine) {
-          $panelsClass.togglePanels([e.target.__data__.i]);
+          $screens[$currentScreenIndex].panels.togglePanels([
+            e.target.__data__.i,
+          ]);
+          drawPanelWrappers();
         }
       });
+    // .on("click", (e) => {
+    //   if ($isDrawMode) return;
+    //   e.stopPropagation();
+    //   if ($isSelectMode && !$isDrawingSignalLine) {
+    //     $panelsClass.togglePanels([e.target.__data__.i]);
+    //   }
+    // });
 
     // Draw Coordinates
     // Draw Coordinates

@@ -16,6 +16,8 @@
     snapPointDirection,
     snapPointsQuantity,
     snapPoints,
+    screens,
+    currentScreenIndex,
   } from "../store";
 
   let hoveredColor = "rgba(0, 255, 170, 1)";
@@ -41,7 +43,12 @@
 
   const drawSnapPointWrappers = () => {
     // console.log("draw snap Points");
-    let snapPoints = $snapPointsClass.array;
+
+    if (typeof $currentScreenIndex != "number") {
+      return;
+    }
+
+    let snapPoints = $screens[$currentScreenIndex].snapPoints.array;
 
     // 1
     $snapPointsGroupRef = $gZoomWrapperRef

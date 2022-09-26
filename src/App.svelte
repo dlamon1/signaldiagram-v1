@@ -10,6 +10,7 @@
   import DrawRearViewLabel from "./DrawComponents/Draw.RearViewLabel.svelte";
   import DrawSignalLines from "./DrawComponents/Draw.SignalLines.svelte";
   import BrowserCompatabilityDialog from "./Dialogs/Dialog.BrowserCompatability.svelte";
+  import AddScreenDialog from "./Dialogs/Dialog.AddScreen.svelte";
 
   import {
     canvasWrapperHeight,
@@ -74,6 +75,7 @@
 
   <ExportDialog />
   <BrowserCompatabilityDialog />
+  <AddScreenDialog />
 </div>
 
 <style>

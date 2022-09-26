@@ -9,7 +9,7 @@
   } from "../store";
 
   const updateSelectedSnapPointsLabel = (label: string) => {
-    $snapPointsClass.array.forEach((snapPoint, i) => {
+    $snapPointsClass?.array.forEach((snapPoint, i) => {
       if (snapPoint.isSelected) {
         snapPoint.label = label;
       }
@@ -34,7 +34,7 @@
   $: {
     let t = [$PanelsClass];
 
-    updatePanelColorState();
+    $PanelsClass && updatePanelColorState();
   }
 
   const updateSnapPointColorState = () => {
@@ -48,7 +48,7 @@
 
   $: {
     let t = [$snapPointsClass];
-    updateSnapPointColorState();
+    $snapPointsClass && updateSnapPointColorState();
   }
 
   const updateSignalLineColorState = () => {

@@ -13,13 +13,13 @@
 
   const deSelect = () => {
     if ($selection != "panels") {
-      $panels.deSelect();
+      $panels?.deSelect();
     }
     if ($selection != "signallines") {
-      $signalLines.deSelect();
+      $signalLines?.deSelect();
     }
     if ($selection != "snappoints") {
-      $snapPointsClass.deSelect();
+      $snapPointsClass?.deSelect();
     }
   };
 

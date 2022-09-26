@@ -10,7 +10,7 @@
   import SignalButtons from "./components/SignalButtons.svelte";
 
   const selectCriss = () => {
-    $panels.array.forEach((p) => {
+    $panels?.array.forEach((p) => {
       p.setIsSelected(false);
       if (p.colorIndex == 0) {
         p.setIsSelected(true);
@@ -20,7 +20,7 @@
   };
 
   const selectCross = () => {
-    $panels.array.forEach((p) => {
+    $panels?.array.forEach((p) => {
       p.setIsSelected(false);
       if (p.colorIndex == 1) {
         p.setIsSelected(true);
@@ -31,7 +31,7 @@
 
   const updateLineWidth = (e: Event) => {
     const target = e.target as HTMLInputElement;
-    $panels.array.forEach((panel) => {
+    $panels?.array.forEach((panel) => {
       if (panel.isSelected) {
         panel.setLineWidthMultiplier(target.value);
       }
@@ -47,7 +47,7 @@
   };
 
   const hide = (isHidden: boolean) => {
-    $panels.array.forEach((p: PanelObj) => {
+    $panels?.array.forEach((p: PanelObj) => {
       if (p.isSelected) {
         hideSnapPoints(p.thisPanelsSnapPoints, isHidden);
         p.setIsHidden(isHidden);
@@ -63,7 +63,7 @@
   const setIsVisible = () => {
     isVisible = true;
 
-    $panels.array.forEach((p) => {
+    $panels?.array.forEach((p) => {
       if (p.isSelected) {
         isVisible = !p.isHidden;
       }

@@ -133,6 +133,7 @@ export type PanelsType = {
   setArrayFromLoad: (array: LoadPanelObj[]) => void;
   deSelect: () => void;
   updatePanelArray: () => void;
+  initArray: (columns: number, rows: number) => void;
   addPanel: (
     row: number,
     column: number,
@@ -208,4 +209,8 @@ export interface ScreenObj {
   width: number;
   height: number;
   isRearView: boolean;
+  columns: number;
+  rows: number;
+  name: string;
+  isSelected: boolean;
 }

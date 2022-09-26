@@ -18,31 +18,34 @@ import {
   snapPoints as snapPointsStore,
   setSelection,
   signalLines,
-  rows,
-  columns,
   snapPointsQuantity,
   showCoordinates,
   isRearView,
+  screens,
 } from "../store";
 
 export class Panels implements PanelsType {
+  screenIndex: number = undefined;
   array = [];
   selectedIndexes: number[] = [];
 
-  setArrayFromLoad(array: LoadPanelObj[]) {
-    this.resetArray();
+  constructor(screenIndex: number) {
+    this.screenIndex = screenIndex;
+  }
 
-    array.forEach((panel) => {
-      this.addPanel(
-        panel.row,
-        panel.column,
-        panel.i,
-        panel.thisPanelsSnapPoints,
-        panel.color,
-        panel.reverseIndex
-      );
-    });
-    updatePanels();
+  setArrayFromLoad(array: LoadPanelObj[]) {
+    // this.resetArray();
+    // array.forEach((panel) => {
+    //   this.addPanel(
+    //     panel.row,
+    //     panel.column,
+    //     panel.i,
+    //     panel.thisPanelsSnapPoints,
+    //     panel.color,
+    //     panel.reverseIndex
+    //   );
+    // });
+    // updatePanels();
   }
 
   deSelect = () => {
@@ -50,26 +53,22 @@ export class Panels implements PanelsType {
     updatePanels();
   };
 
-  updatePanelArray = () => {
-    const snapPoints = get(snapPointsStore);
-
-    snapPoints.resetArray();
-    this.resetArray();
+  initArray = (rows: number, columns: number) => {
+    const snapPoints = get(screens)[this.screenIndex].snapPoints;
 
     let snapPointIndex = 0;
+
     let count = 0;
 
-    for (let i = 0; i < get(rows); i++) {
-      for (let j = 0; j < get(columns); j++) {
-        const reverseIndex = get(columns) - j + i * get(columns);
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < columns; j++) {
+        const reverseIndex = columns - j + i * columns;
 
         const thisPanelsSnapPointsIndexes = [];
 
         for (let k = 1; k < get(snapPointsQuantity) + 1; k++) {
           snapPoints.addSnapPoint(i, j, k, count, snapPointIndex);
-
           thisPanelsSnapPointsIndexes.push(snapPointIndex);
-
           snapPointIndex += 1;
         }
 
@@ -81,12 +80,38 @@ export class Panels implements PanelsType {
           null,
           reverseIndex
         );
-
         count++;
       }
     }
+  };
 
-    updatePanels();
+  updatePanelArray = () => {
+    // const snapPoints = get(snapPointsStore);
+    // snapPoints.resetArray();
+    // this.resetArray();
+    // let snapPointIndex = 0;
+    // let count = 0;
+    // for (let i = 0; i < get(rows); i++) {
+    //   for (let j = 0; j < get(columns); j++) {
+    //     const reverseIndex = get(columns) - j + i * get(columns);
+    //     const thisPanelsSnapPointsIndexes = [];
+    //     for (let k = 1; k < get(snapPointsQuantity) + 1; k++) {
+    //       snapPoints.addSnapPoint(i, j, k, count, snapPointIndex);
+    //       thisPanelsSnapPointsIndexes.push(snapPointIndex);
+    //       snapPointIndex += 1;
+    //     }
+    //     this.addPanel(
+    //       i,
+    //       j,
+    //       count,
+    //       thisPanelsSnapPointsIndexes,
+    //       null,
+    //       reverseIndex
+    //     );
+    //     count++;
+    //   }
+    // }
+    // updatePanels();
   };
 
   addPanel(
@@ -103,7 +128,8 @@ export class Panels implements PanelsType {
       count,
       thisPanelsSnapPoints,
       colorObj,
-      reverseIndex
+      reverseIndex,
+      this.screenIndex
     );
     this.array.push(newPanel);
   }
@@ -148,8 +174,8 @@ export class Panels implements PanelsType {
   togglePanels = (arrayOfIndexes: number[]) => {
     const snapPointsClass = get(snapPointsStore);
     const signalLinesClass = get(signalLines);
-    snapPointsClass.deSelect();
-    signalLinesClass.deSelect();
+    // snapPointsClass.deSelect();
+    // signalLinesClass.deSelect();
 
     const arrayOfCurrent = [];
     this.selectedIndexes = [];
@@ -213,6 +239,7 @@ export class Panel implements PanelObj {
   height: number;
   reverseIndex: number;
   isHidden: boolean;
+  screenIndex: number;
 
   constructor(
     i: number,
@@ -220,8 +247,10 @@ export class Panel implements PanelObj {
     count: number,
     thisPanelsSnapPoints: number[],
     colorObj: ColorObj,
-    reverseIndex: number
+    reverseIndex: number,
+    screenIndex: number
   ) {
+    this.screenIndex = screenIndex;
     this.row = i;
     this.column = j;
     this.i = count;
@@ -268,23 +297,27 @@ export class Panel implements PanelObj {
   }
 
   setDimensions() {
-    this.width = get(width);
-    this.height = get(height);
+    let screen = get(screens)[this.screenIndex];
+
+    this.width = screen.width;
+    this.height = screen.height;
     this.x = get(width) * this.column;
-    if (get(isRearView)) {
-      this.x = get(width) * (get(columns) - this.column + 1);
-    }
+    // if (get(isRearView)) {
+    //   this.x = get(width) * (get(columns) - this.column + 1);
+    // }
     this.y = get(height) * this.row;
   }
 
   getDimensions() {
-    let x = get(width) * this.column;
+    let screen = get(screens)[this.screenIndex];
 
-    if (get(isRearView)) {
-      x = get(width) * (get(columns) - this.column - 1);
-    }
+    let x = screen.width * this.column;
 
-    let y = get(height) * this.row;
+    // if (get(isRearView)) {
+    //   x = get(width) * (get(columns) - this.column - 1);
+    // }
+
+    let y = screen.height * this.row;
 
     return { x, y };
   }

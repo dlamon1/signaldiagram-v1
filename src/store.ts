@@ -9,11 +9,17 @@ import type {
   SnapPointObj,
   SignalLineObj,
   XYCoordinates,
+  ScreenObj,
+  PanelsType,
 } from "./Types/ClassTypes";
 
 import type * as d3 from "d3";
 
 import type { Writable } from "svelte/store";
+
+export const screens: Writable<ScreenObj[]> = writable([]);
+
+export const currentScreenIndex: Writable<number> = writable(undefined);
 
 export const topLevelSvgRef = writable(null);
 export const gZoomWrapperRef = writable(null);
@@ -67,6 +73,7 @@ export const setIsDrawingSelectLine = (s: boolean) => {
 };
 
 export const isExportDialogOpen: Writable<boolean> = writable(false);
+export const isAddScreenDialogOpen: Writable<boolean> = writable(false);
 
 export const title: Writable<string> = writable("");
 
@@ -170,7 +177,7 @@ export const canvasWrapperHeight: Writable<number> = writable(null);
 
 export const textInputRef = writable(null);
 
-export const panels = writable(new Panels());
+export const panels = writable(null);
 
 export const updatePanels = () => {
   panels.update(($value) => ($value = $value));
@@ -180,7 +187,7 @@ type DistanceUnit = "mm" | "ft" | "cm";
 
 export const distanceUnit: Writable<DistanceUnit> = writable("mm");
 
-export const snapPoints = writable(new SnapPoints());
+export const snapPoints = writable(null);
 
 export const updateSnapPoints = () => {
   snapPoints.update(($value) => ($value = $value));

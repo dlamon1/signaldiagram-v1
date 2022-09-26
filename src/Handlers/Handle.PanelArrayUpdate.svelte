@@ -23,9 +23,9 @@
       $height,
     ];
 
-    $canvasWrapperHeight && updatePanelArray();
+    // $canvasWrapperHeight && updatePanelArray();
   }
 
-  let updatePanelArray = () =>
-    !$isExportDialogOpen && $panelsClass.updatePanelArray();
+  // let updatePanelArray = () =>
+  //   !$isExportDialogOpen && $panelsClass.updatePanelArray();
 </script>
