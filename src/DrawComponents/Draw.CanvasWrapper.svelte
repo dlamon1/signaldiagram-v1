@@ -12,7 +12,7 @@
     height,
     columns,
     rows,
-    isShifted
+    isShifted,
   } from "../store";
 
   import * as d3 from "d3";
@@ -23,10 +23,10 @@
 
   const deSelectAll = (e) => {
     if ($isShifted) return;
-    $panels.deSelect();
-    $signalLines.deSelect();
-    $snapPoints.deSelect();
-    $panels = $panels;
+    // $panels.deSelect();
+    // $signalLines.deSelect();
+    // $snapPoints.deSelect();
+    // $panels = $panels;
   };
 
   const createSvg = () => {

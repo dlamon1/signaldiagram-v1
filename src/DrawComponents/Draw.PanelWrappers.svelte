@@ -33,6 +33,7 @@
       $isDrawingSignalLine,
       $showDirectionArrows,
       $currentScreenIndex,
+      $screens,
     ];
 
     drawPanelWrappers();
@@ -116,16 +117,9 @@
           $screens[$currentScreenIndex].panels.togglePanels([
             e.target.__data__.i,
           ]);
-          drawPanelWrappers();
+          $screens = $screens;
         }
       });
-    // .on("click", (e) => {
-    //   if ($isDrawMode) return;
-    //   e.stopPropagation();
-    //   if ($isSelectMode && !$isDrawingSignalLine) {
-    //     $panelsClass.togglePanels([e.target.__data__.i]);
-    //   }
-    // });
 
     // Draw Coordinates
     // Draw Coordinates

@@ -22,6 +22,7 @@ import {
   showCoordinates,
   isRearView,
   screens,
+  updateScreens,
 } from "../store";
 
 export class Panels implements PanelsType {
@@ -172,10 +173,12 @@ export class Panels implements PanelsType {
   };
 
   togglePanels = (arrayOfIndexes: number[]) => {
-    const snapPointsClass = get(snapPointsStore);
-    const signalLinesClass = get(signalLines);
-    // snapPointsClass.deSelect();
-    // signalLinesClass.deSelect();
+    let screen = get(screens)[this.screenIndex];
+    const snapPointsClass = screen.snapPoints;
+    const signalLinesClass = screen.signalLines;
+
+    snapPointsClass.deSelect();
+    signalLinesClass.deSelect();
 
     const arrayOfCurrent = [];
     this.selectedIndexes = [];
@@ -214,7 +217,7 @@ export class Panels implements PanelsType {
         panel.setColor(key, color);
       }
     });
-    updatePanels();
+    updateScreens();
   }
 }
 

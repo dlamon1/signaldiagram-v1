@@ -18,7 +18,9 @@ import type * as d3 from "d3";
 import type { Writable } from "svelte/store";
 
 export const screens: Writable<ScreenObj[]> = writable([]);
-
+export const updateScreens = () => {
+  screens.update(($value) => ($value = $value));
+};
 export const currentScreenIndex: Writable<number> = writable(undefined);
 
 export const topLevelSvgRef = writable(null);

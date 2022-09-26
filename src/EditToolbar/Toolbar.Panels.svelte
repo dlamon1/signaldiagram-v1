@@ -3,40 +3,48 @@
 
   import { showCoordinates, isRearView, opacity } from "../store";
 
-  import { panels, updatePanels, snapPoints } from "../store";
+  import {
+    panels,
+    updateScreens,
+    snapPoints,
+    screens,
+    currentScreenIndex,
+  } from "../store";
   import type { PanelObj, SnapPointObj } from "../Types/ClassTypes";
 
   import ColorPicker from "./components/ColorPicker.svelte";
   import SignalButtons from "./components/SignalButtons.svelte";
 
   const selectCriss = () => {
-    $panels?.array.forEach((p) => {
+    let panels = $screens[$currentScreenIndex].panels;
+    panels.array.forEach((p) => {
       p.setIsSelected(false);
       if (p.colorIndex == 0) {
         p.setIsSelected(true);
       }
-      updatePanels();
+      updateScreens();
     });
   };
 
   const selectCross = () => {
-    $panels?.array.forEach((p) => {
+    let panels = $screens[$currentScreenIndex].panels;
+    panels.array.forEach((p) => {
       p.setIsSelected(false);
       if (p.colorIndex == 1) {
         p.setIsSelected(true);
       }
-      updatePanels();
+      updateScreens();
     });
   };
 
   const updateLineWidth = (e: Event) => {
+    let panels = $screens[$currentScreenIndex].panels;
     const target = e.target as HTMLInputElement;
-    $panels?.array.forEach((panel) => {
+    panels.array.forEach((panel) => {
       if (panel.isSelected) {
         panel.setLineWidthMultiplier(target.value);
       }
     });
-    $panels = $panels;
   };
 
   const hideSnapPoints = (snapPointArray: number[], isHidden: boolean) => {
@@ -78,24 +86,25 @@
 </script>
 
 <div id="panels" in:fade={{ duration: 150 }} out:fade={{ duration: 0 }}>
-  <div class="crisscross">
-    <button class="criss-cross" on:click={selectCriss}>Select [0]</button>
-    <button class="criss-cross" on:click={selectCross}>select [1]</button>
-  </div>
+  {#if typeof $currentScreenIndex === "number"}
+    <div class="crisscross">
+      <button class="criss-cross" on:click={selectCriss}>Select [0]</button>
+      <button class="criss-cross" on:click={selectCross}>select [1]</button>
+    </div>
 
-  <div class="hide">
-    <label>
-      <input
-        type="checkbox"
-        bind:checked={isVisible}
-        name="mode"
-        value="draw"
-      />
-      Visible
-    </label>
-  </div>
+    <div class="hide">
+      <label>
+        <input
+          type="checkbox"
+          bind:checked={isVisible}
+          name="mode"
+          value="draw"
+        />
+        Visible
+      </label>
+    </div>
 
-  <!-- <input
+    <!-- <input
     type="range"
     min="0"
     max="10"
@@ -105,29 +114,30 @@
     class="range"
     /> -->
 
-  <ColorPicker
-    key={"panel"}
-    layer="background"
-    element={"Background"}
-    isOpen={true}
-    classObj={$panels}
-  />
-  <ColorPicker
-    key={"panel"}
-    layer="border"
-    element={"Border"}
-    isOpen={false}
-    classObj={$panels}
-  />
-  <ColorPicker
-    key={"panel"}
-    layer={"font"}
-    element={"Font"}
-    isOpen={false}
-    classObj={$panels}
-  />
+    <ColorPicker
+      key={"panel"}
+      layer="background"
+      element={"Background"}
+      isOpen={true}
+      classObj={$screens[$currentScreenIndex].panels}
+    />
+    <ColorPicker
+      key={"panel"}
+      layer="border"
+      element={"Border"}
+      isOpen={false}
+      classObj={$screens[$currentScreenIndex].panels}
+    />
+    <ColorPicker
+      key={"panel"}
+      layer={"font"}
+      element={"Font"}
+      isOpen={false}
+      classObj={$screens[$currentScreenIndex].panels}
+    />
 
-  <SignalButtons />
+    <SignalButtons />
+  {/if}
 </div>
 
 <style>
