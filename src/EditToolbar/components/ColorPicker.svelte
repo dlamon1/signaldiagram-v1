@@ -34,7 +34,7 @@
     <div id="color-button-container">
       {#each $colorButtons as color}
         <button
-          id="color-button"
+          class="color-button"
           style="background-color: {color}"
           on:click={() => {
             classObj.setColors(layer, color);
@@ -80,8 +80,14 @@
     height: 30px;
     margin-top: 10px;
   }
-  #color-button {
+  .color-button {
     width: 100%;
-    padding-top: 80%;
+    padding-top: 90%;
+    border-width: 1px;
+    border-style: solid;
+  }
+
+  .color-button:hover {
+    border-width: 0px;
   }
 </style>

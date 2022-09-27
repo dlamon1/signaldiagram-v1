@@ -21,6 +21,9 @@ import {
   width,
   height,
   setSelectedSnapPointIndexes,
+  screens,
+  currentScreenIndex,
+  updateScreens,
 } from "../store";
 
 export class SnapPoints implements SnapPointsType {
@@ -33,28 +36,28 @@ export class SnapPoints implements SnapPointsType {
   }
 
   setArrayFromLoad(snapPointsArray: LoadSnapPointObj[]) {
-    this.array = [];
-    snapPointsArray.forEach((snapPoint, i) => {
-      const newSnapPoint = new SnapPoint(
-        snapPoint.row,
-        snapPoint.column,
-        snapPoint.pointIndexWithinPanel,
-        snapPoint.panelIndex,
-        snapPoint.pointIndexFullArray
-      );
-
-      this.array.push(newSnapPoint);
-      this.array[i].setIsTriangle(snapPoint.isTriangle);
-      this.array[i].setIsSquare(snapPoint.isSquare);
-      this.array[i].setLabel(snapPoint.label);
-      this.array[i].setColorObj(snapPoint.color);
-    });
-    updateSnapPoints();
+    // this.array = [];
+    // snapPointsArray.forEach((snapPoint, i) => {
+    //   const newSnapPoint = new SnapPoint(
+    //     snapPoint.row,
+    //     snapPoint.column,
+    //     snapPoint.pointIndexWithinPanel,
+    //     snapPoint.panelIndex,
+    //     snapPoint.pointIndexFullArray
+    //   );
+    //   this.array.push(newSnapPoint);
+    //   this.array[i].setIsTriangle(snapPoint.isTriangle);
+    //   this.array[i].setIsSquare(snapPoint.isSquare);
+    //   this.array[i].setLabel(snapPoint.label);
+    //   this.array[i].setColorObj(snapPoint.color);
+    // });
+    // updateSnapPoints();
   }
 
   deSelect = () => {
     this.array.forEach((o) => o.setIsSelected(false));
-    updatePanels();
+
+    updateScreens();
   };
 
   addSnapPoint(
@@ -64,7 +67,14 @@ export class SnapPoints implements SnapPointsType {
     count: number,
     snapPointIndex: number
   ) {
-    const newSnapPoint = new SnapPoint(i, j, k, count, snapPointIndex);
+    const newSnapPoint = new SnapPoint(
+      i,
+      j,
+      k,
+      count,
+      snapPointIndex,
+      this.screenIndex
+    );
     this.array.push(newSnapPoint);
   }
 
@@ -134,8 +144,8 @@ export class SnapPoints implements SnapPointsType {
   };
 
   selectSnapPoint = (e) => {
-    const panelsClass = get(panels);
-    const signalLinesClass = get(signalLines);
+    const panelsClass = get(screens)[get(currentScreenIndex)].panels;
+    const signalLinesClass = get(screens)[get(currentScreenIndex)].signalLines;
     panelsClass.deSelect();
     signalLinesClass.deSelect();
 
@@ -157,6 +167,7 @@ export class SnapPoints implements SnapPointsType {
 
     updateSnapPoints();
     updatePanels();
+    updateScreens();
   };
 
   removeLabel = () => {
@@ -196,6 +207,7 @@ export class SnapPoints implements SnapPointsType {
       }
     });
     updatePanels();
+    updateScreens();
   }
 
   setXOffsets(value: number) {
@@ -240,13 +252,15 @@ export class SnapPoint implements SnapPointObj {
   isHidden: boolean;
   xOffset = 0;
   yOffset = 0;
+  screenIndex: number;
 
   constructor(
     row: number,
     column: number,
     pointIndexWithinPanel: number,
     panelIndex: number,
-    pointIndexFullArray: number
+    pointIndexFullArray: number,
+    screenIndex: number
   ) {
     this.row = row;
     this.column = column;
@@ -254,6 +268,7 @@ export class SnapPoint implements SnapPointObj {
     this.panelIndex = panelIndex;
     this.pointIndexFullArray = pointIndexFullArray;
     this.createDimensions(row, column, pointIndexWithinPanel);
+    this.screenIndex = screenIndex;
   }
 
   setIsHidden(isHidden: boolean) {
@@ -261,31 +276,39 @@ export class SnapPoint implements SnapPointObj {
   }
 
   getX() {
-    const parentPanel = get(panels).array[this.panelIndex];
+    const parentPanel =
+      get(screens)[get(currentScreenIndex)].panels.array[this.panelIndex];
 
-    let x = get(width) / 2;
+    const screen = get(screens)[get(currentScreenIndex)];
+
+    let x = screen.width / 2;
 
     if (get(snapPointDirection) === "horizontal") {
-      x = (get(width) / 3) * this.pointIndexWithinPanel;
+      x = (screen.width / 3) * this.pointIndexWithinPanel;
     }
 
     if (get(snapPointsQuantity) === 1) {
-      x = get(width) / 2;
+      x = screen.width / 2;
     }
     return x + parentPanel.getDimensions().x + this.xOffset;
   }
 
   getY() {
-    const parentPanel = get(panels).array[this.panelIndex];
-    let y = (get(height) / 3) * this.pointIndexWithinPanel;
+    const parentPanel =
+      get(screens)[get(currentScreenIndex)].panels.array[this.panelIndex];
+
+    const screen = get(screens)[get(currentScreenIndex)];
+
+    let y = (screen.height / 3) * this.pointIndexWithinPanel;
 
     if (get(snapPointDirection) === "horizontal") {
-      y = get(height) / 2;
+      y = screen.height / 2;
     }
 
     if (get(snapPointsQuantity) === 1) {
-      y = get(height) / 2;
+      y = screen.height / 2;
     }
+
     return y + parentPanel.getDimensions().y + this.yOffset;
   }
 
@@ -337,11 +360,13 @@ export class SnapPoint implements SnapPointObj {
   setIsSquare(boolean: boolean) {
     this.isTriangle = false;
     this.isSquare = boolean;
+    updateScreens();
   }
 
   setIsTriangle(boolean: boolean) {
     this.isSquare = false;
     this.isTriangle = boolean;
+    updateScreens();
   }
 
   createDimensions(row: number, column: number, pointIndexWithinPanel: number) {

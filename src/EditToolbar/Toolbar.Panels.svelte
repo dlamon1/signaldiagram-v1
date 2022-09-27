@@ -38,13 +38,13 @@
   };
 
   const updateLineWidth = (e: Event) => {
-    let panels = $screens[$currentScreenIndex].panels;
-    const target = e.target as HTMLInputElement;
-    panels.array.forEach((panel) => {
-      if (panel.isSelected) {
-        panel.setLineWidthMultiplier(target.value);
-      }
-    });
+    // let panels = $screens[$currentScreenIndex].panels;
+    // const target = e.target as HTMLInputElement;
+    // panels.array.forEach((panel) => {
+    //   if (panel.isSelected) {
+    //     panel.setLineWidthMultiplier(target.value);
+    //   }
+    // });
   };
 
   const hideSnapPoints = (snapPointArray: number[], isHidden: boolean) => {
@@ -69,9 +69,15 @@
   let isVisible = true;
 
   const setIsVisible = () => {
+    if (typeof $currentScreenIndex != "number") {
+      return;
+    }
+
     isVisible = true;
 
-    $panels?.array.forEach((p) => {
+    let panels = $screens[$currentScreenIndex].panels;
+
+    panels.array.forEach((p) => {
       if (p.isSelected) {
         isVisible = !p.isHidden;
       }
@@ -79,7 +85,7 @@
   };
 
   $: {
-    let t = [$panels];
+    let t = [$screens];
 
     setIsVisible();
   }

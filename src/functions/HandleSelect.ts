@@ -6,6 +6,8 @@ import {
   isCtrl,
   selection,
   transform,
+  currentScreenIndex,
+  screens,
 } from "../store";
 
 export const handleDragSelect = (event, xOrigin: number, yOrigin: number) => {
@@ -30,7 +32,9 @@ export const handleDragSelect = (event, xOrigin: number, yOrigin: number) => {
       x2,
       y2
     );
-    get(panelsClass).selectPanels(indexesOfPanelsInsideSelection);
+    get(screens)[get(currentScreenIndex)].panels.selectPanels(
+      indexesOfPanelsInsideSelection
+    );
     return;
   }
 
@@ -65,7 +69,7 @@ export const checkForSelectedPanels = (
   xDestination: number,
   yDestination: number
 ) => {
-  const p = get(panelsClass);
+  const p = get(screens)[get(currentScreenIndex)].panels;
   const panels = p.array;
 
   let x1: number = null;

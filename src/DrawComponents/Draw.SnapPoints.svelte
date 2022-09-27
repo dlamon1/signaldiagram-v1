@@ -36,6 +36,8 @@
       $isDrawingSignalLine,
       $snapPointDirection,
       $snapPointsQuantity,
+      $screens,
+      $currentScreenIndex,
     ];
 
     $gZoomWrapperRef && drawSnapPointWrappers();
@@ -96,7 +98,9 @@
       .attr("stroke-alignment", "inner")
       .on("mouseover", function (d, i) {
         if ($isDrawingSignalLine) {
-          $signalLinesClass.setDestinationSnapPointIndex(d.path[0].__data__);
+          $screens[
+            $currentScreenIndex
+          ].signalLines.setDestinationSnapPointIndex(d.path[0].__data__);
         }
         d.stopPropagation();
         let obj = d.path[0].__data__;
@@ -111,20 +115,23 @@
         d.stopPropagation();
         if (!$isDrawMode) return;
 
-        $signalLinesClass.setOriginSnapPointIndex(d.path[0].__data__);
+        $screens[$currentScreenIndex].signalLines.setOriginSnapPointIndex(
+          d.path[0].__data__
+        );
         setIsDrawingSignalLine(true);
       })
       .on("mouseup", (d) => {
         d.stopPropagation();
         if ($isDrawMode && $isDrawingSignalLine) {
-          $signalLinesClass.addSignalLine();
+          $screens[$currentScreenIndex].signalLines.addSignalLine();
         }
         setIsDrawingSignalLine(false);
       })
       .on("click", (e) => {
         e.stopPropagation();
         if (!$isDrawMode) {
-          $snapPointsClass.selectSnapPoint(e);
+          console.log(e.path[0].__data__);
+          $screens[$currentScreenIndex].snapPoints.selectSnapPoint(e);
         }
       });
 
@@ -133,7 +140,9 @@
     // Draw as Square is Square
     $snapPointPathRef
       .filter((d, i) => {
-        return $snapPointsClass.array[d.pointIndexFullArray].isSquare;
+        return $screens[$currentScreenIndex].snapPoints.array[
+          d.pointIndexFullArray
+        ].isSquare;
       })
       .attr("fill", (d) => {
         // console.log(d);
@@ -144,7 +153,9 @@
       .attr("d", "")
       .attr("d", (d) => drawPathSquare(d.radius))
       .attr("fill", (d, i) => {
-        return $snapPointsClass.array[d.pointIndexFullArray].color.background;
+        return $screens[$currentScreenIndex].snapPoints.array[
+          d.pointIndexFullArray
+        ].color.background;
       });
 
     // Draw as Triangle
@@ -152,7 +163,9 @@
     // Draw as Triangle
     $snapPointPathRef
       .filter((d, i) => {
-        return $snapPointsClass.array[d.pointIndexFullArray].isTriangle;
+        return $screens[$currentScreenIndex].snapPoints.array[
+          d.pointIndexFullArray
+        ].isTriangle;
       })
       .attr("fill", (d) => {
         return d.color.background;
@@ -162,7 +175,9 @@
       .attr("d", "")
       .attr("d", (d) => drawPathTriangle(d.radius))
       .attr("fill", (d, i) => {
-        return $snapPointsClass.array[d.pointIndexFullArray].color.background;
+        return $screens[$currentScreenIndex].snapPoints.array[
+          d.pointIndexFullArray
+        ].color.background;
       });
 
     // Draw Snap Point Label
@@ -176,7 +191,8 @@
 
     labels
       .filter((d, i) => {
-        let obj = $snapPointsClass.array[d.pointIndexFullArray];
+        let obj =
+          $screens[$currentScreenIndex].snapPoints.array[d.pointIndexFullArray];
         return obj.isSquare || obj.isTriangle;
       })
       .text((d) => {
@@ -188,7 +204,8 @@
       )
       .style("pointer-events", "none")
       .attr("y", (d) => {
-        let obj = $snapPointsClass.array[d.pointIndexFullArray];
+        let obj =
+          $screens[$currentScreenIndex].snapPoints.array[d.pointIndexFullArray];
         if (obj.isTriangle) {
           return obj.radius;
         }
@@ -198,10 +215,14 @@
       .style("font-family", "Heebo")
       .attr("text-anchor", "middle")
       .attr("stroke", (d) => {
-        return $snapPointsClass.array[d.pointIndexFullArray].color.font;
+        return $screens[$currentScreenIndex].snapPoints.array[
+          d.pointIndexFullArray
+        ].color.font;
       })
       .attr("fill", (d) => {
-        return $snapPointsClass.array[d.pointIndexFullArray].color.font;
+        return $screens[$currentScreenIndex].snapPoints.array[
+          d.pointIndexFullArray
+        ].color.font;
       });
 
     // Draw as Selected if Selected
@@ -209,17 +230,23 @@
     // Draw as Selected if Selected
     $snapPointPathRef
       .filter((d, i) => {
-        return $snapPointsClass.array[d.pointIndexFullArray].isSelected;
+        return $screens[$currentScreenIndex].snapPoints.array[
+          d.pointIndexFullArray
+        ].isSelected;
       })
       .attr("stroke", selectedColor)
       .attr("stroke-width", (d) => d.strokeWidth)
       .attr("fill", (d, i) => {
-        return $snapPointsClass.array[d.pointIndexFullArray].color.background;
+        return $screens[$currentScreenIndex].snapPoints.array[
+          d.pointIndexFullArray
+        ].color.background;
       });
 
     $snapPointPathRef
       .filter((d, i) => {
-        return $snapPointsClass.array[d.pointIndexFullArray].isHidden;
+        return $screens[$currentScreenIndex].snapPoints.array[
+          d.pointIndexFullArray
+        ].isHidden;
       })
       .attr("stroke", "transparent")
       .attr("fill", "transparent");

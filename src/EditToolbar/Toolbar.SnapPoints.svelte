@@ -7,6 +7,8 @@
     width,
     height,
     selectedSnapPointIndexes,
+    screens,
+    currentScreenIndex,
   } from "../store";
   import { fade } from "svelte/transition";
 
@@ -14,13 +16,15 @@
   import type { SnapPointObj } from "../Types/ClassTypes";
 
   const selectOnes = () => {
-    $snapPointsClass.array.forEach((p: SnapPointObj) => {
-      p.setIsSelected(false);
-      if (p.pointIndexWithinPanel == 1) {
-        p.setIsSelected(true);
+    $screens[$currentScreenIndex].snapPoints.array.forEach(
+      (p: SnapPointObj) => {
+        p.setIsSelected(false);
+        if (p.pointIndexWithinPanel == 1) {
+          p.setIsSelected(true);
+        }
+        $screens = $screens;
       }
-      $snapPointsClass = $snapPointsClass;
-    });
+    );
   };
 
   $: {
@@ -33,22 +37,26 @@
     xOffset = 0;
     yOffset = 0;
 
-    $snapPointsClass.array.forEach((sp: SnapPointObj) => {
-      if (sp.isSelected) {
-        xOffset = sp.xOffset;
-        yOffset = -sp.yOffset;
+    $screens[$currentScreenIndex].snapPoints.array.forEach(
+      (sp: SnapPointObj) => {
+        if (sp.isSelected) {
+          xOffset = sp.xOffset;
+          yOffset = -sp.yOffset;
+        }
       }
-    });
+    );
   };
 
   const selectTwos = () => {
-    $snapPointsClass.array.forEach((p: SnapPointObj) => {
-      p.setIsSelected(false);
-      if (p.pointIndexWithinPanel == 2) {
-        p.setIsSelected(true);
+    $screens[$currentScreenIndex].snapPoints.array.forEach(
+      (p: SnapPointObj) => {
+        p.setIsSelected(false);
+        if (p.pointIndexWithinPanel == 2) {
+          p.setIsSelected(true);
+        }
+        $screens = $screens;
       }
-      $snapPointsClass = $snapPointsClass;
-    });
+    );
   };
 
   let sd = [];
@@ -61,16 +69,16 @@
   }
 
   const setOffsets = (x: number, y: number) => {
-    $snapPointsClass.setXOffsets(x);
-    $snapPointsClass.setYOffsets(y);
+    $screens[$currentScreenIndex].snapPoints.setXOffsets(x);
+    $screens[$currentScreenIndex].snapPoints.setYOffsets(y);
 
-    $snapPointsClass = $snapPointsClass;
+    $screens = $screens;
   };
 
   $: {
     sd = [];
 
-    $snapPointsClass.array?.forEach((p) => {
+    $screens[$currentScreenIndex].snapPoints.array?.forEach((p) => {
       if ((p.isSquare && p.isSelected) || (p.isTriangle && p.isSelected)) {
         sd.push(p);
       }
@@ -78,12 +86,12 @@
   }
 
   const handleRemoveLabel = () => {
-    $snapPointsClass.array.forEach((snapPoint) => {
+    $screens[$currentScreenIndex].snapPoints.array.forEach((snapPoint) => {
       if (snapPoint.isSelected) {
-        $snapPointsClass.removeLabel();
+        $screens[$currentScreenIndex].snapPoints.removeLabel();
       }
     });
-    $snapPointsClass = $snapPointsClass;
+    $screens = $screens;
   };
 </script>
 
@@ -124,12 +132,16 @@
   <div class="shape-button-container">
     <button
       id="shape-button"
-      on:click={() => $snapPointsClass.setIsSquares(true)}>Square</button
+      on:click={() =>
+        $screens[$currentScreenIndex].snapPoints.setIsSquares(true)}
+      >Square</button
     >
 
     <button
       id="shape-button"
-      on:click={() => $snapPointsClass.setIsTriangles(true)}>Triangle</button
+      on:click={() =>
+        $screens[$currentScreenIndex].snapPoints.setIsTriangles(true)}
+      >Triangle</button
     >
   </div>
 
@@ -139,7 +151,7 @@
       layer={"background"}
       element={"Background"}
       isOpen={false}
-      classObj={$snapPointsClass}
+      classObj={$screens[$currentScreenIndex].snapPoints}
     />
 
     <ColorPicker
@@ -147,7 +159,7 @@
       layer={"font"}
       element={"Font"}
       isOpen={false}
-      classObj={$snapPointsClass}
+      classObj={$screens[$currentScreenIndex].snapPoints}
     />
     <div id="label-input">
       <div class="label-input-header">

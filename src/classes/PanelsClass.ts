@@ -51,7 +51,7 @@ export class Panels implements PanelsType {
 
   deSelect = () => {
     this.array.forEach((o) => o.setIsSelected(false));
-    updatePanels();
+    updateScreens();
   };
 
   initArray = (rows: number, columns: number) => {

@@ -15,6 +15,8 @@ import {
   setSignalLineColor,
   heightMM,
   widthMM,
+  currentScreenIndex,
+  screens,
 } from "../store";
 
 import type {
@@ -87,7 +89,7 @@ export class SignalLines implements SignalLinesType {
   }
 
   getPanelIndex(row: number, column: number) {
-    const p = get(panels).array;
+    const p = get(screens)[get(currentScreenIndex)].panels.array;
 
     for (let i = 0; i < p.length; i++) {
       if (p[i].row === row && p[i].column === column) {
@@ -152,8 +154,8 @@ export class SignalLines implements SignalLinesType {
   }
 
   selectSignalLine(i: number) {
-    const snapPointsClass = get(snapPoints);
-    const panelsClass = get(panels);
+    const snapPointsClass = get(screens)[get(currentScreenIndex)].snapPoints;
+    const panelsClass = get(screens)[get(currentScreenIndex)].panels;
 
     snapPointsClass.deSelect();
     panelsClass.deSelect();
@@ -173,8 +175,8 @@ export class SignalLines implements SignalLinesType {
   }
 
   toggleSignalLine(i: number) {
-    const snapPointsClass = get(snapPoints);
-    const panelsClass = get(panels);
+    const snapPointsClass = get(screens)[get(currentScreenIndex)].snapPoints;
+    const panelsClass = get(screens)[get(currentScreenIndex)].panels;
 
     snapPointsClass.deSelect();
     panelsClass.deSelect();
@@ -194,8 +196,8 @@ export class SignalLines implements SignalLinesType {
   }
 
   selectSignalLines(arrayOfIndexes: number[]) {
-    const snapPointsClass = get(snapPoints);
-    const signalLinesClass = get(signalLines);
+    const snapPointsClass = get(screens)[get(currentScreenIndex)].snapPoints;
+    const signalLinesClass = get(screens)[get(currentScreenIndex)].signalLines;
     snapPointsClass.deSelect();
     signalLinesClass.deSelect();
     updateSnapPoints();
