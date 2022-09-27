@@ -116,7 +116,7 @@ export const checkForSelectedSnapPoints = (
 
   const indexesOfSnapPointsInsideSelection = [];
 
-  const sp = get(snapPointsClass);
+  const sp = get(screens)[get(currentScreenIndex)].snapPoints;
   const snapPoints = sp.array;
 
   snapPoints.forEach((snapPoint, i) => {
@@ -140,7 +140,8 @@ export const checkForSelectedSignalLines = (
   yDestination: number
 ) => {
   const checkIfPointIsWithinBounds = (snapPointIndex: number) => {
-    const snapPoint = get(snapPointsClass).array[snapPointIndex];
+    const snapPoint =
+      get(screens)[get(currentScreenIndex)].snapPoints.array[snapPointIndex];
 
     const point = {
       x: snapPoint.x,

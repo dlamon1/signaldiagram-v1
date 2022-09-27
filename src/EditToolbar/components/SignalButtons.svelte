@@ -5,6 +5,8 @@
     panels,
     snapPoints,
     snapPointDirection,
+    screens,
+    currentScreenIndex,
   } from "../../store";
   import type { DirectionObj } from "../../store";
   import type { PanelObj, SnapPointObj } from "../../Types/ClassTypes";
@@ -26,8 +28,12 @@
       }
     };
 
+    const panels = $screens[$currentScreenIndex].panels;
+    const snapPoints = $screens[$currentScreenIndex].snapPoints;
+    const signalLines = $screens[$currentScreenIndex].signalLines;
+
     // Create array with all selected panels
-    $panels.array.forEach((p) => {
+    panels.array.forEach((p) => {
       if (p.isSelected) {
         selectedArray.push(p);
       }
@@ -44,7 +50,7 @@
     const getPrevPanel = () => {
       let panelIndex = cornerPanelIndexes[direction.pointOne];
 
-      let panel = $panels.array[panelIndex];
+      let panel = panels.array[panelIndex];
 
       return panel;
     };
@@ -54,10 +60,10 @@
     let initSnapPointIndex =
       prevPanel.thisPanelsSnapPoints[direction.points[0].i[0]];
 
-    let initSnapPointObj = $snapPoints.array[initSnapPointIndex];
+    let initSnapPointObj = snapPoints.array[initSnapPointIndex];
 
     // Set signal lie class origin snap point
-    $signalLines.setOriginSnapPointIndex(initSnapPointObj);
+    signalLines.setOriginSnapPointIndex(initSnapPointObj);
 
     let isSettingDestination = true;
 
@@ -90,7 +96,7 @@
       column = column + initDirectionInstruction.x;
       row = row + initDirectionInstruction.y;
 
-      let nextPanel: PanelObj = $panels.array.find((p) => {
+      let nextPanel: PanelObj = panels.array.find((p) => {
         return p.column === column && p.row === row;
       });
 
@@ -108,11 +114,11 @@
             direction.points[directionInstructionPosition].i[1]
           ];
 
-        let destSnapPointObj = $snapPoints.array[destSnapPointIndex];
+        let destSnapPointObj = snapPoints.array[destSnapPointIndex];
 
-        $signalLines.setDestinationSnapPointIndex(destSnapPointObj);
+        signalLines.setDestinationSnapPointIndex(destSnapPointObj);
 
-        $signalLines.addSignalLine();
+        signalLines.addSignalLine();
 
         // Update PrevPanel
         prevPanel = nextPanel;
@@ -124,9 +130,9 @@
             direction.points[directionInstructionPosition].i[0]
           ];
 
-        let originSnapPointObj = $snapPoints.array[originSnapPointIndex];
+        let originSnapPointObj = snapPoints.array[originSnapPointIndex];
 
-        $signalLines.setOriginSnapPointIndex(originSnapPointObj);
+        signalLines.setOriginSnapPointIndex(originSnapPointObj);
 
         isSettingDestination = true;
       }
@@ -145,28 +151,30 @@
       bottomright: arrayOfPanels[0].i,
     };
 
+    const panels = $screens[$currentScreenIndex].panels;
+
     arrayOfPanels.forEach((p) => {
       if (
-        p.x <= $panels.array[cornerPanelIndexes.topleft].x &&
-        p.y <= $panels.array[cornerPanelIndexes.topleft].y
+        p.x <= panels.array[cornerPanelIndexes.topleft].x &&
+        p.y <= panels.array[cornerPanelIndexes.topleft].y
       ) {
         cornerPanelIndexes.topleft = p.i;
       }
       if (
-        p.x >= $panels.array[cornerPanelIndexes.topright].x &&
-        p.y <= $panels.array[cornerPanelIndexes.topright].y
+        p.x >= panels.array[cornerPanelIndexes.topright].x &&
+        p.y <= panels.array[cornerPanelIndexes.topright].y
       ) {
         cornerPanelIndexes.topright = p.i;
       }
       if (
-        p.x <= $panels.array[cornerPanelIndexes.bottomleft].x &&
-        p.y >= $panels.array[cornerPanelIndexes.bottomleft].y
+        p.x <= panels.array[cornerPanelIndexes.bottomleft].x &&
+        p.y >= panels.array[cornerPanelIndexes.bottomleft].y
       ) {
         cornerPanelIndexes.bottomleft = p.i;
       }
       if (
-        p.x >= $panels.array[cornerPanelIndexes.bottomright].x &&
-        p.y >= $panels.array[cornerPanelIndexes.bottomright].y
+        p.x >= panels.array[cornerPanelIndexes.bottomright].x &&
+        p.y >= panels.array[cornerPanelIndexes.bottomright].y
       ) {
         cornerPanelIndexes.bottomright = p.i;
       }

@@ -23,7 +23,7 @@ button {
   font-size: 1em;
   font-weight: 700;
   border-radius: 1px;
-  border-width: 0px;
+  border-width: 1px;
 }
 
 button:hover {

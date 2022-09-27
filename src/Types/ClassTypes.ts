@@ -194,6 +194,7 @@ export type SignalLinesType = {
   selectSignalLine: (index: number) => void;
   selectSignalLines: (arrayOfIndexes: number[]) => void;
   deSelect: () => void;
+  toggleSignalLine: (index: number) => void;
 };
 
 export type SnapPointCoordinatesKey = "origin" | "destination";
@@ -214,4 +215,6 @@ export interface ScreenObj {
   rows: number;
   name: string;
   isSelected: boolean;
+  widthMM: number;
+  heightMM: number;
 }

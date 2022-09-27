@@ -262,13 +262,13 @@ export class SnapPoint implements SnapPointObj {
     pointIndexFullArray: number,
     screenIndex: number
   ) {
+    this.screenIndex = screenIndex;
     this.row = row;
     this.column = column;
     this.pointIndexWithinPanel = pointIndexWithinPanel;
     this.panelIndex = panelIndex;
     this.pointIndexFullArray = pointIndexFullArray;
     this.createDimensions(row, column, pointIndexWithinPanel);
-    this.screenIndex = screenIndex;
   }
 
   setIsHidden(isHidden: boolean) {
@@ -370,26 +370,28 @@ export class SnapPoint implements SnapPointObj {
   }
 
   createDimensions(row: number, column: number, pointIndexWithinPanel: number) {
-    const panelX = get(width) * column;
-    const panelY = get(height) * row;
+    const screen = get(screens)[this.screenIndex];
 
-    let x = get(width) / 2;
-    let y = (get(height) / 3) * pointIndexWithinPanel;
+    const panelX = screen.width * column;
+    const panelY = screen.height * row;
+
+    let x = screen.width / 2;
+    let y = (screen.height / 3) * pointIndexWithinPanel;
 
     if (get(snapPointDirection) === "horizontal") {
-      x = (get(width) / 3) * pointIndexWithinPanel;
-      y = get(height) / 2;
+      x = (screen.width / 3) * pointIndexWithinPanel;
+      y = screen.height / 2;
     }
 
     if (get(snapPointsQuantity) === 1) {
-      x = get(width) / 2;
-      y = get(height) / 2;
+      x = screen.width / 2;
+      y = screen.height / 2;
     }
 
-    this.radius = get(height) / 10;
+    this.radius = screen.height / 10;
 
-    if (get(width) < get(height)) {
-      this.radius = get(width) / 10;
+    if (screen.width < screen.height) {
+      this.radius = screen.width / 10;
     }
 
     this.x = x + panelX;

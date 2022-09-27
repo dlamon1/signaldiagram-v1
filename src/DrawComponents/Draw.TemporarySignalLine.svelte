@@ -12,19 +12,23 @@
     height,
     snapPointsGroupEnterRef,
     mousePosition,
+    screens,
+    currentScreenIndex,
   } from "../store";
 
   $: {
-    let t = [$signalLinesClass, $mousePosition];
+    let t = [$screens, $mousePosition];
     // console.log("draw temp signal line");
-    drawTemporarySignalLine();
+    typeof $currentScreenIndex === "number" && drawTemporarySignalLine();
   }
 
   const drawTemporarySignalLine = () => {
     if (!$topLevelSvgRef) return;
     if (!$isDrawingSignalLine) return;
 
-    let origin = $signalLinesClass.origin;
+    const signalLines = $screens[$currentScreenIndex].signalLines;
+
+    let origin = signalLines.origin;
     let mouse = get(mousePosition);
     if (origin.snapPointIndex >= 0 && mouse.x && mouse.y) {
       theAcutualDrawing();
@@ -32,10 +36,12 @@
   };
 
   const theAcutualDrawing = () => {
-    let destinationI = $signalLinesClass.destination.snapPointIndex;
+    const snapPoints = $screens[$currentScreenIndex].snapPoints;
+    const signalLines = $screens[$currentScreenIndex].signalLines;
 
-    let snapPoint =
-      $snapPointsClass.array[$signalLinesClass.origin.snapPointIndex];
+    let destinationI = signalLines.destination.snapPointIndex;
+
+    let snapPoint = snapPoints.array[signalLines.origin.snapPointIndex];
 
     let x1 = snapPoint.getX();
     let y1 = snapPoint.getY();

@@ -195,7 +195,7 @@ export const updateSnapPoints = () => {
   snapPoints.update(($value) => ($value = $value));
 };
 
-export const signalLines = writable(new SignalLines());
+export const signalLines = writable(null);
 export const updateSignalLines = () => {
   signalLines.update(($value) => ($value = $value));
 };

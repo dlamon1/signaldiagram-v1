@@ -6,6 +6,8 @@
     snapPoints as snapPointsClass,
     signalLines as signalLinesClass,
     lineWidthState,
+    screens,
+    currentScreenIndex,
   } from "../store";
 
   const updateSelectedSnapPointsLabel = (label: string) => {
@@ -38,12 +40,14 @@
   }
 
   const updateSnapPointColorState = () => {
-    $snapPointsClass.array.forEach((snapPoint, i) => {
+    const screen = $screens[$currentScreenIndex];
+
+    screen.snapPoints.array.forEach((snapPoint, i) => {
       if (snapPoint.isSelected) {
         $colorState.snapPoint = snapPoint.color;
       }
     }),
-      ($snapPointsClass = $snapPointsClass);
+      ($screens = $screens);
   };
 
   $: {
@@ -52,16 +56,19 @@
   }
 
   const updateSignalLineColorState = () => {
-    $signalLinesClass.array.forEach((signalLine, i) => {
+    const screen = $screens[$currentScreenIndex];
+
+    screen?.signalLines.array.forEach((signalLine, i) => {
       if (signalLine.isSelected) {
         $colorState.signalLine = signalLine.color;
       }
     }),
-      ($signalLinesClass = $signalLinesClass);
+      ($screens = $screens);
   };
 
   $: {
     let t = [$signalLinesClass];
+
     updateSignalLineColorState();
   }
 </script>

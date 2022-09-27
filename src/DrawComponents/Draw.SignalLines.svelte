@@ -1,6 +1,6 @@
 <script lang="ts">
   import {
-    signalLines as signalLinesClass,
+    // signalLines as signalLinesClass,
     snapPoints as snapPointsClass,
     panels as panelsClass,
     isDrawingSignalLine,
@@ -16,6 +16,8 @@
     snapPointsQuantity,
     snapPointDirection,
     isDrawMode,
+    screens,
+    currentScreenIndex,
   } from "../store";
 
   let hoveredColor = "rgba(0, 255, 170, 1)";
@@ -35,9 +37,11 @@
       $showDirectionArrows,
       $snapPointsQuantity,
       $snapPointDirection,
+      $currentScreenIndex,
+      $screens,
     ];
 
-    drawSignalLines();
+    typeof $currentScreenIndex === "number" && drawSignalLines();
   }
 
   const drawSignalLines = () => {
@@ -46,7 +50,10 @@
     // Signal Line Wrapper
     $linesGroupRef = $gZoomWrapperRef
       .selectAll("g.signal-line")
-      .data($signalLinesClass.array, (d: SignalLineObj) => d.i);
+      .data(
+        $screens[$currentScreenIndex].signalLines.array,
+        (d: SignalLineObj) => d.i
+      );
 
     $linesGroupEnterRef = $linesGroupRef
       .enter()
@@ -68,19 +75,35 @@
       .classed("line-outline", true)
       .attr(
         "x1",
-        (d, i) => $signalLinesClass.getSnapPointCoordinates(i, "origin").x
+        (d, i) =>
+          $screens[$currentScreenIndex].signalLines.getSnapPointCoordinates(
+            i,
+            "origin"
+          ).x
       )
       .attr(
         "y1",
-        (d, i) => $signalLinesClass.getSnapPointCoordinates(i, "origin").y
+        (d, i) =>
+          $screens[$currentScreenIndex].signalLines.getSnapPointCoordinates(
+            i,
+            "origin"
+          ).y
       )
       .attr(
         "x2",
-        (d, i) => $signalLinesClass.getSnapPointCoordinates(i, "destination").x
+        (d, i) =>
+          $screens[$currentScreenIndex].signalLines.getSnapPointCoordinates(
+            i,
+            "destination"
+          ).x
       )
       .attr(
         "y2",
-        (d, i) => $signalLinesClass.getSnapPointCoordinates(i, "destination").y
+        (d, i) =>
+          $screens[$currentScreenIndex].signalLines.getSnapPointCoordinates(
+            i,
+            "destination"
+          ).y
       )
       .attr("stroke", (d) => {
         if (d.isSelected) {
@@ -116,7 +139,7 @@
         e.stopPropagation();
         let i = e.path[0].__data__.i;
         if ($isSelectMode && !$isDrawingSignalLine) {
-          $signalLinesClass.toggleSignalLine(i);
+          $screens[$currentScreenIndex].signalLines.toggleSignalLine(i);
           d3.select(this).attr("stroke", selectedColor);
         }
       });
@@ -131,19 +154,35 @@
       .classed("line-base", true)
       .attr(
         "x1",
-        (d, i) => $signalLinesClass.getSnapPointCoordinates(i, "origin").x
+        (d, i) =>
+          $screens[$currentScreenIndex].signalLines.getSnapPointCoordinates(
+            i,
+            "origin"
+          ).x
       )
       .attr(
         "y1",
-        (d, i) => $signalLinesClass.getSnapPointCoordinates(i, "origin").y
+        (d, i) =>
+          $screens[$currentScreenIndex].signalLines.getSnapPointCoordinates(
+            i,
+            "origin"
+          ).y
       )
       .attr(
         "x2",
-        (d, i) => $signalLinesClass.getSnapPointCoordinates(i, "destination").x
+        (d, i) =>
+          $screens[$currentScreenIndex].signalLines.getSnapPointCoordinates(
+            i,
+            "destination"
+          ).x
       )
       .attr(
         "y2",
-        (d, i) => $signalLinesClass.getSnapPointCoordinates(i, "destination").y
+        (d, i) =>
+          $screens[$currentScreenIndex].signalLines.getSnapPointCoordinates(
+            i,
+            "destination"
+          ).y
       )
       .attr("stroke", (d) => {
         return d.color.background;
@@ -160,11 +199,12 @@
         return "0,-6 7,10 -7,10";
       })
       .attr("transform", (d, i) => {
-        let origin = $signalLinesClass.getSnapPointCoordinates(i, "origin");
-        let destination = $signalLinesClass.getSnapPointCoordinates(
-          i,
-          "destination"
-        );
+        let origin = $screens[
+          $currentScreenIndex
+        ].signalLines.getSnapPointCoordinates(i, "origin");
+        let destination = $screens[
+          $currentScreenIndex
+        ].signalLines.getSnapPointCoordinates(i, "destination");
         let midpoint = {
           x: origin.x + (destination.x - origin.x) / 2,
           y: origin.y + (destination.y - origin.y) / 2,

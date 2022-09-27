@@ -6,6 +6,8 @@
     widthMM,
     heightMM,
     isRearView,
+    screens,
+    currentScreenIndex,
   } from "../store";
 
   import type { SignalLineObj } from "../Types/ClassTypes";
@@ -20,8 +22,12 @@
   let bottomBottomCounts: Length[] = [];
 
   $: {
-    let t = [$signalLines.array, $widthMM, $heightMM, $isRearView];
+    let t = [$screens, $widthMM, $heightMM, $isRearView];
 
+    typeof $currentScreenIndex === "number" && getTotals();
+  }
+
+  const getTotals = () => {
     let signalLineTotals = setCalculations();
 
     let ttCounts = calculateTotals(signalLineTotals.topTop);
@@ -44,7 +50,7 @@
       let obj: Length = { length: parseInt(l), quantity: bbCounts[l] };
       bottomBottomCounts.push(obj);
     }
-  }
+  };
 
   const setCalculations = () => {
     topTopCounts = [];
@@ -59,20 +65,22 @@
       verticals: [],
     };
 
-    $signalLines.array.forEach((sl: SignalLineObj) => {
-      let originIndex = sl.origin.pointIndexWithinPanel;
-      let destinationIndex = sl.destination.pointIndexWithinPanel;
+    $screens[$currentScreenIndex].signalLines.array.forEach(
+      (sl: SignalLineObj) => {
+        let originIndex = sl.origin.pointIndexWithinPanel;
+        let destinationIndex = sl.destination.pointIndexWithinPanel;
 
-      if (originIndex == 1 && destinationIndex == 1) {
-        totals.topTop.push(sl.getLengthInMM());
-      } else if (originIndex == 1 && destinationIndex == 2) {
-        totals.topBottom.push(sl.getLengthInMM());
-      } else if (originIndex == 2 && destinationIndex == 1) {
-        totals.topBottom.push(sl.getLengthInMM());
-      } else if (originIndex == 2 && destinationIndex == 2) {
-        totals.bottomBottom.push(sl.getLengthInMM());
+        if (originIndex == 1 && destinationIndex == 1) {
+          totals.topTop.push(sl.getLengthInMM());
+        } else if (originIndex == 1 && destinationIndex == 2) {
+          totals.topBottom.push(sl.getLengthInMM());
+        } else if (originIndex == 2 && destinationIndex == 1) {
+          totals.topBottom.push(sl.getLengthInMM());
+        } else if (originIndex == 2 && destinationIndex == 2) {
+          totals.bottomBottom.push(sl.getLengthInMM());
+        }
       }
-    });
+    );
 
     return totals;
   };

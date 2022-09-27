@@ -130,7 +130,6 @@
       .on("click", (e) => {
         e.stopPropagation();
         if (!$isDrawMode) {
-          console.log(e.path[0].__data__);
           $screens[$currentScreenIndex].snapPoints.selectSnapPoint(e);
         }
       });
@@ -145,7 +144,6 @@
         ].isSquare;
       })
       .attr("fill", (d) => {
-        // console.log(d);
         return d.color.background;
       })
       .attr("stroke", (d) => d.color.border)

@@ -93,12 +93,16 @@
       })
       .on("mousemove", function (d) {
         if (!$isDrawMode) return;
-        $signalLinesClass.nullDestinationSnapPointIndex();
+        $screens[
+          $currentScreenIndex
+        ].signalLines.nullDestinationSnapPointIndex();
         $mousePosition.x = d.x;
         $mousePosition.y = d.y;
       })
       .on("mouseup", function () {
-        $signalLinesClass.nullDestinationSnapPointIndex();
+        $screens[
+          $currentScreenIndex
+        ].signalLines.nullDestinationSnapPointIndex();
         $mousePosition.x = 0;
         $mousePosition.y = 0;
 

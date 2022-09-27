@@ -20,6 +20,8 @@ export class Screen implements ScreenObj {
   name = null;
   isSelected = false;
   index = undefined;
+  widthMM: number;
+  heightMM: number;
 
   constructor(
     columns: number,
@@ -35,11 +37,13 @@ export class Screen implements ScreenObj {
     this.rows = rows;
     this.width = width;
     this.height = height;
+    this.widthMM = widthMM;
+    this.heightMM = heightMM;
 
     this.index = get(screens).length;
 
     this.panels = new Panels(this.index);
     this.snapPoints = new SnapPoints(this.index);
-    this.signalLines = new SignalLines();
+    this.signalLines = new SignalLines(this.index);
   }
 }

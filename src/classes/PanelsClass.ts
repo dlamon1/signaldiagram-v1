@@ -23,6 +23,7 @@ import {
   isRearView,
   screens,
   updateScreens,
+  currentScreenIndex,
 } from "../store";
 
 export class Panels implements PanelsType {
@@ -140,8 +141,8 @@ export class Panels implements PanelsType {
   }
 
   selectPanels = (arrayOfIndexes: number[]) => {
-    const snapPointsClass = get(snapPointsStore);
-    const signalLinesClass = get(signalLines);
+    const snapPointsClass = get(screens)[get(currentScreenIndex)].snapPoints;
+    const signalLinesClass = get(screens)[get(currentScreenIndex)].signalLines;
     snapPointsClass.deSelect();
     signalLinesClass.deSelect();
 
@@ -304,11 +305,11 @@ export class Panel implements PanelObj {
 
     this.width = screen.width;
     this.height = screen.height;
-    this.x = get(width) * this.column;
-    // if (get(isRearView)) {
-    //   this.x = get(width) * (get(columns) - this.column + 1);
-    // }
-    this.y = get(height) * this.row;
+    this.x = this.width * this.column;
+    if (get(isRearView)) {
+      this.x = screen.width * (screen.columns - this.column + 1);
+    }
+    this.y = this.height * this.row;
   }
 
   getDimensions() {
@@ -316,9 +317,9 @@ export class Panel implements PanelObj {
 
     let x = screen.width * this.column;
 
-    // if (get(isRearView)) {
-    //   x = get(width) * (get(columns) - this.column - 1);
-    // }
+    if (get(isRearView)) {
+      x = screen.width * (screen.columns - this.column - 1);
+    }
 
     let y = screen.height * this.row;
 
