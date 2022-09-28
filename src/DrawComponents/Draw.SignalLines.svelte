@@ -1,14 +1,9 @@
 <script lang="ts">
   import {
-    // signalLines as signalLinesClass,
-    snapPoints as snapPointsClass,
-    panels as panelsClass,
     isDrawingSignalLine,
     gZoomWrapperRef,
     isSelectMode,
     isRearView,
-    width,
-    height,
     showDirectionArrows,
     linesGroupRef,
     linesGroupEnterRef,
@@ -30,9 +25,7 @@
   $: {
     // console.log("triggered");
     let t = [
-      $panelsClass,
       $isRearView,
-      $snapPointsClass,
       $isDrawingSignalLine,
       $showDirectionArrows,
       $snapPointsQuantity,
@@ -249,7 +242,13 @@
       .append("line")
       .attr("id", "temp-signal-line")
       .attr("stroke", "black")
-      .attr("stroke-width", $width < $height ? $width / 20 : $height / 20)
+      .attr(
+        "stroke-width",
+        $screens[$currentScreenIndex].width <
+          $screens[$currentScreenIndex].height
+          ? $screens[$currentScreenIndex].width / 20
+          : $screens[$currentScreenIndex].height / 20
+      )
       .raise();
 
     if ($snapPointsGroupEnterRef) {

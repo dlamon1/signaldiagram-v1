@@ -1,11 +1,7 @@
 <script lang="ts">
-  import { onMount } from "svelte";
   import {
     textInputRef,
     snapPointLabel,
-    snapPoints as snapPointsClass,
-    width,
-    height,
     selectedSnapPointIndexes,
     screens,
     currentScreenIndex,
@@ -106,8 +102,8 @@
       X Offset
       <input
         type="range"
-        min={-$width / 3}
-        max={$width / 3}
+        min={-$screens[$currentScreenIndex].width / 3}
+        max={$screens[$currentScreenIndex].width / 3}
         step="1"
         bind:value={xOffset}
         class="range"
@@ -120,8 +116,8 @@
       Y Offset
       <input
         type="range"
-        min={-$height / 3}
-        max={$height / 3}
+        min={-$screens[$currentScreenIndex].height / 3}
+        max={$screens[$currentScreenIndex].height / 3}
         step="1"
         bind:value={yOffset}
         class="range"

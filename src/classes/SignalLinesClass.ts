@@ -1,20 +1,10 @@
 import { get } from "svelte/store";
 
 import {
-  snapPoints,
-  signalLines,
   colorState,
-  updateSnapPoints,
-  updateSignalLines,
-  width,
-  height,
-  panels,
   isCtrl,
   setSelection,
-  updatePanels,
   setSignalLineColor,
-  heightMM,
-  widthMM,
   currentScreenIndex,
   screens,
   updateScreens,
@@ -115,8 +105,6 @@ export class SignalLines implements SignalLinesType {
 
     this.origin.snapPointIndex = snapPointIndex;
     this.origin.panelIndex = panelIndex;
-
-    updateSignalLines();
   }
 
   nullOriginAndDestinationValues() {
@@ -128,13 +116,11 @@ export class SignalLines implements SignalLinesType {
 
   setDestinationSnapPointIndex(snapPoint: SnapPointObj) {
     this.destination.snapPointIndex = snapPoint.pointIndexFullArray;
-    updateSignalLines();
   }
 
   setMousePosition(e: XYCoordinates) {
     this.mouse.x = e.x;
     this.mouse.y = e.y;
-    updateSignalLines();
   }
 
   addSignalLine() {
@@ -151,8 +137,7 @@ export class SignalLines implements SignalLinesType {
       );
 
       this.array.push(sl);
-      updateSignalLines();
-      updatePanels();
+
       updateScreens();
     }
 
@@ -171,7 +156,6 @@ export class SignalLines implements SignalLinesType {
 
     snapPointsClass.deSelect();
     panelsClass.deSelect();
-    updatePanels();
 
     const current = this.array[i].isSelected;
 
@@ -182,8 +166,6 @@ export class SignalLines implements SignalLinesType {
     this.array[i].setIsSelected(true);
 
     setSelection("signallines");
-
-    updateSignalLines();
   }
 
   toggleSignalLine(i: number) {
@@ -192,7 +174,6 @@ export class SignalLines implements SignalLinesType {
 
     snapPointsClass.deSelect();
     panelsClass.deSelect();
-    updatePanels();
 
     const current = this.array[i].isSelected;
 
@@ -203,8 +184,6 @@ export class SignalLines implements SignalLinesType {
     this.array[i].setIsSelected(!current);
 
     setSelection("signallines");
-
-    updateSignalLines();
   }
 
   selectSignalLines(arrayOfIndexes: number[]) {
@@ -212,8 +191,6 @@ export class SignalLines implements SignalLinesType {
     const signalLinesClass = get(screens)[get(currentScreenIndex)].signalLines;
     snapPointsClass.deSelect();
     signalLinesClass.deSelect();
-    updateSnapPoints();
-    updateSignalLines();
 
     if (!get(isCtrl)) {
       this.array.forEach((line) => {
@@ -224,15 +201,12 @@ export class SignalLines implements SignalLinesType {
     arrayOfIndexes.forEach((i) => {
       this.array[i].setIsSelected(true);
     });
-
-    updateSnapPoints();
   }
 
   deSelect() {
     this.array.forEach((signalLine) => {
       signalLine.setIsSelected(false);
     });
-    updateSignalLines();
   }
 
   setColors(key: ColorObjKey, color: string) {
@@ -246,7 +220,6 @@ export class SignalLines implements SignalLinesType {
     if (!isSignalLinesSelected) {
       setSignalLineColor(color);
     }
-    updatePanels();
   }
 }
 
@@ -323,7 +296,6 @@ class SignalLine implements SignalLineObj {
 
   setIsSelected(boolean: boolean) {
     this.isSelected = boolean;
-    updateSignalLines();
   }
 
   setEndCoordinates(e) {

@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { width, height, widthMM, heightMM } from "../store";
 </script>
 
 <div id="general">
@@ -14,7 +13,7 @@
       <input type="number" bind:value={$rows} min="1" />
     </div> -->
 
-    <div id="input-wrapper">
+    <!-- <div id="input-wrapper">
       Width(px):
       <input type="number" bind:value={$width} min="1" />
     </div>
@@ -32,7 +31,7 @@
     <div id="input-wrapper">
       Height(mm):
       <input type="number" bind:value={$heightMM} min="1" />
-    </div>
+    </div> -->
   </div>
 </div>
 

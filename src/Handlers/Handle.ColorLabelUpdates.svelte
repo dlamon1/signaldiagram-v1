@@ -2,21 +2,19 @@
   import {
     colorState,
     snapPointLabel,
-    panels as PanelsClass,
-    snapPoints as snapPointsClass,
-    signalLines as signalLinesClass,
     lineWidthState,
     screens,
     currentScreenIndex,
   } from "../store";
 
   const updateSelectedSnapPointsLabel = (label: string) => {
-    $snapPointsClass?.array.forEach((snapPoint, i) => {
+    const screen = $screens[$currentScreenIndex];
+    screen?.snapPoints.array.forEach((snapPoint, i) => {
       if (snapPoint.isSelected) {
         snapPoint.label = label;
       }
     }),
-      ($snapPointsClass = $snapPointsClass);
+      ($screens = $screens);
   };
 
   $: {
@@ -24,25 +22,27 @@
   }
 
   const updatePanelColorState = () => {
-    $PanelsClass.array.forEach((panel) => {
+    const screen = $screens[$currentScreenIndex];
+
+    screen?.panels.array.forEach((panel) => {
       if (panel.isSelected) {
         $colorState.panel = panel.color;
         $lineWidthState = panel.lineWidth;
       }
     });
-    $PanelsClass = $PanelsClass;
+    $screens = $screens;
   };
 
   $: {
-    let t = [$PanelsClass];
+    let t = [$screens];
 
-    $PanelsClass && updatePanelColorState();
+    updatePanelColorState();
   }
 
   const updateSnapPointColorState = () => {
     const screen = $screens[$currentScreenIndex];
 
-    screen.snapPoints.array.forEach((snapPoint, i) => {
+    screen?.snapPoints.array.forEach((snapPoint, i) => {
       if (snapPoint.isSelected) {
         $colorState.snapPoint = snapPoint.color;
       }
@@ -50,10 +50,10 @@
       ($screens = $screens);
   };
 
-  $: {
-    let t = [$snapPointsClass];
-    $snapPointsClass && updateSnapPointColorState();
-  }
+  // $: {
+  //   let t = [$snapPointsClass];
+  //   $snapPointsClass && updateSnapPointColorState();
+  // }
 
   const updateSignalLineColorState = () => {
     const screen = $screens[$currentScreenIndex];
@@ -66,9 +66,9 @@
       ($screens = $screens);
   };
 
-  $: {
-    let t = [$signalLinesClass];
+  // $: {
+  //   let t = [$signalLinesClass];
 
-    updateSignalLineColorState();
-  }
+  //   updateSignalLineColorState();
+  // }
 </script>

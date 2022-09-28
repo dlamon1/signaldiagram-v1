@@ -1,21 +1,15 @@
 <script lang="ts">
   import {
-    signalLines as signalLinesClass,
-    snapPoints as snapPointsClass,
-    panels as panelsClass,
     isDrawingSignalLine,
     gZoomWrapperRef,
     isDrawMode,
     isRearView,
     snapPointsGroupRef,
     setIsDrawingSignalLine,
-    width,
-    height,
     snapPointsGroupEnterRef,
     snapPointPathRef,
     snapPointDirection,
     snapPointsQuantity,
-    snapPoints,
     screens,
     currentScreenIndex,
   } from "../store";
@@ -29,10 +23,8 @@
 
   $: {
     let t = [
-      $panelsClass,
       $isRearView,
       $isDrawMode,
-      $snapPointsClass,
       $isDrawingSignalLine,
       $snapPointDirection,
       $snapPointsQuantity,
@@ -198,7 +190,10 @@
       })
       .attr("dominant-baseline", "middle")
       .style("font-size", (d) =>
-        $width < $height ? $width / 6 + "px" : $height / 6 + "px"
+        $screens[$currentScreenIndex].width <
+        $screens[$currentScreenIndex].height
+          ? $screens[$currentScreenIndex].width / 6 + "px"
+          : $screens[$currentScreenIndex].height / 6 + "px"
       )
       .style("pointer-events", "none")
       .attr("y", (d) => {

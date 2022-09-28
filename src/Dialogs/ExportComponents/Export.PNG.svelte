@@ -4,23 +4,12 @@
 
   import * as d3 from "d3";
 
-  import {
-    panels,
-    title,
-    isRearView,
-    width,
-    height,
-    snapPoints,
-    signalLines,
-    mode,
-    screens,
-    currentScreenIndex,
-  } from "../../store";
+  import { title, mode, screens, currentScreenIndex } from "../../store";
 
   const download = async () => {
-    $panels.deSelect();
-    $signalLines.deSelect();
-    $snapPoints.deSelect();
+    // $panels.deSelect();
+    // $signalLines.deSelect();
+    // $snapPoints.deSelect();
     $mode = "select";
 
     await tick();
@@ -33,8 +22,11 @@
       clonedZoomWrapper.attr("transform", e.transform);
     }
 
-    let w = $width * $screens[$currentScreenIndex].columns;
-    let h = $height * $screens[$currentScreenIndex].rows;
+    let w =
+      $screens[$currentScreenIndex].width *
+      $screens[$currentScreenIndex].columns;
+    let h =
+      $screens[$currentScreenIndex].height * $screens[$currentScreenIndex].rows;
 
     let svg = d3.select("#svg");
     let g = svg.select("g").clone(true).node();

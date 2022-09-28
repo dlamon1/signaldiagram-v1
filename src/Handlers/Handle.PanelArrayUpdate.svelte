@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
   import {
     canvasWrapperWidth,
     canvasWrapperHeight,
@@ -16,4 +16,4 @@
 
   // let updatePanelArray = () =>
   //   !$isExportDialogOpen && $panelsClass.updatePanelArray();
-</script>
+</script> -->

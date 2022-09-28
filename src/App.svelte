@@ -21,7 +21,6 @@
   } from "./store";
 
   import HandleColorLabelUpdates from "./Handlers/Handle.ColorLabelUpdates.svelte";
-  import Reactivity from "./Handlers/Handle.PanelArrayUpdate.svelte";
   import HandleSelectionTab from "./Handlers/Handle.SelectionTab.svelte";
   import InfoBar from "./InfoToolbar/InfoBar.svelte";
 
@@ -38,7 +37,6 @@
 </script>
 
 <div id="container">
-  <Reactivity />
   <HandleSelectionTab />
 
   <div class="info">

@@ -1,7 +1,5 @@
 import { get } from "svelte/store";
 
-// import { SelectableObjects } from "./SelectableObjectsClass";
-
 import type {
   PanelObj,
   ColorObj,
@@ -12,12 +10,7 @@ import type {
 
 import {
   isCtrl,
-  width,
-  height,
-  updatePanels,
-  snapPoints as snapPointsStore,
   setSelection,
-  signalLines,
   snapPointsQuantity,
   showCoordinates,
   isRearView,
@@ -170,7 +163,6 @@ export class Panels implements PanelsType {
     });
 
     setSelection("panels");
-    updatePanels();
   };
 
   togglePanels = (arrayOfIndexes: number[]) => {
@@ -205,7 +197,6 @@ export class Panels implements PanelsType {
     });
 
     setSelection("panels");
-    updatePanels();
   };
 
   toggleHidePanels() {

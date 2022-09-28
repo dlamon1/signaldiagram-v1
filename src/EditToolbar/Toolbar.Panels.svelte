@@ -3,13 +3,7 @@
 
   import { showCoordinates, isRearView, opacity } from "../store";
 
-  import {
-    panels,
-    updateScreens,
-    snapPoints,
-    screens,
-    currentScreenIndex,
-  } from "../store";
+  import { updateScreens, screens, currentScreenIndex } from "../store";
   import type { PanelObj, SnapPointObj } from "../Types/ClassTypes";
 
   import ColorPicker from "./components/ColorPicker.svelte";
@@ -48,20 +42,22 @@
   };
 
   const hideSnapPoints = (snapPointArray: number[], isHidden: boolean) => {
+    const screen = $screens[$currentScreenIndex];
     snapPointArray.forEach((snapPointIndex) => {
-      $snapPoints.array[snapPointIndex].setIsHidden(isHidden);
+      screen.snapPoints.array[snapPointIndex].setIsHidden(isHidden);
     });
-    $snapPoints = $snapPoints;
+    $screens = $screens;
   };
 
   const hide = (isHidden: boolean) => {
-    $panels?.array.forEach((p: PanelObj) => {
+    const screen = $screens[$currentScreenIndex];
+    screen?.panels.array.forEach((p: PanelObj) => {
       if (p.isSelected) {
         hideSnapPoints(p.thisPanelsSnapPoints, isHidden);
         p.setIsHidden(isHidden);
       }
     });
-    $panels = $panels;
+    $screens = $screens;
   };
 
   $: hide(!isVisible);

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { colorButtons, colorState, panels } from "../../store";
+  import { colorButtons, colorState } from "../../store";
   import { fly } from "svelte/transition";
 
   import type { ColorObjKey } from "../../Types/ClassTypes";

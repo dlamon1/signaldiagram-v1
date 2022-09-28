@@ -1,8 +1,5 @@
 /* eslint-disable no-self-assign */
 import { get, writable } from "svelte/store";
-import { SignalLines } from "./classes/SignalLinesClass";
-import { Panels } from "./classes/PanelsClass";
-import { SnapPoints } from "./classes/SnapPointsClass";
 
 import type {
   PanelObj,
@@ -161,17 +158,6 @@ export const setIsMouseDown = (boolean: boolean) => {
   isMouseDown.update(() => boolean);
 };
 
-export const scale: Writable<number> = writable(1);
-
-// export const columns: Writable<number> = writable(13);
-// export const rows: Writable<number> = writable(5);
-
-export const width: Writable<number> = writable(160);
-export const height: Writable<number> = writable(320);
-export const widthMM: Writable<number> = writable(500);
-export const heightMM: Writable<number> = writable(1000);
-export const ratio: Writable<number> = writable(get(width) / get(height));
-
 // This is the size of the browser window minus the toolbar
 // it does not zoom or pan
 export const canvasWrapperWidth: Writable<number> = writable(null);
@@ -179,26 +165,9 @@ export const canvasWrapperHeight: Writable<number> = writable(null);
 
 export const textInputRef = writable(null);
 
-export const panels = writable(null);
-
-export const updatePanels = () => {
-  panels.update(($value) => ($value = $value));
-};
-
 type DistanceUnit = "mm" | "ft" | "cm";
 
 export const distanceUnit: Writable<DistanceUnit> = writable("mm");
-
-export const snapPoints = writable(null);
-
-export const updateSnapPoints = () => {
-  snapPoints.update(($value) => ($value = $value));
-};
-
-export const signalLines = writable(null);
-export const updateSignalLines = () => {
-  signalLines.update(($value) => ($value = $value));
-};
 
 export const colorButtons: Writable<string[]> = writable([
   "#E401CD",

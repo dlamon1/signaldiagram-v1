@@ -7,8 +7,6 @@
     canvasWrapperHeight,
     canvasWrapperWidth,
     transform as transformStore,
-    width,
-    height,
     currentScreenIndex,
     screens,
   } from "../store";
@@ -50,7 +48,6 @@
         $canvasWrapperHeight /
         $screens[$currentScreenIndex].rows /
         $screens[$currentScreenIndex].height;
-      console.log("here");
     }
 
     let x =

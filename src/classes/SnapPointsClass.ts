@@ -11,15 +11,7 @@ import {
   snapPointDirection,
   snapPointsQuantity,
   isCtrl,
-  updateSnapPoints,
-  panels,
   setSelection,
-  signalLines,
-  snapPoints,
-  updateSignalLines,
-  updatePanels,
-  width,
-  height,
   setSelectedSnapPointIndexes,
   screens,
   currentScreenIndex,
@@ -51,7 +43,7 @@ export class SnapPoints implements SnapPointsType {
     //   this.array[i].setLabel(snapPoint.label);
     //   this.array[i].setColorObj(snapPoint.color);
     // });
-    // updateSnapPoints();
+    //
   }
 
   deSelect = () => {
@@ -91,12 +83,10 @@ export class SnapPoints implements SnapPointsType {
   }
 
   selectSnapPoints = (arrayOfIndexes: number[]) => {
-    const snapPointsClass = get(snapPoints);
-    const signalLinesClass = get(signalLines);
+    const snapPointsClass = get(screens)[get(currentScreenIndex)].snapPoints;
+    const signalLinesClass = get(screens)[get(currentScreenIndex)].signalLines;
     snapPointsClass.deSelect();
     signalLinesClass.deSelect();
-    updateSnapPoints();
-    updateSignalLines();
 
     if (!get(isCtrl)) {
       this.selectedSnapPointIndexes = [];
@@ -112,16 +102,13 @@ export class SnapPoints implements SnapPointsType {
     });
 
     setSelectedSnapPointIndexes(this.selectedSnapPointIndexes);
-    updateSnapPoints();
   };
 
   toggleSnapPoints = (arrayOfIndexes: number[]) => {
-    const snapPointsClass = get(snapPoints);
-    const signalLinesClass = get(signalLines);
+    const snapPointsClass = get(screens)[get(currentScreenIndex)].snapPoints;
+    const signalLinesClass = get(screens)[get(currentScreenIndex)].signalLines;
     snapPointsClass.deSelect();
     signalLinesClass.deSelect();
-    updateSnapPoints();
-    updateSignalLines();
 
     if (!get(isCtrl)) {
       this.selectedSnapPointIndexes = [];
@@ -139,8 +126,6 @@ export class SnapPoints implements SnapPointsType {
     });
 
     setSelectedSnapPointIndexes(this.selectedSnapPointIndexes);
-
-    updateSnapPoints();
   };
 
   selectSnapPoint = (e) => {
@@ -165,8 +150,6 @@ export class SnapPoints implements SnapPointsType {
     this.array[i].setIsSelected(!current);
     setSelection("snappoints");
 
-    updateSnapPoints();
-    updatePanels();
     updateScreens();
   };
 
@@ -187,7 +170,6 @@ export class SnapPoints implements SnapPointsType {
         sp.setIsSquare(boolean);
       }
     });
-    updateSnapPoints();
   };
 
   setIsTriangles = (boolean: boolean) => {
@@ -197,7 +179,6 @@ export class SnapPoints implements SnapPointsType {
         sp.setIsTriangle(boolean);
       }
     });
-    updateSnapPoints();
   };
 
   setColors(key: ColorObjKey, color: string) {
@@ -206,7 +187,7 @@ export class SnapPoints implements SnapPointsType {
         panel.setColor(key, color);
       }
     });
-    updatePanels();
+
     updateScreens();
   }
 

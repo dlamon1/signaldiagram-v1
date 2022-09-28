@@ -1,15 +1,10 @@
 <script lang="ts">
   import {
-    panels,
     snapPointsQuantity,
     snapPointDirection,
     title,
     isRearView,
-    width,
-    height,
     toolbarWidth,
-    snapPoints,
-    signalLines,
   } from "../../store";
 
   const save = async () => {
@@ -19,11 +14,11 @@
       isRearView: $isRearView,
       snapPointsQuantity: $snapPointsQuantity,
       snapPointDirection: $snapPointDirection,
-      width: $width,
-      height: $height,
-      panels: $panels,
-      snapPoints: $snapPoints,
-      signalLines: $signalLines,
+      // width: $width,
+      // height: $height,
+      // panels: $panels,
+      // snapPoints: $snapPoints,
+      // signalLines: $signalLines,
     };
 
     let panelsJson = JSON.stringify(saveObj);

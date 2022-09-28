@@ -1,8 +1,5 @@
 <script lang="ts">
   import {
-    signalLines as signalLinesClass,
-    snapPoints as snapPointsClass,
-    panels as panelsClass,
     isDrawingSignalLine,
     gZoomWrapperRef,
     isDrawMode,
@@ -25,10 +22,8 @@
 
   $: {
     let t = [
-      $panelsClass,
       $isRearView,
       $isDrawMode,
-      $snapPointsClass,
       $showCoordinates,
       $isDrawingSignalLine,
       $showDirectionArrows,

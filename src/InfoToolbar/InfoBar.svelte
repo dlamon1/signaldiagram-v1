@@ -1,5 +1,4 @@
 <script lang="ts">
-  import ScreenSize from "./InfoBar.ScreenSize.svelte";
   import Coordinates from "./InfoBar.Coordinates.svelte";
   import LineCounter from "./InfoBar.LineCounter.svelte";
   import Links from "./InfoBar.Links.svelte";

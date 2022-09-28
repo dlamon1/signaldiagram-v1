@@ -1,25 +1,20 @@
 <script lang="ts">
-  import {
-    isDrawMode,
-    signalLines,
-    selection,
-    panels,
-    snapPoints as snapPointsClass,
-  } from "../store";
+  import { isDrawMode, selection, screens, currentScreenIndex } from "../store";
 
   $: {
-    $selection && deSelect();
+    $selection && typeof $currentScreenIndex === "number" && deSelect();
   }
 
   const deSelect = () => {
+    const screen = $screens[$currentScreenIndex];
     if ($selection != "panels") {
-      $panels?.deSelect();
+      screen.panels.deSelect();
     }
     if ($selection != "signallines") {
-      $signalLines?.deSelect();
+      screen.signalLines.deSelect();
     }
     if ($selection != "snappoints") {
-      $snapPointsClass?.deSelect();
+      screen.snapPoints.deSelect();
     }
   };
 

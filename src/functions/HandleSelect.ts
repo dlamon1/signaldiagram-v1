@@ -1,8 +1,5 @@
 import { get } from "svelte/store";
 import {
-  panels as panelsClass,
-  snapPoints as snapPointsClass,
-  signalLines as signalLinesClass,
   isCtrl,
   selection,
   transform,
@@ -45,7 +42,9 @@ export const handleDragSelect = (event, xOrigin: number, yOrigin: number) => {
       x2,
       y2
     );
-    get(snapPointsClass).selectSnapPoints(indexesOfSnapPointsInsideSelection);
+    get(screens)[get(currentScreenIndex)].snapPoints.selectSnapPoints(
+      indexesOfSnapPointsInsideSelection
+    );
     return;
   }
 
@@ -56,7 +55,7 @@ export const handleDragSelect = (event, xOrigin: number, yOrigin: number) => {
       x2,
       y2
     );
-    get(signalLinesClass).selectSignalLines(
+    get(screens)[get(currentScreenIndex)].signalLines.selectSignalLines(
       indexesOfSignalLinesInsideSelection
     );
     return;
@@ -169,7 +168,7 @@ export const checkForSelectedSignalLines = (
     // _signalLines.push(...get(selectedSignalLines));
   }
 
-  get(signalLinesClass).array.forEach((line, i) => {
+  get(screens)[get(currentScreenIndex)].signalLines.array.forEach((line, i) => {
     if (
       checkIfPointIsWithinBounds(line.origin.snapPointIndex) &&
       checkIfPointIsWithinBounds(line.destination.snapPointIndex)

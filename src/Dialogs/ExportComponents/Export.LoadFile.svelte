@@ -1,15 +1,10 @@
 <script lang="ts">
   import { onMount, tick } from "svelte";
   import {
-    panels,
     snapPointsQuantity,
     snapPointDirection,
     title,
     isRearView,
-    width,
-    height,
-    snapPoints,
-    signalLines,
     isExportDialogOpen,
   } from "../../store";
 
@@ -24,8 +19,8 @@
       async function onReaderLoad(event) {
         var obj = JSON.parse(event.target.result);
 
-        $width = obj.width;
-        $height = obj.height;
+        // $width = obj.width;
+        // $height = obj.height;
         // $rows = obj.rows;
         // $columns = obj.columns;
 
@@ -39,15 +34,15 @@
         $snapPointsQuantity = obj.snapPointsQuantity;
         $snapPointDirection = obj.snapPointDirection;
 
-        $panels.setArrayFromLoad(obj.panels.array);
-        $snapPoints.setArrayFromLoad(obj.snapPoints.array);
-        $signalLines.setArrayFromLoad(obj.signalLines.array);
+        // $panels.setArrayFromLoad(obj.panels.array);
+        // $snapPoints.setArrayFromLoad(obj.snapPoints.array);
+        // $signalLines.setArrayFromLoad(obj.signalLines.array);
 
         $isExportDialogOpen = false;
 
         await tick();
 
-        $panels = $panels;
+        // $panels = $panels;
       }
 
       document.getElementById("file").addEventListener("change", onChange);

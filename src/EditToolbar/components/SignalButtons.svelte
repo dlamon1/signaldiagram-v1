@@ -1,9 +1,6 @@
 <script lang="ts">
   import {
     signalDirectionButtons,
-    signalLines,
-    panels,
-    snapPoints,
     snapPointDirection,
     screens,
     currentScreenIndex,

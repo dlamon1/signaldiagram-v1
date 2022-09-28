@@ -1,5 +1,3 @@
-import { updatePanels } from "../store";
-
 export class SelectableObjects {
   array = [];
 

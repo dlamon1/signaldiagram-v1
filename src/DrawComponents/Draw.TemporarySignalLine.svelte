@@ -2,14 +2,10 @@
   import * as d3 from "d3";
   import { get } from "svelte/store";
   import {
-    snapPoints as snapPointsClass,
-    signalLines as signalLinesClass,
     isDrawingSignalLine,
     transform,
     topLevelSvgRef,
     colorState,
-    width,
-    height,
     snapPointsGroupEnterRef,
     mousePosition,
     screens,
@@ -54,13 +50,16 @@
 
     if (destinationI) {
       let destinationSnapPoint =
-        $snapPointsClass.array[$signalLinesClass.destination.snapPointIndex];
+        snapPoints.array[signalLines.destination.snapPointIndex];
 
       x2 = destinationSnapPoint.getX();
       y2 = destinationSnapPoint.getY();
     }
 
-    let lineWidth = $width < $height ? $width / 20 : $height;
+    let lineWidth =
+      $screens[$currentScreenIndex].width < $screens[$currentScreenIndex].height
+        ? $screens[$currentScreenIndex].width / 20
+        : $screens[$currentScreenIndex].height;
 
     d3.select("#temp-signal-line")
       .attr("pointer-events", "none")

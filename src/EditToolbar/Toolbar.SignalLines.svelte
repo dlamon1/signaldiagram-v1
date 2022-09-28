@@ -1,24 +1,21 @@
 <script lang="ts">
   import { fade } from "svelte/transition";
-  import {
-    signalLines as signalLinesClass,
-    panels as panelsClass,
-    showDirectionArrows,
-  } from "../store";
+  import { showDirectionArrows, screens, currentScreenIndex } from "../store";
   import ColorPicker from "./components/ColorPicker.svelte";
 
   const removeLine = () => {
-    $signalLinesClass.array.forEach((line, i) => {
+    const screen = $screens[$currentScreenIndex];
+    screen.signalLines.array.forEach((line, i) => {
       if (line.isSelected) {
-        $signalLinesClass.removeSignalLine(line);
+        screen.signalLines.removeSignalLine(line);
       }
     });
 
-    $signalLinesClass = $signalLinesClass;
+    $screens = $screens;
     // need to call panels update here to
     // trigger redraw, cannott use signal lines
     // because of the way the draw updates
-    $panelsClass = $panelsClass;
+    // $panelsClass = $panelsClass;
   };
 
   const updateLocalLabelAndColorState = () => {
@@ -50,7 +47,7 @@
       layer={"background"}
       element={"Signal Lines"}
       isOpen={true}
-      classObj={$signalLinesClass}
+      classObj={$screens[$currentScreenIndex].signalLines}
     />
   {/if}
   <div class="remove-lines-container">

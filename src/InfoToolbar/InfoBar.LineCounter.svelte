@@ -1,10 +1,7 @@
 <script lang="ts">
   import {
-    signalLines,
     distanceUnit,
     snapPointDirection,
-    widthMM,
-    heightMM,
     isRearView,
     screens,
     currentScreenIndex,
@@ -22,7 +19,7 @@
   let bottomBottomCounts: Length[] = [];
 
   $: {
-    let t = [$screens, $widthMM, $heightMM, $isRearView];
+    let t = [$screens, $isRearView];
 
     typeof $currentScreenIndex === "number" && getTotals();
   }

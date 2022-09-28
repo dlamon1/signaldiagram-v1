@@ -1,10 +1,7 @@
 <script lang="ts">
   import {
-    panels as panelsClass,
     gZoomWrapperRef,
     isRearView,
-    width,
-    height,
     opacity,
     snapPointsGroupEnterRef,
     screens,
@@ -12,7 +9,7 @@
   } from "../store";
 
   $: {
-    let t = [$isRearView, $opacity, $panelsClass];
+    let t = [$isRearView, $opacity];
 
     drawRearViewLabel();
   }
@@ -30,11 +27,11 @@
       .append("text")
       .attr("id", "rear-view-label")
       .text(() => ($isRearView ? "REAR VIEW" : ""))
-      .attr("x", (screen.columns * $width) / 2)
-      .attr("y", (screen.rows * $height) / 2)
+      .attr("x", (screen.columns * screen.width) / 2)
+      .attr("y", (screen.rows * screen.height) / 2)
       .attr("fill", "#000")
       .attr("font-size", () => {
-        let screenWidth = screen.columns * $width;
+        let screenWidth = screen.columns * screen.width;
         return screenWidth / 7 + "px";
       })
       .style("opacity", $opacity)
@@ -46,11 +43,13 @@
       .attr("dominant-baseline", "middle")
       .attr(
         "transform-origin",
-        (screen.columns * $width) / 2 + " " + (screen.rows * $height) / 2
+        (screen.columns * screen.width) / 2 +
+          " " +
+          (screen.rows * screen.height) / 2
       );
     // .attr("transform", () => {
-    //   let opposite = $columns * $width;
-    //   let adjacent = $rows * $height;
+    //   let opposite = $columns * screen.width;
+    //   let adjacent = $rows * screen.height;
     //   let angle = Math.atan(adjacent / opposite);
     //   angle = ((-angle * 180) / Math.PI) * 0.4;
     //   return "rotate(" + angle + ")";
