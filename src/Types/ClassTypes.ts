@@ -204,6 +204,8 @@ export type XYCoordinates = {
   y: number;
 };
 
+type SnapPointDirection = "vertical" | "horizontal";
+
 export interface ScreenObj {
   panels: PanelsType;
   snapPoints: SnapPointsType;
@@ -217,4 +219,6 @@ export interface ScreenObj {
   isSelected: boolean;
   widthMM: number;
   heightMM: number;
+  snapPointQuantity: number;
+  snapPointDirection: SnapPointDirection;
 }

@@ -7,7 +7,6 @@ import type {
   SignalLineObj,
   XYCoordinates,
   ScreenObj,
-  PanelsType,
 } from "./Types/ClassTypes";
 
 import type * as d3 from "d3";
@@ -34,7 +33,7 @@ export const groupsEnter: Writable<
 > = writable(null);
 
 export const snapPointsGroupRef = writable(null);
-// export const snapPointsGroupEnterRef = writable(null);
+
 export const snapPointsGroupEnterRef: Writable<
   d3.Selection<SVGGElement, SnapPointObj, HTMLElement, any>
 > = writable(null);

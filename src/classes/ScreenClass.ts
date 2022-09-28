@@ -22,6 +22,8 @@ export class Screen implements ScreenObj {
   index = undefined;
   widthMM: number;
   heightMM: number;
+  snapPointDirection = null;
+  snapPointQuantity = 2;
 
   constructor(
     columns: number,
@@ -39,6 +41,7 @@ export class Screen implements ScreenObj {
     this.height = height;
     this.widthMM = widthMM;
     this.heightMM = heightMM;
+    this.snapPointDirection = "vertical";
 
     this.index = get(screens).length;
 
