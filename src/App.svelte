@@ -17,6 +17,7 @@
     canvasWrapperWidth,
     isChrome,
     gZoomWrapperRef,
+    currentScreenIndex,
   } from "./store";
 
   import HandleColorLabelUpdates from "./Handlers/Handle.ColorLabelUpdates.svelte";
@@ -59,7 +60,7 @@
     <Toolbar />
   </div>
 
-  {#if $canvasWrapperWidth && $canvasWrapperHeight}
+  {#if $canvasWrapperWidth && $canvasWrapperHeight && typeof $currentScreenIndex === "number"}
     <DrawCanvasWrapper />
   {/if}
 
@@ -70,7 +71,7 @@
     <DrawSelecteOutline />
     <DrawSignalLines />
     <DrawSnapPoints />
-    <DrawRearViewLabel />
+    <!-- <DrawRearViewLabel /> -->
   {/if}
 
   <ExportDialog />

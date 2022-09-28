@@ -7,14 +7,14 @@
     canvasWrapperHeight,
     canvasWrapperWidth,
     transform as transformStore,
-    columns,
-    rows,
     width,
     height,
+    currentScreenIndex,
+    screens,
   } from "../store";
 
   $: {
-    let t = [$columns, $rows, $width, $height];
+    let t = [$currentScreenIndex];
 
     centerScreen();
   }
@@ -25,7 +25,10 @@
 
   let zoom = d3
     .zoom()
-    .scaleExtent([0.25, $canvasWrapperHeight / $width])
+    .scaleExtent([
+      0.1,
+      $canvasWrapperHeight / $screens[$currentScreenIndex].width,
+    ])
     // .translateExtent([
     //   [-$width * $columns, -$rows * $height * 0.95],
     //   [$width * $columns * 2, $rows * $height * 1.95],
@@ -33,12 +36,34 @@
     .on("zoom", handleZoom);
 
   const centerScreen = () => {
-    let k = ($canvasWrapperWidth / $columns / $width) * 0.85;
-    if ($canvasWrapperHeight < $rows * $height * k) {
-      k = ($canvasWrapperHeight / $rows / $height) * 0.85;
+    let k =
+      $canvasWrapperWidth /
+      $screens[$currentScreenIndex].columns /
+      $screens[$currentScreenIndex].width;
+    if (
+      $canvasWrapperHeight <
+      $screens[$currentScreenIndex].rows *
+        $screens[$currentScreenIndex].height *
+        k
+    ) {
+      k =
+        $canvasWrapperHeight /
+        $screens[$currentScreenIndex].rows /
+        $screens[$currentScreenIndex].height;
+      console.log("here");
     }
-    let x = $canvasWrapperWidth - $columns * $width * k;
-    let y = $canvasWrapperHeight - $rows * $height * k;
+
+    let x =
+      $canvasWrapperWidth -
+      $screens[$currentScreenIndex].columns *
+        $screens[$currentScreenIndex].width *
+        k;
+
+    let y =
+      $canvasWrapperHeight -
+      $screens[$currentScreenIndex].rows *
+        $screens[$currentScreenIndex].height *
+        k;
 
     d3.select("svg").call(
       zoom.transform as any,

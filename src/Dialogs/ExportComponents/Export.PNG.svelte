@@ -7,14 +7,14 @@
   import {
     panels,
     title,
-    rows,
-    columns,
     isRearView,
     width,
     height,
     snapPoints,
     signalLines,
     mode,
+    screens,
+    currentScreenIndex,
   } from "../../store";
 
   const download = async () => {
@@ -33,8 +33,8 @@
       clonedZoomWrapper.attr("transform", e.transform);
     }
 
-    let w = $width * $columns;
-    let h = $height * $rows;
+    let w = $width * $screens[$currentScreenIndex].columns;
+    let h = $height * $screens[$currentScreenIndex].rows;
 
     let svg = d3.select("#svg");
     let g = svg.select("g").clone(true).node();

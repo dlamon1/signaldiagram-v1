@@ -163,8 +163,8 @@ export const setIsMouseDown = (boolean: boolean) => {
 
 export const scale: Writable<number> = writable(1);
 
-export const columns: Writable<number> = writable(13);
-export const rows: Writable<number> = writable(5);
+// export const columns: Writable<number> = writable(13);
+// export const rows: Writable<number> = writable(5);
 
 export const width: Writable<number> = writable(160);
 export const height: Writable<number> = writable(320);

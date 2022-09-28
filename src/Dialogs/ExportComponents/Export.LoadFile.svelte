@@ -5,8 +5,6 @@
     snapPointsQuantity,
     snapPointDirection,
     title,
-    rows,
-    columns,
     isRearView,
     width,
     height,
@@ -28,8 +26,8 @@
 
         $width = obj.width;
         $height = obj.height;
-        $rows = obj.rows;
-        $columns = obj.columns;
+        // $rows = obj.rows;
+        // $columns = obj.columns;
 
         await tick();
 

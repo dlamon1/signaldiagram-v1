@@ -3,12 +3,12 @@
     panels as panelsClass,
     gZoomWrapperRef,
     isRearView,
-    columns,
-    rows,
     width,
     height,
     opacity,
     snapPointsGroupEnterRef,
+    screens,
+    currentScreenIndex,
   } from "../store";
 
   $: {
@@ -22,6 +22,7 @@
   let rearViewLabel = null;
 
   const drawRearViewLabel = () => {
+    const screen = $screens[$currentScreenIndex];
     if (rearViewLabel) {
       d3.select("#rear-view-label").text("").remove();
     }
@@ -29,11 +30,11 @@
       .append("text")
       .attr("id", "rear-view-label")
       .text(() => ($isRearView ? "REAR VIEW" : ""))
-      .attr("x", ($columns * $width) / 2)
-      .attr("y", ($rows * $height) / 2)
+      .attr("x", (screen.columns * $width) / 2)
+      .attr("y", (screen.rows * $height) / 2)
       .attr("fill", "#000")
       .attr("font-size", () => {
-        let screenWidth = $columns * $width;
+        let screenWidth = screen.columns * $width;
         return screenWidth / 7 + "px";
       })
       .style("opacity", $opacity)
@@ -45,7 +46,7 @@
       .attr("dominant-baseline", "middle")
       .attr(
         "transform-origin",
-        ($columns * $width) / 2 + " " + ($rows * $height) / 2
+        (screen.columns * $width) / 2 + " " + (screen.rows * $height) / 2
       );
     // .attr("transform", () => {
     //   let opposite = $columns * $width;

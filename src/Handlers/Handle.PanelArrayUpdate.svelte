@@ -1,27 +1,15 @@
 <script lang="ts">
   import {
-    panels as panelsClass,
-    snapPoints,
     canvasWrapperWidth,
     canvasWrapperHeight,
     mode,
-    signalLines,
-    columns,
-    rows,
     width,
     height,
     isExportDialogOpen,
   } from "../store";
 
   $: {
-    let t = [
-      $canvasWrapperHeight,
-      $canvasWrapperWidth,
-      $columns,
-      $rows,
-      $width,
-      $height,
-    ];
+    let t = [$canvasWrapperHeight, $canvasWrapperWidth, $width, $height];
 
     // $canvasWrapperHeight && updatePanelArray();
   }

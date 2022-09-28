@@ -4,8 +4,6 @@
     snapPointsQuantity,
     snapPointDirection,
     title,
-    rows,
-    columns,
     isRearView,
     width,
     height,
@@ -16,8 +14,6 @@
 
   const save = async () => {
     let saveObj = {
-      rows: $rows,
-      columns: $columns,
       title: $title,
       toolbarWidth: $toolbarWidth,
       isRearView: $isRearView,

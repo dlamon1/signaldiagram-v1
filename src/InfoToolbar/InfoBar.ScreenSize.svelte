@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { columns, rows, width, height, widthMM, heightMM } from "../store";
+  import { width, height, widthMM, heightMM } from "../store";
 </script>
 
 <div id="general">
   <div id="dimensions-container">
-    <div id="input-wrapper">
+    <!-- <div id="input-wrapper">
       Columns:
       <input type="number" bind:value={$columns} min="1" />
     </div>
@@ -12,7 +12,7 @@
     <div id="input-wrapper">
       Rows:
       <input type="number" bind:value={$rows} min="1" />
-    </div>
+    </div> -->
 
     <div id="input-wrapper">
       Width(px):

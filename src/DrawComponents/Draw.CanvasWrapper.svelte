@@ -10,10 +10,9 @@
     setIsDrawingSignalLine,
     width,
     height,
-    columns,
-    rows,
     isShifted,
     screens,
+    currentScreenIndex,
   } from "../store";
 
   import * as d3 from "d3";
@@ -47,8 +46,16 @@
 
     $gZoomWrapperRef = $topLevelSvgRef
       .append("g")
-      .attr("width", $width * $columns)
-      .attr("height", $height * $rows)
+      // .attr(
+      //   "width",
+      //   $screens[$currentScreenIndex].width *
+      //     $screens[$currentScreenIndex].columns
+      // )
+      // .attr(
+      //   "height",
+      //   $screens[$currentScreenIndex].height *
+      //     $screens[$currentScreenIndex].rows
+      // )
       .attr("id", "g-zoom-wrapper")
       .attr("class", "g-zoom-wrapper");
   };
