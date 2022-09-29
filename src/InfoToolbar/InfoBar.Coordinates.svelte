@@ -1,10 +1,19 @@
 <script lang="ts">
-  import { showCoordinates, isRearView, opacity } from "../store";
+  import {
+    showCoordinates,
+    isRearView,
+    opacity,
+    screens,
+    currentScreenIndex,
+  } from "../store";
 </script>
 
 <div class="general">
   <label class="hovered">
-    <input type="checkbox" bind:checked={$showCoordinates} />
+    <input
+      type="checkbox"
+      bind:checked={$screens[$currentScreenIndex].showCoordinates}
+    />
     Show Coordinates
   </label>
 

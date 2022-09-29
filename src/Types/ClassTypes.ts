@@ -221,4 +221,5 @@ export interface ScreenObj {
   heightMM: number;
   snapPointQuantity: number;
   snapPointDirection: SnapPointDirection;
+  showCoordinates: boolean;
 }

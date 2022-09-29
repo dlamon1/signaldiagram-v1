@@ -318,7 +318,9 @@ export class Panel implements PanelObj {
   }
 
   getCoordinateText() {
-    if (!get(showCoordinates)) {
+    let screen = get(screens)[this.screenIndex];
+
+    if (!screen.showCoordinates) {
       return "";
     }
 
