@@ -9,10 +9,6 @@
   const toggleDialog = () => {
     $isExportDialogOpen = !$isExportDialogOpen;
   };
-
-  let inputRef;
-
-  onMount(() => inputRef?.focus());
 </script>
 
 {#if $isExportDialogOpen}
@@ -24,16 +20,8 @@
     }}
   >
     <div class="dialog-container">
-      <div class="title">
-        <input
-          type="text"
-          bind:value={$title}
-          bind:this={inputRef}
-          placeholder="Filename"
-        />
-      </div>
-      <FileButtons />
       <ExportPNG />
+      <FileButtons />
       <Load />
     </div>
   </div>

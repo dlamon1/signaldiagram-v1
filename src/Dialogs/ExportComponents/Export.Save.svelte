@@ -5,6 +5,7 @@
     title,
     isRearView,
     toolbarWidth,
+    currentScreenIndex,
   } from "../../store";
 
   const save = async () => {
@@ -37,7 +38,11 @@
 
 <svg id="print" width="0" height="0" />
 
-<button on:click={save} class="save">Save</button>
+<button
+  on:click={save}
+  class="save"
+  disabled={typeof $currentScreenIndex != "number"}>Save</button
+>
 
 <style>
   button {

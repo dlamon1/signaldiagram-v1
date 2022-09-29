@@ -10,10 +10,6 @@
   const toggleDialog = () => {
     $isAddScreenDialogOpen = !$isAddScreenDialogOpen;
   };
-
-  let inputRef;
-
-  onMount(() => inputRef?.focus());
 </script>
 
 {#if $isAddScreenDialogOpen}
@@ -47,7 +43,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: rgb(154, 154, 154);
+    background-color: rgb(101, 101, 101);
     border-radius: 4px;
     padding: 30px;
   }

@@ -7,9 +7,11 @@
   import { title, mode, screens, currentScreenIndex } from "../../store";
 
   const download = async () => {
-    // $panels.deSelect();
-    // $signalLines.deSelect();
-    // $snapPoints.deSelect();
+    $screens.forEach((s) => {
+      s.panels.deSelect();
+      s.signalLines.deSelect();
+      s.snapPoints.deSelect();
+    });
     $mode = "select";
 
     await tick();
@@ -50,8 +52,7 @@
     svgString2Image(svgString, 2 * w, 2 * h, "png", save); // passes Blob and filesize String to the callback
 
     function save(dataBlob, filesize) {
-      console.log(dataBlob);
-      saveAs(dataBlob, $title + ".png"); // FileSaver.js function
+      saveAs(dataBlob, $screens[$currentScreenIndex].name + ".png"); // FileSaver.js function
     }
 
     // Below are the functions that handle actual exporting:
@@ -59,6 +60,7 @@
     function getSVGString(svgNode) {
       svgNode.setAttribute("xlink", "http://www.w3.org/1999/xlink");
       var cssStyleText = getCSSStyles(svgNode);
+      console.log(cssStyleText);
       appendCSS(cssStyleText, svgNode);
 
       var serializer = new XMLSerializer();
@@ -117,6 +119,7 @@
       }
 
       function appendCSS(cssText, element) {
+        console.log(cssText);
         var styleElement = document.createElement("style");
         styleElement.setAttribute("type", "text/css");
         styleElement.innerHTML = cssText;
@@ -156,7 +159,13 @@
 
 <svg id="print" width="0" height="0" />
 
-<button on:click={download} class="download">Download .PNG</button>
+<button
+  on:click={download}
+  class="download"
+  disabled={typeof $currentScreenIndex != "number"}
+>
+  Download .PNG
+</button>
 
 <style>
   button {
