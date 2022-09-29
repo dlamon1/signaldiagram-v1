@@ -8,6 +8,7 @@
 
   import ColorPicker from "./components/ColorPicker.svelte";
   import SignalButtons from "./components/SignalButtons.svelte";
+  import CoordinateOptions from "../InfoToolbar/InfoBar.Coordinates.svelte";
 
   const selectCriss = () => {
     let panels = $screens[$currentScreenIndex].panels;
@@ -94,6 +95,55 @@
       <button class="criss-cross" on:click={selectCross}>select [1]</button>
     </div>
 
+    <!-- <input
+    type="range"
+    min="0"
+    max="10"
+    step=".01"
+    bind:value={$lineWidthState}
+    on:input={(e) => updateLineWidth(e)}
+    class="range"
+    /> -->
+    <SignalButtons />
+
+    <div class="divider" />
+
+    <ColorPicker
+      key={"panel"}
+      layer="background"
+      element={"Background"}
+      isOpen={false}
+      classObj={$screens[$currentScreenIndex].panels}
+    />
+
+    <div class="divider" />
+
+    <ColorPicker
+      key={"panel"}
+      layer="border"
+      element={"Border"}
+      isOpen={false}
+      classObj={$screens[$currentScreenIndex].panels}
+    />
+
+    <div class="divider" />
+
+    <ColorPicker
+      key={"panel"}
+      layer={"font"}
+      element={"Font"}
+      isOpen={false}
+      classObj={$screens[$currentScreenIndex].panels}
+    />
+
+    <div class="divider" />
+
+    <div id="general">
+      <CoordinateOptions />
+    </div>
+
+    <div class="divider" />
+
     <div class="hide">
       <label>
         <input
@@ -105,44 +155,15 @@
         Visible
       </label>
     </div>
-
-    <!-- <input
-    type="range"
-    min="0"
-    max="10"
-    step=".01"
-    bind:value={$lineWidthState}
-    on:input={(e) => updateLineWidth(e)}
-    class="range"
-    /> -->
-
-    <ColorPicker
-      key={"panel"}
-      layer="background"
-      element={"Background"}
-      isOpen={true}
-      classObj={$screens[$currentScreenIndex].panels}
-    />
-    <ColorPicker
-      key={"panel"}
-      layer="border"
-      element={"Border"}
-      isOpen={false}
-      classObj={$screens[$currentScreenIndex].panels}
-    />
-    <ColorPicker
-      key={"panel"}
-      layer={"font"}
-      element={"Font"}
-      isOpen={false}
-      classObj={$screens[$currentScreenIndex].panels}
-    />
-
-    <SignalButtons />
   {/if}
 </div>
 
+<div class="margin" />
+
 <style>
+  .margin {
+    height: 20px;
+  }
   .hide {
     width: 100%;
     display: flex;

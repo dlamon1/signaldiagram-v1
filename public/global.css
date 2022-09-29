@@ -5,6 +5,7 @@ body {
   height: 100%;
   margin: 0px;
   padding: 0px;
+  border-style: solid;
 }
 
 body {
@@ -39,4 +40,10 @@ label {
 }
 label:hover {
   outline: 1.5px solid rgba(0, 0, 0, 0.445);
+}
+
+.divider {
+  height: 0.2px;
+  background-color: rgb(110, 110, 110);
+  margin-top: 10px;
 }

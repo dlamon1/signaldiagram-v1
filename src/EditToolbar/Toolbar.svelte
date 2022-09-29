@@ -4,7 +4,7 @@
   import SnapPoints from "./Toolbar.SnapPoints.svelte";
   import SignalLines from "./Toolbar.SignalLines.svelte";
 
-  import { selection } from "../store";
+  import { selection, currentScreenIndex } from "../store";
 </script>
 
 <div id="container">
@@ -12,31 +12,33 @@
     <Mode />
   </div>
 
-  <div class="divider" />
+  {#if typeof $currentScreenIndex === "number"}
+    <div class="divider" />
 
-  <div class="title-container">
-    <div
-      class="title"
-      on:click={() => ($selection = "panels")}
-      class:selected={$selection === "panels"}
-    >
-      Panels
+    <div class="title-container">
+      <div
+        class="title"
+        on:click={() => ($selection = "panels")}
+        class:selected={$selection === "panels"}
+      >
+        Panels
+      </div>
+      <div
+        class="title"
+        on:click={() => ($selection = "snappoints")}
+        class:selected={$selection === "snappoints"}
+      >
+        Snap Points
+      </div>
+      <div
+        class="title"
+        on:click={() => ($selection = "signallines")}
+        class:selected={$selection === "signallines"}
+      >
+        Signal Lines
+      </div>
     </div>
-    <div
-      class="title"
-      on:click={() => ($selection = "snappoints")}
-      class:selected={$selection === "snappoints"}
-    >
-      Snap Points
-    </div>
-    <div
-      class="title"
-      on:click={() => ($selection = "signallines")}
-      class:selected={$selection === "signallines"}
-    >
-      Signal Lines
-    </div>
-  </div>
+  {/if}
 
   <div id="selectors">
     {#if $selection === "panels"}
@@ -54,6 +56,10 @@
 </div>
 
 <style>
+  .margin {
+    height: 10px;
+    width: 100%;
+  }
   .selected {
     color: #fff;
     background-color: #000;
@@ -74,11 +80,6 @@
     outline: 1px solid #000;
   }
 
-  .divider {
-    height: 1px;
-    background-color: #ccc;
-    margin-top: 10px;
-  }
   #mode {
     margin-top: 0px;
   }

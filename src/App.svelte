@@ -97,5 +97,6 @@
     background-color: rgb(58, 58, 58);
     width: 250px;
     right: 0;
+    overflow: scroll;
   }
 </style>

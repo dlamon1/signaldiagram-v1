@@ -19,24 +19,14 @@
   <div class="divider" />
 
   {#each $screens as screen, i}
-    <button class="screen-button" on:click={() => selectPanel(i)}
-      >{screen.name}</button
+    <button
+      class="screen-button"
+      on:click={() => selectPanel(i)}
+      class:selected={i == $currentScreenIndex}
     >
+      {screen.name}
+    </button>
   {/each}
-
-  <div class="divider" />
-
-  <div id="general">
-    <Coordinates />
-  </div>
-
-  <div class="divider" />
-
-  <div id="general">
-    <SnapPointOptions />
-  </div>
-
-  <div class="divider" />
 
   <LineCounter />
 
@@ -46,6 +36,13 @@
 </div>
 
 <style>
+  .selected {
+    background-color: rgb(42, 109, 255);
+    color: white;
+    border-color: chartreuse;
+    border-width: 1px;
+    border-style: solid;
+  }
   .screen-button {
     height: 40px;
     margin-top: 5px;
@@ -53,22 +50,12 @@
 
   .dialog {
     height: 40px;
-
-    /* width: 96.5%; */
   }
 
-  .divider {
-    height: 1px;
-    background-color: #ccc;
-    margin-top: 10px;
-  }
   .spacer {
     flex: 1;
   }
 
-  #general {
-    margin-top: 0px;
-  }
   .container {
     width: calc(100% - 10px);
     height: calc(100vh - 10px);

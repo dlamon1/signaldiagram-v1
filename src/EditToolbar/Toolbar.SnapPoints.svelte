@@ -6,6 +6,9 @@
     screens,
     currentScreenIndex,
   } from "../store";
+
+  import SnapPointOptions from "../InfoToolbar/InfoBar.SnapPointOptions.svelte";
+
   import { fade } from "svelte/transition";
 
   import ColorPicker from "./components/ColorPicker.svelte";
@@ -93,37 +96,85 @@
 
 <div id="snappoints" in:fade={{ duration: 150 }} out:fade={{ duration: 0 }}>
   <div class="crisscross">
-    <button class="select" on:click={selectOnes}>Select [0]</button>
-    <button class="select" on:click={selectTwos}>select [1]</button>
+    <button class="criss-cross" on:click={selectOnes}>Select [0]</button>
+    <button class="criss-cross" on:click={selectTwos}>select [1]</button>
   </div>
 
-  <div id="input-wrapper" class="opacity-wrapper" style="margin-top: 10px;">
-    <label class="hovered">
-      X Offset
-      <input
-        type="range"
-        min={-$screens[$currentScreenIndex].width / 3}
-        max={$screens[$currentScreenIndex].width / 3}
-        step="1"
-        bind:value={xOffset}
-        class="range"
-      />
-    </label>
+  <div class="divider" />
+
+  <div id="general">
+    <SnapPointOptions />
   </div>
 
-  <div id="input-wrapper" class="opacity-wrapper">
-    <label class="hovered">
-      Y Offset
+  {#if sd.length}
+    <div class="divider" />
+
+    <div id="label-input">
+      <div class="label-input-header">
+        Text:{" "}
+      </div>
+
       <input
-        type="range"
-        min={-$screens[$currentScreenIndex].height / 3}
-        max={$screens[$currentScreenIndex].height / 3}
-        step="1"
-        bind:value={yOffset}
-        class="range"
+        class="label-text-input"
+        maxlength="3"
+        bind:this={$textInputRef}
+        type="text"
+        bind:value={$snapPointLabel}
       />
-    </label>
-  </div>
+    </div>
+
+    <div class="divider" />
+
+    <ColorPicker
+      key={"snapPoint"}
+      layer={"background"}
+      element={"Background"}
+      isOpen={false}
+      classObj={$screens[$currentScreenIndex].snapPoints}
+    />
+
+    <div class="divider" />
+
+    <ColorPicker
+      key={"snapPoint"}
+      layer={"font"}
+      element={"Font"}
+      isOpen={false}
+      classObj={$screens[$currentScreenIndex].snapPoints}
+    />
+
+    <div class="divider" />
+
+    <div id="input-wrapper" class="opacity-wrapper" style="margin-top: 10px;">
+      <label class="hovered">
+        X Offset
+        <input
+          type="range"
+          min={-$screens[$currentScreenIndex].width / 3}
+          max={$screens[$currentScreenIndex].width / 3}
+          step="1"
+          bind:value={xOffset}
+          class="range"
+        />
+      </label>
+    </div>
+
+    <div id="input-wrapper" class="opacity-wrapper">
+      <label class="hovered">
+        Y Offset
+        <input
+          type="range"
+          min={-$screens[$currentScreenIndex].height / 3}
+          max={$screens[$currentScreenIndex].height / 3}
+          step="1"
+          bind:value={yOffset}
+          class="range"
+        />
+      </label>
+    </div>
+  {/if}
+
+  <div class="divider" />
 
   <div class="shape-button-container">
     <button
@@ -142,42 +193,19 @@
   </div>
 
   {#if sd.length}
-    <ColorPicker
-      key={"snapPoint"}
-      layer={"background"}
-      element={"Background"}
-      isOpen={false}
-      classObj={$screens[$currentScreenIndex].snapPoints}
-    />
-
-    <ColorPicker
-      key={"snapPoint"}
-      layer={"font"}
-      element={"Font"}
-      isOpen={false}
-      classObj={$screens[$currentScreenIndex].snapPoints}
-    />
-    <div id="label-input">
-      <div class="label-input-header">
-        Text:{" "}
-      </div>
-
-      <input
-        class="label-text-input"
-        maxlength="3"
-        bind:this={$textInputRef}
-        type="text"
-        bind:value={$snapPointLabel}
-      />
-    </div>
-
     <div id="delete-button" transition:fade={{ duration: 300 }}>
       <button on:click={handleRemoveLabel}>Remove Label</button>
     </div>
   {/if}
 </div>
 
+<div class="margin" />
+
 <style>
+  .margin {
+    height: 20px;
+  }
+
   .crisscross {
     display: flex;
     justify-content: space-around;
@@ -185,9 +213,15 @@
     margin-top: 10px;
   }
 
+  .criss-cross {
+    padding: 5px;
+    padding-inline: 15px;
+  }
+
   .label-text-input {
     width: 50px;
   }
+
   .shape-button-container {
     width: 100%;
     display: flex;
@@ -216,7 +250,7 @@
   #label-input {
     margin-top: 10px;
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
     width: 100%;
   }
 
