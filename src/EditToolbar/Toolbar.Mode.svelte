@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { mode, isSelectMode, isDrawMode } from "../store";
+  import { mode, isSelectMode, isDrawMode, currentScreenIndex } from "../store";
 
   $: {
     if ($mode === "draw") {
@@ -22,7 +22,13 @@
     </label>
     <div>
       <label>
-        <input type="radio" bind:group={$mode} name="mode" value="draw" />
+        <input
+          type="radio"
+          bind:group={$mode}
+          name="mode"
+          value="draw"
+          disabled={typeof $currentScreenIndex != "number"}
+        />
         Draw (SHFT+D)
       </label>
     </div>
