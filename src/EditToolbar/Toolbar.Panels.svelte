@@ -1,10 +1,8 @@
 <script lang="ts">
   import { fade } from "svelte/transition";
 
-  import { showCoordinates, isRearView, opacity } from "../store";
-
   import { updateScreens, screens, currentScreenIndex } from "../store";
-  import type { PanelObj, SnapPointObj } from "../Types/ClassTypes";
+  import type { PanelObj } from "../Types/ClassTypes";
 
   import ColorPicker from "./components/ColorPicker.svelte";
   import SignalButtons from "./components/SignalButtons.svelte";

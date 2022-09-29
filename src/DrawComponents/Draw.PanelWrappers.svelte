@@ -6,7 +6,6 @@
     isSelectMode,
     groups,
     groupsEnter,
-    isRearView,
     setIsDrawingSignalLine,
     showCoordinates,
     showDirectionArrows,
@@ -22,7 +21,6 @@
 
   $: {
     let t = [
-      $isRearView,
       $isDrawMode,
       $showCoordinates,
       $isDrawingSignalLine,

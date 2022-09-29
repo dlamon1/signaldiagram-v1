@@ -1,7 +1,6 @@
 <script lang="ts">
   import {
     gZoomWrapperRef,
-    isRearView,
     opacity,
     snapPointsGroupEnterRef,
     screens,

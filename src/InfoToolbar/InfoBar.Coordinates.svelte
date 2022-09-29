@@ -1,11 +1,5 @@
 <script lang="ts">
-  import {
-    showCoordinates,
-    isRearView,
-    opacity,
-    screens,
-    currentScreenIndex,
-  } from "../store";
+  import { opacity, screens, currentScreenIndex } from "../store";
 </script>
 
 <div class="general">

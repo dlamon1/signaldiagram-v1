@@ -2,7 +2,6 @@
   import {
     distanceUnit,
     snapPointDirection,
-    isRearView,
     screens,
     currentScreenIndex,
   } from "../store";
@@ -19,7 +18,7 @@
   let bottomBottomCounts: Length[] = [];
 
   $: {
-    let t = [$screens, $isRearView];
+    let t = [$screens];
 
     typeof $currentScreenIndex === "number" && getTotals();
   }

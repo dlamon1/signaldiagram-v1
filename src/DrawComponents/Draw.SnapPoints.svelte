@@ -3,7 +3,6 @@
     isDrawingSignalLine,
     gZoomWrapperRef,
     isDrawMode,
-    isRearView,
     snapPointsGroupRef,
     setIsDrawingSignalLine,
     snapPointsGroupEnterRef,
@@ -23,7 +22,6 @@
 
   $: {
     let t = [
-      $isRearView,
       $isDrawMode,
       $isDrawingSignalLine,
       $snapPointDirection,

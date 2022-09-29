@@ -1,34 +1,18 @@
 <script lang="ts">
-  import {
-    snapPointsQuantity,
-    snapPointDirection,
-    title,
-    isRearView,
-    toolbarWidth,
-    currentScreenIndex,
-  } from "../../store";
+  import { currentScreenIndex, screens } from "../../store";
 
   const save = async () => {
     let saveObj = {
-      title: $title,
-      toolbarWidth: $toolbarWidth,
-      isRearView: $isRearView,
-      snapPointsQuantity: $snapPointsQuantity,
-      snapPointDirection: $snapPointDirection,
-      // width: $width,
-      // height: $height,
-      // panels: $panels,
-      // snapPoints: $snapPoints,
-      // signalLines: $signalLines,
+      screens: $screens,
     };
 
-    let panelsJson = JSON.stringify(saveObj);
+    let panelsJSON = JSON.stringify(saveObj);
 
     function download() {
       const a = document.createElement("a");
-      const file = new Blob([panelsJson], { type: "application/json" });
+      const file = new Blob([panelsJSON], { type: "application/json" });
       a.href = URL.createObjectURL(file);
-      a.download = "test" + ".json";
+      a.download = "LED_SIGNAL_SESSION.json";
       a.click();
     }
 

@@ -4,7 +4,6 @@
     snapPointsQuantity,
     snapPointDirection,
     title,
-    isRearView,
     isExportDialogOpen,
   } from "../../store";
 
@@ -28,8 +27,6 @@
 
         $title = obj.title;
         $title = $title;
-
-        $isRearView = obj.isRearView;
 
         $snapPointsQuantity = obj.snapPointsQuantity;
         $snapPointDirection = obj.snapPointDirection;

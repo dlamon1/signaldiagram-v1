@@ -1,8 +1,6 @@
 <script lang="ts">
-  import Coordinates from "./InfoBar.Coordinates.svelte";
   import LineCounter from "./InfoBar.LineCounter.svelte";
   import Links from "./InfoBar.Links.svelte";
-  import SnapPointOptions from "./InfoBar.SnapPointOptions.svelte";
 
   import { isAddScreenDialogOpen, screens, currentScreenIndex } from "../store";
 

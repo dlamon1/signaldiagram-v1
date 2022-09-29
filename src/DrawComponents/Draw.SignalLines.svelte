@@ -3,7 +3,6 @@
     isDrawingSignalLine,
     gZoomWrapperRef,
     isSelectMode,
-    isRearView,
     showDirectionArrows,
     linesGroupRef,
     linesGroupEnterRef,
@@ -25,7 +24,6 @@
   $: {
     // console.log("triggered");
     let t = [
-      $isRearView,
       $isDrawingSignalLine,
       $showDirectionArrows,
       $snapPointsQuantity,

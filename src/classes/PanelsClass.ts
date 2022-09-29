@@ -26,20 +26,7 @@ export class Panels implements PanelsType {
     this.screenIndex = screenIndex;
   }
 
-  setArrayFromLoad(array: LoadPanelObj[]) {
-    // this.resetArray();
-    // array.forEach((panel) => {
-    //   this.addPanel(
-    //     panel.row,
-    //     panel.column,
-    //     panel.i,
-    //     panel.thisPanelsSnapPoints,
-    //     panel.color,
-    //     panel.reverseIndex
-    //   );
-    // });
-    // updatePanels();
-  }
+  setArrayFromLoad(array: LoadPanelObj[]) {}
 
   deSelect = () => {
     this.array.forEach((o) => o.setIsSelected(false));
@@ -78,34 +65,7 @@ export class Panels implements PanelsType {
     }
   };
 
-  updatePanelArray = () => {
-    // const snapPoints = get(snapPointsStore);
-    // snapPoints.resetArray();
-    // this.resetArray();
-    // let snapPointIndex = 0;
-    // let count = 0;
-    // for (let i = 0; i < get(rows); i++) {
-    //   for (let j = 0; j < get(columns); j++) {
-    //     const reverseIndex = get(columns) - j + i * get(columns);
-    //     const thisPanelsSnapPointsIndexes = [];
-    //     for (let k = 1; k < get(snapPointsQuantity) + 1; k++) {
-    //       snapPoints.addSnapPoint(i, j, k, count, snapPointIndex);
-    //       thisPanelsSnapPointsIndexes.push(snapPointIndex);
-    //       snapPointIndex += 1;
-    //     }
-    //     this.addPanel(
-    //       i,
-    //       j,
-    //       count,
-    //       thisPanelsSnapPointsIndexes,
-    //       null,
-    //       reverseIndex
-    //     );
-    //     count++;
-    //   }
-    // }
-    // updatePanels();
-  };
+  updatePanelArray = () => {};
 
   addPanel(
     i: number,

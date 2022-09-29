@@ -1,7 +1,6 @@
 <script lang="ts">
   import {
     signalDirectionButtons,
-    snapPointDirection,
     screens,
     currentScreenIndex,
   } from "../../store";

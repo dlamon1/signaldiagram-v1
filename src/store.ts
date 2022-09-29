@@ -338,8 +338,6 @@ export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
   },
 ]);
 
-export const isRearView: Writable<boolean> = writable(false);
-
 export const isSelectingPanels: Writable<boolean> = writable(true);
 export const isSelectingSignalLines: Writable<boolean> = writable(true);
 
