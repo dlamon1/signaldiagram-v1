@@ -61,6 +61,8 @@
 </script>
 
 <div id="general">
+  <div class="loose">Add Screen</div>
+
   <div class="title">
     <input
       type="text"
@@ -137,6 +139,14 @@
 </div>
 
 <style>
+  .loose {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #ffffff;
+    align-self: center;
+    width: 100%;
+  }
   .title {
     display: flex;
     justify-content: center;
