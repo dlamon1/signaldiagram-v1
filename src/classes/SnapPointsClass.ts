@@ -264,11 +264,12 @@ export class SnapPoint implements SnapPointObj {
 
     let x = screen.width / 2;
 
-    if (get(snapPointDirection) === "horizontal") {
+    // if (get(snapPointDirection) === "horizontal") {
+    if (screen.snapPointDirection === "horizontal") {
       x = (screen.width / 3) * this.pointIndexWithinPanel;
     }
 
-    if (get(snapPointsQuantity) === 1) {
+    if (screen.snapPointQuantity === 1) {
       x = screen.width / 2;
     }
     return x + parentPanel.getDimensions().x + this.xOffset;
@@ -282,11 +283,11 @@ export class SnapPoint implements SnapPointObj {
 
     let y = (screen.height / 3) * this.pointIndexWithinPanel;
 
-    if (get(snapPointDirection) === "horizontal") {
+    if (screen.snapPointDirection === "horizontal") {
       y = screen.height / 2;
     }
 
-    if (get(snapPointsQuantity) === 1) {
+    if (screen.snapPointQuantity === 1) {
       y = screen.height / 2;
     }
 
