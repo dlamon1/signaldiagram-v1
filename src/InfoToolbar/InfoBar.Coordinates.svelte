@@ -19,7 +19,10 @@
 
   <div id="input-wrapper" class="opacity-wrapper">
     <label class="hovered">
-      <input type="checkbox" bind:checked={$isRearView} />
+      <input
+        type="checkbox"
+        bind:checked={$screens[$currentScreenIndex].isRearView}
+      />
       Rear View
     </label>
     <input

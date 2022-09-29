@@ -24,7 +24,7 @@ export class Screen implements ScreenObj {
   heightMM: number;
   snapPointDirection = null;
   snapPointQuantity = 2;
-  showCoordinates = false;
+  showCoordinates = true;
 
   constructor(
     columns: number,

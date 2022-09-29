@@ -69,7 +69,7 @@
     <DrawSelecteOutline />
     <DrawSignalLines />
     <DrawSnapPoints />
-    <!-- <DrawRearViewLabel /> -->
+    <DrawRearViewLabel />
   {/if}
 
   <ExportDialog />

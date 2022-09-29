@@ -12,8 +12,6 @@ import {
   isCtrl,
   setSelection,
   snapPointsQuantity,
-  showCoordinates,
-  isRearView,
   screens,
   updateScreens,
   currentScreenIndex,
@@ -297,7 +295,7 @@ export class Panel implements PanelObj {
     this.width = screen.width;
     this.height = screen.height;
     this.x = this.width * this.column;
-    if (get(isRearView)) {
+    if (screen.isRearView) {
       this.x = screen.width * (screen.columns - this.column + 1);
     }
     this.y = this.height * this.row;
@@ -308,7 +306,7 @@ export class Panel implements PanelObj {
 
     let x = screen.width * this.column;
 
-    if (get(isRearView)) {
+    if (screen.isRearView) {
       x = screen.width * (screen.columns - this.column - 1);
     }
 

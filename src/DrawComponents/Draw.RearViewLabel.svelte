@@ -9,7 +9,7 @@
   } from "../store";
 
   $: {
-    let t = [$isRearView, $opacity];
+    let t = [$opacity, $screens];
 
     drawRearViewLabel();
   }
@@ -23,10 +23,13 @@
     if (rearViewLabel) {
       d3.select("#rear-view-label").text("").remove();
     }
+
+    if (!screen.isRearView) return;
+
     rearViewLabel = $gZoomWrapperRef
       .append("text")
       .attr("id", "rear-view-label")
-      .text(() => ($isRearView ? "REAR VIEW" : ""))
+      .text(() => ($screens[$currentScreenIndex].isRearView ? "REAR VIEW" : ""))
       .attr("x", (screen.columns * screen.width) / 2)
       .attr("y", (screen.rows * screen.height) / 2)
       .attr("fill", "#000")
