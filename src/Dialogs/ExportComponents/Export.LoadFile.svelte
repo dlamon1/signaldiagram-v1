@@ -3,7 +3,6 @@
   import {
     snapPointsQuantity,
     snapPointDirection,
-    title,
     isExportDialogOpen,
   } from "../../store";
 
@@ -24,9 +23,6 @@
         // $columns = obj.columns;
 
         await tick();
-
-        $title = obj.title;
-        $title = $title;
 
         $snapPointsQuantity = obj.snapPointsQuantity;
         $snapPointDirection = obj.snapPointDirection;

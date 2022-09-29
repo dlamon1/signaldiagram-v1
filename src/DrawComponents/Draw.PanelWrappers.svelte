@@ -7,7 +7,6 @@
     groups,
     groupsEnter,
     setIsDrawingSignalLine,
-    showCoordinates,
     showDirectionArrows,
     mousePosition,
     screens,
@@ -22,7 +21,6 @@
   $: {
     let t = [
       $isDrawMode,
-      $showCoordinates,
       $isDrawingSignalLine,
       $showDirectionArrows,
       $currentScreenIndex,

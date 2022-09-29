@@ -4,7 +4,7 @@
 
   import * as d3 from "d3";
 
-  import { title, mode, screens, currentScreenIndex } from "../../store";
+  import { mode, screens, currentScreenIndex } from "../../store";
 
   const download = async () => {
     $screens.forEach((s) => {

@@ -73,8 +73,6 @@ export const setIsDrawingSelectLine = (s: boolean) => {
 export const isExportDialogOpen: Writable<boolean> = writable(false);
 export const isAddScreenDialogOpen: Writable<boolean> = writable(false);
 
-export const title: Writable<string> = writable("");
-
 export const toolbarWidth: Writable<number> = writable(250);
 
 type SnapPointDirection = "vertical" | "horizontal";
@@ -337,11 +335,6 @@ export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
     snapPointIndex: 0,
   },
 ]);
-
-export const isSelectingPanels: Writable<boolean> = writable(true);
-export const isSelectingSignalLines: Writable<boolean> = writable(true);
-
-export const showCoordinates: Writable<boolean> = writable(true);
 
 export const showDirectionArrows: Writable<boolean> = writable(true);
 

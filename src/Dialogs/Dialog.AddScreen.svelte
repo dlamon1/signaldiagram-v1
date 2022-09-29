@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { isAddScreenDialogOpen, title } from "../store";
+  import { isAddScreenDialogOpen } from "../store";
   import { scale } from "svelte/transition";
   import FileButtons from "./ExportComponents/Export.Save.svelte";
   import ExportPNG from "./ExportComponents/Export.PNG.svelte";
