@@ -5,14 +5,13 @@
     currentScreenIndex,
   } from "../../store";
   import type { DirectionObj } from "../../store";
-  import type { PanelObj, SnapPointObj } from "../../Types/ClassTypes";
+  import type { PanelObj } from "../../Types/ClassTypes";
 
   let selectedArray: PanelObj[] = [];
 
   let directionPointIndex = 0;
 
   const setSignalDirection = (direction: DirectionObj) => {
-    // console.log(direction);
     selectedArray = [];
 
     let directionInstructionPosition = 1;
@@ -95,6 +94,8 @@
       let nextPanel: PanelObj = panels.array.find((p) => {
         return p.column === column && p.row === row;
       });
+
+      console.log(nextPanel.column, nextPanel.row);
 
       return nextPanel;
     };

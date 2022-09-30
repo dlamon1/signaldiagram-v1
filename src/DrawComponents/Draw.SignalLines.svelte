@@ -3,7 +3,6 @@
     isDrawingSignalLine,
     gZoomWrapperRef,
     isSelectMode,
-    showDirectionArrows,
     linesGroupRef,
     linesGroupEnterRef,
     snapPointsGroupEnterRef,
@@ -25,7 +24,6 @@
     // console.log("triggered");
     let t = [
       $isDrawingSignalLine,
-      $showDirectionArrows,
       $snapPointsQuantity,
       $snapPointDirection,
       $currentScreenIndex,
@@ -227,7 +225,7 @@
       })
       .attr("pointer-events", "none");
 
-    if (!$showDirectionArrows) {
+    if (!$screens[$currentScreenIndex].showDirectionArrows) {
       directionArrows.attr("points", (d, i) => {
         return "0,0 0,0 0,0";
       });

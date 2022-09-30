@@ -14,7 +14,7 @@ export class Screen implements ScreenObj {
   signalLines = null;
   width = 0;
   height = 0;
-  isRearView = true;
+  isRearView = false;
   columns = null;
   rows = null;
   name = null;
@@ -25,6 +25,7 @@ export class Screen implements ScreenObj {
   snapPointDirection = null;
   snapPointQuantity = 2;
   showCoordinates = true;
+  showDirectionArrows = true;
 
   constructor(
     columns: number,

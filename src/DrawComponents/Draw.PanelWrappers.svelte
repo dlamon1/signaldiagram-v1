@@ -7,7 +7,6 @@
     groups,
     groupsEnter,
     setIsDrawingSignalLine,
-    showDirectionArrows,
     mousePosition,
     screens,
     currentScreenIndex,
@@ -19,13 +18,7 @@
   import * as d3 from "d3";
 
   $: {
-    let t = [
-      $isDrawMode,
-      $isDrawingSignalLine,
-      $showDirectionArrows,
-      $currentScreenIndex,
-      $screens,
-    ];
+    let t = [$isDrawMode, $isDrawingSignalLine, $currentScreenIndex, $screens];
 
     drawPanelWrappers();
   }

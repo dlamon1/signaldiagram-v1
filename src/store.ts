@@ -13,6 +13,8 @@ import type * as d3 from "d3";
 
 import type { Writable } from "svelte/store";
 
+export const isChrome: Writable<boolean> = writable(false);
+
 export const screens: Writable<ScreenObj[]> = writable([]);
 export const updateScreens = () => {
   screens.update(($value) => ($value = $value));
@@ -46,7 +48,7 @@ export const linesGroupEnterRef: Writable<
 
 export const temporarySignalLine = writable(null);
 
-export const opacity: Writable<number> = writable(0.5);
+export const opacity: Writable<number> = writable(0.25);
 
 interface TransformObj {
   k: number;
@@ -335,7 +337,3 @@ export const signalDirectionButtons: Writable<DirectionObj[]> = writable([
     snapPointIndex: 0,
   },
 ]);
-
-export const showDirectionArrows: Writable<boolean> = writable(true);
-
-export const isChrome: Writable<boolean> = writable(false);

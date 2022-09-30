@@ -1,6 +1,6 @@
 <script lang="ts">
   import { fade } from "svelte/transition";
-  import { showDirectionArrows, screens, currentScreenIndex } from "../store";
+  import { screens, currentScreenIndex } from "../store";
   import ColorPicker from "./components/ColorPicker.svelte";
 
   const removeLine = () => {
@@ -37,7 +37,10 @@
 
 <div id="signallines" in:fade={{ duration: 150 }} out:fade={{ duration: 40 }}>
   <div class="input-wrapper">
-    <input type="checkbox" bind:checked={$showDirectionArrows} />
+    <input
+      type="checkbox"
+      bind:checked={$screens[$currentScreenIndex].showDirectionArrows}
+    />
     Show Direction Arrows
   </div>
 
