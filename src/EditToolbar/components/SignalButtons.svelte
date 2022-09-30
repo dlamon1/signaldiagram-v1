@@ -95,8 +95,6 @@
         return p.column === column && p.row === row;
       });
 
-      console.log(nextPanel.column, nextPanel.row);
-
       return nextPanel;
     };
 

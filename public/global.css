@@ -37,9 +37,10 @@ button:hover {
 
 label {
   padding-right: 10px;
+  cursor: pointer;
 }
 label:hover {
-  outline: 1.5px solid rgba(0, 0, 0, 0.445);
+  /* outline: 1.5px solid rgba(0, 0, 0, 0.445); */
 }
 
 .divider {

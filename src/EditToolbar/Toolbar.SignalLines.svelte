@@ -37,11 +37,13 @@
 
 <div id="signallines" in:fade={{ duration: 150 }} out:fade={{ duration: 40 }}>
   <div class="input-wrapper">
-    <input
-      type="checkbox"
-      bind:checked={$screens[$currentScreenIndex].showDirectionArrows}
-    />
-    Show Direction Arrows
+    <label class="hovered">
+      <input
+        type="checkbox"
+        bind:checked={$screens[$currentScreenIndex].showDirectionArrows}
+      />
+      Show Direction Arrows
+    </label>
   </div>
 
   {#if isLineOpen}
