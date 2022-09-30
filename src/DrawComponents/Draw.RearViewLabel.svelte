@@ -1,14 +1,13 @@
 <script lang="ts">
   import {
     gZoomWrapperRef,
-    opacity,
     snapPointsGroupEnterRef,
     screens,
     currentScreenIndex,
   } from "../store";
 
   $: {
-    let t = [$opacity, $screens];
+    let t = [$screens];
 
     drawRearViewLabel();
   }
@@ -36,7 +35,7 @@
         let screenWidth = screen.columns * screen.width;
         return screenWidth / 7 + "px";
       })
-      .style("opacity", $opacity)
+      .style("opacity", screen.opacity)
       .attr("text-anchor", "middle")
       .style("pointer-events", "none")
       .style("user-select", "none")

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { opacity, screens, currentScreenIndex } from "../store";
+  import { screens, currentScreenIndex } from "../store";
 </script>
 
 <div class="general">
@@ -24,7 +24,7 @@
       min="0"
       max=".5"
       step=".01"
-      bind:value={$opacity}
+      bind:value={$screens[$currentScreenIndex].opacity}
       class="range"
     />
   </div>

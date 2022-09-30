@@ -48,8 +48,6 @@ export const linesGroupEnterRef: Writable<
 
 export const temporarySignalLine = writable(null);
 
-export const opacity: Writable<number> = writable(0.25);
-
 interface TransformObj {
   k: number;
   x: number;

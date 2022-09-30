@@ -26,6 +26,7 @@ export class Screen implements ScreenObj {
   snapPointQuantity = 2;
   showCoordinates = true;
   showDirectionArrows = true;
+  opacity = 0.25;
 
   constructor(
     columns: number,
