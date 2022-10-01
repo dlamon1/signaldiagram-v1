@@ -62,7 +62,7 @@
   }
   .selected {
     color: #fff;
-    background-color: #000;
+    background-color: rgb(42, 109, 255);
     padding: 5px;
     /* font-weight: bold; */
     transition: all 0.33s ease-in-out;
@@ -75,6 +75,7 @@
   }
   .title {
     padding: 5px;
+    cursor: pointer;
   }
   .title:hover {
     outline: 1px solid #000;
