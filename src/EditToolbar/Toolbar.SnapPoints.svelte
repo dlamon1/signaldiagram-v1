@@ -144,35 +144,35 @@
     />
 
     <div class="divider" />
-
-    <div id="input-wrapper" class="opacity-wrapper" style="margin-top: 10px;">
-      <label class="hovered">
-        X Offset
-        <input
-          type="range"
-          min={-$screens[$currentScreenIndex].width / 3}
-          max={$screens[$currentScreenIndex].width / 3}
-          step="1"
-          bind:value={xOffset}
-          class="range"
-        />
-      </label>
-    </div>
-
-    <div id="input-wrapper" class="opacity-wrapper">
-      <label class="hovered">
-        Y Offset
-        <input
-          type="range"
-          min={-$screens[$currentScreenIndex].height / 3}
-          max={$screens[$currentScreenIndex].height / 3}
-          step="1"
-          bind:value={yOffset}
-          class="range"
-        />
-      </label>
-    </div>
   {/if}
+
+  <div id="input-wrapper" class="opacity-wrapper" style="margin-top: 10px;">
+    <label class="hovered">
+      X Offset
+      <input
+        type="range"
+        min={-$screens[$currentScreenIndex].width / 3}
+        max={$screens[$currentScreenIndex].width / 3}
+        step="1"
+        bind:value={xOffset}
+        class="range"
+      />
+    </label>
+  </div>
+
+  <div id="input-wrapper" class="opacity-wrapper">
+    <label class="hovered">
+      Y Offset
+      <input
+        type="range"
+        min={-$screens[$currentScreenIndex].height / 3}
+        max={$screens[$currentScreenIndex].height / 3}
+        step="1"
+        bind:value={yOffset}
+        class="range"
+      />
+    </label>
+  </div>
 
   <div class="divider" />
 
