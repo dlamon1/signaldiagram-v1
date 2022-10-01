@@ -27,18 +27,21 @@ export class Panels implements PanelsType {
   }
 
   load(panels: any) {
-    panels.array.forEach((p) => {
-      console.log(p);
+    panels.array.forEach((p, i) => {
       this.addPanel(
         p.row,
         p.column,
-        p.count,
+        p.i,
         p.thisPanelsSnapPoints,
         null,
         p.reverseIndex
       );
+      this.array[i].setColor("background", p.color.background);
+      this.array[i].setColor("font", p.color.text);
+      this.array[i].setColor("border", p.color.border);
+      this.array[i].reverseIndex = p.reverseIndex;
+      this.array[i].lineWidthMultiplier = p.lineWidthMultiplier;
     });
-    // this.screenIndex = panels.screenIndex;
   }
 
   deSelect = () => {
@@ -97,6 +100,7 @@ export class Panels implements PanelsType {
       reverseIndex,
       this.screenIndex
     );
+
     this.array.push(newPanel);
   }
 

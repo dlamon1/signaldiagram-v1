@@ -61,6 +61,21 @@ export class SignalLines implements SignalLinesType {
     // });
   }
 
+  load(signaLineArray) {
+    this.array = [];
+    signaLineArray.forEach((signalLine, i) => {
+      const newLine = new SignalLine(
+        signalLine.origin,
+        signalLine.destination.snapPointIndex,
+        this.screenIndex
+      );
+
+      this.array.push(newLine);
+      const thisLine = this.array[i];
+      thisLine.updateColor(signalLine.color.background);
+    });
+  }
+
   getSnapPointCoordinates(
     signalLineIndex: number,
     key: SnapPointCoordinatesKey
@@ -220,6 +235,7 @@ export class SignalLines implements SignalLinesType {
     if (!isSignalLinesSelected) {
       setSignalLineColor(color);
     }
+    updateScreens();
   }
 }
 

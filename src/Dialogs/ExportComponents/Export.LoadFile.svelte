@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount, tick } from "svelte";
   import { Screen } from "../../classes/ScreenClass";
-  import { screens, currentScreenIndex } from "../../store";
+  import { screens, isExportDialogOpen, currentScreenIndex } from "../../store";
 
   onMount(() => {
     (function () {
@@ -35,7 +35,11 @@
 
           $screens = $screens;
 
-          console.log($screens);
+          $isExportDialogOpen = !$isExportDialogOpen;
+
+          await tick();
+
+          $currentScreenIndex = 0;
         });
       }
 

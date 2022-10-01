@@ -53,7 +53,15 @@ export class Screen implements ScreenObj {
     this.signalLines = new SignalLines(this.index);
   }
 
-  load(screen) {
-    this.panels.load(screen.panels);
+  load(saveObj: ScreenObj) {
+    this.isRearView = saveObj.isRearView;
+    this.opacity = saveObj.opacity;
+    this.snapPointQuantity = saveObj.snapPointQuantity;
+    this.snapPointDirection = saveObj.snapPointDirection;
+    this.showCoordinates = saveObj.showCoordinates;
+
+    this.panels.load(saveObj.panels);
+    this.snapPoints.load(saveObj.snapPoints);
+    this.signalLines.load(saveObj.signalLines.array);
   }
 }

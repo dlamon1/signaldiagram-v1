@@ -46,6 +46,26 @@ export class SnapPoints implements SnapPointsType {
     //
   }
 
+  load(saveObj) {
+    saveObj.array.forEach((snapPoint, i) => {
+      this.addSnapPoint(
+        snapPoint.row,
+        snapPoint.column,
+        snapPoint.pointIndexWithinPanel,
+        snapPoint.panelIndex,
+        snapPoint.pointIndexFullArray
+      );
+      this.array[i].color.background = snapPoint.color.background;
+      this.array[i].color.border = snapPoint.color.border;
+      this.array[i].color.font = snapPoint.color.font;
+      this.array[i].isSquare = snapPoint.isSquare;
+      this.array[i].isTriangle = snapPoint.isTriangle;
+      this.array[i].label = snapPoint.label;
+      this.array[i].xOffset = snapPoint.xOffset;
+      this.array[i].yOffset = snapPoint.yOffset;
+    });
+  }
+
   deSelect = () => {
     this.array.forEach((o) => o.setIsSelected(false));
 
