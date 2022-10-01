@@ -131,7 +131,6 @@ export interface SignalLineObj {
 export type PanelsType = {
   array: PanelObj[];
   selectedIndexes: number[];
-  setArrayFromLoad: (array: LoadPanelObj[]) => void;
   deSelect: () => void;
   updatePanelArray: () => void;
   initArray: (columns: number, rows: number) => void;
@@ -146,6 +145,7 @@ export type PanelsType = {
   selectPanels: (arrayOfIndexes: number[]) => void;
   togglePanels: (arrayOfIndexes: number[]) => void;
   toggleHidePanels: (arrayOfIndexes: number[]) => void;
+  load: (panel: any) => void;
 };
 
 export type SnapPointsType = {
@@ -224,4 +224,5 @@ export interface ScreenObj {
   showCoordinates: boolean;
   showDirectionArrows: boolean;
   opacity: number;
+  load: (obj: any) => void;
 }

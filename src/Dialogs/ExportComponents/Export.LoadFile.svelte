@@ -1,10 +1,7 @@
 <script lang="ts">
   import { onMount, tick } from "svelte";
-  import {
-    snapPointsQuantity,
-    snapPointDirection,
-    isExportDialogOpen,
-  } from "../../store";
+  import { Screen } from "../../classes/ScreenClass";
+  import { screens, currentScreenIndex } from "../../store";
 
   onMount(() => {
     (function () {
@@ -17,25 +14,29 @@
       async function onReaderLoad(event) {
         var obj = JSON.parse(event.target.result);
 
-        // $width = obj.width;
-        // $height = obj.height;
-        // $rows = obj.rows;
-        // $columns = obj.columns;
+        obj.screens.forEach(async (s) => {
+          let newScreen = new Screen(
+            s.columns,
+            s.rows,
+            s.width,
+            s.height,
+            s.widthMM,
+            s.heightMM,
+            s.name
+          );
 
-        await tick();
+          $screens.push(newScreen);
 
-        $snapPointsQuantity = obj.snapPointsQuantity;
-        $snapPointDirection = obj.snapPointDirection;
+          $screens = $screens;
 
-        // $panels.setArrayFromLoad(obj.panels.array);
-        // $snapPoints.setArrayFromLoad(obj.snapPoints.array);
-        // $signalLines.setArrayFromLoad(obj.signalLines.array);
+          await tick();
 
-        $isExportDialogOpen = false;
+          newScreen.load(s);
 
-        await tick();
+          $screens = $screens;
 
-        // $panels = $panels;
+          console.log($screens);
+        });
       }
 
       document.getElementById("file").addEventListener("change", onChange);

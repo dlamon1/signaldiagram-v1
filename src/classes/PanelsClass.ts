@@ -26,7 +26,20 @@ export class Panels implements PanelsType {
     this.screenIndex = screenIndex;
   }
 
-  setArrayFromLoad(array: LoadPanelObj[]) {}
+  load(panels: any) {
+    panels.array.forEach((p) => {
+      console.log(p);
+      this.addPanel(
+        p.row,
+        p.column,
+        p.count,
+        p.thisPanelsSnapPoints,
+        null,
+        p.reverseIndex
+      );
+    });
+    // this.screenIndex = panels.screenIndex;
+  }
 
   deSelect = () => {
     this.array.forEach((o) => o.setIsSelected(false));

@@ -52,4 +52,8 @@ export class Screen implements ScreenObj {
     this.snapPoints = new SnapPoints(this.index);
     this.signalLines = new SignalLines(this.index);
   }
+
+  load(screen) {
+    this.panels.load(screen.panels);
+  }
 }
